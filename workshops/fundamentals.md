@@ -1,1 +1,1 @@
-# Welcome to Foundations
+# Welcome to Fundamentals
