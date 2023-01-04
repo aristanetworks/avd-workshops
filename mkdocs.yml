@@ -61,7 +61,7 @@ plugins:
   - search:
       lang: en
 
-repo_name: Arista EVPN DG on GitHub
+repo_name: AVD Workshops on GitHub
 
 repo_url: https://github.com/aristanetworks/avd-workshops
 
