@@ -4,7 +4,14 @@ docs_dir: workshops/
 
 nav:
   - Home: index.md
-  - Fundamentals: fundamentals.md
+  - Fundamentals:
+    - Intro: intro.md
+    - Git: git.md
+    - VSCode: vscode.md
+    - Ansible: ansible.md
+    - Jinja/YAML: jinja-yaml.md
+    - CI/CD Basics: cicd-basics.md
+
 
 copyright: Copyright &copy; 2023 Arista Networks
 
