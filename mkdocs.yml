@@ -4,6 +4,7 @@ docs_dir: workshops/
 
 nav:
   - Home: index.md
+  - Fundamentals: fundamentals.md
 
 copyright: Copyright &copy; 2023 Arista Networks
 
