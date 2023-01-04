@@ -1,9 +1,9 @@
 {
-	"name": "evpn-dg",
+	"name": "avd-workshops",
 	"context": ".",
 	"workspaceFolder": "/workspace",
 	"dockerComposeFile": "docker-compose.yml",
-	"service": "evpn-dg",
+	"service": "avd-workshops",
 	"extensions": [
         "aristapublisher.eos",
         "eamodio.gitlens",

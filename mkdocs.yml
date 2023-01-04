@@ -5,12 +5,12 @@ docs_dir: workshops/
 nav:
   - Home: index.md
 
-copyright: Copyright &copy; 2022 Arista Networks
+copyright: Copyright &copy; 2023 Arista Networks
 
 extra:
   social:
     - icon: fontawesome/brands/github-alt
-      link: https://github.com/aristanetworks/deployment-guide-evpn
+      link: https://github.com/aristanetworks/avd-workshops
     - icon: fontawesome/brands/twitter
       link: https://twitter.com/AristaNetworks
     - icon: fontawesome/solid/globe
@@ -63,7 +63,7 @@ plugins:
 
 repo_name: Arista EVPN DG on GitHub
 
-repo_url: https://github.com/aristanetworks/deployment-guide-evpn
+repo_url: https://github.com/aristanetworks/avd-workshops
 
 theme:
 

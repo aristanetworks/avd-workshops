@@ -1,10 +1,10 @@
 version: "3.9"
 
 services:
-  evpn-dg:
+  avd-workshops:
     build: .
-    image: "evpn-dg:latest"
-    container_name: evpn-dg
+    image: "avd-workshops:latest"
+    container_name: avd-workshops
     restart: always
     command: ['tail', '-f', '/dev/null']
 
