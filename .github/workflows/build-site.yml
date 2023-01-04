@@ -1,0 +1,25 @@
+name: Build and Deploy AVD Workshop site
+
+on:
+  push:
+    branches:
+      - main
+
+
+jobs:
+  build_and_deploy_job:
+    runs-on: ubuntu-latest
+    name: Build and Deploy Job
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+
+      ##### Install required Python Modules and build the website #####
+      - run: pip install -r requirements.txt
+      - run: pip install git+https://${{ secrets.MKDOCS_INSIDER_TOKEN }}@github.com/squidfunk/mkdocs-material-insiders.git
+      - run: mkdocs gh-deploy --force

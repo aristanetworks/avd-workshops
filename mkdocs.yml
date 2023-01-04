@@ -1,0 +1,104 @@
+site_name: Arista Validated Designs Workshops
+
+docs_dir: workshops/
+
+nav:
+  - Home: index.md
+
+copyright: Copyright &copy; 2022 Arista Networks
+
+extra:
+  social:
+    - icon: fontawesome/brands/github-alt
+      link: https://github.com/aristanetworks/deployment-guide-evpn
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/AristaNetworks
+    - icon: fontawesome/solid/globe
+      link: https://www.arista.com
+
+extra_css:
+  - stylesheets/extra.css
+  - stylesheets/extra.material.css
+
+extra_javascript:
+  - https://unpkg.com/tablesort@5.3.0/dist/tablesort.min.js
+  - stylesheets/tables.js
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - pymdownx.arithmatex
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+  - tables
+  - toc:
+      permalink: true
+
+plugins:
+  - git-revision-date
+  - glightbox
+  - search:
+      lang: en
+
+repo_name: Arista EVPN DG on GitHub
+
+repo_url: https://github.com/aristanetworks/deployment-guide-evpn
+
+theme:
+
+  features:
+    - content.code.annotate
+    - content.tooltips
+    - header.autohide
+    - navigation.sections
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.top
+    - navigation.tracking
+    - toc.follow
+    - toc.integrate
+
+  favicon: assets/images/logo.png
+
+  font:
+    text: Roboto
+    code: Fira Mono
+
+  language: en
+
+  logo: assets/images/logo.png
+
+  name: material
+
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode

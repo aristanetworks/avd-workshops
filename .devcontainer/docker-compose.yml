@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+  evpn-dg:
+    build: .
+    image: "evpn-dg:latest"
+    container_name: evpn-dg
+    restart: always
+    command: ['tail', '-f', '/dev/null']
+
+    environment:
+      - TZ=America/New_York
+      - DEBIAN_FRONTEND=noninteractive
+    volumes:
+      - ../:/workspace

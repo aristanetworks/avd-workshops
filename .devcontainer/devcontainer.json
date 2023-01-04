@@ -1,0 +1,24 @@
+{
+	"name": "evpn-dg",
+	"context": ".",
+	"workspaceFolder": "/workspace",
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "evpn-dg",
+	"extensions": [
+        "aristapublisher.eos",
+        "eamodio.gitlens",
+        "formulahendry.terminal",
+        "github.vscode-pull-request-github",
+        "lextudio.restructuredtext",
+        "ms-kubernetes-tools.vscode-kubernetes-tools",
+        "ms-python.python",
+		"redhat.vscode-yaml",
+        "PKief.material-icon-theme",
+        "samuelcolvin.jinjahtml",
+        "johnpapa.vscode-peacock",
+        "yzhang.markdown-all-in-one",
+        "ms-azuretools.vscode-docker"
+	],
+    "forwardPorts": [8000, 8000],
+	"shutdownAction": "stopCompose"
+}

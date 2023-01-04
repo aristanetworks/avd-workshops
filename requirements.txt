@@ -1,0 +1,9 @@
+MarkupSafe
+material
+md-toc
+mkdocs
+mkdocs-git-revision-date-plugin
+mkdocs-glightbox
+mkdocs-include-dir-to-nav
+mkdocs-material-extensions
+mkdocs-pymdownx-material-extras
