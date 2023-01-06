@@ -6,6 +6,12 @@
 
 Git is a DevOps tool used for source code management. It is a free and open-source version control system used to handle small to very large projects efficiently. Git is used to tracking changes in the source code, enabling multiple developers to work together on non-linear development. Git can automatically merge the changes, so two people can even work on different parts of the same file and later merge those changes without loosing each other’s work!
 
+## Installation
+
+Download Git - https://git-scm.com/downloads
+
+Configuration - https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
+
 ## Setting up Git
 
 When setting up Git for the first time you need to configure your name and email address.  This is used to add your signature to commits to a repository.
@@ -15,6 +21,12 @@ When setting up Git for the first time you need to configure your name and email
 git config --global user.name "FirstName LastName"
 # Set your email address:
 git config --global user.email "name@example.com"
+```
+
+Verify your configuration:
+
+``` bash
+git config --global --list
 ```
 
 ## Basics
