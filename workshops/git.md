@@ -37,7 +37,7 @@ GitHub is a public site to store code repositories. Navigate to the following ex
 
 ![Git Clone](assets/images/git_clone.png)
 
-To clone this repository to your local machine:
+Clone this repository into the current directory of your local machine:
 
 ``` bash
 git clone https://github.com/PacketAnglers/avd-workshop.git
