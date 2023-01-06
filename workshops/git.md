@@ -1,6 +1,6 @@
 # Welcome to Git
 
-<img src="assets/images/git_logo.png" alt="Git Logo" width="100"/>
+![Git Logo](assets/images/git_logo.png)
 
 ##  What is Git and why should I use it?
 
