@@ -2,9 +2,7 @@
 
 <img src="assets/images/git_logo.png" alt="Git Logo" width="100"/>
 
-##  Summary
-
-What is Git and why whousl I use it?
+##  What is Git and why should I use it?
 
 Git is a DevOps tool used for source code management. It is a free and open-source version control system used to handle small to very large projects efficiently. Git is used to tracking changes in the source code, enabling multiple developers to work together on non-linear development. Git can automatically merge the changes, so two people can even work on different parts of the same file and later merge those changes without loosing each other’s work!
 
