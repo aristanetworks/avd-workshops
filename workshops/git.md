@@ -19,6 +19,12 @@ git config --global user.email "name@example.com"
 
 ### Clone a Repository
 
+Navigate to the following GitHub repository https://github.com/PacketAnglers/avd-workshop.  Click on the `Code` button and copy the URL.
+
+![Git Clone](assets/images/git_clone.png)
+
+To clone this repository to your local machine:
+
 ``` bash
 git clone https://github.com/PacketAnglers/avd-workshop.git
 ```
