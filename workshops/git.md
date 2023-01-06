@@ -8,9 +8,9 @@ Git is a DevOps tool used for source code management. It is a free and open-sour
 
 ## Installation
 
-Download Git - https://git-scm.com/downloads
+Download Git - [https://git-scm.com/downloads](https://git-scm.com/downloads)
 
-Configuration - https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
+Configuration - [https://git-scm.com/book/en/v2/Getting-Started-Installing-Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 
 ## Setting up Git
 
