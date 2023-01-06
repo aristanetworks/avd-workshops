@@ -19,7 +19,7 @@ git config --global user.email "name@example.com"
 
 ### Clone a Repository
 
-Navigate to the following GitHub repository https://github.com/PacketAnglers/avd-workshop.  Click on the `Code` button and copy the URL.
+GitHub is a public site to store code repositories. Navigate to the following example repository [https://github.com/PacketAnglers/avd-workshop](https://github.com/PacketAnglers/avd-workshop). Click on the green `Code` button and copy the URL.
 
 ![Git Clone](assets/images/git_clone.png)
 
@@ -113,6 +113,32 @@ Output:
  2 files changed, 2 insertions(+)
  create mode 100644 newfile.txt
 ```
+
+Now these files are commited to your local copy of the repository.  To update the remote repository in GitHub you need to push the changes.
+
+### Push Changes to GitHub
+
+``` bash
+git push
+```
+
+Output:
+
+``` text
+Enumerating objects: 6, done.
+Counting objects: 100% (6/6), done.
+Delta compression using up to 6 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (4/4), 328 bytes | 328.00 KiB/s, done.
+Total 4 (delta 1), reused 0 (delta 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To https://github.com/PacketAnglers/avd-workshop.git
+   07f3bd2..71765fe  main -> main
+```
+
+You should now see these changes and commit messages in GitHub.
+
+![Git Commit](assets/images/git_commit.png)
 
 ## Intermediate
 
