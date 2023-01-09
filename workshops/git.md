@@ -14,10 +14,10 @@ In this section we will cover and introduction and installation of Git and explo
   - Stage Changes
   - Commit Changes
 - Intermediate Concepts
-  - Clone a Repository
-  - Push/Pull Changes
   - Fork a Repository
+  - Clone a Repository
   - Creating a Branch
+  - Push/Pull Changes
   - Pull Request
 
 ## Introduction to Git
@@ -158,43 +158,6 @@ Now these files are commited to your local copy of the repository.  To update th
 
 ## Intermediate Level
 
-### Clone a Repository
-
-GitHub is a public site to store code repositories. Navigate to the following example repository [https://github.com/PacketAnglers/avd-workshop](https://github.com/PacketAnglers/avd-workshop). Click on the green `Code` button and copy the URL.
-
-![Git Clone](assets/images/git_clone.png)
-
-Clone this repository into the current directory of your local machine:
-
-``` bash
-git clone https://github.com/PacketAnglers/avd-workshop.git
-```
-
-
-### Push/Pull Changes to GitHub
-
-``` bash
-git push
-```
-
-Output:
-
-``` text
-Enumerating objects: 6, done.
-Counting objects: 100% (6/6), done.
-Delta compression using up to 6 threads
-Compressing objects: 100% (3/3), done.
-Writing objects: 100% (4/4), 328 bytes | 328.00 KiB/s, done.
-Total 4 (delta 1), reused 0 (delta 0)
-remote: Resolving deltas: 100% (1/1), completed with 1 local object.
-To https://github.com/PacketAnglers/avd-workshop.git
-   07f3bd2..71765fe  main -> main
-```
-
-You should now see these changes and commit messages in GitHub.
-
-![Git Commit](assets/images/git_commit.png)
-
 ### Fork a Repository
 
 A fork is a copy of a repository that you manage. Forks let you make changes to a project without affecting the original repository. You can fetch updates from or submit changes to the original repository with a pull request.
@@ -213,7 +176,33 @@ We have created an example repository for this workshop that you can fork to mak
 5. Optionally, add a description of your fork.
 6. Click the Fork button at the bottom
 
-Now try cloning this repository to your local host machine.
+Next up, cloning this forked repository to your local host machine.
+
+### Clone Repository
+
+Cloning a repository allows us to make a local copy of a project that resides on GitHub. In the previous step, you forked a repo to your local GitHub account.  Navigate to the forked repository in GitHub.  From there, we will click on the green code button to get the URL to the forked copy of the repository.
+
+![Git Clone](assets/images/git_clone.png)
+
+Clone this repository into the current directory of your local machine:
+
+``` bash
+# replace with the URL from your fork repo
+git clone https://github.com/xxxxxxx/avd-workshop.git
+```
+
+Now change into the new cloned directory.
+
+``` bash
+cd avd-workshop
+```
+
+Verify where the remote copy of this clones lives.
+
+``` bash
+git remote -v
+```
+
 ### Creating a Branch
 
 A branch in Git is pointer to one of your commits. The default branch name in Git is `main`. As you make commits, the pointer moves to the latest commit on the current branch. Every time you commit, the branch pointer moves forward automatically.
@@ -240,11 +229,34 @@ To checkout or switch to this new branch, type:
 git checkout new-feature
 ```
 
-Now you can modify existing files and commit the changes to this new branch.
+Now you can modify existing files and commit the changes to this new branch. This tees up for the next section, `Pull Request`.
 
-???+ Info
+### Push/Pull Changes to GitHub
 
-    If you wish to switch back to `main` branch, you must commit the changes in the current branch and then switch back to `main`.
+``` bash
+git push
+```
 
+Output:
+
+``` text
+Enumerating objects: 6, done.
+Counting objects: 100% (6/6), done.
+Delta compression using up to 6 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (4/4), 328 bytes | 328.00 KiB/s, done.
+Total 4 (delta 1), reused 0 (delta 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To https://github.com/PacketAnglers/avd-workshop.git
+   07f3bd2..71765fe  main -> main
+```
+
+You should now see these changes and commit messages in GitHub.
+
+![Git Commit](assets/images/git_commit.png)
 
 ### Pull Request
+
+A Pull Request in Git allows a contributor (you) to ask a maintainer (owner) of origin repository to review code changes they want to merge into a project. Once a pull request is opened, you can discuss and review the potential changes with collaborators and add follow-up commits before your changes are merged into the base branch.
+
+Once all changes have been agreed upone, then the maintainer of the original repo will merge your changes into the `main` branch.  At this point, your code changes are live and visible in the origin project repo.
