@@ -1,18 +1,39 @@
-# Welcome to Git
-
 ![Git Logo](assets/images/git_logo.png)
 
-##  What is Git and why should I use it?
+# Git - Section Content
+
+In this section we will cover and introduction and installation of Git and explore basic commands to used with Git. Intermediate Concepts are also covered to further your knowledge of Git.
+
+## Topics
+
+- Introduction to Git
+  - What is Git and why should I use it?
+- Installation & Setup
+- The Basics of Git
+  - My First Git Commands - Init and Git
+  - Stage Changes
+  - Commit Changes
+- Intermediate Concepts
+  - Push/Pull Changes
+  - Clone a Repository
+  - Creating a Branch
+  - Fork Existing Repository
+
+## Introduction to Git
+
+###  What is Git and why should I use it?
 
 Git is a DevOps tool used for source code management. It is a free and open-source version control system used to handle small to very large projects efficiently. Git is used to tracking changes in the source code, enabling multiple developers to work together on non-linear development. Git can automatically merge the changes, so two people can even work on different parts of the same file and later merge those changes without loosing each other’s work!
 
-## Installation
+## Installation & Setup
+
+### Installation
 
 Download Git - [https://git-scm.com/downloads](https://git-scm.com/downloads)
 
 Configuration - [https://git-scm.com/book/en/v2/Getting-Started-Installing-Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 
-## Setting up Git
+### Setup
 
 When setting up Git for the first time you need to configure your name and email address.  This is used to add your signature to commits to a repository.
 
@@ -29,25 +50,30 @@ Verify your configuration:
 git config --global --list
 ```
 
-## Basics
+## The Basics of Git
 
-### Clone a Repository
+### My First Git Commands
 
-GitHub is a public site to store code repositories. Navigate to the following example repository [https://github.com/PacketAnglers/avd-workshop](https://github.com/PacketAnglers/avd-workshop). Click on the green `Code` button and copy the URL.
+#### Initialize Repository
 
-![Git Clone](assets/images/git_clone.png)
+The first thing you need to do to create a version controlled repository is to create a directory and initialize it.  Initialize the following directory: `/home/user/git_projects/project1/`.
 
-Clone this repository into the current directory of your local machine:
 
 ``` bash
-git clone https://github.com/PacketAnglers/avd-workshop.git
+# From a Linux terminal
+mkdir /home/user/git_projects/project1/
+
+git init
 ```
 
-### Git Repository Status
+Initialized empty Git repository in /home/user/git_projects/project1/.git/
+
+#### Git Repository Status
 
 ``` bash
 git status
 ```
+
 If nothing has been modified, then you will see the following output.
 
 ``` text
@@ -75,6 +101,18 @@ Untracked files:
         newfile.txt
 
 no changes added to commit (use "git add" and/or "git commit -a")
+```
+
+### Clone a Repository
+
+GitHub is a public site to store code repositories. Navigate to the following example repository [https://github.com/PacketAnglers/avd-workshop](https://github.com/PacketAnglers/avd-workshop). Click on the green `Code` button and copy the URL.
+
+![Git Clone](assets/images/git_clone.png)
+
+Clone this repository into the current directory of your local machine:
+
+``` bash
+git clone https://github.com/PacketAnglers/avd-workshop.git
 ```
 
 ### Stage File Changes
@@ -153,7 +191,4 @@ To https://github.com/PacketAnglers/avd-workshop.git
 You should now see these changes and commit messages in GitHub.
 
 ![Git Commit](assets/images/git_commit.png)
-## Intermediate
-
-## Git / GitHub / GitLab
-
+## Intermediate Level
