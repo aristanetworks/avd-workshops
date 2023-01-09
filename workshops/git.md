@@ -7,7 +7,7 @@ In this section we will cover and introduction and installation of Git and explo
 ## Topics
 
 - Introduction to Git
-  - What is Git and why should I use it?
+    - What is Git and why should I use it?
 - Installation & Setup
 - The Basics of Git
   - My First Git Commands - Init and Status
@@ -16,8 +16,9 @@ In this section we will cover and introduction and installation of Git and explo
 - Intermediate Concepts
   - Clone a Repository
   - Push/Pull Changes
-  - Creating a Branch
   - Fork a Repository
+  - Creating a Branch
+  - Pull Request
 
 ## Introduction to Git
 
@@ -65,7 +66,7 @@ mkdir /home/user/git_projects/project1/
 git init
 ```
 
-Initialized empty Git repository in /home/user/git_projects/project1/.git/
+The directory is not initialized as a Git repository and the following hidden directory `/home/user/git_projects/project1/.git/` was created.  This is a special directory used version control of the files in your repository.
 
 #### Git Repository Status
 
@@ -194,7 +195,28 @@ You should now see these changes and commit messages in GitHub.
 
 ![Git Commit](assets/images/git_commit.png)
 
+### Fork a Repository
+
+A fork is a copy of a repository that you manage. Forks let you make changes to a project without affecting the original repository. You can fetch updates from or submit changes to the original repository with a pull request.
+
+On GitHub.com, navigate to the `PacketAnglers/avd-workshop` repository.
+
+In the top-right corner of the page, click Fork.
+
+![Fork](assets/images/git_fork.png)
+
+Select an owner for the forked repository.
+
+By default, forks are named the same as their upstream repositories. ...
+
+Optionally, add a description of your fork.
+
 ### Creating a Branch
 
+A branch in Git is pointer to one of your commits. The default branch name in Git is `main`. As you make commits, the pointer moves to the latest commit onthe current branch. Every time you commit, the branch pointer moves forward automatically.
 
-### Fork a Repository
+Git branches are used to develop new features, without affecting the `main` branch. For example, if I wanted to play around with a new feature for my project, I might create a new branch called, `new-feature`.
+
+![Branch](assets/images/git_branch.png)
+
+### Pull Request
