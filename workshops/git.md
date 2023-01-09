@@ -1,6 +1,6 @@
-![Git Logo](assets/images/git_logo.png)
-
 # Git - Section Content
+
+![Git Logo](assets/images/git_logo.png)
 
 In this section we will cover and introduction and installation of Git and explore basic commands to used with Git. Intermediate Concepts are also covered to further your knowledge of Git.
 
@@ -22,7 +22,7 @@ In this section we will cover and introduction and installation of Git and explo
 
 ## Introduction to Git
 
-###  What is Git and why should I use it?
+### What is Git and why should I use it?
 
 Git is a DevOps tool used for source code management. It is a free and open-source version control system used to handle small to very large projects efficiently. Git is used to tracking changes in the source code, enabling multiple developers to work together on non-linear development. Git can automatically merge the changes, so two people can even work on different parts of the same file and later merge those changes without loosing each other’s work!
 
@@ -168,9 +168,7 @@ We have created an example repository for this workshop that you can fork to mak
 
 1. On GitHub.com, navigate to the `PacketAnglers/avd-workshop` repository.
 2. In the top-right corner of the page, click Fork.
-
 ![Fork](assets/images/git_fork.png)
-
 3. Select an owner for the forked repository.
 4. Set repository name.  By default, forks are named the same as their upstream repository.
 5. Optionally, add a description of your fork.
@@ -235,7 +233,6 @@ Now you can modify existing files and commit the changes to this new branch. Thi
 
 Once you modify the files in your new branch, you can stage & commit the changes and push them to the remote fork on GitHub.
 
-
 ``` bash
 # stage all the changes
 git add .
@@ -273,18 +270,14 @@ Once all changes have been agreed upone, then the maintainer of the original rep
 
 #### Steps to initiate a Pull Request
 
-**<<< ADD IN IMAGES FOR CLARITY >>>**
+TODO <<< ADD IN IMAGES FOR CLARITY >>>
 
 1. On GitHub.com, navigate to the main page of the repository.
 2. In the "Branch" menu, choose the branch that contains your commits.
 3. Above the list of files, click the Contribute drop-down and click Open pull request.
-
 ![PR](assets/images/git_pullrequest.png)
-
 4. Use the base branch dropdown menu to select the branch you'd like to merge your changes into, then use the compare branch drop-down menu to choose the topic branch you made your changes in.
-
 ![PR Info](assets/images/git_pullrequest_info.png)
-
 5. Type a title and description for your pull request.
 6. To create a pull request that is ready for review, click Create Pull Request. To create a draft pull request, use the drop-down and select Create Draft Pull Request, then click Draft Pull Request.
 
