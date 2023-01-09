@@ -244,7 +244,7 @@ Now you can modify existing files and commit the changes to this new branch.
 
 ???+ Info
 
-  If you wish to switch back to `main` branch, you must commit the changes in the current branch and then switch back to `main`.
+    If you wish to switch back to `main` branch, you must commit the changes in the current branch and then switch back to `main`.
 
 
 ### Pull Request
