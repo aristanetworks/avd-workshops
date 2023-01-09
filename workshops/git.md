@@ -199,24 +199,52 @@ You should now see these changes and commit messages in GitHub.
 
 A fork is a copy of a repository that you manage. Forks let you make changes to a project without affecting the original repository. You can fetch updates from or submit changes to the original repository with a pull request.
 
-On GitHub.com, navigate to the `PacketAnglers/avd-workshop` repository.
+We have created an example repository for this workshop that you can fork to make your own copy.  We will make changes to this copy of the original repository.
 
-In the top-right corner of the page, click Fork.
+#### Steps to Fork the example repository
+
+1. On GitHub.com, navigate to the `PacketAnglers/avd-workshop` repository.
+2. In the top-right corner of the page, click Fork.
 
 ![Fork](assets/images/git_fork.png)
 
-Select an owner for the forked repository.
+3. Select an owner for the forked repository.
+4. Set repository name.  By default, forks are named the same as their upstream repository.
+5. Optionally, add a description of your fork.
+6. Click the Fork button at the bottom
 
-By default, forks are named the same as their upstream repositories. ...
-
-Optionally, add a description of your fork.
-
+Now try cloning this repository to your local host machine.
 ### Creating a Branch
 
-A branch in Git is pointer to one of your commits. The default branch name in Git is `main`. As you make commits, the pointer moves to the latest commit onthe current branch. Every time you commit, the branch pointer moves forward automatically.
+A branch in Git is pointer to one of your commits. The default branch name in Git is `main`. As you make commits, the pointer moves to the latest commit on the current branch. Every time you commit, the branch pointer moves forward automatically.
 
 Git branches are used to develop new features, without affecting the `main` branch. For example, if I wanted to play around with a new feature for my project, I might create a new branch called, `new-feature`.
 
 ![Branch](assets/images/git_branch.png)
+
+You can see the current branch by typing:
+
+``` bash
+git branch
+```
+
+To create a new branch from the current branch pointer, type:
+
+``` bash
+git branch new-feature
+```
+
+To checkout or switch to this new branch, type:
+
+``` bash
+git checkout new-feature
+```
+
+Now you can modify existing files and commit the changes to this new branch.
+
+???+ Info
+
+  If you wish to switch back to `main` branch, you must commit the changes in the current branch and then switch back to `main`.
+
 
 ### Pull Request
