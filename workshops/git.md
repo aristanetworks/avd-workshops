@@ -187,7 +187,7 @@ Cloning a repository allows us to make a local copy of a project that resides on
 Clone this repository into the current directory of your local machine:
 
 ``` bash
-# replace with the URL from your fork repo
+# replace with the URL from your forked repo
 git clone https://github.com/xxxxxxx/avd-workshop.git
 ```
 
@@ -233,7 +233,17 @@ Now you can modify existing files and commit the changes to this new branch. Thi
 
 ### Push/Pull Changes to GitHub
 
+Once you modify the files in your new branch, you can stage & commit the changes and push them to the remote fork on GitHub.
+
+
 ``` bash
+# stage all the changes
+git add .
+
+# commit them
+git commit -m "updated content with new feature"
+
+# push to remote repo on GitHub
 git push
 ```
 
@@ -260,3 +270,6 @@ You should now see these changes and commit messages in GitHub.
 A Pull Request in Git allows a contributor (you) to ask a maintainer (owner) of origin repository to review code changes they want to merge into a project. Once a pull request is opened, you can discuss and review the potential changes with collaborators and add follow-up commits before your changes are merged into the base branch.
 
 Once all changes have been agreed upone, then the maintainer of the original repo will merge your changes into the `main` branch.  At this point, your code changes are live and visible in the origin project repo.
+
+#### Steps to initiate a Pull Request
+
