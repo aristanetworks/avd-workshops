@@ -39,6 +39,7 @@ markdown_extensions:
   - def_list
   - footnotes
   - md_in_html
+  - mdx_truly_sane_lists
   - pymdownx.arithmatex
   - pymdownx.caret
   - pymdownx.critic
