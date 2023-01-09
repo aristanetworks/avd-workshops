@@ -7,17 +7,17 @@ In this section we will cover and introduction and installation of Git and explo
 ## Topics
 
 - Introduction to Git
-  - What is Git and why should I use it?
+    - What is Git and why should I use it?
 - Installation & Setup
 - The Basics of Git
-  - My First Git Commands - Init and Git
-  - Stage Changes
-  - Commit Changes
+    - My First Git Commands - Init and Git
+    - Stage Changes
+    - Commit Changes
 - Intermediate Concepts
-  - Push/Pull Changes
-  - Clone a Repository
-  - Creating a Branch
-  - Fork Existing Repository
+    - Push/Pull Changes
+    - Clone a Repository
+    - Creating a Branch
+    - Fork Existing Repository
 
 ## Introduction to Git
 
@@ -35,7 +35,7 @@ Configuration - [https://git-scm.com/book/en/v2/Getting-Started-Installing-Git](
 
 ### Setup
 
-When setting up Git for the first time you need to configure your name and email address.  This is used to add your signature to commits to a repository.
+When setting up Git for the first time you need to configure your Identity with a name and email address.  This is used to add your signature to commits.
 
 ``` bash
 # Set your username:
