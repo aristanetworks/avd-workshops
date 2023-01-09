@@ -7,7 +7,7 @@ In this section we will cover and introduction and installation of Git and explo
 ## Topics
 
 - Introduction to Git
-    - What is Git and why should I use it?
+  - What is Git and why should I use it?
 - Installation & Setup
 - The Basics of Git
   - My First Git Commands - Init and Status
