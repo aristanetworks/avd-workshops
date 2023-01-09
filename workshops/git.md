@@ -180,7 +180,7 @@ Next up, cloning this forked repository to your local host machine.
 
 ### Clone Repository
 
-Cloning a repository allows us to make a local copy of a project that resides on GitHub. In the previous step, you forked a repo to your local GitHub account.  Navigate to the forked repository in GitHub.  From there, we will click on the green code button to get the URL to the forked copy of the repository.
+Cloning a repository allows us to make a local copy of a project that resides on GitHub. In the previous step, you forked a repo to your local GitHub account.  Navigate to the forked repository in GitHub.  From there, click on the green code button to get the URL of the forked repository.
 
 ![Git Clone](assets/images/git_clone.png)
 
