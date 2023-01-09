@@ -7,17 +7,17 @@ In this section we will cover and introduction and installation of Git and explo
 ## Topics
 
 - Introduction to Git
-    - What is Git and why should I use it?
+  - What is Git and why should I use it?
 - Installation & Setup
 - The Basics of Git
-    - My First Git Commands - Init and Git
-    - Stage Changes
-    - Commit Changes
+  - My First Git Commands - Init and Status
+  - Stage Changes
+  - Commit Changes
 - Intermediate Concepts
-    - Push/Pull Changes
-    - Clone a Repository
-    - Creating a Branch
-    - Fork Existing Repository
+  - Clone a Repository
+  - Push/Pull Changes
+  - Creating a Branch
+  - Fork a Repository
 
 ## Introduction to Git
 
@@ -52,12 +52,11 @@ git config --global --list
 
 ## The Basics of Git
 
-### My First Git Commands
+### My First Git Commands - Init and Status
 
 #### Initialize Repository
 
 The first thing you need to do to create a version controlled repository is to create a directory and initialize it.  Initialize the following directory: `/home/user/git_projects/project1/`.
-
 
 ``` bash
 # From a Linux terminal
@@ -103,19 +102,7 @@ Untracked files:
 no changes added to commit (use "git add" and/or "git commit -a")
 ```
 
-### Clone a Repository
-
-GitHub is a public site to store code repositories. Navigate to the following example repository [https://github.com/PacketAnglers/avd-workshop](https://github.com/PacketAnglers/avd-workshop). Click on the green `Code` button and copy the URL.
-
-![Git Clone](assets/images/git_clone.png)
-
-Clone this repository into the current directory of your local machine:
-
-``` bash
-git clone https://github.com/PacketAnglers/avd-workshop.git
-```
-
-### Stage File Changes
+### Stage Changes
 
 When you wish to update the repository files, you will need to stage the files. The above output gives you a clue as to the command needed to stage the changes.  You can specify individual files or specificy all files with a period `.`
 
@@ -146,7 +133,7 @@ Changes to be committed:
 
 Now we have 2 files staged and ready to be commited to the `main` branch.
 
-### Commit your changes
+### Commit Stages
 
 Now you can commit your staged changes with a comment:
 
@@ -168,7 +155,22 @@ Output:
 
 Now these files are commited to your local copy of the repository.  To update the remote repository in GitHub you need to push the changes.
 
-### Push Changes to GitHub
+## Intermediate Level
+
+### Clone a Repository
+
+GitHub is a public site to store code repositories. Navigate to the following example repository [https://github.com/PacketAnglers/avd-workshop](https://github.com/PacketAnglers/avd-workshop). Click on the green `Code` button and copy the URL.
+
+![Git Clone](assets/images/git_clone.png)
+
+Clone this repository into the current directory of your local machine:
+
+``` bash
+git clone https://github.com/PacketAnglers/avd-workshop.git
+```
+
+
+### Push/Pull Changes to GitHub
 
 ``` bash
 git push
@@ -191,4 +193,8 @@ To https://github.com/PacketAnglers/avd-workshop.git
 You should now see these changes and commit messages in GitHub.
 
 ![Git Commit](assets/images/git_commit.png)
-## Intermediate Level
+
+### Creating a Branch
+
+
+### Fork a Repository
