@@ -273,3 +273,13 @@ Once all changes have been agreed upone, then the maintainer of the original rep
 
 #### Steps to initiate a Pull Request
 
+**<<< ADD IN IMAGES FOR CLARITY >>>**
+
+1. On GitHub.com, navigate to the main page of the repository.
+2. In the "Branch" menu, choose the branch that contains your commits.
+3. Above the list of files, click Pull request.
+4. Use the base branch dropdown menu to select the branch you'd like to merge your changes into, then use the compare branch drop-down menu to choose the topic branch you made your changes in.
+5. Type a title and description for your pull request.
+6. To create a pull request that is ready for review, click Create Pull Request. To create a draft pull request, use the drop-down and select Create Draft Pull Request, then click Draft Pull Request.
+
+This will generate a Pull Request on the main project repository.  The owner/maintainer can then merge the pull request once all changes are satisfied.
