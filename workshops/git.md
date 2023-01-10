@@ -1,5 +1,8 @@
 ![Git Logo](assets/images/git_logo.png)
 
+<!-- ![Figure 1: Ansible Role eos_cli_config_gen](../../docs/_media/eos_cli_config_gen_dark.svg#only-dark) -->
+<!-- ![Figure 1: Ansible Role eos_cli_config_gen](../../docs/_media/eos_cli_config_gen_light.svg#only-light) -->
+
 # Git - Section Content
 
 In this section we will cover and introduction and installation of Git and explore basic commands to used with Git. Intermediate Concepts are also covered to further your knowledge of Git.
@@ -29,6 +32,8 @@ Git is a DevOps tool used for source code management. It is a free and open-sour
 ## Installation & Setup
 
 ### Installation
+
+Git has been pre-installed in your ATD Lab environment. If you need to install Git on another system, instructions are provided at the links below.
 
 Download Git - [https://git-scm.com/downloads](https://git-scm.com/downloads)
 
@@ -166,7 +171,7 @@ We have created an example repository for this workshop that you can fork to mak
 
 #### Steps to Fork the example repository
 
-1. On GitHub.com, navigate to the `PacketAnglers/avd-workshop` repository.
+1. On GitHub.com, navigate to [https://github.com/PacketAnglers/avd-workshop](https://github.com/PacketAnglers/avd-workshop) repository.
 2. In the top-right corner of the page, click Fork.
 ![Fork](assets/images/git_fork.png)
 3. Select an owner for the forked repository.
