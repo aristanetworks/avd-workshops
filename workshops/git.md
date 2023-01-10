@@ -1,6 +1,6 @@
-![Git Logo](assets/images/git_logo.png)
-
 # Git - Section Content
+
+![Git Logo](assets/images/git_logo.png)
 
 In this section we will cover and introduction and installation of Git and explore basic commands to used with Git. Intermediate Concepts are also covered to further your knowledge of Git.
 
@@ -22,7 +22,7 @@ In this section we will cover and introduction and installation of Git and explo
 
 ## Introduction to Git
 
-###  What is Git and why should I use it?
+### What is Git and why should I use it?
 
 Git is a DevOps tool used for source code management. It is a free and open-source version control system used to handle small to very large projects efficiently. Git is used to tracking changes in the source code, enabling multiple developers to work together on non-linear development. Git can automatically merge the changes, so two people can even work on different parts of the same file and later merge those changes without loosing each other’s work!
 
@@ -168,9 +168,7 @@ We have created an example repository for this workshop that you can fork to mak
 
 1. On GitHub.com, navigate to the `PacketAnglers/avd-workshop` repository.
 2. In the top-right corner of the page, click Fork.
-
 ![Fork](assets/images/git_fork.png)
-
 3. Select an owner for the forked repository.
 4. Set repository name.  By default, forks are named the same as their upstream repository.
 5. Optionally, add a description of your fork.
@@ -234,7 +232,6 @@ Now you can modify existing files and commit the changes to this new branch. Thi
 ### Push/Pull Changes to GitHub
 
 Once you modify the files in your new branch, you can stage & commit the changes and push them to the remote fork on GitHub.
-
 
 ``` bash
 # stage all the changes
