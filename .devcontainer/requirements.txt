@@ -21,6 +21,7 @@ Jinja2
 MarkupSafe
 material
 md-toc
+mdx_truly_sane_lists
 mkdocs
 mkdocs-git-revision-date-plugin
 mkdocs-glightbox
