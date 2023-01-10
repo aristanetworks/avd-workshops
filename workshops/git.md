@@ -25,7 +25,7 @@ In this section we will cover and introduction and installation of Git and explo
 
 ### What is Git and why should I use it?
 
-Git is a DevOps tool used for source code management. It is a free and open-source version control system used to handle small to very large projects efficiently. Git is used to tracking changes in the source code, enabling multiple developers to work together on non-linear development. Git can automatically merge the changes, so two people can even work on different parts of the same file and later merge those changes without loosing each other’s work!
+Git is a DevOps tool used for source code management. It is a free and open-source version control system used to handle small to very large projects efficiently. Git is used to tracking changes in the source code, enabling multiple developers to work together on non-linear development. Git can automatically merge the changes, so two people can even work on different parts of the same file and later merge those changes without losing each other’s work.
 
 ## Installation & Setup
 
@@ -39,7 +39,7 @@ Configuration - [https://git-scm.com/book/en/v2/Getting-Started-Installing-Git](
 
 ### Setup
 
-When setting up Git for the first time you need to configure your Identity with a name and email address.  This is used to add your signature to commits.
+When setting up Git for the first time you need to configure your Identity with a name and email address. This is used to add your signature to commits.
 
 ``` bash
 # Set your username:
@@ -60,7 +60,7 @@ git config --global --list
 
 #### Initialize Repository
 
-The first thing you need to do to create a version controlled repository is to create a directory and initialize it.  Initialize the following directory: `/home/user/git_projects/project1/`.
+The first thing you need to do to create a version controlled repository is to create a directory and initialize it. Initialize the following directory: `/home/user/git_projects/project1/`.
 
 ``` bash
 # From a Linux terminal
@@ -73,7 +73,7 @@ cd /home/user/git_projects/project1/
 git init
 ```
 
-The directory is now initialized as a Git repository and the following hidden directory `/home/user/git_projects/project1/.git/` was created.  This is a special version control directory of the files in your repository.
+The directory is now initialized as a Git repository and the following hidden directory `/home/user/git_projects/project1/.git/` was created. This is a special version control directory of the files in your repository.
 
 #### Git Repository Status
 
@@ -112,7 +112,7 @@ no changes added to commit (use "git add" and/or "git commit -a")
 
 ### Stage Changes
 
-When you wish to update the repository files, you will need to stage the files. The above output gives you a clue as to the command needed to stage the changes.  You can specify individual files or specificy all files with a period `.`
+When you wish to update the repository files, you will need to stage the files. The above output gives you a clue as to the command needed to stage the changes. You can specify individual files or specify all files with a period `.`
 
 To stage all file changes:
 
@@ -120,7 +120,7 @@ To stage all file changes:
 git add .
 ```
 
-Then check the status again to see what is staged and ready to be commited.
+Then check the status again to see what is staged and ready to be committed.
 
 ``` bash
 git status
@@ -139,7 +139,7 @@ Changes to be committed:
         new file:   newfile.txt
 ```
 
-Now we have 2 files staged and ready to be commited to the `main` branch.
+Now we have 2 files staged and ready to be committed to the `main` branch.
 
 ### Commit Stages
 
@@ -161,7 +161,7 @@ Output:
  create mode 100644 newfile.txt
 ```
 
-Now these files are commited to your local copy of the repository.  To update the remote repository in GitHub you need to push the changes.
+Now these files are committed to your local copy of the repository. To update the remote repository in GitHub you need to push the changes.
 
 ## Intermediate Level
 
@@ -169,7 +169,7 @@ Now these files are commited to your local copy of the repository.  To update th
 
 A fork is a copy of a repository that you manage. Forks let you make changes to a project without affecting the original repository. You can fetch updates from or submit changes to the original repository with a pull request.
 
-We have created an example repository for this workshop that you can fork to make your own copy.  We will make changes to this copy of the original repository.
+We have created an example repository for this workshop that you can fork to make your own copy. We will make changes to this copy of the original repository.
 
 #### Steps to Fork the example repository
 
@@ -177,7 +177,7 @@ We have created an example repository for this workshop that you can fork to mak
 2. In the top-right corner of the page, click Fork.
 ![Fork](assets/images/git_fork.png){: style="width:800px"}
 3. Select an owner for the forked repository.
-4. Set repository name.  By default, forks are named the same as their upstream repository.
+4. Set repository name. By default, forks are named the same as their upstream repository.
 5. Optionally, add a description of your fork.
 6. Click the Fork button at the bottom
 
@@ -185,7 +185,7 @@ Next up... Clone this forked repository to your local host machine.
 
 ### Clone Repository
 
-Cloning a repository allows us to make a local copy of a project that resides on GitHub. In the previous step, you forked a repo to your local GitHub account.  Navigate to the forked repository in GitHub.  From there, click on the green code button to get the URL of the forked repository.
+Cloning a repository allows us to make a local copy of a project that resides on GitHub. In the previous step, you forked a repo to your local GitHub account. Navigate to the forked repository in GitHub. From there, click on the green code button to get the URL of the forked repository.
 
 ![Git Clone](assets/images/git_clone.png){: style="width:400px"}
 
@@ -202,7 +202,7 @@ Now change into the new cloned directory.
 cd avd-workshop
 ```
 
-Verify where the remote copy of this clones lives.
+Verifyy where the remote copy of this clones lives.
 
 ``` bash
 git remote -v
@@ -273,7 +273,7 @@ You should now see these changes and commit messages in GitHub.
 
 A Pull Request in Git allows a contributor (you) to ask a maintainer (owner) of origin repository to review code changes they want to merge into a project. Once a pull request is opened, you can discuss and review the potential changes with collaborators and add follow-up commits before your changes are merged into the base branch.
 
-Once all changes have been agreed upon, the maintainer of the original repo will merge your changes into the `main` branch.  At this point, your code changes are live and visible in the origin project repo.
+Once all changes have been agreed upon, the maintainer of the original repo will merge your changes into the `main` branch. At this point, your code changes are live and visible in the origin project repo.
 
 #### Steps to initiate a Pull Request
 
@@ -286,4 +286,4 @@ Once all changes have been agreed upon, the maintainer of the original repo will
 5. Type a title and description for your pull request.
 6. To create a pull request that is ready for review, click Create Pull Request. To create a draft pull request, use the drop-down and select Create Draft Pull Request, then click Draft Pull Request.
 
-This will generate a Pull Request on the main project repository.  The owner/maintainer can then merge the pull request once all changes are satisfied.
+This will generate a Pull Request on the main project repository. The owner/maintainer can then merge the pull request once all changes are satisfied.

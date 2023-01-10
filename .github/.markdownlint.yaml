@@ -17,7 +17,7 @@ MD003:
 MD004:
   style: "dash"
 
-# unorderd list indentation (2-spaces)
+# unordered list indentation (2-spaces)
 # keep it tight yo!
 MD007:
   indent: 2
