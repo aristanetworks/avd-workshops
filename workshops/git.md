@@ -1,6 +1,6 @@
-# Git - Section Content
-
 ![Git Logo](assets/images/git_logo.png)
+
+# Git - Section Content
 
 In this section we will cover and introduction and installation of Git and explore basic commands to used with Git. Intermediate Concepts are also covered to further your knowledge of Git.
 
