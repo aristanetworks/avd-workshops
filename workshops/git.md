@@ -183,13 +183,13 @@ We have created an example repository for this workshop that you can fork to mak
 5. Optionally, add a description of your fork.
 6. Click the Fork button at the bottom
 
-Next up, cloning this forked repository to your local host machine.
+Next up... Clone this forked repository to your local host machine.
 
 ### Clone Repository
 
 Cloning a repository allows us to make a local copy of a project that resides on GitHub. In the previous step, you forked a repo to your local GitHub account.  Navigate to the forked repository in GitHub.  From there, click on the green code button to get the URL of the forked repository.
 
-![Git Clone](assets/images/git_clone.png)
+![Git Clone](assets/images/git_clone.png){: style="width:400px"}
 
 Clone this repository into the current directory of your local machine:
 
