@@ -275,7 +275,7 @@ You should now see these changes and commit messages in GitHub.
 
 A Pull Request in Git allows a contributor (you) to ask a maintainer (owner) of origin repository to review code changes they want to merge into a project. Once a pull request is opened, you can discuss and review the potential changes with collaborators and add follow-up commits before your changes are merged into the base branch.
 
-Once all changes have been agreed upone, then the maintainer of the original repo will merge your changes into the `main` branch.  At this point, your code changes are live and visible in the origin project repo.
+Once all changes have been agreed upon, the maintainer of the original repo will merge your changes into the `main` branch.  At this point, your code changes are live and visible in the origin project repo.
 
 #### Steps to initiate a Pull Request
 
