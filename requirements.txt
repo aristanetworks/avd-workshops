@@ -9,4 +9,3 @@ mkdocs-include-dir-to-nav
 mkdocs-material-extensions
 mkdocs-pymdownx-material-extras
 pre-commit
-
