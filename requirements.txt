@@ -9,3 +9,4 @@ mkdocs-include-dir-to-nav
 mkdocs-material-extensions
 mkdocs-pymdownx-material-extras
 pre-commit
+mdx_truly_sane_lists
