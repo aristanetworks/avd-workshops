@@ -175,9 +175,7 @@ We have created an example repository for this workshop that you can fork to mak
 
 1. On GitHub.com, navigate to [https://github.com/PacketAnglers/avd-workshop](https://github.com/PacketAnglers/avd-workshop) repository.
 2. In the top-right corner of the page, click Fork.
-
 ![Fork](assets/images/git_fork.png){: style="width:800px"}
-
 3. Select an owner for the forked repository.
 4. Set repository name.  By default, forks are named the same as their upstream repository.
 5. Optionally, add a description of your fork.
@@ -282,13 +280,9 @@ Once all changes have been agreed upon, the maintainer of the original repo will
 1. On GitHub.com, navigate to the main page of the repository.
 2. In the "Branch" menu, choose the branch that contains your commits.
 3. Above the list of files, click the Contribute drop-down and click Open pull request.
-
 ![PR](assets/images/git_pullrequest.png){: style="width:800px"}
-
 4. Use the base branch dropdown menu to select the branch you'd like to merge your changes into, then use the compare branch drop-down menu to choose the topic branch you made your changes in.
-
 ![PR Info](assets/images/git_pullrequest_info.png){: style="width:800px"}
-
 5. Type a title and description for your pull request.
 6. To create a pull request that is ready for review, click Create Pull Request. To create a draft pull request, use the drop-down and select Create Draft Pull Request, then click Draft Pull Request.
 
