@@ -68,10 +68,14 @@ The first thing you need to do to create a version controlled repository is to c
 # From a Linux terminal
 mkdir /home/user/git_projects/project1/
 
+# Change to the new directory
+cd /home/user/git_projects/project1/
+
+# Initialize
 git init
 ```
 
-The directory is not initialized as a Git repository and the following hidden directory `/home/user/git_projects/project1/.git/` was created.  This is a special directory used version control of the files in your repository.
+The directory is now initialized as a Git repository and the following hidden directory `/home/user/git_projects/project1/.git/` was created.  This is a special version control directory of the files in your repository.
 
 #### Git Repository Status
 
