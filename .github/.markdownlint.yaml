@@ -67,6 +67,10 @@ MD035:
 MD038:
   false
 
+# Disable H1 headings as first line, setting icons at top of page
+MD041:
+  false
+
 # proper-names - proper names to have the correct capitalization
 # probably not entirely helpful in a technical writing environment.
 MD044:
