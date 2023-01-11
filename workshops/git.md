@@ -173,7 +173,7 @@ We have created an example repository for this workshop that you can fork to mak
 
 #### Steps to Fork the example repository
 
-1. On GitHub.com, navigate to [https://github.com/PacketAnglers/avd-workshop](https://github.com/PacketAnglers/avd-workshop) repository.
+1. On GitHub.com, navigate to the [Packet Anglers workshop](https://github.com/PacketAnglers/workshops) repository.
 2. In the top-right corner of the page, click Fork.
 ![Fork](assets/images/git_fork.png){: style="width:800px"}
 3. Select an owner for the forked repository.
