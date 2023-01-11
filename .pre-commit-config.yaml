@@ -9,10 +9,23 @@ repos:
         exclude_types: [svg, json]
 
   - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.32.1
+    rev: v0.33.0
     hooks:
       - id: markdownlint
         name: Check for Linting errors on MarkDown files
         args:
           - --config=.github/.markdownlint.yaml
           - --fix
+
+  - repo: https://github.com/tcort/markdown-link-check
+    rev: v3.10.3
+    hooks:
+      - id: markdown-link-check
+        name: Markdown Link Check
+        description: Extracts links from markdown texts and checks they're all alive (i.e. return status 200 OK).
+        entry: markdown-link-check
+        language: node
+        types: [markdown]
+        stages: [commit, push, manual]
+        args:
+          - --quiet
