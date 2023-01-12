@@ -12,7 +12,7 @@
         "lextudio.restructuredtext",
         "ms-kubernetes-tools.vscode-kubernetes-tools",
         "ms-python.python",
-		"redhat.vscode-yaml",
+        "redhat.vscode-yaml",
         "PKief.material-icon-theme",
         "samuelcolvin.jinjahtml",
         "johnpapa.vscode-peacock",
