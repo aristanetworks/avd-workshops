@@ -1,6 +1,9 @@
 {
 	"name": "avd-workshops",
 	"context": ".",
+	"features": {
+		"ghcr.io/shinepukur/devcontainer-features/vale:1": {}
+	},
 	"workspaceFolder": "/workspace",
 	"dockerComposeFile": "docker-compose.yml",
 	"service": "avd-workshops",
