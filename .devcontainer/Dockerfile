@@ -36,7 +36,8 @@ RUN apt-get update && apt-get install -y \
     tzdata \
     ufw \
     vim \
-    wget
+    wget \
+    zsh
 
 RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
 
@@ -56,7 +57,9 @@ RUN echo 'alias python="python3"' >> ~/.bashrc
 
 RUN echo 'alias pip="pip3"' >> ~/.bashrc
 
-RUN curl -fsSL https://get.pulumi.com | sh
+RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
 
 LABEL maintainer="Mitch Vaughan <mitch@arista.com>" \
       version="2.0.1"
+
+ENV SHELL /bin/zsh
