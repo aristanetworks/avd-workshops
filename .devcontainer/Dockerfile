@@ -29,7 +29,6 @@ RUN apt-get update && apt-get install -y \
     net-tools \
     netplan.io \
     openssh-server \
-    openssh-client \
     python3 \
     python3-pip \
     snapd \
