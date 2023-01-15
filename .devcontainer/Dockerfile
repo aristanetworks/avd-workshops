@@ -36,8 +36,7 @@ RUN apt-get update && apt-get install -y \
     tzdata \
     ufw \
     vim \
-    wget \
-    zsh
+    wget
 
 RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
 
@@ -57,7 +56,12 @@ RUN echo 'alias python="python3"' >> ~/.bashrc
 
 RUN echo 'alias pip="pip3"' >> ~/.bashrc
 
-RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
+RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.5/zsh-in-docker.sh)" -- \
+    -t robbyrussell \
+    -p git \
+    -p ssh-agent \
+    -p https://github.com/zsh-users/zsh-autosuggestions \
+    -p https://github.com/zsh-users/zsh-completions
 
 LABEL maintainer="Mitch Vaughan <mitch@arista.com>" \
       version="2.0.1"
