@@ -52,16 +52,14 @@ RUN apt-get update && apt-get install -y google-cloud-cli
 
 RUN ansible-galaxy collection install -r requirements.yml --force
 
-RUN echo 'alias python="python3"' >> ~/.bashrc
-
-RUN echo 'alias pip="pip3"' >> ~/.bashrc
-
 RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.5/zsh-in-docker.sh)" -- \
     -t robbyrussell \
     -p git \
     -p ssh-agent \
     -p https://github.com/zsh-users/zsh-autosuggestions \
-    -p https://github.com/zsh-users/zsh-completions
+    -p https://github.com/zsh-users/zsh-completions \
+    -a 'alias pip="pip3"' \
+    -a 'alias python="python3"'
 
 LABEL maintainer="Mitch Vaughan <mitch@arista.com>" \
       version="2.0.1"
