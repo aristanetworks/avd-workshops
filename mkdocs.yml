@@ -5,7 +5,6 @@ docs_dir: workshops/
 nav:
   - Home: index.md
   - Fundamentals:
-    - Intro: intro.md
     - Git: git.md
     - VS Code: vscode.md
     - Ansible: ansible.md
