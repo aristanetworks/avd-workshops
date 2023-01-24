@@ -16,7 +16,7 @@ jobs:
     needs: pre_commit
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: errata-ai/vale-action@reviewdog
         env:
           # Required, set by GitHub actions automatically:
@@ -24,7 +24,6 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         with:
           files: workshops/
-          reporter: github-check
 
   test_build:
     name: Build site with no warnings
