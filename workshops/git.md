@@ -1,9 +1,9 @@
+# Welcome to Git
+
 ![Git Logo Dark](assets/images/git_logo_darkbg.png#only-dark){: style="width:200px"}
 ![Git Logo Light](assets/images/git_logo_lightbg.png#only-light){: style="width:200px"}
 
-# Git - Section Content
-
-In this section we will cover and introduction and installation of Git and explore basic commands to used with Git. Intermediate Concepts are also covered to further your knowledge of Git.
+In this section we will explore a brief introduction of Git. We will cover the installation and explore basic commands used with Git.
 
 ## Topics
 
@@ -23,9 +23,11 @@ In this section we will cover and introduction and installation of Git and explo
 
 ## Introduction to Git
 
-### What is Git and why should I use it?
+Git is the most commonly used version control system. Git tracks changes to files, so you have a record of what has changed, and you can revert to specific versions. Changes to files are tracked by storing snapshots of the files over time.  In the example below we have files A, B, and C.  Over time the content of those files change.  You are able to roll back to any pervious commit or snapshot.
 
-Git is a DevOps tool used for source code management. It is a free and open-source version control system used to handle small to very large projects efficiently. Git is used to tracking changes in the source code, enabling multiple developers to work together on non-linear development. Git can automatically merge the changes, so two people can even work on different parts of the same file and later merge those changes without losing each other’s work.
+![Git Snapshots](assets/images/git_snapshots.png){: style="width:800px"}
+
+Git makes collaboration easy, allowing multiple people to merge their changes into one source. Regardless of whether you work solo or as part of a team, Git will be useful for you.
 
 ## Installation & Setup
 
