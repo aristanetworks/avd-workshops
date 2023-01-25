@@ -1,6 +1,6 @@
 # Welcome to VS Code
 
-![VS Code Logo](assets/images/VS Code_logo.png){: style="width:130px"}
+![VS Code Logo](assets/images/vscode_logo.png){: style="width:130px"}
 
 ## What is VS Code?
 
