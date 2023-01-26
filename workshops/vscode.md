@@ -4,7 +4,7 @@
 
 ## What is VS Code?
 
-Visual Studio Code (VS Code), written by Microsoft, is a lightweight but powerful source code editor which runs on your desktop and is available for Windows, macOS and Linux. It comes with built-in support for JavaScript, TypeScript and Node.js and has a rich ecosystem of extensions for other languages and runtimes (such as C++, C#, Java, Python, PHP, Go, .NET).
+Visual Studio Code (VS Code), written by Microsoft, is a lightweight but powerful source code editor which runs on your desktop and is available for Windows, macOS and Linux. It comes with built-in support for JavaScript, TypeScript and Node.js and has a rich ecosystem of extensions for other languages and runtime environments (such as C++, C#, Java, Python, PHP, Go, .NET).
 
 VS Code integrates directly with Git and allows Network Engineers to easily perform the following tasks:
 
@@ -14,7 +14,7 @@ VS Code integrates directly with Git and allows Network Engineers to easily perf
 - Execute various Git commands (such as: status, init, log, commit, switch, add, etc...)
 - Connect to Remote Hosts
 
-VS Code is the Git Genie that makes your life easy.  Once you learn to use VS Code, you will wonder why it took so long to get on the bandwagon.
+VS Code is the Git Genie that makes your life easy. Once you learn to use VS Code, you will wonder why it took so long to get on the bandwagon.
 
 ## System Requirements
 
@@ -53,7 +53,7 @@ The four main areas of the VS Code GUI are:
 
 ## Extensions
 
-These are tons of extensions to enhance your experience with the VS Code.  Below are a list recommended extensions commonly used.  For a full list of available extensions visit the [VS Code Marketplace](https://marketplace.visualstudio.com/VSCode).
+These are tons of extensions to enhance your experience with the VS Code. Below are a list recommended extensions commonly used. For a full list of available extensions visit the [VS Code Marketplace](https://marketplace.visualstudio.com/VSCode).
 
 - Markdown All-in-One (Yu Zhang)
 - YAML (Red Hat)
