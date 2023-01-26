@@ -24,10 +24,8 @@ Recommend Hardware:
 
 - 1.6 GHz or faster processor
 - 1 GB of RAM
-- Platforms
-- VS Code is supported on the following platforms:
 
-Supported Operating Systems:
+Support Platforms:
 
 - OS X El Capitan (10.11+)
 - Windows 8.0, 8.1 and 10, 11 (32-bit and 64-bit)
@@ -40,10 +38,29 @@ VS Code downloads for Windows, Linux and Mac can be found [here](https://code.vi
 
 ## GUI Walk-through
 
+The four main areas of the VS Code GUI are:
+
+- Activity Bar
+- Status Bar
+- Editor
+- Terminal Window
+
+![VS Code Screenshot](assets/images/vscode_screenshot.png){: style="width:1000px"}
+
+???+ note
+
+    You `Activity Bar` may have different icons for the extensions you have installed.
+
 ## Extensions
 
-- Linting
-- Remote-SSH
+These are tons of extensions to enhance your experience with the VS Code.  Below are a list recommended extensions commonly used.  For a full list of available extensions visit the [VS Code Marketplace](https://marketplace.visualstudio.com/VSCode).
+
+- Markdown All-in-One (Yu Zhang)
+- YAML (Red Hat)
+- Better Jinja (Samuel Colvin)
+- Peacock (John Papa)
+- Remote - SSH (Microsoft)
+- Dev Containers (Microsoft)
 
 ## Git Integration
 
@@ -52,3 +69,5 @@ VS Code downloads for Windows, Linux and Mac can be found [here](https://code.vi
 ### Branches
 
 ### Commits/Pushes
+
+## Follow Along
