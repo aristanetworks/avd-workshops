@@ -36,7 +36,7 @@ Support Platforms:
 
 VS Code downloads for Windows, Linux and Mac can be found [here](https://code.visualstudio.com/download).
 
-## GUI Walk-through
+## VS Code GUI Walk-through
 
 The four main areas of the VS Code GUI are:
 
@@ -62,12 +62,30 @@ These are tons of extensions to enhance your experience with the VS Code.  Below
 - Remote - SSH (Microsoft)
 - Dev Containers (Microsoft)
 
+## Common Things you should know
+
+- Close/Open Folders
+- Command Palette (Cmd/Ctrl + Shift + P) - Control Panel for VS Code
+- Replace in Files
+- Save & Auto Save
+- Start a Terminal
+
 ## Git Integration
 
-### File Diffs
+In the previous Git section we ran all commands from the command-line. Now we will use VS Code to perform the same operations.
 
-### Branches
+The Basics
 
-### Commits/Pushes
+- Initialize Repo
+- Create/Modify Files
+- Stage Changes
+- Commit Changes
 
-## Follow Along
+Next Steps
+
+- Clone Repo
+- Create a Branch
+- Commit Changes
+- Push Branch to GitHub
+- Create Pull Request
+- Merge Changes to Main branch
