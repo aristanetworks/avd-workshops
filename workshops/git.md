@@ -103,7 +103,7 @@ No commits yet
 nothing to commit (create/copy files and use "git add" to track)
 ```
 
-Once you add, delete, or modify any files, you will see similar output below.  Here we are creating an empty file `newfile.txt` with the `touch` command.
+Once you add, delete, or modify any files, you will see similar output below. Here we are creating an empty file `newfile.txt` with the `touch` command.
 
 ``` text
 ➜  project1 git:(main) touch newfile.txt
@@ -169,9 +169,13 @@ Output:
  create mode 100644 newfile.txt
 ```
 
-Now these files are committed to your local copy of the repository.
+Now these files are committed to your local repository.
 
 ## Intermediate Level
+
+Before proceeding further, make sure you are logged into your active GitHub account.
+
+If you do not have a GitHub account, you can create one **[here](https://github.com/join)**.
 
 ### Fork a Repository
 
