@@ -23,7 +23,7 @@ In this section we will explore a brief introduction of Git. We will cover the i
 
 ## Introduction to Git
 
-Git is the most commonly used version control system. Git tracks changes to files, so you have a record of what has changed, and you can revert to specific versions. Changes to files are tracked by storing snapshots of the files over time.  In the example below we have files A, B, and C.  Over time the content of those files change.  You are able to roll back to any pervious commit or snapshot.
+Git is the most commonly used version control system. Git tracks changes to files, so you have a record of what has changed, and you can revert to specific versions. Changes to files are tracked by storing snapshots of the files over time. In the example below we have files A, B, and C. Over time the content of those files change. You are able to roll back to any previous commit or snapshot.
 
 ![Git Snapshots](assets/images/git_snapshots.png){: style="width:800px"}
 
@@ -41,14 +41,24 @@ Configuration - [https://git-scm.com/book/en/v2/Getting-Started-Installing-Git](
 
 ### Setup
 
-When setting up Git for the first time you need to configure your Identity with a name and email address. This is used to add your signature to commits.
+When setting up Git for the first time you need to configure your Identity with a name and email address. This is used to add your signature to commits. Also set the default branch name to `main`.
+
+From the Terminal in your ATD Lab Progammability IDE running the following commands.
 
 ``` bash
 # Set your username:
 git config --global user.name "FirstName LastName"
+
 # Set your email address:
 git config --global user.email "name@example.com"
+
+# Set default branch name to `main`
+git config --global init.defaultBranch main
 ```
+
+#### Progammability IDE
+
+![Programmability IDE](assets/images/git_programmability_ide.png){: style="width:1000px"}
 
 Verify your configuration:
 
@@ -62,20 +72,20 @@ git config --global --list
 
 #### Initialize Repository
 
-The first thing you need to do to create a version controlled repository is to create a directory and initialize it. Initialize the following directory: `/home/user/git_projects/project1/`.
+The first thing you need to do to create a version controlled repository is to create a directory and initialize it. Initialize the following directory: `/home/coder/project/labfiles/project1/`.
 
 ``` bash
 # From a Linux terminal
-mkdir /home/user/git_projects/project1/
+mkdir /home/coder/project/labfiles/project1/
 
 # Change to the new directory
-cd /home/user/git_projects/project1/
+cd /home/coder/project/labfiles/project1/
 
 # Initialize
 git init
 ```
 
-The directory is now initialized as a Git repository and the following hidden directory `/home/user/git_projects/project1/.git/` was created. This is a special version control directory of the files in your repository.
+The directory is now initialized as a Git repository and the following hidden directory `/home/coder/project/labfiles/project1/.git/` was created. This is a special version control directory of the files in your repository.
 
 #### Git Repository Status
 
@@ -87,34 +97,31 @@ If nothing has been modified, then you will see the following output.
 
 ``` text
 On branch main
-Your branch is up to date with 'origin/main'.
 
-nothing to commit, working tree clean
+No commits yet
+
+nothing to commit (create/copy files and use "git add" to track)
 ```
 
-If you modify a the contents of existing files or add/delete files from the repository, you will see something like:
+Once you add, delete, or modify any files, you will see similar output below. Here we are creating an empty file `newfile.txt` with the `touch` command.
 
 ``` text
+➜  project1 git:(main) touch newfile.txt
+➜  project1 git:(main) ✗ git status
 On branch main
-Your branch is up to date with 'origin/main'.
 
-Changes not staged for commit:
-  (use "git add <file>..." to update what will be committed)
-  (use "git checkout -- <file>..." to discard changes in working directory)
-
-        modified:   README.md
+No commits yet
 
 Untracked files:
   (use "git add <file>..." to include in what will be committed)
-
         newfile.txt
 
-no changes added to commit (use "git add" and/or "git commit -a")
+nothing added to commit but untracked files present (use "git add" to track)
 ```
 
 ### Stage Changes
 
-When you wish to update the repository files, you will need to stage the files. The above output gives you a clue as to the command needed to stage the changes. You can specify individual files or specify all files with a period `.`
+When you are ready to commit your changes, you need to stage the files. The above output gives you a clue as to the command needed to stage the changes. You can specify individual files or add all files with a wildcard period `.`
 
 To stage all file changes:
 
@@ -132,16 +139,15 @@ Output:
 
 ``` text
 On branch main
-Your branch is up to date with 'origin/main'.
+
+No commits yet
 
 Changes to be committed:
-  (use "git reset HEAD <file>..." to unstage)
-
-        modified:   README.md
+  (use "git rm --cached <file>..." to unstage)
         new file:   newfile.txt
 ```
 
-Now we have 2 files staged and ready to be committed to the `main` branch.
+Now we have a new file staged and ready to be committed to the `main` branch.
 
 ### Commit Stages
 
@@ -152,20 +158,24 @@ Now you can commit your staged changes with a comment:
     Use a comment that will reflect the changes made so you can reference back to this commit in the future.
 
 ``` bash
-git commit -m "Initial Commit Message"
+git commit -m "First Commit"
 ```
 
 Output:
 
 ``` text
-[main 71765fe] Initial commit
- 2 files changed, 2 insertions(+)
+[main (root-commit) 22e4d69] First Commit
+ 1 file changed, 0 insertions(+), 0 deletions(-)
  create mode 100644 newfile.txt
 ```
 
-Now these files are committed to your local copy of the repository. To update the remote repository in GitHub you need to push the changes.
+Now these files are committed to your local repository.
 
 ## Intermediate Level
+
+Before proceeding further, make sure you are logged into your active GitHub account.
+
+If you do not have a GitHub account, you can create one **[here](https://github.com/join)**.
 
 ### Fork a Repository
 
