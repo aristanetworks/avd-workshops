@@ -214,7 +214,7 @@ Now change into the new cloned directory.
 cd avd-workshop
 ```
 
-Verifyy where the remote copy of this clones lives.
+Verify where the remote copy of this clones lives.
 
 ``` bash
 git remote -v
