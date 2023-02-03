@@ -28,6 +28,7 @@
 # Welcome to YAML & Jinja
 
 This section will cover both Jinja and YAML, which are two interdependent pieces of basic configuration automation framework.  While both YAML and Jinja can get relatively complex with what they can accomplish and what can be done with them, we will only cover what is necessary to utilize these tools for network automation and DevOps.
+
 # YAML
 
 ## What is YAML?
