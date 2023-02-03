@@ -84,7 +84,7 @@ If a file has unsaved changes, the close button on the tab will be a cirle/dot i
 
 ### Command Palette
 
-The Command Palette lets you access many different commands. To open it go to ```View > Command Palette ``` or hit ```Cmd/Ctrl + Shift + P```. Theres a lot of powerful commands and its worth playing around with, if you would like to read more go [here](https://code.visualstudio.com/docs/getstarted/userinterface#_command-palette). An example that will come up later is the ability to run git commands like git clone.
+The Command Palette lets you access many different commands. To open it go to ```View > Command Palette ``` or hit ```Cmd/Ctrl + Shift + P```. There's a lot of powerful commands and its worth playing around with, if you would like to read more go [here](https://code.visualstudio.com/docs/getstarted/userinterface#_command-palette). An example that will come up later is the ability to run git commands like git clone.
   
 ### Start a Terminal
 
@@ -94,15 +94,22 @@ VS Code provides you with a way to interact with a terminal from within the prog
 
 In the previous Git section we ran all commands from the command-line. Now we will use VS Code to perform the same operations.
 
-The Basics
+## The Basics
 
-- Initialize Repo
-- Create/Modify Files
-- Stage Changes
-- Commit Changes
+### Initialize Repo
 
-Next Steps
+There's multiple ways to initialize a repo from VS Code. Using the previously mentioned Command Palette or through the use of the Source Control View, if the currently open folder is not a git repo. Using the Command Palette to intitialze a repo, it will ask which folder to init into, default choose is the current directory.
 
+### Create/Modify Files
+
+### Stage Changes
+
+
+### Commit Changes
+
+- Add message
+
+## Next Steps
 - Clone Repo
 - Create a Branch
 - Commit Changes
