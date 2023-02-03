@@ -1,11 +1,6 @@
-# Welcome to Jinja & YAML
+![Jinja YAML Banner](assets/images/jinja-yaml-banner.png)
 
-This section will cover both Jinja and YAML, which are two interdependent pieces of basic configuration automation framework.  While both YAML and Jinja can get relatively complex with what they can accomplish and what can be done with them, we will only cover what is necessary to utilize these tools for network automation and DevOps.
-
-## Topics
-
-- [Welcome to Jinja \& YAML](#welcome-to-jinja--yaml)
-  - [Topics](#topics)
+- [Welcome to YAML \& Jinja](#welcome-to-yaml--jinja)
 - [YAML](#yaml)
   - [What is YAML?](#what-is-yaml)
   - [What is YAML Used For?](#what-is-yaml-used-for)
@@ -30,7 +25,9 @@ This section will cover both Jinja and YAML, which are two interdependent pieces
 - [The Jinja YAML Relationship](#the-jinja-yaml-relationship)
 - [Final Output - Tying It](#final-output---tying-it)
 
+# Welcome to YAML & Jinja
 
+This section will cover both Jinja and YAML, which are two interdependent pieces of basic configuration automation framework.  While both YAML and Jinja can get relatively complex with what they can accomplish and what can be done with them, we will only cover what is necessary to utilize these tools for network automation and DevOps.
 # YAML
 
 ## What is YAML?
