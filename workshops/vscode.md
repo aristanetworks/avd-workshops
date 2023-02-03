@@ -53,7 +53,7 @@ The four main areas of the VS Code GUI are:
 
 ## Extensions
 
-These are tons of extensions to enhance your experience with the VS Code. Below are a list recommended extensions commonly used. For a full list of available extensions visit the [VS Code Marketplace](https://marketplace.visualstudio.com/VSCode).
+These are tons of extensions to enhance your experience with VS Code. Below is a list of recommended extensions that are commonly used. For a full list of available extensions visit the [VS Code Marketplace](https://marketplace.visualstudio.com/VSCode).
 
 - Markdown All-in-One (Yu Zhang)
 - YAML (Red Hat)
@@ -64,11 +64,31 @@ These are tons of extensions to enhance your experience with the VS Code. Below 
 
 ## Common Things you should know
 
-- Close/Open Folders
-- Command Palette (Cmd/Ctrl + Shift + P) - Control Panel for VS Code
-- Replace in Files
-- Save & Auto Save
-- Start a Terminal
+### Open/Close Folders
+
+To open a file or folder go to ```File > Open``` or use ```Cmd/Ctrl + o```. Once you have a folder open you can simply just click on file you wish to open from the Explorer in the Activity Bar. Note if you only single click the file when you go to open another file it will replace it in the editor, to keep a file open double click it. The difference can be notice by looking at the editor tab title, the tab that be replaced will be in italics. As seen in the image below.
+
+![VS Code Logo](assets/images/vscode_Editor_Open_Italics.png){: style="width:260px"}
+
+To close a file you can click on the ```x``` of the editor tab, if you instead see a circle that means the changes to that file are unsaved.
+
+To close the folder go to ```File > Close Folder``` or ```Cmd/Ctrl + k``` then hit ```f```.
+
+### Save & Auto Save
+
+By default VS Code will not auto save file changes. To configure it to auto save click ```File > Auto Save```. If you wish to save manually you can save by going to ```File > Save``` or ```Cmd/Ctrl + s```.
+
+If a file has unsaved changes, the close button on the tab will be a cirle/dot instead of the normal ```x```. As seen in the image below.
+
+![VS Code Logo](assets/images/vscode_Unsaved_Changes.png){: style="width:130px"}
+
+### Command Palette
+
+The Command Palette lets you access many different commands. To open it go to ```View > Command Palette ``` or hit ```Cmd/Ctrl + Shift + P```. Theres a lot of powerful commands and its worth playing around with, if you would like to read more go [here](https://code.visualstudio.com/docs/getstarted/userinterface#_command-palette). An example that will come up later is the ability to run git commands like git clone.
+  
+### Start a Terminal
+
+VS Code provides you with a way to interact with a terminal from within the program. To access it you can either go up to ```Terminal > New Terminal``` or hit ```Cmd/Ctrl + Shift + ` ```. You can create multiple instances of terminals and they can be different types, i.e. bash, python, zsh(if you have it installed).
 
 ## Git Integration
 
@@ -89,3 +109,5 @@ Next Steps
 - Push Branch to GitHub
 - Create Pull Request
 - Merge Changes to Main branch
+
+## Dev Containers
