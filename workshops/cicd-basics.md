@@ -16,7 +16,7 @@ In its simplest form, CI/CD allows development teams to accurately and efficient
 flowchart LR
 code{{Code base}}
 dev((Developer))
-build(Build:<br>Container<br>Configurations<br>etc.)
+build(Build:<br>Container,<br>Configurations,<br>etc.)
 test(Test everything)
 deploy(Deploy)
 
@@ -45,34 +45,12 @@ This example is not all-encompassing but hopefully gives you an idea of the step
 
 ## Sea of options
 
-The number of options available to implement a CI/CD pipeline can be daunting. For example, the image below does a great job of showing a subset of tools available in this process. The following section will summarize the various steps in a CI/CD pipeline from a networking perspective.
+The number of options available to implement a CI/CD pipeline can be daunting. For example, the image below does a great job of showing a subset of tools available in this process. The following section will show an example CI/CD deployment leveraging our Arista Test Drive environment.
 
 ![Image credit to openxcell](./assets/images/DevOps-Tools.svg)
 
 ## CI/CD for Network Engineers
 
-### Source control (Git)
+## Work in progress
 
-Depending on the enterprises current tooling, your version control system (VCS) may be decided for you. This could be Azure DevOps, Gitlab, GitHub Enterprise, and countless others. Either way, keeping a project within a VCS system is key in this workflow. VCS allows operators to update the source of their network, track changes, and peer review any updates to the network. For an introduction to Git, check out our [Git](git.md) section.
-
-### Editor
-
-This is probably a debate that will never end, which editor to use?
-
-### Creating branches to implement and update or fix
-
-### Testing locally
-
-### Pushing updates
-
-### Automated workflows
-
-### Test in anything but production
-
-### Merge back to main
-
-### Deploy to production
-
-## Sample workflow
-
-This could be as simple as doc creation.
+This section is a work in progress.
