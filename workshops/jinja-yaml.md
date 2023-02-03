@@ -48,6 +48,10 @@ This section will cover both Jinja and YAML, which are two interdependent pieces
 
 ### Network Config Example
 
+<br>
+<br>
+<br>
+
 # Jinja
 
 ## What is Jinja?
@@ -70,6 +74,14 @@ This section will cover both Jinja and YAML, which are two interdependent pieces
 
 ### Network Config Template Example
 
+<br>
+<br>
+<br>
+
 # The Jinja YAML Relationship
+
+<br>
+<br>
+<br>
 
 # Final Output - Tying It
