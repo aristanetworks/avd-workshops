@@ -1,44 +1,78 @@
-# Welcome to Jinja/YAML
+# Welcome to Jinja & YAML
 
-## What is YAML ( YAML Overview )
+This section will cover both Jinja and YAML, which are two interdependent pieces of basic configuration automation framework.  While both YAML and Jinja can get relatively complex with what they can accomplish and what can be done with them, we will only cover what is necessary to utilize these tools for network automation and DevOps.
 
-## YAML File Content
-- Key value pairs - sub-sections are the types
+## Topics
+
+- [Welcome to Jinja \& YAML](#welcome-to-jinja--yaml)
+  - [Topics](#topics)
+- [YAML](#yaml)
+  - [What is YAML?](#what-is-yaml)
+  - [What is YAML Used For?](#what-is-yaml-used-for)
+  - [Common YAML Syntax](#common-yaml-syntax)
+    - [Lists](#lists)
+    - [Boolean](#boolean)
+    - [Dicts](#dicts)
+  - [YAML File Examples](#yaml-file-examples)
+    - [Generic Example](#generic-example)
+    - [Network Config Example](#network-config-example)
+- [Jinja](#jinja)
+  - [What is Jinja?](#what-is-jinja)
+  - [What is Jinja Used For?](#what-is-jinja-used-for)
+  - [Jinja Syntax](#jinja-syntax)
+    - [Variable Substitution](#variable-substitution)
+    - [Conditionals](#conditionals)
+    - [Loops](#loops)
+    - [Filters](#filters)
+  - [Jinja Templates](#jinja-templates)
+    - [Generic Template Example](#generic-template-example)
+    - [Network Config Template Example](#network-config-template-example)
+- [The Jinja YAML Relationship](#the-jinja-yaml-relationship)
+- [Final Output - Tying It](#final-output---tying-it)
+
+
+# YAML
+
+## What is YAML?
+
+## What is YAML Used For?
+
+## Common YAML Syntax
+
 ### Lists
 
-
-### Booleans
-
+### Boolean
 
 ### Dicts
 
+## YAML File Examples
 
-## YAML File Examples 
-- Vars files
-  - Global config
-  - Specific config for two switches
+### Generic Example
 
+### Network Config Example
 
-## What are Jinja Templates
+# Jinja
 
+## What is Jinja?
 
-## Why use Jinja Templates
-- projects where its used
-- how it became more standard
+## What is Jinja Used For?
 
-## Relationship between Jinja and YAML
-- how they tie together
+## Jinja Syntax
 
+### Variable Substitution
 
-## Jinja File examples
-- use a generic example
-- use an example to tie together the previous vars files
-  - Var subsitution
-  - Conditionals
-  - Loops
-  - Filters
+### Conditionals
 
+### Loops
 
+### Filters
 
-# Tying it together - final output
-- run ansible playbook to generate a config output
+## Jinja Templates
+
+### Generic Template Example
+
+### Network Config Template Example
+
+# The Jinja YAML Relationship
+
+# Final Output - Tying It
