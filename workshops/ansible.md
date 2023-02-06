@@ -9,8 +9,6 @@ Ansible is a python based automation framework.
 
 ## Why use Ansible
 
-
-
 ## Ansible Initial Setup
 
 ### Config File
@@ -75,7 +73,6 @@ ansible_user: arista
 ansible_ssh_pass: [your topology password]
 
 ```
-
 
 ### Ad-Hoc Commands
 
