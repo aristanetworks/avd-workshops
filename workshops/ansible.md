@@ -32,7 +32,7 @@ Precedence
 
 [Common Ansible Config File Options](https://docs.ansible.com/ansible/latest/reference_appendices/config.html#common-options "Ansible Documentation")
 
-```yaml title="~/project/ansible.cfg"
+```apacheconf title="~/project/ansible.cfg"
 
 [defaults]
 
