@@ -32,7 +32,7 @@ Precedence
 
 [Common Ansible Config File Options](https://docs.ansible.com/ansible/latest/reference_appendices/config.html#common-options "Ansible Documentation")
 
-```apacheconf title="~/project/ansible.cfg"
+```apacheconf title="Example Ansible Configuration File (~/projects/ansible.cfg)"
 
 [defaults]
 
@@ -81,7 +81,7 @@ connect_timeout = 60
 
 ### Inventory
 
-```yaml
+```yaml title="Example Inventory File in YAML Format (~/projects/inventory/inventory.yml)"
 WORKSHOP_FABRIC:
   children:
     S1:
@@ -120,7 +120,7 @@ WORKSHOP_FABRIC:
 
 ### Variables
 
-```yaml title="inventory/group_vars/WORKSHOP_FABRIC.yml"
+```yaml title="Example group_vars File (~/projects/inventory/group_vars/WORKSHOP_FABRIC.yml)"
 
 # eAPI connectivity via HTTPS (as opposed to CLI via SSH)
 ansible_connection: ansible.netcommon.httpapi
