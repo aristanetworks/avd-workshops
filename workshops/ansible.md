@@ -126,6 +126,7 @@ Precedence
                 s2-brdr2:
                 s2-core1:
                 s2-core2:
+
     ```
 
 ### Variables
@@ -155,9 +156,7 @@ Precedence
 
 Ping
 
-```bash
-ansible S1 -m ping -i inventory.yml
-```
+    ansible S1 -m ping -i inventory.yml
 
 ## Modules
 
