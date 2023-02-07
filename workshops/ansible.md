@@ -16,7 +16,7 @@ We will be focusing on the first two items during this workshop.
 
 ## Why use Ansible
 
-Aside from being 'agentless', meaning that Ansible does not require any specialized software on the target hosts, Ansible is also easy to get started with. While prior coding or experience in automation is of course helpful, it is not required to get up and running with Ansible. Playbooks are written in YAML, a language that we'll cover in detail in the [YAML](jinja-yaml.md "Jinja and YAML") section. For now, rest assured that YAML is a human readable language, and it's a big reason that getting started with Ansible does not require an extensive background in development.
+Aside from being 'agentless', meaning that Ansible does not require any specialized software on the target hosts, Ansible is also easy to get started with. While prior coding or experience in automation is of course helpful, it is not required to get up and running with Ansible. Playbooks are written in YAML, a language that we'll cover in detail in the [YAML](jinja-yaml.md "Jinja and YAML") section. For now, rest assured that YAML is a human readable language, and it's a big reason why it's easy to get started on our Ansible journey.
 
 There is a very large, and very active, user and development community with Ansible. The project itself is open source, with the GitHub repository available [here](https://github.com/ansible/ansible "Ansible on GitHub"). The popularity of Ansible has led to broad vendor support, spanning multiple technology silos. Network, Compute, Storage, Cloud, Security, and more can all be automated via Ansible.
 
