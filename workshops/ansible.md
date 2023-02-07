@@ -73,7 +73,7 @@ When running an ad-hoc command, or playbook, Ansible will look for the configura
 
 4. /etc/ansible/ansible.cfg
 
-Once Ansible finds an `ansible.cfg` file, it will use the options defined in that file, and only those options. If, for example, an `ansible.cfg` file exists in the current directory, and in `/etc/ansible/ansible.cfg`, then only the settings found in the `ansible.cfg` file in the current directory will be used.
+Once Ansible finds an `ansible.cfg` file, it will only use the configuration options defined in that file. If, for example, an `ansible.cfg` file exists in the current directory, and in `/etc/ansible/ansible.cfg`, then only the settings found in the `ansible.cfg` file in the current directory will be used.
 
 ??? eos-config annotate "Example Ansible Configuration File (~/projects/ansible.cfg)"
     ```apache
