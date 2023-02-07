@@ -63,7 +63,7 @@ All of the information displayed above is important, and can help when troublesh
 
 The Ansible configuration file is where we set environment variables for our Ansible project(s). There are many variables that can be set in this file, and the most common ones are documented [here](https://docs.ansible.com/ansible/latest/reference_appendices/config.html#common-options "Common Ansible Configuration File Options").
 
-Precedence
+When running an ad-hoc command, or playbook, Ansible will look for the configuration file in the locations listed below. These locations are defined in order of precedence:
 
 1. ANSIBLE_CONFIG (environment variable if set)
 
@@ -72,6 +72,8 @@ Precedence
 3. ~/.ansible.cfg (in the home directory)
 
 4. /etc/ansible/ansible.cfg
+
+Once Ansible finds an `ansible.cfg` file, it will use the options defined in that file, and only those options. If, for example, an `ansible.cfg` file exists in the current directory, and in `/etc/ansible/ansible.cfg`, then only the settings found in the `ansible.cfg` file in the current directory will be used.
 
 ??? eos-config annotate "Example Ansible Configuration File (~/projects/ansible.cfg)"
     ```apache
