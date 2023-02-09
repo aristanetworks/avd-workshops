@@ -177,6 +177,21 @@ Before proceeding further, make sure you are logged into your active GitHub acco
 
 If you do not have a GitHub account, you can create one **[here](https://github.com/join)**.
 
+### Create a GitHub Personal Access Token
+
+To push or copy your local repository to GitHUb you will need a Personal Access Token. From your **GitHub** account, click through the following path to generate a new personal access token.  **Profile --> Settings --> Developer Settings --> Personal Access Tokens --> Tokens (classic) --> Generate new token (classic)**
+
+- Give the token a meaningful name by setting Note: `MyNewToken`
+- Set the Expiration: 30 days (default)
+
+Select the scopes you'd like to grant this token. To use your token to access repositories from the command line, select `repo`. A token with no assigned scopes can only access public information.
+
+The click `Generate token` at the bottom of the page.  **Copy and save the token in a secure place. YOU WILL NOT BE ABLE TO SEE THE TOKEN AGAIN**.
+
+![Git Token Scopes](assets/images/git_token_scopes.png){: style="width:500px"}
+
+Detailed instructions can be found [here](https://docs.github.com/en/enterprise-server@3.4/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token).
+
 ### Fork a Repository
 
 A fork is a copy of a repository that you manage. Forks let you make changes to a project without affecting the original repository. You can fetch updates from or submit changes to the original repository with a pull request.
@@ -214,7 +229,7 @@ Now change into the new cloned directory.
 cd avd-workshop
 ```
 
-Verifyy where the remote copy of this clones lives.
+Verify where the remote copy of this clones lives.
 
 ``` bash
 git remote -v
