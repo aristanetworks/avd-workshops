@@ -23,7 +23,7 @@ jobs:
           # https://docs.github.com/en/actions/security-guides/automatic-token-authentication#about-the-github_token-secret
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         with:
-          files: workshops/
+          files: workshops
           reporter: github-check
 
   test_build:
