@@ -96,18 +96,28 @@ In the previous Git section we ran all commands from the command-line. Now we wi
 
 ## The Basics
 
-### Initialize Repo
+### Initialize Repository
 
-There's multiple ways to initialize a repo from VS Code. Using the previously mentioned Command Palette or through the use of the Source Control View, if the currently open folder is not a git repo. Using the Command Palette to intitialze a repo, it will ask which folder to init into, default choose is the current directory.
+There's multiple ways to initialize a repository from VS Code. Using the previously mentioned Command Palette or through the use of the Source Control View, if the currently open folder is not a git repository. Using the Command Palette to intitialze a repository, it will ask which folder to init into, default choose is the current directory.
 
 ### Create/Modify Files
 
+If you are following after doing the git section we can just edit the file we made there. If not, to create a file right click in the Explorer or click on the new file icon that shows up when hovering over the root folder of the project
+
+![New File](assets/images/vscode_new_file.png){: style="width:300px"}
+
 ### Stage Changes
 
+Now that changes has been made or a new file has been added, Heading over to Source Control will show the untracked and non-commited changes and files, just like the ```git status``` command used in the git section. Hovering over the file will reveal a couple buttons, One being a plus icon. Clicking on the plus icon will stage the changes. If theres a lot of changes and want to stage all then you click on the plus that shows up when hovering over the area that says ```Changes```.
+
+![Source Control](assets/images/vscode_source_control.png){: style="width:300px"}
+
+!!! Note
+    You may notice that the screenshot shows a "U" next to the file, while yours might show a "M". "U" just means Untracked, and the "M" means Modified. Theres a couple others that you might see aswell.
 
 ### Commit Changes
 
-- Add message
+All that needs to happen now is to fill out the commit message and hit the commit button. If you happen to forget to fill out the message, no worries, hitting the commit button will open a new tab in the Editor that will ask you to enter a commit message. When done making a message click the check mark to the top right of the Editor window. Now the changes has been commited to the local repository.
 
 ## Next Steps
 - Clone Repo
