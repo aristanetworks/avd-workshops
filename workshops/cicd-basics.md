@@ -72,10 +72,17 @@ You will need to set one secret in your newly forked GitHub repository.
    ![Add secret](assets/images/add-secret.png)
 
 5. Enter the secret as follows
-    - Name: PASS
-    - Secret: Listed in ATD lab topology
+
+   - Name: PASS
+   - Secret: Listed in ATD lab topology
+
     ![Lab credentials](assets/images/lab-creds.png)
     ![Settings PASS](assets/images/add-secret-pass.png)
+
+6. Click `Add secret`
+
+!!! note
+    Our workflow uses this secret to authenticate with our CVP instance.
 
 ## Clone forked repository to ATD IDE
 
@@ -97,6 +104,9 @@ This repository relies on one environment variable to be set, our login credenti
 ```shell
 export PASS=<some password in local ATD>
 ```
+
+!!! note
+    The value of `PASS` is the same secret used earlier. For example, `export PASS=arista1234`.
 
 ## Create new branch
 
@@ -167,7 +177,7 @@ Once complete, the remaining containers will be Tenant, Undefined, and STAGING.
 
 GitHub actions allow us to automate almost every element of our repository. We can use them to check syntax, linting, unit testing, etc. In our case, we want to use GitHub actions to test new changes to our infrastructure and then deploy those changes. In this example, we simulate that Network Admins cannot manually change the nodes. Admins must execute changes from the pipeline.
 
-In this repository, we have two workflows located in our `.github/workflows` directory. Both workflows are identical but differ slightly in whether changes will be deployed in our development or production environment. Below is an example of the development workflow. In your IDE, ***uncomment*** both workflows. A shortcut is to highlight the workflow and type `CTRL + /`.
+In this repository, we have two workflow files located in our `.github/workflows` directory. Both workflows are identical but differ slightly in whether changes will be deployed in our development or production environment. Below is an example of the development workflow. In your IDE, ***uncomment*** both workflows. A shortcut is to highlight the workflow and type `CTRL + /`.
 
 ```yaml
 name: Test the dev network
@@ -209,7 +219,7 @@ This workflow is relatively short but represents some interesting options. For s
 
 ### The steps
 
-The initial `checkout` step makes the repository available to our workflow. We then use Docker Compose to stand up two containers. One to run the Batfish service and a small container with all pre-installed requirements. If we did not have the second container available, we would have to run through the exact steps you ran to prepare your environment in this workflow. The second container allows us to speed up our workflow. Below is an example of the `docker-compose.yml` file.
+The initial `checkout` step makes the repository available to our workflow. We then use Docker Compose to stand up two containers. One to run the Batfish service and a small container with all pre-installed requirements. The second container interacts with the running Batfish service and our CVP instance. If we did not have the second container available, we would have to run through the exact steps you ran to prepare your environment in this workflow. The second container allows us to speed up our workflow. Below is an example of the `docker-compose.yml` file.
 
 ```yaml
 version: '3.3'
@@ -228,9 +238,10 @@ services:
       volumes:
           - '.:/app'
       image: juliopdx/atd-cicd
-      env_file: ${net}-env
       environment:
         - PASS=$PASS
+        - net=$net
+
 ```
 
 ### A note on Batfish
@@ -239,7 +250,7 @@ In case you need to become more familiar with Batfish. It's an open-source tool 
 
 ![Batfish example](assets/diagrams/batfish.svg)
 
-In the Docker Compose file mentioned earlier, we use this Batfish service in our workflow. We then use `pybatfish` as our connector into this service to run any checks or ask the service questions about the network. Once these checks pass, we configure the infrastructure using the `eos_config_deploy_cvp` role within the AVD collection.
+In the Docker Compose file mentioned earlier, we use this Batfish service in our workflow. We then use the `pybatfish` Python package as our connector into this service to run any checks or ask the service questions about the network. Once these checks pass, we configure the infrastructure using the `eos_config_deploy_cvp` role within the AVD collection.
 
 ## Migrate from OSPF to BGP underlay
 
@@ -254,8 +265,18 @@ Perform the same for the `atd-inventory/prod/group_vars/ATD_FABRIC_PROD.yml` fil
 At this point, we can build the intended configurations for both environments. The first command defaults to the `dev` inventory, and the second has to be specified on the command line.
 
 ```shell
+# Dev
 ansible-playbook playbooks/atd-fabric-build.yml
+# Prod
 ansible-playbook playbooks/atd-fabric-build.yml -i atd-inventory/prod/hosts.yml
+```
+
+!!! note
+    You don't have to specify the inventory when interacting with the development environment because this is the default inventory in our `ansible.cfg file.
+
+```apache
+[defaults]
+inventory =./atd-inventory/dev/hosts.yml
 ```
 
 Feel free to check out the changes made to your local files. Please make sure the GitHub workflows are uncommented. We can now push all of our changes and submit a pull request.
