@@ -11,19 +11,19 @@ jobs:
     - uses: actions/setup-python@v3
     - uses: pre-commit/action@v3.0.0
 
-  # vale:
-  #   name: runner / vale
-  #   needs: pre_commit
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - uses: errata-ai/vale-action@reviewdog
-  #       env:
+  vale:
+    name: runner / vale
+    needs: pre_commit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: errata-ai/vale-action@reviewdog
+        env:
           # Required, set by GitHub actions automatically:
           # https://docs.github.com/en/actions/security-guides/automatic-token-authentication#about-the-github_token-secret
-        #   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-        # with:
-        #   files: workshops/
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        with:
+          files: workshops/
 
   test_build:
     name: Build site with no warnings
