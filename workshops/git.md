@@ -1,29 +1,11 @@
-# Welcome to Git
+# Getting Started with Git
 
 ![Git Logo Dark](assets/images/git_logo_darkbg.png#only-dark){: style="width:200px"}
 ![Git Logo Light](assets/images/git_logo_lightbg.png#only-light){: style="width:200px"}
 
-In this section we will explore a brief introduction of Git. We will cover the installation and explore basic commands used with Git.
+## Introduction
 
-## Topics
-
-- Introduction to Git
-  - What is Git and why should I use it?
-- Installation & Setup
-- The Basics of Git
-  - My First Git Commands - Init and Status
-  - Stage Changes
-  - Commit Changes
-- Intermediate Concepts
-  - Fork a Repository
-  - Clone a Repository
-  - Creating a Branch
-  - Push/Pull Changes
-  - Pull Request
-
-## Introduction to Git
-
-Git is the most commonly used version control system. Git tracks changes to files, so you have a record of what has changed, and you can revert to specific versions. Changes to files are tracked by storing snapshots of the files over time. In the example below we have files A, B, and C. Over time the content of those files change. You are able to roll back to any previous commit or snapshot.
+In this section we will explore a brief introduction of Git. We will cover the installation and explore basic commands used with Git. Git is the most commonly used version control system. Git tracks changes to files, so you have a record of what has changed, and you can revert to specific versions. Changes to files are tracked by storing snapshots of the files over time. In the example below we have files A, B, and C. Over time the content of those files change. You are able to roll back to any previous commit or snapshot.
 
 ![Git Snapshots](assets/images/git_snapshots.png){: style="width:800px"}
 
