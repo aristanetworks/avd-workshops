@@ -120,11 +120,22 @@ Now that changes has been made or a new file has been added, Heading over to Sou
 All that needs to happen now is to fill out the commit message and hit the commit button. If you happen to forget to fill out the message, no worries, hitting the commit button will open a new tab in the Editor that will ask you to enter a commit message. When done making a message click the check mark to the top right of the Editor window. Now the changes has been commited to the local repository.
 
 ## Next Steps
-- Clone Repo
-- Create a Branch
-- Commit Changes
-- Push Branch to GitHub
-- Create Pull Request
-- Merge Changes to Main branch
+
+### Clone Repository
+
+Simply just open the Command Palette and search for git clone, Once open you can enter the url of the repository that you wish to clone.
+
+### Create a Branch
+
+The bottom left of the VS Code window shows what branch is currently selected. Clicking on it lets opens a menu that allows the creation of new branches or selecting other branches. Creation of a branch is also possible with the Command Palette.
+
+### Push Branch to GitHub
+
+When working on a local branch that's not on GitHub it'll need to be published. It's as simple as going to the Source Control and the "Commit" button will now be "Publish Branch" as long as theres no un-commited changes.
 
 ## Dev Containers
+
+Dev Containers is an extension that allows you to use containers as a development environment. In the Command Palette, the option "Dev Containers: Create Dev Container..." should show up after the extension is installed. If a ".devcontainer" folder is already present in the root directory of the project, then you can choose the "Dev Containers: Reopen in Container" option. Dev Containers make managing a dev environnment much easier as you can include it into your git repository and when others go to make changes they will have the same environment, given that they use the dev container. No need to deal with different versions or missing software.
+
+!!! Note
+    Docker must be installed for Dev Containers to work.
