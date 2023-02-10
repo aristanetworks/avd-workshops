@@ -8,6 +8,8 @@ This section will cover both Jinja and YAML, which are two interdependent pieces
 
 ## What is YAML?
 
+YAML is something cool that some developer who thought he was funny gave a dumb name to.
+
 <table>
 <tr>
 <th>XML</th>
