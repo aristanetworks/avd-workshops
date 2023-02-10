@@ -8,8 +8,6 @@ This section will cover both Jinja and YAML, which are two interdependent pieces
 
 ## What is YAML?
 
-
-
 <table>
 <tr>
 <th>XML</th>
@@ -18,7 +16,7 @@ This section will cover both Jinja and YAML, which are two interdependent pieces
 </tr>
 <tr>
 <td>
-  
+
 ```xml
 <ntp>
   <local_interface>
@@ -36,7 +34,7 @@ This section will cover both Jinja and YAML, which are two interdependent pieces
   </servers>
 </ntp>
 ```
-  
+
 </td>
 <td>
 
