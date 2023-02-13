@@ -71,9 +71,9 @@ bash -c "$(curl http://www.packetanglers.com/get-sample-files.sh)"
 cd /home/coder/project/labfiles/samplefiles
 ```
 
-## Basic commands
+## Git
 
-### Git - init and status
+### Git - command line basics
 
 #### Initialize directory as a Git repository
 
@@ -182,7 +182,7 @@ On branch main
 nothing to commit, working tree clean
 ```
 
-You have successfuly made your first entry in history of your repo.  Check the log to see what is there.
+You have successfuly made your first historical marker in your repo.  Check the log to see what is there.
 
 ``` bash
 git log
@@ -195,7 +195,7 @@ git log
 
 Let's talk branches now....
 
-## Intermediate commands
+## GitHub
 
 Before proceeding further, make sure you are logged into your active GitHub account.
 
