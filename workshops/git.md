@@ -83,6 +83,8 @@ Next we initialize the current directory `/home/coder/project/labfiles/samplefil
 git init
 ```
 
+Notice your cli prompt changed.
+
 The directory is now initialized as a Git repository and the following hidden sub-directory `/home/coder/project/labfiles/samplefiles/.git/` was created. It holds version control information for your repository.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **Congratulations!!!** You have created your first repository.
