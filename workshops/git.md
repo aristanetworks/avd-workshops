@@ -11,6 +11,19 @@ In this section we will explore a brief introduction of Git. We will cover the i
 
 Git makes collaboration easy by allowing multiple people to merge their changes into one source. Regardless of whether you work solo or as part of a team, Git will be useful for you.
 
+Here is a summary of the basic commands will be working with:
+
+- git config
+- git status
+- git init
+- git add
+- git commit
+- git log
+- git branch
+- git switch
+- git diff
+- git restore
+
 ## Installation & setup
 
 ### Installation
@@ -49,29 +62,30 @@ Verify your configuration:
 git config --global --list
 ```
 
+### Download Sample Files
+
+We have provided some sample configuration files to begin working with Git. From the Programmability IDE, run the following 2 commands to download sample files and change your working directory.
+
+``` bash
+bash -c "$(curl http://www.packetanglers.com/get-sample-files.sh)"
+cd /home/coder/project/labfiles/samplefiles
+```
+
 ## Basic commands
 
 ### Git - init and status
 
 #### Initialize directory as a Git repository
 
-Create a directory called `/home/coder/project/labfiles/project1/` and initialize it as a repository (repo).
-
-???+ note
-    In the ATD Lab environment you only have permissions to create files and directories under `/home/coder/project/labfiles/`.
+Next we initialize the current directory `/home/coder/project/labfiles/samplefiles/` as a repository (repo).
 
 ``` bash
-# From a Linux terminal
-mkdir /home/coder/project/labfiles/project1/
-
-# Change to the new directory
-cd /home/coder/project/labfiles/project1/
-
-# Initialize
 git init
 ```
 
-The directory is now initialized as a Git repository and the following hidden sub-directory `/home/coder/project/labfiles/project1/.git/` was created. It holds version control information for your repository.
+The directory is now initialized as a Git repository and the following hidden sub-directory `/home/coder/project/labfiles/samplefiles/.git/` was created. It holds version control information for your repository.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **Congratulations!!!** You have created your first repository.
 
 #### Git Repository Status
 
@@ -81,35 +95,28 @@ Check the current status of your repo.
 git status
 ```
 
-Since this is a brand new repo you should see the following output.
+Since this is a brand new repo you should see output similar to the following, indicating there are Untracked files.
 
-``` text
-On branch main
-
-No commits yet
-
-nothing to commit (create/copy files and use "git add" to track)
-```
-
-Once you add, delete, or modify any files, you will see similar output below. Here we are creating an empty file `newfile.txt` with the Linux `touch` command.  Now Git will show there are Untracked files.
-
-``` text
-➜  project1 git:(main) touch newfile.txt
-➜  project1 git:(main) ✗ git status
+``` bash
 On branch main
 
 No commits yet
 
 Untracked files:
   (use "git add <file>..." to include in what will be committed)
-        newfile.txt
+        leaf1.cfg
+        leaf2.cfg
+        leaf3.cfg
+        leaf4.cfg
+        spine1.cfg
+        spine2.cfg
 
 nothing added to commit but untracked files present (use "git add" to track)
 ```
 
 ### Stage your changes
 
-When you are ready to commit your changes, you need to stage the files. The above output gives you a clue as to the command needed to stage the changes. You can specify individual files or add all files with a wildcard period `.`
+When you want to track files, you first need to stage them. The above output gives you a clue as to the command needed to stage the changes. You can specify individual files or add all files with a wildcard period `.`
 
 To stage all file changes:
 
@@ -125,17 +132,22 @@ git status
 
 Output:
 
-``` text
+``` bash
 On branch main
 
 No commits yet
 
 Changes to be committed:
   (use "git rm --cached <file>..." to unstage)
-        new file:   newfile.txt
+        new file:   leaf1.cfg
+        new file:   leaf2.cfg
+        new file:   leaf3.cfg
+        new file:   leaf4.cfg
+        new file:   spine1.cfg
+        new file:   spine2.cfg
 ```
 
-Now we have a new file staged and ready to be committed to the `main` branch.
+Now all of the files are staged and ready to be committed to the `main` branch.
 
 ### Commit your changes
 
@@ -145,18 +157,43 @@ Now you can commit your staged changes with a comment:
     Use a comment that will reflect the changes made so you can reference back to this commit in the future. Commit messages will show up in the log.
 
 ``` bash
-git commit -m "First Commit"
+git commit -m "Initial Commit"
 ```
 
 Output:
 
-``` text
-[main (root-commit) 22e4d69] First Commit
- 1 file changed, 0 insertions(+), 0 deletions(-)
- create mode 100644 newfile.txt
+``` bash
+[main (root-commit) 45eeb6d] Initial Commit
+ 6 files changed, 832 insertions(+)
+ create mode 100644 leaf1.cfg
+ create mode 100644 leaf2.cfg
+ create mode 100644 leaf3.cfg
+ create mode 100644 leaf4.cfg
+ create mode 100644 spine1.cfg
+ create mode 100644 spine2.cfg
 ```
 
 Now these files are committed to your local repository.
+
+Check status one more time.
+
+``` bash
+On branch main
+nothing to commit, working tree clean
+```
+
+You have successfuly made your first entry in history of your repo.  Check the log to see what is there.
+
+``` bash
+git log
+```
+
+???+ note
+    Press `q` to quit from viewing the log.
+
+-----> PAUSE RIGHT HERE <-----
+
+Let's talk branches now....
 
 ## Intermediate commands
 
