@@ -1,6 +1,6 @@
 # Welcome to AVD Workshops
 
-![Tools Bar](workshops/assets/images/tools_bar_dark.png)
+![Tools Bar](workshops/assets/images/tools_bar_light.png)
 
 The AVD Workshops are intended for engineers looking to learn the fundamentals of automation tools and get hands-on experience deploying network-wide configurations with Arista Validated Designs (AVD). The workshops are split into two in-person sessions allowing time to grasp the basic automation concepts before moving into building Data Models to deploy AVD. The content on this site is an overview of the concepts we will cover in person with full details and examples.
 
