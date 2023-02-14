@@ -193,9 +193,58 @@ git log
 ???+ note
     Press `q` to quit from viewing the log.
 
------> PAUSE RIGHT HERE <-----
+### Create a branch
 
-Let's talk branches now....
+Creating a branch allows you to make a new copy of your files without affecting the files in the `main` branch. For example, if you wanted to update the hostnames on your switches, you might create a new branch called, `update-hostnames`.
+
+![Branch](assets/images/git_branch.png){: style="width:500px"}
+
+Verify the current branch:
+
+``` bash
+git branch
+```
+
+Create a new branch:
+
+``` bash
+git branch update-hostnames
+```
+
+Switch to this new branch:
+
+``` bash
+git switch update-hostnames
+```
+
+Using the IDE, open each switch config file and update the hostname.  Changes are auto-saved. Then stage and commit the changes to the new branch `update-hostnames`.
+
+``` bash
+git add .
+git commit -m "updated hostname on each switch"
+```
+
+### Merge branch
+
+Now that we are satisfied with our hostnames changes we can merge branch `update-hostnames` into `main`.
+
+First, switch back to the `main` branch and notice the hostnames go back to the original name.
+
+``` bash
+git switch main
+```
+
+Execute the merge operation:
+
+``` bash
+git merge update-hostnames
+```
+
+Now that your changes are merged, you can delete the `update-hostnames` branch.
+
+``` bash
+git branch -d update-hostnames
+```
 
 ## GitHub
 
@@ -265,34 +314,6 @@ Verify where the remote copy of this clones lives.
 git remote -v
 ```
 
-### Creating a Branch
-
-A branch in Git is pointer to one of your commits. The default branch name in Git is `main`. As you make commits, the pointer moves to the latest commit on the current branch. Every time you commit, the branch pointer moves forward automatically.
-
-Git branches are used to develop new features, without affecting the `main` branch. For example, if you wanted to play around with a new feature for your project, you might create a new branch called, `new-feature`.
-
-![Branch](assets/images/git_branch.png)
-
-Verify current branch by typing:
-
-``` bash
-git branch
-```
-
-Create a new branch from the current branch pointer, type:
-
-``` bash
-git branch new-feature
-```
-
-Switch to this new branch, type:
-
-``` bash
-git switch new-feature
-```
-
-Now you can modify existing files and commit the changes to this new branch.
-
 ### Push/Pull Changes to GitHub
 
 Once you modify the files in your new branch, you can stage & commit the changes and push them to the remote fork on GitHub.
@@ -305,7 +326,7 @@ git add .
 git commit -m "updated content with new feature"
 
 # push new branch to remote repo on GitHub
-git push --set-upstream origin new-feature
+git push --set-upstream origin update-hostnames
 ```
 
 Output:
@@ -319,19 +340,19 @@ Writing objects: 100% (4/4), 348 bytes | 348.00 KiB/s, done.
 Total 4 (delta 2), reused 1 (delta 0), pack-reused 0
 remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
 remote:
-remote: Create a pull request for 'new-feature' on GitHub by visiting:
-remote:      https://github.com/mthiel117/workshops/pull/new/new-feature
+remote: Create a pull request for 'update-hostnames' on GitHub by visiting:
+remote:      https://github.com/mthiel117/workshops/pull/new/update-hostnames
 remote:
 To https://github.com/mthiel117/workshops.git
- * [new branch]      new-feature -> new-feature
-Branch 'new-feature' set up to track remote branch 'new-feature' from 'origin'.
+ * [new branch]      update-hostnames -> update-hostnames
+Branch 'update-hostnames' set up to track remote branch 'update-hostnames' from 'origin'.
 ```
 
-You should now see the new branch `new-feature` and commit messages in GitHub.
+You should now see the new branch `update-hostnames` and commit messages in GitHub.
 
 ![Git Commit](assets/images/git_commit.png){: style="width:800px"}
 
-The next step is to merge the `new-feature` branch into the `main` branch.  A Pull Request is used to do this.
+The next step is to merge the `update-hostnames` branch into the `main` branch.  A Pull Request is used to do this.
 
 ### Pull request
 
