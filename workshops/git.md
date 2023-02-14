@@ -250,12 +250,15 @@ git branch -d update-hostnames
 
 ## GitHub
 
+![GitHub Logo Dark](assets/images/github_logo_dark.png#only-dark){: style="width:100px"}
+![GitHub Logo Light](assets/images/github_logo_light.png#only-light){: style="width:100px"}
+
 Before proceeding further, make sure you are logged into your active GitHub account.
 
 If you do not have a GitHub account, you can create one **[here](https://github.com/join)**.
 
 ???+ note
-    In the ATD Lab, you will authenticate to GitHub using an 8 digit access code.  On other systems you will need a Personal Access Token. You may skip the next step if you are working in the ATD Lab IDE.
+    In the ATD Lab, you will authenticate to GitHub using an 8 digit access code.  On other systems you will need a Personal Access Token. You may skip the next step if you are working in the ATD Lab IDE. Detailed instructions for creating a Personal Access Token can be found [here](https://docs.github.com/en/enterprise-server@3.4/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token).
 
 ### Create a GitHub personal access token
 
@@ -269,9 +272,6 @@ Select the scopes to grant to this token. To use your token to access repositori
 The click `Generate token` at the bottom of the page.  **Copy and save the token in a secure place. YOU WILL NOT BE ABLE TO SEE THE TOKEN AGAIN**.
 
 ![Git Token Scopes](assets/images/git_token_scopes.png){: style="width:500px"}
-
-???+ note
-    Detailed instructions for creating a Personal Access Token can be found [here](https://docs.github.com/en/enterprise-server@3.4/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token).
 
 ### Fork a repository
 
