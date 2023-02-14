@@ -84,7 +84,7 @@ If a file has unsaved changes, the close button on the tab will be a cirle/dot i
 
 ### Command Palette
 
-The Command Palette lets you access many different commands. To open it go to ```View > Command Palette ``` or hit ```Cmd/Ctrl + Shift + P```. There's a lot of powerful commands and its worth playing around with, if you would like to read more go [here](https://code.visualstudio.com/docs/getstarted/userinterface#_command-palette). An example that will come up later is the ability to run git commands like git clone.
+The Command Palette lets you access many different commands. To open it go to ```View > Command Palette``` or hit ```Cmd/Ctrl + Shift + P```. There's a lot of powerful commands and its worth playing around with, if you would like to read more go [here](https://code.visualstudio.com/docs/getstarted/userinterface#_command-palette). An example that will come up later is the ability to run git commands like git clone.
 
 ### Start a Terminal
 
