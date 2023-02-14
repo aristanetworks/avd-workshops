@@ -11,7 +11,7 @@ In this section we will explore a brief introduction of Git. We will cover the i
 
 Git makes collaboration easy by allowing multiple people to merge their changes into one source. Regardless of whether you work solo or as part of a team, Git will be useful for you.
 
-Here is a summary of the basic commands will be working with:
+Basic Git commands we will be working with:
 
 - git config
 - git status
@@ -20,6 +20,8 @@ Here is a summary of the basic commands will be working with:
 - git commit
 - git log
 - git branch
+- git clone
+- git merge
 - git switch
 - git diff
 - git restore
@@ -293,14 +295,16 @@ Next up... Clone this forked repository to your local host machine.
 
 ### Clone forked repo to local host
 
-Cloning a repository allows us to make a local copy of a project that resides on GitHub. In the previous step, you forked a repo to your local GitHub account. Navigate to the forked repository in GitHub. From there, click on the green code button to get the URL of the forked repository.
+Cloning a repository allows us to make a local copy of a project that resides on GitHub. In the previous step, you forked a repo to your local GitHub account. Navigate to your forked repository in GitHub. From there, click on the green code button and copy the URL of the forked repository.
 
 ![Git Clone](assets/images/git_clone.png){: style="width:400px"}
 
 Clone this repository into the current directory of your local machine. In the ATD Lab your current directory needs to be `/home/coder/project/labfiles/`.
 
 ``` bash
-# replace with the URL from your forked repo
+cd /home/coder/project/labfiles
+
+# replace this URL with your forked repo
 git clone https://github.com/xxxxxxx/workshops.git
 ```
 
