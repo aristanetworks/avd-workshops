@@ -95,7 +95,12 @@ You will need to set one secret in your newly forked GitHub repository.
     cd labfiles
     git clone <your copied URL>
     cd atd-cicd
+    git config --global user.name "FirstName LastName"
+    git config --global user.email "name@example.com"
     ```
+
+!!! note
+    If the Git `user.name` and `user.email` are set, they may be skipped. You can check this by running the `git config --list` command.
 
 ## Environment variables
 
@@ -161,18 +166,6 @@ git push --set-upstream origin new-dc
 !!! note
     You will get a notification to sign in to GitHub. Follow these prompts.
 
-## Stage the environment
-
-The dual DC topology comes pre-defined with a fair amount of nodes. In reality, we only need so many nodes for this lesson. We will leverage one spine and two leaf nodes from each DC to act as our development and production instances.
-
-The `atd-prepare-lab.yml` playbook can take around 8-9 minutes. So feel free to run it now. The playbook will move all nodes to a staging container and clean up our topology.
-
-```shell
-ansible-playbook playbooks/atd-prepare-lab.yml
-```
-
-Once complete, the remaining containers will be Tenant, Undefined, and STAGING.
-
 ## Enable GitHub actions workflows
 
 GitHub actions allow us to automate almost every element of our repository. We can use them to check syntax, linting, unit testing, etc. In our case, we want to use GitHub actions to test new changes to our infrastructure and then deploy those changes. In this example, we simulate that Network Admins cannot manually change the nodes. Admins must execute changes from the pipeline.
@@ -201,6 +194,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: yaml-lint
+        uses: ibiqlik/action-yamllint@v3
+        with:
+          file_or_dir: atd-inventory/dev/group_vars/ atd-inventory/dev/host_vars/
+          config_file: .yamllint.yml
+
       - name: Start containers
         run: docker-compose -f "docker-compose.yml" up -d --build
 
@@ -222,26 +221,26 @@ This workflow is relatively short but represents some interesting options. For s
 The initial `checkout` step makes the repository available to our workflow. We then use Docker Compose to stand up two containers. One to run the Batfish service and a small container with all pre-installed requirements. The second container interacts with the running Batfish service and our CVP instance. If we did not have the second container available, we would have to run through the exact steps you ran to prepare your environment in this workflow. The second container allows us to speed up our workflow. Below is an example of the `docker-compose.yml` file.
 
 ```yaml
+---
 version: '3.3'
 services:
   batfish:
-      container_name: batfish
-      volumes:
-          - '.:/data'
-      ports:
-          - '9997:9997'
-          - '9996:9996'
-      image: batfish/batfish
+    container_name: batfish
+    volumes:
+      - '.:/data'
+    ports:
+      - '9997:9997'
+      - '9996:9996'
+    image: batfish/batfish
 
   atd-cicd:
-      container_name: atd-cicd
-      volumes:
-          - '.:/app'
-      image: juliopdx/atd-cicd
-      environment:
-        - PASS=$PASS
-        - net=$net
-
+    container_name: atd-cicd
+    volumes:
+      - '.:/app'
+    image: juliopdx/atd-cicd
+    environment:
+      - PASS=$PASS
+      - net=$net
 ```
 
 ### A note on Batfish
