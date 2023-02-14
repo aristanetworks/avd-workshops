@@ -228,7 +228,7 @@ git commit -m "updated hostname on each switch"
 
 Now that we are satisfied with our hostnames changes we can merge branch `update-hostnames` into `main`.
 
-First, switch back to the `main` branch and notice the hostnames go back to the original name.
+First, switch back to the `main` branch and notice the hostnames go back to the original name. Why did that happen?  Remember we never modifed the original copy `main` branch.  This is a different version of the file. Once we merge the `update-hostnames` branch into `main`, then both copies will be the same.
 
 ``` bash
 git switch main
@@ -240,7 +240,9 @@ Execute the merge operation:
 git merge update-hostnames
 ```
 
-Now that your changes are merged, you can delete the `update-hostnames` branch.
+Verify the updated hostnames in each file.
+
+Now that your changes are merged, you can safely delete the `update-hostnames` branch.
 
 ``` bash
 git branch -d update-hostnames
