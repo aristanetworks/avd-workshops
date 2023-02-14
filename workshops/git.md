@@ -11,6 +11,21 @@ In this section we will explore a brief introduction of Git. We will cover the i
 
 Git makes collaboration easy by allowing multiple people to merge their changes into one source. Regardless of whether you work solo or as part of a team, Git will be useful for you.
 
+Basic Git commands we will be working with:
+
+- git config
+- git status
+- git init
+- git add
+- git commit
+- git log
+- git branch
+- git clone
+- git merge
+- git switch
+- git diff
+- git restore
+
 ## Installation & setup
 
 ### Installation
@@ -49,29 +64,32 @@ Verify your configuration:
 git config --global --list
 ```
 
-## Basic commands
+### Download Sample Files
 
-### Git - init and status
+We have provided some sample configuration files to begin working with Git. From the Programmability IDE, run the following 2 commands to download sample files and change your working directory.
+
+``` bash
+bash -c "$(curl http://www.packetanglers.com/get-sample-files.sh)"
+cd /home/coder/project/labfiles/samplefiles
+```
+
+## Git
+
+### Git - command line basics
 
 #### Initialize directory as a Git repository
 
-Create a directory called `/home/coder/project/labfiles/project1/` and initialize it as a repository (repo).
-
-???+ note
-    In the ATD Lab environment you only have permissions to create files and directories under `/home/coder/project/labfiles/`.
+Next we initialize the current directory `/home/coder/project/labfiles/samplefiles/` as a repository (repo).
 
 ``` bash
-# From a Linux terminal
-mkdir /home/coder/project/labfiles/project1/
-
-# Change to the new directory
-cd /home/coder/project/labfiles/project1/
-
-# Initialize
 git init
 ```
 
-The directory is now initialized as a Git repository and the following hidden sub-directory `/home/coder/project/labfiles/project1/.git/` was created. It holds version control information for your repository.
+Notice your cli prompt changed.
+
+The directory is now initialized as a Git repository and the following hidden sub-directory `/home/coder/project/labfiles/samplefiles/.git/` was created. It holds version control information for your repository.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **Congratulations!!!** You have created your first repository.
 
 #### Git Repository Status
 
@@ -81,35 +99,28 @@ Check the current status of your repo.
 git status
 ```
 
-Since this is a brand new repo you should see the following output.
+Since this is a brand new repo you should see output similar to the following, indicating there are Untracked files.
 
-``` text
-On branch main
-
-No commits yet
-
-nothing to commit (create/copy files and use "git add" to track)
-```
-
-Once you add, delete, or modify any files, you will see similar output below. Here we are creating an empty file `newfile.txt` with the Linux `touch` command.  Now Git will show there are Untracked files.
-
-``` text
-➜  project1 git:(main) touch newfile.txt
-➜  project1 git:(main) ✗ git status
+``` bash
 On branch main
 
 No commits yet
 
 Untracked files:
   (use "git add <file>..." to include in what will be committed)
-        newfile.txt
+        leaf1.cfg
+        leaf2.cfg
+        leaf3.cfg
+        leaf4.cfg
+        spine1.cfg
+        spine2.cfg
 
 nothing added to commit but untracked files present (use "git add" to track)
 ```
 
 ### Stage your changes
 
-When you are ready to commit your changes, you need to stage the files. The above output gives you a clue as to the command needed to stage the changes. You can specify individual files or add all files with a wildcard period `.`
+When you want to track files, you first need to stage them. The above output gives you a clue as to the command needed to stage the changes. You can specify individual files or add all files with a wildcard period `.`
 
 To stage all file changes:
 
@@ -125,17 +136,22 @@ git status
 
 Output:
 
-``` text
+``` bash
 On branch main
 
 No commits yet
 
 Changes to be committed:
   (use "git rm --cached <file>..." to unstage)
-        new file:   newfile.txt
+        new file:   leaf1.cfg
+        new file:   leaf2.cfg
+        new file:   leaf3.cfg
+        new file:   leaf4.cfg
+        new file:   spine1.cfg
+        new file:   spine2.cfg
 ```
 
-Now we have a new file staged and ready to be committed to the `main` branch.
+Now all of the files are staged and ready to be committed to the `main` branch.
 
 ### Commit your changes
 
@@ -145,27 +161,106 @@ Now you can commit your staged changes with a comment:
     Use a comment that will reflect the changes made so you can reference back to this commit in the future. Commit messages will show up in the log.
 
 ``` bash
-git commit -m "First Commit"
+git commit -m "Initial Commit"
 ```
 
 Output:
 
-``` text
-[main (root-commit) 22e4d69] First Commit
- 1 file changed, 0 insertions(+), 0 deletions(-)
- create mode 100644 newfile.txt
+``` bash
+[main (root-commit) 45eeb6d] Initial Commit
+ 6 files changed, 832 insertions(+)
+ create mode 100644 leaf1.cfg
+ create mode 100644 leaf2.cfg
+ create mode 100644 leaf3.cfg
+ create mode 100644 leaf4.cfg
+ create mode 100644 spine1.cfg
+ create mode 100644 spine2.cfg
 ```
 
 Now these files are committed to your local repository.
 
-## Intermediate commands
+Check status one more time.
+
+``` bash
+On branch main
+nothing to commit, working tree clean
+```
+
+You have successfuly made your first historical marker in your repo.  Check the log to see what is there.
+
+``` bash
+git log
+```
+
+???+ note
+    Press `q` to quit from viewing the log.
+
+### Create a branch
+
+Creating a branch allows you to make a new copy of your files without affecting the files in the `main` branch. For example, if you wanted to update the hostnames on your switches, you might create a new branch called, `update-hostnames`.
+
+![Branch](assets/images/git_branch.png){: style="width:500px"}
+
+Verify the current branch:
+
+``` bash
+git branch
+```
+
+Create a new branch:
+
+``` bash
+git branch update-hostnames
+```
+
+Switch to this new branch:
+
+``` bash
+git switch update-hostnames
+```
+
+Using the IDE, open each switch config file and update the hostname.  Changes are auto-saved. Then stage and commit the changes to the new branch `update-hostnames`.
+
+``` bash
+git add .
+git commit -m "updated hostname on each switch"
+```
+
+### Merge branch
+
+Now that we are satisfied with our hostnames changes we can merge branch `update-hostnames` into `main`.
+
+First, switch back to the `main` branch and notice the hostnames go back to the original name. Why did that happen?  Remember we never modifed the original copy `main` branch.  This is a different version of the file. Once we merge the `update-hostnames` branch into `main`, then both copies will be the same.
+
+``` bash
+git switch main
+```
+
+Execute the merge operation:
+
+``` bash
+git merge update-hostnames
+```
+
+Verify the updated hostnames in each file.
+
+Now that your changes are merged, you can safely delete the `update-hostnames` branch.
+
+``` bash
+git branch -d update-hostnames
+```
+
+## GitHub
+
+![GitHub Logo Dark](assets/images/github_logo_dark.png#only-dark){: style="width:100px"}
+![GitHub Logo Light](assets/images/github_logo_light.png#only-light){: style="width:100px"}
 
 Before proceeding further, make sure you are logged into your active GitHub account.
 
 If you do not have a GitHub account, you can create one **[here](https://github.com/join)**.
 
 ???+ note
-    In the ATD Lab, you will authenticate to GitHub using an 8 digit access code.  On other systems you will need a Personal Access Token. You may skip the next step if you are working in the ATD Lab IDE.
+    In the ATD Lab, you will authenticate to GitHub using an 8 digit access code.  On other systems you will need a Personal Access Token. You may skip the next step if you are working in the ATD Lab IDE. Detailed instructions for creating a Personal Access Token can be found [here](https://docs.github.com/en/enterprise-server@3.4/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token).
 
 ### Create a GitHub personal access token
 
@@ -179,9 +274,6 @@ Select the scopes to grant to this token. To use your token to access repositori
 The click `Generate token` at the bottom of the page.  **Copy and save the token in a secure place. YOU WILL NOT BE ABLE TO SEE THE TOKEN AGAIN**.
 
 ![Git Token Scopes](assets/images/git_token_scopes.png){: style="width:500px"}
-
-???+ note
-    Detailed instructions for creating a Personal Access Token can be found [here](https://docs.github.com/en/enterprise-server@3.4/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token).
 
 ### Fork a repository
 
@@ -203,14 +295,16 @@ Next up... Clone this forked repository to your local host machine.
 
 ### Clone forked repo to local host
 
-Cloning a repository allows us to make a local copy of a project that resides on GitHub. In the previous step, you forked a repo to your local GitHub account. Navigate to the forked repository in GitHub. From there, click on the green code button to get the URL of the forked repository.
+Cloning a repository allows us to make a local copy of a project that resides on GitHub. In the previous step, you forked a repo to your local GitHub account. Navigate to your forked repository in GitHub. From there, click on the green code button and copy the URL of the forked repository.
 
 ![Git Clone](assets/images/git_clone.png){: style="width:400px"}
 
 Clone this repository into the current directory of your local machine. In the ATD Lab your current directory needs to be `/home/coder/project/labfiles/`.
 
 ``` bash
-# replace with the URL from your forked repo
+cd /home/coder/project/labfiles
+
+# replace this URL with your forked repo
 git clone https://github.com/xxxxxxx/workshops.git
 ```
 
@@ -226,34 +320,6 @@ Verify where the remote copy of this clones lives.
 git remote -v
 ```
 
-### Creating a Branch
-
-A branch in Git is pointer to one of your commits. The default branch name in Git is `main`. As you make commits, the pointer moves to the latest commit on the current branch. Every time you commit, the branch pointer moves forward automatically.
-
-Git branches are used to develop new features, without affecting the `main` branch. For example, if you wanted to play around with a new feature for your project, you might create a new branch called, `new-feature`.
-
-![Branch](assets/images/git_branch.png)
-
-Verify current branch by typing:
-
-``` bash
-git branch
-```
-
-Create a new branch from the current branch pointer, type:
-
-``` bash
-git branch new-feature
-```
-
-Switch to this new branch, type:
-
-``` bash
-git switch new-feature
-```
-
-Now you can modify existing files and commit the changes to this new branch.
-
 ### Push/Pull Changes to GitHub
 
 Once you modify the files in your new branch, you can stage & commit the changes and push them to the remote fork on GitHub.
@@ -266,7 +332,7 @@ git add .
 git commit -m "updated content with new feature"
 
 # push new branch to remote repo on GitHub
-git push --set-upstream origin new-feature
+git push --set-upstream origin update-hostnames
 ```
 
 Output:
@@ -280,19 +346,17 @@ Writing objects: 100% (4/4), 348 bytes | 348.00 KiB/s, done.
 Total 4 (delta 2), reused 1 (delta 0), pack-reused 0
 remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
 remote:
-remote: Create a pull request for 'new-feature' on GitHub by visiting:
-remote:      https://github.com/mthiel117/workshops/pull/new/new-feature
+remote: Create a pull request for 'update-hostnames' on GitHub by visiting:
+remote:      https://github.com/mthiel117/workshops/pull/new/update-hostnames
 remote:
 To https://github.com/mthiel117/workshops.git
- * [new branch]      new-feature -> new-feature
-Branch 'new-feature' set up to track remote branch 'new-feature' from 'origin'.
+ * [new branch]      update-hostnames -> update-hostnames
+Branch 'update-hostnames' set up to track remote branch 'update-hostnames' from 'origin'.
 ```
 
-You should now see the new branch `new-feature` and commit messages in GitHub.
+You should now see the new branch `update-hostnames` and commit messages in GitHub.
 
-![Git Commit](assets/images/git_commit.png){: style="width:800px"}
-
-The next step is to merge the `new-feature` branch into the `main` branch.  A Pull Request is used to do this.
+The next step is to merge the `update-hostnames` branch into the `main` branch.  A Pull Request is used to do this.
 
 ### Pull request
 
@@ -305,9 +369,9 @@ Once all changes have been agreed upon, the maintainer of the original repo will
 1. On GitHub.com, navigate to the main page of the repository.
 2. In the "Branch" menu, choose the branch that contains your commits.
 3. Above the list of files, click the Contribute drop-down and click Open pull request.
-![PR](assets/images/git_pullrequest.png){: style="width:800px"}
+![PR](assets/images/git_pullrequest.png){: style="width:750px"}
 4. Use the base branch dropdown menu to select the branch you'd like to merge your changes into, then use the compare branch drop-down menu to choose the topic branch you made your changes in.
-![PR Info](assets/images/git_pullrequest_info.png){: style="width:800px"}
+![PR Info](assets/images/git_pullrequest_info.png){: style="width:750px"}
 5. Type a title and description for your pull request.
 6. To create a pull request that is ready for review, click Create Pull Request. To create a draft pull request, use the drop-down and select Create Draft Pull Request, then click Draft Pull Request.
 
