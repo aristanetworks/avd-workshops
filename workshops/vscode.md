@@ -8,13 +8,14 @@ Visual Studio Code (VS Code), written by Microsoft, is a lightweight but powerfu
 
 VS Code integrates directly with Git and allows Network Engineers to easily perform the following tasks:
 
-- Update Data Model Files in YAML
+- Edit Files
 - Visually Compare File Diffs
 - Write & Test Scripts
+- Open Terminals for various shells
 - Execute various Git commands (such as: status, init, log, commit, switch, add, etc...)
 - Connect to Remote Hosts
 
-VS Code is the Git Genie that makes your life easy. Once you learn to use VS Code, you will wonder why it took so long to get on the bandwagon.
+VS Code is your personal Git Genie making automation workflows easy. Once you learn to use VS Code, you will wonder why it took so long to get on the bandwagon.
 
 ## System Requirements
 
