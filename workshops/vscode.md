@@ -48,7 +48,6 @@ The four main areas of the VS Code GUI are:
 ![VS Code Screenshot](assets/images/vscode_screenshot.png){: style="width:1000px"}
 
 ???+ note
-
     You `Activity Bar` may have different icons for the extensions you have installed.
 
 ## Extensions
