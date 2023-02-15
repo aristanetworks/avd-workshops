@@ -1,4 +1,4 @@
-# Welcome to AVD Workshops
+# AVD Workshops
 
 ![Tools Bar](workshops/assets/images/tools_bar_light.png)
 
