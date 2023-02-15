@@ -9,8 +9,8 @@ nav:
   - Fundamentals:
     - Git: git.md
     - VS Code: vscode.md
-    - Ansible: ansible.md
     - Jinja/YAML: jinja-yaml.md
+    - Ansible: ansible.md
     - CI/CD Basics: cicd-basics.md
   - AVD: avd.md
 
