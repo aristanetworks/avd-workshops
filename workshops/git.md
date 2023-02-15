@@ -219,7 +219,13 @@ Switch to this new branch:
 git switch update-hostnames
 ```
 
-Using the IDE, open each switch config file and update the hostname.  Changes are auto-saved. Then stage and commit the changes to the new branch `update-hostnames`.
+Using the IDE, open each switch config file and update the hostname.  Changes are auto-saved. Let's verify the changes (diffs) we are about to commit to make sure they are correct.
+
+``` bash
+git diff
+```
+
+Now, stage and commit the changes to the new branch `update-hostnames`.
 
 ``` bash
 git add .
@@ -320,20 +326,33 @@ Verify where the remote copy of this clones lives.
 git remote -v
 ```
 
-### Push/Pull Changes to GitHub
+In the next step, let's add a new vlan 40 to the the `atd/vlans.yml` file.  First we should create a new branch.
 
-Once you modify the files in your new branch, you can stage & commit the changes and push them to the remote fork on GitHub.
+### Create the branch
 
 ``` bash
-# stage all the changes
-git add .
+git branch add-vlan-40
 
-# commit them
-git commit -m "updated content with new feature"
-
-# push new branch to remote repo on GitHub
-git push --set-upstream origin update-hostnames
+git switch add-vlan-40
 ```
+
+Now update `vlans.yml` with vlan 40 information.
+
+Additonally, stage and commit these changes to the new branch.
+
+### Push Changes to GitHub
+
+Now push the updated branch to your remote fork on GitHub.
+
+``` bash
+# push new branch to remote repo on GitHub
+git push --set-upstream origin add-vlan-40
+```
+
+???+ note
+    You will be prompted to authenticate to GitHub if this is the first time you are pushing from the Lab environment.  Follow along the `Copy & Continue to GitHub` prompts by entering the 8 digit authentication code. Additional pushes to GitHub will cache your credentials.
+
+Once authenticated your new branch and updated file will exist on GitHub.
 
 Output:
 
@@ -342,21 +361,21 @@ Enumerating objects: 7, done.
 Counting objects: 100% (7/7), done.
 Delta compression using up to 16 threads
 Compressing objects: 100% (3/3), done.
-Writing objects: 100% (4/4), 348 bytes | 348.00 KiB/s, done.
-Total 4 (delta 2), reused 1 (delta 0), pack-reused 0
+Writing objects: 100% (4/4), 335 bytes | 335.00 KiB/s, done.
+Total 4 (delta 2), reused 0 (delta 0), pack-reused 0
 remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
 remote:
-remote: Create a pull request for 'update-hostnames' on GitHub by visiting:
-remote:      https://github.com/mthiel117/workshops/pull/new/update-hostnames
+remote: Create a pull request for 'add-vlan-40' on GitHub by visiting:
+remote:      https://github.com/mthiel117/workshops/pull/new/add-vlan-40
 remote:
 To https://github.com/mthiel117/workshops.git
- * [new branch]      update-hostnames -> update-hostnames
-Branch 'update-hostnames' set up to track remote branch 'update-hostnames' from 'origin'.
+ * [new branch]      add-vlan-40 -> add-vlan-40
+Branch 'add-vlan-40' set up to track remote branch 'add-vlan-40' from 'origin'.
 ```
 
-You should now see the new branch `update-hostnames` and commit messages in GitHub.
+You should now see the new branch `add-vlan-40` and commit messages in GitHub.
 
-The next step is to merge the `update-hostnames` branch into the `main` branch.  A Pull Request is used to do this.
+The next step is to merge the `add-vlan-40` branch into the `main` branch.  A Pull Request is used to do this.
 
 ### Pull request
 
@@ -376,3 +395,13 @@ Once all changes have been agreed upon, the maintainer of the original repo will
 6. To create a pull request that is ready for review, click Create Pull Request. To create a draft pull request, use the drop-down and select Create Draft Pull Request, then click Draft Pull Request.
 
 This will generate a Pull Request on the main project repository. The owner/maintainer can then merge the pull request once all changes are satisfied.
+
+### Cleanup
+
+After your Pull Request is merged, there are some additonal steps you may want to do.
+
+1. Delete your branch on GitHub and your local host.
+2. Sync your Forked repo (below)
+3. Pull the updates into `main` branch on your local host. `git pull`
+
+![GitHub Sync Fork](assets/images/github_sync_fork.png){: style="width:750px"}
