@@ -9,6 +9,7 @@ Visual Studio Code (VS Code), written by Microsoft, is a lightweight but powerfu
 VS Code integrates directly with Git and allows Network Engineers to easily perform the following tasks:
 
 - Edit Files
+- Drag and Drop Files into the Explorer
 - Visually Compare File Diffs
 - Write & Test Scripts
 - Open Terminals for various shells
@@ -49,11 +50,11 @@ The four main areas of the VS Code GUI are:
 ![VS Code Screenshot](assets/images/vscode_screenshot.png){: style="width:1000px"}
 
 ???+ note
-    You `Activity Bar` may have different icons for the extensions you have installed.
+    Your `Activity Bar` may have different icons for the extensions you have installed.
 
 ## Extensions
 
-These are tons of extensions to enhance your experience with VS Code. Below is a list of recommended extensions that are commonly used. For a full list of available extensions visit the [VS Code Marketplace](https://marketplace.visualstudio.com/VSCode).
+There are tons of extensions to enhance your experience with VS Code. Below is a list of recommended extensions that are commonly used. For a full list of available extensions visit the [VS Code Marketplace](https://marketplace.visualstudio.com/VSCode).
 
 - Markdown All-in-One (Yu Zhang)
 - YAML (Red Hat)
@@ -76,19 +77,19 @@ To close the folder go to ```File > Close Folder``` or ```Cmd/Ctrl + k``` then h
 
 ### Save & Auto Save
 
-By default VS Code will not auto save file changes. To configure it to auto save click ```File > Auto Save```. If you wish to save manually you can save by going to ```File > Save``` or ```Cmd/Ctrl + s```.
+By default VS Code will not auto save file changes. To configure auto save click ```File > Auto Save```. If you wish to save manually you can save by going to ```File > Save``` or ```Cmd/Ctrl + s```.
 
-If a file has unsaved changes, the close button on the tab will be a cirle/dot instead of the normal ```x```. As seen in the image below.
+If a file has unsaved changes, the close button on the tab will be a circle/dot instead of the normal ```x```. As seen in the image below.
 
 ![VS Code Logo](assets/images/vscode_Unsaved_Changes.png){: style="width:130px"}
 
 ### Command Palette
 
-The Command Palette lets you access many different commands. To open it go to ```View > Command Palette``` or hit ```Cmd/Ctrl + Shift + P```. There's a lot of powerful commands and its worth playing around with, if you would like to read more go [here](https://code.visualstudio.com/docs/getstarted/userinterface#_command-palette). An example that will come up later is the ability to run git commands like git clone.
+The Command Palette lets you access several commands and settings. To open it go to ```View > Command Palette``` or hit ```Cmd/Ctrl + Shift + P```. There are a lot of powerful commands you can test. If you would like to read more go [here](https://code.visualstudio.com/docs/getstarted/userinterface#_command-palette). As an example you can run git commands like `git clone`.
 
 ### Start a Terminal
 
-VS Code provides you with a way to interact with a terminal from within the program. To access it you can either go up to ```Terminal > New Terminal``` or hit ```Cmd/Ctrl + Shift + ` ```. You can create multiple instances of terminals and they can be different types, i.e. bash, python, zsh(if you have it installed).
+VS Code allows you to launch a terminal session from within the program. To access it you can either go up to ```Terminal > New Terminal``` or hit ```Cmd/Ctrl + Shift + ` ```. You can create multiple instances of terminals and they can be different types, i.e. bash, python, zsh(if you have it installed).
 
 ## Git Integration
 
@@ -103,7 +104,23 @@ rm -rf .git
 
 ### Initialize Repository
 
-There's multiple ways to initialize a repository from VS Code. Using the previously mentioned Command Palette or through the use of the Source Control View, if the currently open folder is not a git repository. Using the Command Palette to intitialze a repository, it will ask which folder to init into, default choose is the current directory.
+There are multiple ways to initialize a repository from VS Code. We will explore one of the methods.
+
+First open the folder `/home/coder/project/labfiles/samplefiles` from within the VS Code Explorer.
+
+![Folder Open](assets/images/vscode_open_folder.png){: style="width:400px"}
+
+Next click on the `Source Control` icon in the Activity Bar, and then click `Initialize Repository`.
+
+![Init Repo](assets/images/vscode_init_repo.png){: style="width:300px"}
+
+This is equivalent to running `git init` from within that directory.
+
+Several things just happened and VS Code is giving us a visual representation to an repository that has been newly created.  The `Source Control` icon now shows a blue dot with a `6`.  This is indicates there a 6 files that have changed or in this case are currently untracked, represented by the capital `U` next to each file.
+
+Also, in the bottom left corner of status bar we can see we are on the `main`* branch.
+
+![status bar](assets/images/vscode_status_bar.png){: style="width:400px"}
 
 ### Create/Modify Files
 
