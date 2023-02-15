@@ -28,7 +28,6 @@ python3 -m venv venv
 source venv/bin/activate
 ansible-galaxy collection install arista.avd --force
 export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml | head -1 | cut -d: -f1)
-pip3 config set global.disable-pip-version-check true
 pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
 ```
 
@@ -45,6 +44,7 @@ If AVD version `3.8.1` or greater is not present, please upgrade to the latest s
 ```shell
 ansible-galaxy collection install arista.avd --force
 export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml | head -1 | cut -d: -f1)
+pip3 config set global.disable-pip-version-check true
 pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
 ```
 
