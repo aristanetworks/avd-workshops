@@ -62,7 +62,7 @@ These are tons of extensions to enhance your experience with VS Code. Below is a
 - Remote - SSH (Microsoft)
 - Dev Containers (Microsoft)
 
-## Common Things you should know
+## Common things to know
 
 ### Open/Close Folders
 
@@ -92,7 +92,12 @@ VS Code provides you with a way to interact with a terminal from within the prog
 
 ## Git Integration
 
-In the previous Git section we ran all commands from the command-line. Now we will use VS Code to perform the same operations.
+In the previous Git section we ran all commands from the command-line. Now we will use VS Code to perform the same operations. First let's reset the `samplefiles` directory by removing the hidden sub-directory `.git`.  This will remove any version control settings for the repository.
+
+``` bash
+cd /home/coder/project/labfiles/samplefiles
+rm -rf .git
+```
 
 ## The Basics
 
