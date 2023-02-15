@@ -49,9 +49,11 @@ pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
 
 ## Fork repository
 
-You will be creating your own CI/CD pipeline in this workflow. Log in to your GitHub account and fork this repository to get started.
+You will be creating your own CI/CD pipeline in this workflow. Log in to your GitHub account and [fork this repository](https://github.com/arista-netdevops-community/atd-cicd) to get started.
 
-<!-- Insert image steps of forking a repository -->
+![Create fork](assets/images/create-fork.png)
+
+![Save fork](assets/images/save-fork.png)
 
 ### Enable GitHub actions
 
