@@ -54,7 +54,7 @@ The four main areas of the VS Code GUI are:
 
 ## Extensions
 
-There are tons of extensions to enhance your experience with VS Code. Below is a list of recommended extensions that are commonly used. For a full list of available extensions visit the [VS Code Marketplace](https://marketplace.visualstudio.com/VSCode).
+There are tons of extensions to enhance your experience with VS Code. Below is a list of recommended extensions that are commonly used. For a full list of available extensions visit the [VS Code Marketplace](https://marketplace.visualstudio.com/vscode).
 
 - Markdown All-in-One (Yu Zhang)
 - YAML (Red Hat)
