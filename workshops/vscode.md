@@ -93,7 +93,7 @@ VS Code allows you to launch a terminal session from within the program. To acce
 
 ## Git Integration
 
-In the previous Git section we ran all commands from the command-line. Now we will use VS Code to perform the same operations. First let's reset the `samplefiles` directory by removing the hidden sub-directory `.git`.  This will remove any version control settings for the repository.
+In the previous section we ran all Git commands from the command-line. Now we will use VS Code to perform the same operations. First let's reset the `samplefiles` directory by removing the hidden sub-directory `.git`.  This will remove any version control settings for the repository.
 
 ``` bash
 cd /home/coder/project/labfiles/samplefiles
@@ -110,13 +110,15 @@ First open the folder `/home/coder/project/labfiles/samplefiles` from within the
 
 ![Folder Open](assets/images/vscode_open_folder.png){: style="width:400px"}
 
+Re-open a new terminal window.
+
 Next click on the `Source Control` icon in the Activity Bar, and then click `Initialize Repository`.
 
 ![Init Repo](assets/images/vscode_init_repo.png){: style="width:300px"}
 
 This is equivalent to running `git init` from within that directory.
 
-Several things just happened and VS Code is giving us a visual representation to an repository that has been newly created.  The `Source Control` icon now shows a blue dot with a `6`.  This is indicates there a 6 files that have changed or in this case are currently untracked, represented by the capital `U` next to each file.
+Several things just happened. VS Code is giving us a visual representation of the newly created Git repository.  The `Source Control` icon now shows a blue dot with a `6`.  This is indicates there a 6 untracked, represented by the capital `U` next to each file.
 
 Also, in the bottom left corner of status bar we can see we are on the `main`* branch.
 
