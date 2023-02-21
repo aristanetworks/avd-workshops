@@ -157,15 +157,23 @@ In normal day to day use, you will see scalars referred to as **key value pair m
 # Some Non-Specific Mappings
 trip_start: "August 12"
 trip_end: "September 5"
-first_stop: "Duck Creek Village, UT"
 first_trail: "Fins and Things"
 stuck_counter: 1
 ```
 
-Here are some device specific mappings.
+<br>
 
-```yml
-#
+Here are some network config specific mappings.
+
+```yaml
+# Network Config Mappings
+
+mgmt_interface: Management1
+mgmt_interface_vrf: MGMT
+
+spanning_tree_mode: rapid-pvst
+spanning_tree_priority: 4096
+```
 
 ### **Boolean**
 
