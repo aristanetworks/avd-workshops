@@ -290,7 +290,7 @@ inventory =./atd-inventory/dev/hosts.yml
 Feel free to check out the changes made to your local files. Please make sure the GitHub workflows are uncommented. We can now push all of our changes and submit a pull request.
 
 !!! note
-    The Github workflows are located in the `atd-cicd/.github/workflows` directory.
+    The GitHub workflows are located in the `atd-cicd/.github/workflows` directory.
 
 ```shell
 git add .
