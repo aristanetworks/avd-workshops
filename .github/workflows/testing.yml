@@ -24,6 +24,7 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         with:
           files: workshops/
+          reporter: github-check
 
   test_build:
     name: Build site with no warnings
