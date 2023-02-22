@@ -26,7 +26,7 @@ You must install the base requirements if running outside of the ATD interactive
 ```shell
 python3 -m venv venv
 source venv/bin/activate
-ansible-galaxy collection install arista.avd --force
+ansible-galaxy collection install arista.avd arista.cvp --force
 export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml | head -1 | cut -d: -f1)
 pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
 ```
@@ -42,7 +42,7 @@ ansible-galaxy collection list
 If AVD version `3.8.1` or greater is not present, please upgrade to the latest stable version.
 
 ```shell
-ansible-galaxy collection install arista.avd --force
+ansible-galaxy collection install arista.avd arista.cvp --force
 export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml | head -1 | cut -d: -f1)
 pip3 config set global.disable-pip-version-check true
 pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
@@ -173,7 +173,13 @@ git push --set-upstream origin new-dc
 
 GitHub actions allow us to automate almost every element of our repository. We can use them to check syntax, linting, unit testing, etc. In our case, we want to use GitHub actions to test new changes to our infrastructure and then deploy those changes. In this example, we simulate that Network Admins cannot manually change the nodes. Admins must execute changes from the pipeline.
 
-In this repository, we have two workflow files located in our `.github/workflows` directory. Both workflows are identical but differ slightly in whether changes will be deployed in our development or production environment. Below is an example of the development workflow. In your IDE, ***uncomment*** both workflows. A shortcut is to highlight the workflow and type `CTRL + /`.
+In this repository, we have two workflow files located in our `.github/workflows` directory. Both workflows are identical but differ slightly in whether changes will be deployed in our development or production environment. Below is an example of the development workflow.
+
+1. In your IDE, ***uncomment*** both workflows. A shortcut is to highlight the workflow and type `Ctrl + /` or `Cmd + /` on Mac.
+2. The files are located in the following locations.
+
+- `atd-cicd/.github/workflows/dev_test.yml`
+- `atd-cicd/.github/workflows/prod_test.yml`
 
 ```yaml
 name: Test the dev network
@@ -274,7 +280,7 @@ ansible-playbook playbooks/atd-fabric-build.yml -i atd-inventory/prod/hosts.yml
 ```
 
 !!! note
-    You don't have to specify the inventory when interacting with the development environment because this is the default inventory in our `ansible.cfg file.
+    You don't have to specify the inventory when interacting with the development environment because this is the default inventory in our `ansible.cfg` file.
 
 ```apache
 [defaults]
@@ -282,6 +288,9 @@ inventory =./atd-inventory/dev/hosts.yml
 ```
 
 Feel free to check out the changes made to your local files. Please make sure the GitHub workflows are uncommented. We can now push all of our changes and submit a pull request.
+
+!!! note
+    The Github workflows are located in the `atd-cicd/.github/workflows` directory.
 
 ```shell
 git add .
