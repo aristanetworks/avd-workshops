@@ -8,13 +8,15 @@ Visual Studio Code (VS Code), written by Microsoft, is a lightweight but powerfu
 
 VS Code integrates directly with Git and allows Network Engineers to easily perform the following tasks:
 
-- Update Data Model Files in YAML
+- Edit Files
+- Drag and Drop Files into the Explorer
 - Visually Compare File Diffs
 - Write & Test Scripts
+- Open Terminals for various shells
 - Execute various Git commands (such as: status, init, log, commit, switch, add, etc...)
 - Connect to Remote Hosts
 
-VS Code is the Git Genie that makes your life easy. Once you learn to use VS Code, you will wonder why it took so long to get on the bandwagon.
+VS Code is your personal Git Genie making automation workflows easy. Once you learn to use VS Code, you will wonder why it took so long to get on the bandwagon.
 
 ## System Requirements
 
@@ -48,12 +50,11 @@ The four main areas of the VS Code GUI are:
 ![VS Code Screenshot](assets/images/vscode_screenshot.png){: style="width:1000px"}
 
 ???+ note
-
-    You `Activity Bar` may have different icons for the extensions you have installed.
+    Your `Activity Bar` may have different icons for the extensions you have installed.
 
 ## Extensions
 
-These are tons of extensions to enhance your experience with VS Code. Below is a list of recommended extensions that are commonly used. For a full list of available extensions visit the [VS Code Marketplace](https://marketplace.visualstudio.com/VSCode).
+There are tons of extensions to enhance your experience with VS Code. Below is a list of recommended extensions that are commonly used. For a full list of available extensions visit the [VS Code Marketplace](https://marketplace.visualstudio.com/vscode).
 
 - Markdown All-in-One (Yu Zhang)
 - YAML (Red Hat)
@@ -62,7 +63,7 @@ These are tons of extensions to enhance your experience with VS Code. Below is a
 - Remote - SSH (Microsoft)
 - Dev Containers (Microsoft)
 
-## Common Things you should know
+## Common things to know
 
 ### Open/Close Folders
 
@@ -76,66 +77,78 @@ To close the folder go to ```File > Close Folder``` or ```Cmd/Ctrl + k``` then h
 
 ### Save & Auto Save
 
-By default VS Code will not auto save file changes. To configure it to auto save click ```File > Auto Save```. If you wish to save manually you can save by going to ```File > Save``` or ```Cmd/Ctrl + s```.
+By default VS Code will not auto save file changes. To configure auto save click ```File > Auto Save```. If you wish to save manually you can save by going to ```File > Save``` or ```Cmd/Ctrl + s```.
 
-If a file has unsaved changes, the close button on the tab will be a cirle/dot instead of the normal ```x```. As seen in the image below.
+If a file has unsaved changes, the close button on the tab will be a circle/dot instead of the normal ```x```. As seen in the image below.
 
 ![VS Code Logo](assets/images/vscode_Unsaved_Changes.png){: style="width:130px"}
 
 ### Command Palette
 
-The Command Palette lets you access many different commands. To open it go to ```View > Command Palette ``` or hit ```Cmd/Ctrl + Shift + P```. There's a lot of powerful commands and its worth playing around with, if you would like to read more go [here](https://code.visualstudio.com/docs/getstarted/userinterface#_command-palette). An example that will come up later is the ability to run git commands like git clone.
-  
+The Command Palette lets you access several commands and settings. To open it go to ```View > Command Palette``` or hit ```Cmd/Ctrl + Shift + P```. There are a lot of powerful commands you can test. If you would like to read more go [here](https://code.visualstudio.com/docs/getstarted/userinterface#_command-palette). As an example you can run git commands like `git clone`.
+
 ### Start a Terminal
 
-VS Code provides you with a way to interact with a terminal from within the program. To access it you can either go up to ```Terminal > New Terminal``` or hit ```Cmd/Ctrl + Shift + ` ```. You can create multiple instances of terminals and they can be different types, i.e. bash, python, zsh(if you have it installed).
+VS Code allows you to launch a terminal session from within the program. To access it you can either go up to ```Terminal > New Terminal``` or hit ```Cmd/Ctrl + Shift + ` ```. You can create multiple instances of terminals and they can be different types, i.e. bash, python, zsh(if you have it installed).
 
 ## Git Integration
 
-In the previous Git section we ran all commands from the command-line. Now we will use VS Code to perform the same operations.
+In the previous section we ran all Git commands from the command-line. Now we will use VS Code to perform the same operations. First let's reset the `samplefiles` directory by removing the hidden sub-directory `.git`.  This will remove any version control settings for the repository.
+
+``` bash
+cd /home/coder/project/labfiles/samplefiles
+rm -rf .git
+```
 
 ## The Basics
 
 ### Initialize Repository
 
-There's multiple ways to initialize a repository from VS Code. Using the previously mentioned Command Palette or through the use of the Source Control View, if the currently open folder is not a git repository. Using the Command Palette to intitialze a repository, it will ask which folder to init into, default choose is the current directory.
+There are multiple ways to initialize a repository from VS Code. We will explore one of the methods.
 
-### Create/Modify Files
+First open the folder `/home/coder/project/labfiles/samplefiles` from within the VS Code Explorer.
 
-If you are following after doing the git section we can just edit the file we made there. If not, to create a file right click in the Explorer or click on the new file icon that shows up when hovering over the root folder of the project
+![Folder Open](assets/images/vscode_open_folder.png){: style="width:400px"}
 
-![New File](assets/images/vscode_new_file.png){: style="width:300px"}
+Re-open a new terminal window.
 
-### Stage Changes
+Next click on the `Source Control` icon in the Activity Bar, and then click `Initialize Repository`.
 
-Now that changes has been made or a new file has been added, Heading over to Source Control will show the untracked and non-commited changes and files, just like the ```git status``` command used in the git section. Hovering over the file will reveal a couple buttons, One being a plus icon. Clicking on the plus icon will stage the changes. If theres a lot of changes and want to stage all then you click on the plus that shows up when hovering over the area that says ```Changes```.
+![Init Repo](assets/images/vscode_init_repo.png){: style="width:300px"}
 
-![Source Control](assets/images/vscode_source_control.png){: style="width:300px"}
+This is equivalent to running `git init` from within that directory.
 
-!!! Note
-    You may notice that the screenshot shows a "U" next to the file, while yours might show a "M". "U" just means Untracked, and the "M" means Modified. Theres a couple others that you might see aswell.
+Several things just happened. VS Code is giving us a visual representation of the newly created Git repository.  The `Source Control` icon now shows a blue dot with a `6`.  This is indicates there a 6 untracked, represented by the capital `U` next to each file.
 
-### Commit Changes
+Also, in the bottom left corner of status bar we can see we are on the `main`* branch.
 
-All that needs to happen now is to fill out the commit message and hit the commit button. If you happen to forget to fill out the message, no worries, hitting the commit button will open a new tab in the Editor that will ask you to enter a commit message. When done making a message click the check mark to the top right of the Editor window. Now the changes has been commited to the local repository.
+![status bar](assets/images/vscode_status_bar.png){: style="width:400px"}
 
-## Next Steps
+## VS Code Workflow
 
-### Clone Repository
+Use VS Code to perform the following actions.
 
-Simply just open the Command Palette and search for git clone, Once open you can enter the url of the repository that you wish to clone.
-
-### Create a Branch
-
-The bottom left of the VS Code window shows what branch is currently selected. Clicking on it lets opens a menu that allows the creation of new branches or selecting other branches. Creation of a branch is also possible with the Command Palette.
-
-### Push Branch to GitHub
-
-When working on a local branch that's not on GitHub it'll need to be published. It's as simple as going to the Source Control and the "Commit" button will now be "Publish Branch" as long as theres no un-commited changes.
+- Stage files
+- Commit staged files
+- Check the log - git log
+- Verify current branches
+- Create and switch to new branch called `change-usernames`
+- Update username `arista` to `admin`
+  - Use VS Code Replace in files
+  - Show file diff
+- Stage and commit changes to new branch
+- Switch back to `main` branch
+- Merge `change-usernames` into `main`
+  - Command-Palette - git merge
+- Verify files have new names in the `main` branch
+- Be a good citizen and clean up old branch
+- Publish Repo to GitHub
 
 ## Dev Containers
 
-Dev Containers is an extension that allows you to use containers as a development environment. In the Command Palette, the option "Dev Containers: Create Dev Container..." should show up after the extension is installed. If a ".devcontainer" folder is already present in the root directory of the project, then you can choose the "Dev Containers: Reopen in Container" option. Dev Containers make managing a dev environnment much easier as you can include it into your git repository and when others go to make changes they will have the same environment, given that they use the dev container. No need to deal with different versions or missing software.
+[Dev Container extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) allows you to use containers as a development environment. This is useful when several team members are working on a project together and wish to use the same development environment.
+
+In the Command Palette, the option "Dev Containers: Create Dev Container..." should show up after the extension is installed. If a ".devcontainer" folder is already present in the root directory of the project, then you can choose the "Dev Containers: Reopen in Container" option. Dev Containers make managing a dev environnment much easier as you can include it into your git repository and when others go to make changes they will have the same environment, given that they use the dev container. No need to deal with different versions or missing software.
 
 !!! Note
     Docker must be installed for Dev Containers to work.

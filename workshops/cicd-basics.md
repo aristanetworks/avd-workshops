@@ -26,7 +26,7 @@ You must install the base requirements if running outside of the ATD interactive
 ```shell
 python3 -m venv venv
 source venv/bin/activate
-ansible-galaxy collection install arista.avd --force
+ansible-galaxy collection install arista.avd arista.cvp --force
 export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml | head -1 | cut -d: -f1)
 pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
 ```
@@ -42,16 +42,19 @@ ansible-galaxy collection list
 If AVD version `3.8.1` or greater is not present, please upgrade to the latest stable version.
 
 ```shell
-ansible-galaxy collection install arista.avd --force
+ansible-galaxy collection install arista.avd arista.cvp --force
 export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml | head -1 | cut -d: -f1)
+pip3 config set global.disable-pip-version-check true
 pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
 ```
 
 ## Fork repository
 
-You will be creating your own CI/CD pipeline in this workflow. Log in to your GitHub account and fork this repository to get started.
+You will be creating your own CI/CD pipeline in this workflow. Log in to your GitHub account and [fork this repository](https://github.com/arista-netdevops-community/atd-cicd) to get started.
 
-<!-- Insert image steps of forking a repository -->
+![Create fork](assets/images/create-fork.png)
+
+![Save fork](assets/images/save-fork.png)
 
 ### Enable GitHub actions
 
@@ -95,7 +98,12 @@ You will need to set one secret in your newly forked GitHub repository.
     cd labfiles
     git clone <your copied URL>
     cd atd-cicd
+    git config --global user.name "FirstName LastName"
+    git config --global user.email "name@example.com"
     ```
+
+!!! note
+    If the Git `user.name` and `user.email` are set, they may be skipped. You can check this by running the `git config --list` command.
 
 ## Environment variables
 
@@ -161,23 +169,17 @@ git push --set-upstream origin new-dc
 !!! note
     You will get a notification to sign in to GitHub. Follow these prompts.
 
-## Stage the environment
-
-The dual DC topology comes pre-defined with a fair amount of nodes. In reality, we only need so many nodes for this lesson. We will leverage one spine and two leaf nodes from each DC to act as our development and production instances.
-
-The `atd-prepare-lab.yml` playbook can take around 8-9 minutes. So feel free to run it now. The playbook will move all nodes to a staging container and clean up our topology.
-
-```shell
-ansible-playbook playbooks/atd-prepare-lab.yml
-```
-
-Once complete, the remaining containers will be Tenant, Undefined, and STAGING.
-
 ## Enable GitHub actions workflows
 
 GitHub actions allow us to automate almost every element of our repository. We can use them to check syntax, linting, unit testing, etc. In our case, we want to use GitHub actions to test new changes to our infrastructure and then deploy those changes. In this example, we simulate that Network Admins cannot manually change the nodes. Admins must execute changes from the pipeline.
 
-In this repository, we have two workflow files located in our `.github/workflows` directory. Both workflows are identical but differ slightly in whether changes will be deployed in our development or production environment. Below is an example of the development workflow. In your IDE, ***uncomment*** both workflows. A shortcut is to highlight the workflow and type `CTRL + /`.
+In this repository, we have two workflow files located in our `.github/workflows` directory. Both workflows are identical but differ slightly in whether changes will be deployed in our development or production environment. Below is an example of the development workflow.
+
+1. In your IDE, ***uncomment*** both workflows. A shortcut is to highlight the workflow and type `Ctrl + /` or `Cmd + /` on Mac.
+2. The files are located in the following locations.
+
+- `atd-cicd/.github/workflows/dev_test.yml`
+- `atd-cicd/.github/workflows/prod_test.yml`
 
 ```yaml
 name: Test the dev network
@@ -201,6 +203,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: yaml-lint
+        uses: ibiqlik/action-yamllint@v3
+        with:
+          file_or_dir: atd-inventory/dev/group_vars/ atd-inventory/dev/host_vars/
+          config_file: .yamllint.yml
+
       - name: Start containers
         run: docker-compose -f "docker-compose.yml" up -d --build
 
@@ -222,26 +230,26 @@ This workflow is relatively short but represents some interesting options. For s
 The initial `checkout` step makes the repository available to our workflow. We then use Docker Compose to stand up two containers. One to run the Batfish service and a small container with all pre-installed requirements. The second container interacts with the running Batfish service and our CVP instance. If we did not have the second container available, we would have to run through the exact steps you ran to prepare your environment in this workflow. The second container allows us to speed up our workflow. Below is an example of the `docker-compose.yml` file.
 
 ```yaml
+---
 version: '3.3'
 services:
   batfish:
-      container_name: batfish
-      volumes:
-          - '.:/data'
-      ports:
-          - '9997:9997'
-          - '9996:9996'
-      image: batfish/batfish
+    container_name: batfish
+    volumes:
+      - '.:/data'
+    ports:
+      - '9997:9997'
+      - '9996:9996'
+    image: batfish/batfish
 
   atd-cicd:
-      container_name: atd-cicd
-      volumes:
-          - '.:/app'
-      image: juliopdx/atd-cicd
-      environment:
-        - PASS=$PASS
-        - net=$net
-
+    container_name: atd-cicd
+    volumes:
+      - '.:/app'
+    image: juliopdx/atd-cicd
+    environment:
+      - PASS=$PASS
+      - net=$net
 ```
 
 ### A note on Batfish
@@ -272,7 +280,7 @@ ansible-playbook playbooks/atd-fabric-build.yml -i atd-inventory/prod/hosts.yml
 ```
 
 !!! note
-    You don't have to specify the inventory when interacting with the development environment because this is the default inventory in our `ansible.cfg file.
+    You don't have to specify the inventory when interacting with the development environment because this is the default inventory in our `ansible.cfg` file.
 
 ```apache
 [defaults]
@@ -280,6 +288,9 @@ inventory =./atd-inventory/dev/hosts.yml
 ```
 
 Feel free to check out the changes made to your local files. Please make sure the GitHub workflows are uncommented. We can now push all of our changes and submit a pull request.
+
+!!! note
+    The GitHub workflows are located in the `atd-cicd/.github/workflows` directory.
 
 ```shell
 git add .
