@@ -67,7 +67,7 @@ There are tons of extensions to enhance your experience with VS Code. Below is a
 
 ### Open/Close Folders
 
-To open a file or folder go to ```File > Open``` or use ```Cmd/Ctrl + o```. Once you have a folder open you can simply just click on file you wish to open from the Explorer in the Activity Bar. Note if you only single click the file when you go to open another file it will replace it in the editor, to keep a file open double click it. The difference can be notice by looking at the editor tab title, the tab that be replaced will be in italics. As seen in the image below.
+To open a file or folder go to ```File > Open``` or use ```Cmd/Ctrl + o```. Once you have a folder open you can simply just click on file you wish to open from the Explorer in the Activity Bar. Note if you only single click the file when you go to open another file it will replace it in the editor, to keep a file open double click it. The difference can be noticed by looking at the editor tab title. The tab in italics will be replaced. As seen in the image below.
 
 ![VS Code Logo](assets/images/vscode_Editor_Open_Italics.png){: style="width:260px"}
 
