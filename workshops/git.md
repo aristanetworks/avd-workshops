@@ -366,9 +366,9 @@ Total 4 (delta 2), reused 0 (delta 0), pack-reused 0
 remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
 remote:
 remote: Create a pull request for 'add-vlan-40' on GitHub by visiting:
-remote:      https://github.com/mthiel117/workshops/pull/new/add-vlan-40
+remote:      https://github.com/wildthing/workshops/pull/new/add-vlan-40
 remote:
-To https://github.com/mthiel117/workshops.git
+To https://github.com/wildthing/workshops.git
  * [new branch]      add-vlan-40 -> add-vlan-40
 Branch 'add-vlan-40' set up to track remote branch 'add-vlan-40' from 'origin'.
 ```
