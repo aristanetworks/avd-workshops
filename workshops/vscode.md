@@ -71,7 +71,7 @@ To open a file or folder go to ```File > Open``` or use ```Cmd/Ctrl + o```. Once
 
 ![VS Code Logo](assets/images/vscode_Editor_Open_Italics.png){: style="width:260px"}
 
-To close a file you can click on the ```x``` of the editor tab, if you instead see a circle that means the changes to that file are unsaved.
+To close a file you can click on the ```x``` of the editor tab, if you see a circle, changes to that file are unsaved.
 
 To close the folder go to ```File > Close Folder``` or ```Cmd/Ctrl + k``` then hit ```f```.
 
