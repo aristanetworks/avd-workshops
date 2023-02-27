@@ -63,37 +63,13 @@ There are tons of extensions to enhance your experience with VS Code. Below is a
 - Remote - SSH (Microsoft)
 - Dev Containers (Microsoft)
 
-## Common things to know
+## Using Git source control in VS Code
 
-### Open/Close Folders
+Visual Studio Code has integrated source control management (SCM) and includes Git support out-of-the-box. In the previous section we ran all Git commands from the command-line. Now we will use VS Code to perform the same operations.
 
-To open a file or folder go to ```File > Open``` or use ```Cmd/Ctrl + o```. Once you have a folder open you can simply just click on file you wish to open from the Explorer in the Activity Bar. Note if you only single click the file when you go to open another file it will replace it in the editor, to keep a file open double click it. The difference can be noticed by looking at the editor tab title. The tab in italics will be replaced. As seen in the image below.
+## Start over with clean slate
 
-![VS Code Logo](assets/images/vscode_Editor_Open_Italics.png){: style="width:260px"}
-
-To close a file you can click on the ```x``` of the editor tab, if you see a circle, changes to that file are unsaved.
-
-To close the folder go to ```File > Close Folder``` or ```Cmd/Ctrl + k``` then hit ```f```.
-
-### Save & Auto Save
-
-By default VS Code will not auto save file changes. To configure auto save click ```File > Auto Save```. If you wish to save manually you can save by going to ```File > Save``` or ```Cmd/Ctrl + s```.
-
-If a file has unsaved changes, the close button on the tab will be a circle/dot instead of the normal ```x```. As seen in the image below.
-
-![VS Code Logo](assets/images/vscode_Unsaved_Changes.png){: style="width:130px"}
-
-### Command Palette
-
-The Command Palette lets you access several commands and settings. To open it go to ```View > Command Palette``` or hit ```Cmd/Ctrl + Shift + P```. There are a lot of powerful commands you can test. If you would like to read more go [here](https://code.visualstudio.com/docs/getstarted/userinterface#_command-palette). As an example you can run git commands like `git clone`.
-
-### Start a Terminal
-
-VS Code allows you to launch a terminal session from within the program. To access it you can either go up to ```Terminal > New Terminal``` or hit ```Cmd/Ctrl + Shift + ` ```. You can create multiple instances of terminals and they can be different types, i.e. bash, python, zsh(if you have it installed).
-
-## Git Integration
-
-In the previous section we ran all Git commands from the command-line. Now we will use VS Code to perform the same operations. First let's reset the `samplefiles` directory by removing the hidden sub-directory `.git`.  This will remove any version control settings for the repository.
+Previously we downloaded and created a repository called `samplefiles`. Reset this repository to a directory by removing the hidden sub-directory `.git`.  This will remove any version control settings for the repository.
 
 ``` bash
 cd /home/coder/project/labfiles/samplefiles
@@ -146,9 +122,29 @@ Use VS Code to perform the following actions.
 
 ## Dev Containers
 
-[Dev Container extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) allows you to use containers as a development environment. This is useful when several team members are working on a project together and wish to use the same development environment.
+![devcontainer](assets/images/vscode_devcontainer.png){: style="width:750px"}
 
-In the Command Palette, the option "Dev Containers: Create Dev Container..." should show up after the extension is installed. If a ".devcontainer" folder is already present in the root directory of the project, then you can choose the "Dev Containers: Reopen in Container" option. Dev Containers make managing a dev environnment much easier as you can include it into your git repository and when others go to make changes they will have the same environment, given that they use the dev container. No need to deal with different versions or missing software.
+The [Dev Container extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) allows you to use containers as a development environment. It lets you use a [Docker container](https://www.docker.com/) as a full-featured development environment. Whether you deploy to containers or not, containers make a great development environment because you can:
+
+- Develop with a consistent, easily reproducible toolchain on the same operating system you deploy to.
+- Quickly swap between different, separate development environments and safely make updates without worrying about impacting your local machine.
+- Make it easy for new team members / contributors to get up and running in a consistent development environment.
+- Try out new technologies or clone a copy of a code base without impacting your local setup.
+
+The extension starts (or attaches to) a development container running a well defined tool and runtime stack. Workspace files can be mounted into the container from the local file system, or copied or cloned into it once the container is running. Extensions are installed and run inside the container where they have full access to the tools, platform, and file system.
+
+### Dev Container System Requirements
+
+Local:
+
+- Windows: Docker Desktop 2.0+ on Windows 10 Pro/Enterprise. Windows 10 Home (2004+) requires Docker Desktop 2.2+ and the WSL2 back-end. (Docker Toolbox is not supported.)
+- macOS: Docker Desktop 2.0+.
+- Linux: Docker CE/EE 18.06+ and Docker Compose 1.21+. (The Ubuntu snap package is not supported.)
+
+Containers:
+
+- x86_64 / ARMv7l (AArch32) / ARMv8l (AArch64) Debian 9+, Ubuntu 16.04+, CentOS / RHEL 7+
+- x86_64 Alpine Linux 3.9+
 
 !!! Note
-    Docker must be installed for Dev Containers to work.
+    Docker must be installed on your host for Dev Containers to work.
