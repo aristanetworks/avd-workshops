@@ -177,6 +177,24 @@ spanning_tree_priority: 4096
 
 ### **Boolean**
 
+Another type of mapping in YAML are booleans.  Booleans area simply a `true` or `false` value assigned to its data label.  While the actual true or false does not have to be in a certain case, if you want the value to be compatible with lint options, you should use all lowercase.
+
+Here are some network config boolean mappings.
+
+```yaml
+# Network Config Mappings
+
+evpn_import_pruning: true
+
+evpn_gateway:
+        evpn_l2:
+          enabled: true
+
+mlag: false
+```
+
+<br>
+
 ### **Lists**
 
 ### **Dictionary or Dicts**
