@@ -1,16 +1,18 @@
 site_name: Arista Validated Designs Workshops
 
+repo_url: https://github.com/aristanetworks/avd-workshops
 docs_dir: workshops/
+edit_uri: blob/main/workshops
 
 nav:
   - Home: index.md
   - Fundamentals:
-    - Intro: intro.md
     - Git: git.md
     - VS Code: vscode.md
-    - Ansible: ansible.md
     - Jinja/YAML: jinja-yaml.md
+    - Ansible: ansible.md
     - CI/CD Basics: cicd-basics.md
+  - AVD: avd.md
 
 
 copyright: Copyright &copy; 2023 Arista Networks
@@ -77,11 +79,10 @@ plugins:
 
 repo_name: AVD Workshops on GitHub
 
-repo_url: https://github.com/aristanetworks/avd-workshops
-
 theme:
 
   features:
+    - content.action.edit
     - content.code.annotate
     - content.code.copy
     - content.tooltips

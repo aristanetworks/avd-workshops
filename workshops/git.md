@@ -1,39 +1,37 @@
-# Welcome to Git
+# Getting started with Git
 
 ![Git Logo Dark](assets/images/git_logo_darkbg.png#only-dark){: style="width:200px"}
 ![Git Logo Light](assets/images/git_logo_lightbg.png#only-light){: style="width:200px"}
 
-In this section we will explore a brief introduction of Git. We will cover the installation and explore basic commands used with Git.
+## Introduction
 
-## Topics
-
-- Introduction to Git
-  - What is Git and why should I use it?
-- Installation & Setup
-- The Basics of Git
-  - My First Git Commands - Init and Status
-  - Stage Changes
-  - Commit Changes
-- Intermediate Concepts
-  - Fork a Repository
-  - Clone a Repository
-  - Creating a Branch
-  - Push/Pull Changes
-  - Pull Request
-
-## Introduction to Git
-
-Git is the most commonly used version control system. Git tracks changes to files, so you have a record of what has changed, and you can revert to specific versions. Changes to files are tracked by storing snapshots of the files over time. In the example below we have files A, B, and C. Over time the content of those files change. You are able to roll back to any previous commit or snapshot.
+In this section we will explore a brief introduction of Git. We will cover the installation and basic commands used with Git. Git is the most commonly used version control system. Git tracks changes to files allowing you to revert to specific versions. File changes are tracked by storing snapshots (commits) of the files over time. In the image below, the content of files A, B, and C change over time. Git allows you to roll back to any previous commit.
 
 ![Git Snapshots](assets/images/git_snapshots.png){: style="width:800px"}
 
-Git makes collaboration easy, allowing multiple people to merge their changes into one source. Regardless of whether you work solo or as part of a team, Git will be useful for you.
+Git makes collaboration easy by allowing multiple people to merge their changes into one source. Regardless of whether you work solo or as part of a team, Git will be useful for you.
 
-## Installation & Setup
+Basic Git commands we will be working with:
+
+- git config
+- git status
+- git init
+- git add
+- git commit
+- git log
+- git branch
+- git clone
+- git merge
+- git switch
+- git diff
+- git restore
+
+## Installation & setup
 
 ### Installation
 
-Git has been pre-installed in your ATD Lab environment. If you need to install Git on another system, instructions are provided at the links below.
+???+ note
+    Git has been pre-installed in your ATD Lab environment. If you need to install and configure Git on another system, follow the instructions at the links above.
 
 Download Git - [https://git-scm.com/downloads](https://git-scm.com/downloads)
 
@@ -41,9 +39,9 @@ Configuration - [https://git-scm.com/book/en/v2/Getting-Started-Installing-Git](
 
 ### Setup
 
-When setting up Git for the first time you need to configure your Identity with a name and email address. This is used to add your signature to commits. Also set the default branch name to `main`.
+When setting up Git for the first time you need to configure your Identity with a name and email address. This is used to add your signature to commits. Additionally, set the default branch name to `main`.
 
-From the Terminal in your ATD Lab Progammability IDE running the following commands.
+From the Terminal in your ATD Lab Programmability IDE running the following commands.
 
 ``` bash
 # Set your username:
@@ -56,7 +54,7 @@ git config --global user.email "name@example.com"
 git config --global init.defaultBranch main
 ```
 
-#### Progammability IDE
+#### Programmability IDE (VS Code)
 
 ![Programmability IDE](assets/images/git_programmability_ide.png){: style="width:1000px"}
 
@@ -66,62 +64,63 @@ Verify your configuration:
 git config --global --list
 ```
 
-## The Basics of Git
+### Download Sample Files
 
-### My First Git Commands - Init and Status
-
-#### Initialize Repository
-
-The first thing you need to do to create a version controlled repository is to create a directory and initialize it. Initialize the following directory: `/home/coder/project/labfiles/project1/`.
+We have provided some sample configuration files to begin working with Git. From the Programmability IDE, run the following 2 commands to download sample files and change your working directory.
 
 ``` bash
-# From a Linux terminal
-mkdir /home/coder/project/labfiles/project1/
+bash -c "$(curl http://www.packetanglers.com/get-sample-files.sh)"
+cd /home/coder/project/labfiles/samplefiles
+```
 
-# Change to the new directory
-cd /home/coder/project/labfiles/project1/
+## Git
 
-# Initialize
+### Git - command line basics
+
+#### Initialize directory as a Git repository
+
+Next we initialize the current directory `/home/coder/project/labfiles/samplefiles/` as a repository (repo).
+
+``` bash
 git init
 ```
 
-The directory is now initialized as a Git repository and the following hidden directory `/home/coder/project/labfiles/project1/.git/` was created. This is a special version control directory of the files in your repository.
+Notice your cli prompt changed.
+
+The directory is now initialized as a Git repository and the following hidden sub-directory `/home/coder/project/labfiles/samplefiles/.git/` was created. It holds version control information for your repository.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **Congratulations!!!** You have created your first repository.
 
 #### Git Repository Status
+
+Check the current status of your repo.
 
 ``` bash
 git status
 ```
 
-If nothing has been modified, then you will see the following output.
+Since this is a brand new repo you should see output similar to the following, indicating there are untracked files.
 
-``` text
-On branch main
-
-No commits yet
-
-nothing to commit (create/copy files and use "git add" to track)
-```
-
-Once you add, delete, or modify any files, you will see similar output below. Here we are creating an empty file `newfile.txt` with the `touch` command.
-
-``` text
-➜  project1 git:(main) touch newfile.txt
-➜  project1 git:(main) ✗ git status
+``` bash
 On branch main
 
 No commits yet
 
 Untracked files:
   (use "git add <file>..." to include in what will be committed)
-        newfile.txt
+        leaf1.cfg
+        leaf2.cfg
+        leaf3.cfg
+        leaf4.cfg
+        spine1.cfg
+        spine2.cfg
 
 nothing added to commit but untracked files present (use "git add" to track)
 ```
 
-### Stage Changes
+### Stage your changes
 
-When you are ready to commit your changes, you need to stage the files. The above output gives you a clue as to the command needed to stage the changes. You can specify individual files or add all files with a wildcard period `.`
+When you want to track files, you first need to stage them. The above output gives you a clue as to the command needed to stage the changes. You can specify individual files or add all files with a wildcard period `.`
 
 To stage all file changes:
 
@@ -137,165 +136,272 @@ git status
 
 Output:
 
-``` text
+``` bash
 On branch main
 
 No commits yet
 
 Changes to be committed:
   (use "git rm --cached <file>..." to unstage)
-        new file:   newfile.txt
+        new file:   leaf1.cfg
+        new file:   leaf2.cfg
+        new file:   leaf3.cfg
+        new file:   leaf4.cfg
+        new file:   spine1.cfg
+        new file:   spine2.cfg
 ```
 
-Now we have a new file staged and ready to be committed to the `main` branch.
+Now all of the files are staged and ready to be committed to the `main` branch.
 
-### Commit Stages
+### Commit your changes
 
 Now you can commit your staged changes with a comment:
 
 ???+ note
-
-    Use a comment that will reflect the changes made so you can reference back to this commit in the future.
+    Use a comment that will reflect the changes made so you can reference back to this commit in the future. Commit messages will show up in the log.
 
 ``` bash
-git commit -m "First Commit"
+git commit -m "Initial Commit"
 ```
 
 Output:
 
-``` text
-[main (root-commit) 22e4d69] First Commit
- 1 file changed, 0 insertions(+), 0 deletions(-)
- create mode 100644 newfile.txt
+``` bash
+[main (root-commit) 45eeb6d] Initial Commit
+ 6 files changed, 832 insertions(+)
+ create mode 100644 leaf1.cfg
+ create mode 100644 leaf2.cfg
+ create mode 100644 leaf3.cfg
+ create mode 100644 leaf4.cfg
+ create mode 100644 spine1.cfg
+ create mode 100644 spine2.cfg
 ```
 
 Now these files are committed to your local repository.
 
-## Intermediate Level
-
-Before proceeding further, make sure you are logged into your active GitHub account.
-
-If you do not have a GitHub account, you can create one **[here](https://github.com/join)**.
-
-### Fork a Repository
-
-A fork is a copy of a repository that you manage. Forks let you make changes to a project without affecting the original repository. You can fetch updates from or submit changes to the original repository with a pull request.
-
-We have created an example repository for this workshop that you can fork to make your own copy. We will make changes to this copy of the original repository.
-
-#### Steps to Fork the example repository
-
-1. On GitHub.com, navigate to the [Packet Anglers workshop](https://github.com/PacketAnglers/workshops) repository.
-2. In the top-right corner of the page, click Fork.
-![Fork](assets/images/git_fork.png){: style="width:800px"}
-3. Select an owner for the forked repository.
-4. Set repository name. By default, forks are named the same as their upstream repository.
-5. Optionally, add a description of your fork.
-6. Click the Fork button at the bottom
-
-Next up... Clone this forked repository to your local host machine.
-
-### Clone Repository
-
-Cloning a repository allows us to make a local copy of a project that resides on GitHub. In the previous step, you forked a repo to your local GitHub account. Navigate to the forked repository in GitHub. From there, click on the green code button to get the URL of the forked repository.
-
-![Git Clone](assets/images/git_clone.png){: style="width:400px"}
-
-Clone this repository into the current directory of your local machine:
+Check status one more time.
 
 ``` bash
-# replace with the URL from your forked repo
-git clone https://github.com/xxxxxxx/avd-workshop.git
+On branch main
+nothing to commit, working tree clean
 ```
 
-Now change into the new cloned directory.
+You have successfully made your first historical marker in your repo. Check the log to see what is there.
 
 ``` bash
-cd avd-workshop
+git log
 ```
 
-Verifyy where the remote copy of this clones lives.
+???+ note
+    Press `q` to quit from viewing the log.
 
-``` bash
-git remote -v
-```
+### Create a branch
 
-### Creating a Branch
+Creating a branch allows you to make a new copy of your files without affecting the files in the `main` branch. For example, if you wanted to update the hostnames on your switches, you might create a new branch called, `update-hostnames`.
 
-A branch in Git is pointer to one of your commits. The default branch name in Git is `main`. As you make commits, the pointer moves to the latest commit on the current branch. Every time you commit, the branch pointer moves forward automatically.
+![Branch](assets/images/git_branch.png){: style="width:500px"}
 
-Git branches are used to develop new features, without affecting the `main` branch. For example, if I wanted to play around with a new feature for my project, I might create a new branch called, `new-feature`.
-
-![Branch](assets/images/git_branch.png)
-
-You can see the current branch by typing:
+Verify the current branch:
 
 ``` bash
 git branch
 ```
 
-To create a new branch from the current branch pointer, type:
+Create a new branch:
 
 ``` bash
-git branch new-feature
+git branch update-hostnames
 ```
 
-To checkout or switch to this new branch, type:
+Switch to this new branch:
 
 ``` bash
-git checkout new-feature
+git switch update-hostnames
 ```
 
-Now you can modify existing files and commit the changes to this new branch. This tees up for the next section, `Pull Request`.
-
-### Push/Pull Changes to GitHub
-
-Once you modify the files in your new branch, you can stage & commit the changes and push them to the remote fork on GitHub.
+Using the IDE, open each switch config file and update the hostname. Changes are auto-saved. Let's verify the changes (diffs) we are about to commit to make sure they are correct.
 
 ``` bash
-# stage all the changes
+git diff
+```
+
+Now, stage and commit the changes to the new branch `update-hostnames`.
+
+``` bash
 git add .
-
-# commit them
-git commit -m "updated content with new feature"
-
-# push to remote repo on GitHub
-git push
+git commit -m "updated hostname on each switch"
 ```
+
+### Merge branch
+
+Now that we are satisfied with our hostnames changes we can merge branch `update-hostnames` into `main`.
+
+First, switch back to the `main` branch and notice the hostnames go back to the original name. Why did that happen? Remember we never modifed the original copy `main` branch. This is a different version of the file. Once we merge the `update-hostnames` branch into `main`, then both copies will be the same.
+
+``` bash
+git switch main
+```
+
+Execute the merge operation:
+
+``` bash
+git merge update-hostnames
+```
+
+Verify the updated hostnames in each file.
+
+Now that your changes are merged, you can safely delete the `update-hostnames` branch.
+
+``` bash
+git branch -d update-hostnames
+```
+
+## GitHub
+
+![GitHub Logo Dark](assets/images/github_logo_dark.png#only-dark){: style="width:100px"}
+![GitHub Logo Light](assets/images/github_logo_light.png#only-light){: style="width:100px"}
+
+Before proceeding further, make sure you are logged into your active GitHub account.
+
+If you do not have a GitHub account, you can create one **[here](https://github.com/join)**.
+
+???+ note
+    In the ATD Lab, you will authenticate to GitHub using an 8 digit access code. On other systems you will need a Personal Access Token. You may skip the next step if you are working in the ATD Lab IDE. Detailed instructions for creating a Personal Access Token can be found [here](https://docs.github.com/en/enterprise-server@3.4/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token).
+
+### Create a GitHub personal access token
+
+To push your local repo to GitHUb you will need a Personal Access Token. From your **GitHub** account, click through the following path to generate a new personal access token.  **Profile --> Settings --> Developer Settings --> Personal Access Tokens --> Tokens (classic) --> Generate new token (classic)**
+
+- Give the token a meaningful name by setting the **Note**: `MyNewToken`
+- Set the **Expiration**: 30 days (default)
+
+Select the scopes to grant to this token. To use your token to access repositories from the command line, select `repo`. A token with no assigned scopes can only access public information.
+
+The click `Generate token` at the bottom of the page.  **Copy and save the token in a secure place. YOU WILL NOT BE ABLE TO SEE THE TOKEN AGAIN**.
+
+![Git Token Scopes](assets/images/git_token_scopes.png){: style="width:500px"}
+
+### Fork a repository
+
+A fork is a copy of another repository that you can manage. Forks let you make changes to a project without affecting the original repository. You can fetch updates from or submit changes to the original repository with a pull request.
+
+Fork the example [repository](https://github.com/PacketAnglers/workshops) to make your own copy. Then you can modify your copy of the original repository.
+
+#### Steps to Fork the example repository
+
+1. From GitHub.com, navigate to the [Packet Anglers workshop](https://github.com/PacketAnglers/workshops) repository.
+2. In the top-right corner of the page, click Fork.
+![Fork](assets/images/git_fork.png){: style="width:800px"}
+3. Select an owner.
+4. Set repository name. By default, forks are named the same as their upstream repository.
+5. Optionally, add a description of your fork.
+6. Click `Create fork` button at the bottom
+
+Next up... Clone this forked repository to your local host machine.
+
+### Clone forked repo to local host
+
+Cloning a repository allows us to make a local copy of a project that resides on GitHub. In the previous step, you forked a repo to your local GitHub account. Navigate to your forked repository in GitHub. From there, click on the green code button and copy the URL of the forked repository.
+
+![Git Clone](assets/images/git_clone.png){: style="width:400px"}
+
+Clone this repository into the current directory of your local machine. In the ATD Lab your current directory needs to be `/home/coder/project/labfiles/`.
+
+``` bash
+cd /home/coder/project/labfiles
+
+# replace this URL with your forked repo
+git clone https://github.com/xxxxxxx/workshops.git
+```
+
+Now change into the new cloned directory.
+
+``` bash
+cd workshops
+```
+
+Verify where the remote copy of this clones lives.
+
+``` bash
+git remote -v
+```
+
+In the next step, let's add a new vlan 40 to the `atd/vlans.yml` file. First we should create a new branch.
+
+### Create the branch
+
+``` bash
+git branch add-vlan-40
+
+git switch add-vlan-40
+```
+
+Now update `vlans.yml` with vlan 40 information.
+
+Additionally, stage and commit these changes to the new branch.
+
+### Push Changes to GitHub
+
+Now push the updated branch to your remote fork on GitHub.
+
+``` bash
+# push new branch to remote repo on GitHub
+git push --set-upstream origin add-vlan-40
+```
+
+???+ note
+    You will be prompted to authenticate to GitHub if this is the first time you are pushing from the Lab environment. Follow along the `Copy & Continue to GitHub` prompts by entering the 8 digit authentication code. Additional pushes to GitHub will cache your credentials.
+
+Once authenticated your new branch and updated file will exist on GitHub.
 
 Output:
 
 ``` text
-Enumerating objects: 6, done.
-Counting objects: 100% (6/6), done.
-Delta compression using up to 6 threads
+Enumerating objects: 7, done.
+Counting objects: 100% (7/7), done.
+Delta compression using up to 16 threads
 Compressing objects: 100% (3/3), done.
-Writing objects: 100% (4/4), 328 bytes | 328.00 KiB/s, done.
-Total 4 (delta 1), reused 0 (delta 0)
-remote: Resolving deltas: 100% (1/1), completed with 1 local object.
-To https://github.com/PacketAnglers/avd-workshop.git
-   07f3bd2..71765fe  main -> main
+Writing objects: 100% (4/4), 335 bytes | 335.00 KiB/s, done.
+Total 4 (delta 2), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+remote:
+remote: Create a pull request for 'add-vlan-40' on GitHub by visiting:
+remote:      https://github.com/wildthing/workshops/pull/new/add-vlan-40
+remote:
+To https://github.com/wildthing/workshops.git
+ * [new branch]      add-vlan-40 -> add-vlan-40
+Branch 'add-vlan-40' set up to track remote branch 'add-vlan-40' from 'origin'.
 ```
 
-You should now see these changes and commit messages in GitHub.
+You should now see the new branch `add-vlan-40` and commit messages in GitHub.
 
-![Git Commit](assets/images/git_commit.png){: style="width:800px"}
+The next step is to merge the `add-vlan-40` branch into the `main` branch. A Pull Request is used to do this.
 
-### Pull Request
+### Pull request
 
-A Pull Request in Git allows a contributor (you) to ask a maintainer (owner) of origin repository to review code changes they want to merge into a project. Once a pull request is opened, you can discuss and review the potential changes with collaborators and add follow-up commits before your changes are merged into the base branch.
+A Pull Request in Git allows a contributor (you) to ask a maintainer (owner) of origin repository to review code changes you wish to merge into a project. Once a pull request is opened, you can discuss and review the potential changes with collaborators and add follow-up commits before your changes are merged into the `main` branch.
 
-Once all changes have been agreed upon, the maintainer of the original repo will merge your changes into the `main` branch. At this point, your code changes are live and visible in the origin project repo.
+Once all changes have been agreed upon, the maintainer of the original repo will merge your changes. At this point, your code changes are visible in the origin project repo.
 
 #### Steps to initiate a Pull Request
 
 1. On GitHub.com, navigate to the main page of the repository.
 2. In the "Branch" menu, choose the branch that contains your commits.
 3. Above the list of files, click the Contribute drop-down and click Open pull request.
-![PR](assets/images/git_pullrequest.png){: style="width:800px"}
+![PR](assets/images/git_pullrequest.png){: style="width:750px"}
 4. Use the base branch dropdown menu to select the branch you'd like to merge your changes into, then use the compare branch drop-down menu to choose the topic branch you made your changes in.
-![PR Info](assets/images/git_pullrequest_info.png){: style="width:800px"}
+![PR Info](assets/images/git_pullrequest_info.png){: style="width:750px"}
 5. Type a title and description for your pull request.
 6. To create a pull request that is ready for review, click Create Pull Request. To create a draft pull request, use the drop-down and select Create Draft Pull Request, then click Draft Pull Request.
 
 This will generate a Pull Request on the main project repository. The owner/maintainer can then merge the pull request once all changes are satisfied.
+
+### Cleanup
+
+After your Pull Request is merged, there are some additional steps you may want to do.
+
+1. Delete your branch on GitHub and your local host.
+2. Sync your Forked repo (below)
+3. Pull the updates into `main` branch on your local host. `git pull`
+
+![GitHub Sync Fork](assets/images/github_sync_fork.png){: style="width:750px"}
