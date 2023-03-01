@@ -5,8 +5,8 @@
 ???+ tip "Important Note Before Getting Started"
 
     This section will make use of the fork of the [Workshops](https://github.com/PacketAnglers/workshops "Workshops Repo on GitHub") GitHub repository that was
-    created during the [Git](git.md) section. If you have not created a fork of this repository, and cloned it into your lab environment's VS Code IDE, please do so
-    before moving forward.
+    created during the [Git](git.md) section. If you have not created a fork of this repository, and cloned it into the `/home/coder/project/labfiles/` directory of
+    your lab environment's VS Code IDE, please do so before moving forward.
 
 ## What is Ansible
 
@@ -275,7 +275,52 @@ Notice the variables associated with `s1-leaf1`. Where did these come from? We'l
 
 ### Variables
 
-??? eos-config annotate "Example group_vars File (~/projects/inventory/group_vars/WORKSHOP_FABRIC.yml)"
+Variables can be defined in many locations with Ansible. For example, explicitly defining a variable when running a playbook by using the `extra-vars` flag
+
+??? warning "Reminder"
+    Ensure all commands are run from the `/home/coder/project/labfiles/workshops/ansible` directory in the terminal on the ATD VS Code IDE instance.
+
+```bash
+ansible-playbook playbooks/hello_world.yml -e 'name=Mitch'
+```
+
+The contents of the playbook we just ran can be seen below. We will look more into the anatomy of a playbook in our next section. For now, make note of the fact that the `name` variable is also set in the `hello-world.yml` playbook
+using the `vars` parameter. When we ran our playbook with `extra_vars`, this took precedence over the variable defined inside of the playbook.
+
+??? eos-config annotate "Example group_vars File (~/project/labfiles/workshops/ansible/playbooks/hello_world.yml)"
+    ```yaml
+
+    ---
+
+    - name: A simple playbook
+      hosts: localhost
+      gather_facts: false
+      vars:
+        name: Mr.T
+
+      tasks:
+
+        - name: Say Hello
+          debug:
+            msg: "Hello {{ name | default('you!') }}"
+
+    ```
+
+Other valid locations for variables, and their respective precedence, are shown in the diagram below:
+
+![Ansible Overview](assets/images/ansible_variables1.png)
+
+As can be expected, there are a LOT of places where we can define variables. Each option has it's use case, but the general recommendation is to make use of ==host_vars== and ==group_vars== as much as possible.
+
+Inside of our `~/project/labfiles/workshops/ansible/inventory` directory, there is a `host_vars` and `group_vars` directory. These are special directories that Ansible will use to establish a hierarchy of variables
+that maps directly to our inventory hosts and groups structure. Each group can have a dedicated `yaml` file, as can each host. A visual representation of this can be seen below:
+
+![Ansible Overview](assets/images/ansible_variables2.png)
+
+In the example above, if we were to define a variable in the `~/project/labfiles/workshops/ansible/inventory/group_vars/WORKSHOP_FABRIC.yml` file, then all Managed Nodes contained within that group in our inventory file would
+inherit that variable. The contents of our `WORKSHOP_FABRIC.yml` file can be seen below:
+
+??? eos-config annotate "WORKSHOP_FABRIC.yml (~/project/labfiles/workshops/ansible/inventory/group_vars/WORKSHOP_FABRIC.yml)"
     ```yaml
 
     # eAPI connectivity via HTTPS (as opposed to CLI via SSH)
@@ -292,22 +337,190 @@ Notice the variables associated with `s1-leaf1`. Where did these come from? We'l
 
     # Credentials
     ansible_user: arista
-    ansible_ssh_pass: [your topology password]
+    ansible_ssh_pass: arista1c7z
+
+    # Global login banner for all switches in topology
+    banner_text: "This banner came from group_vars/WORKSHOP_FABRIC.YML"
 
     ```
 
-### Ad-Hoc Commands
+These values will all be inherited by the nodes in the `WORKSHOP_FABRIC` group defined in our inventory file.
 
-Ping
+We can verify this by running `ansible-inventory --host s2-spine1 --yaml`.
 
 ```bash
-ansible S1 -m ping -i inventory.yml
+ansible-inventory --host s2-spine1 --yaml
 ```
 
-## Modules
+??? eos-config annotate "Output of 'ansible-inventory --host s1-spine1 --yaml'"
+    ```yaml
 
-## Playbooks
+    ansible_connection: ansible.netcommon.httpapi
+    ansible_httpapi_use_ssl: true
+    ansible_httpapi_validate_certs: false
+    ansible_network_os: arista.eos.eos
+    ansible_ssh_pass: arista1c7z
+    ansible_user: arista
+    banner_text: This banner came from group_vars/WORKSHOP_FABRIC.YML
 
-## Roles
+    ```
 
-## Collections
+And there they are! All of the variables we had defined in `WORKSHOP_FABRIC.yml` are present.
+
+If we run this same command, but specifying `s1-leaf3` we'll see some additional, and slightly different, variables:
+
+```bash
+`ansible-inventory --host s1-leaf3 --yaml`
+```
+
+??? eos-config annotate "Output of 'ansible-inventory --host s1-leaf3 --yaml'"
+    ```yaml
+
+    ansible_connection: ansible.netcommon.httpapi
+    ansible_httpapi_use_ssl: true
+    ansible_httpapi_validate_certs: false
+    ansible_network_os: arista.eos.eos
+    ansible_ssh_pass: arista1c7z
+    ansible_user: arista
+    banner_text: This banner came from group_vars/S1.YML
+    mlag_config:
+      domain_id: 1000
+      peer_link_id: 1000
+      side_a:
+        ip: 10.0.0.1/30
+        peer_ip: 10.0.0.2
+      side_b:
+        ip: 10.0.0.2/30
+        peer_ip: 10.0.0.1
+      vlan:
+        id: 4094
+        name: mlagpeer
+        trunk_group_name: mlagpeer
+
+    ```
+
+Whoa! There is certainly more there...and looking at `banner_text`, we can see that it's different. With group_vars, the closer to the host we get, the higher the precedence of the variable. So, in the case of `banner_text`, it is defined
+in `WORKSHOP_FABRIC.yml` and `S1.yml`. Because the `S1` group is closer to the host (`s1-leaf3`) in this case, the `banner_text` variable defined in `S1.yml` take priority.
+
+??? eos-config annotate "S1.yml (~/project/labfiles/workshops/ansible/inventory/group_vars/S1.yml)"
+    ```yaml
+
+    mlag_config:
+      domain_id: 1000
+      vlan:
+        id: 4094
+        name: mlagpeer
+        trunk_group_name: mlagpeer
+      peer_link_id: 1000
+      side_a:
+        ip: 10.0.0.1/30
+        peer_ip: 10.0.0.2
+      side_b:
+        ip: 10.0.0.2/30
+        peer_ip: 10.0.0.1
+
+    banner_text: "This banner came from group_vars/S1.YML"
+
+    ```
+
+We'll use the `mlag_config` stuff later. For now, let's keep our focus on the `banner_text` variable.
+
+Finally, let's take a look at the effective variables on `s1-leaf1`
+
+```bash
+ansible-inventory --host s1-leaf1 --yaml
+```
+
+??? eos-config annotate "Output of 'ansible-inventory --host s1-leaf1 --yaml'"
+    ```yaml
+
+    ansible_connection: ansible.netcommon.httpapi
+    ansible_httpapi_use_ssl: true
+    ansible_httpapi_validate_certs: false
+    ansible_network_os: arista.eos.eos
+    ansible_ssh_pass: arista1c7z
+    ansible_user: arista
+    banner_text: This banner came from host_vars/s1-leaf1.YML
+    mlag:
+      enabled: true
+      peer_link_int_1: 1
+      peer_link_int_2: 6
+      side_a: true
+    mlag_config:
+      domain_id: 1000
+      peer_link_id: 1000
+      side_a:
+        ip: 10.0.0.1/30
+        peer_ip: 10.0.0.2
+      side_b:
+        ip: 10.0.0.2/30
+        peer_ip: 10.0.0.1
+      vlan:
+        id: 4094
+        name: mlagpeer
+        trunk_group_name: mlagpeer
+
+    ```
+
+Notice we have a few more variables now, namely the `mlag` dictionary. We also can see that the `banner_text` has changed yet again. This time due to the fact that this variable is defined in
+`~/project/labfiles/workshops/ansible/inventory/host_vars/s1-leaf1.yml`. This demonstrates that a variable defined in `host_vars` will take priority over the same variable defined in `group_vars`.
+
+??? eos-config annotate "s1-leaf1.yml (~/project/labfiles/workshops/ansible/inventory/host_vars/s1-leaf1.yml)"
+    ```yaml
+
+    mlag_config:
+      domain_id: 1000
+      vlan:
+        id: 4094
+        name: mlagpeer
+        trunk_group_name: mlagpeer
+      peer_link_id: 1000
+      side_a:
+        ip: 10.0.0.1/30
+        peer_ip: 10.0.0.2
+      side_b:
+        ip: 10.0.0.2/30
+        peer_ip: 10.0.0.1
+
+    banner_text: "This banner came from group_vars/S1.YML"
+
+    ```
+
+Next, let's use a playbook to deploy our "Message of the Day" banner to all of the switches in our lab!
+
+### Playbooks
+
+Ansible Playbooks are written in YAML, and typically consist of four main components:
+
+- Plays
+- Tasks
+- Modules
+- Module Parameters
+
+Other items such as variables, conditionals, tags, comments, and more are all available tools for us as well. But, for our discussion, we will focus on the aforementioned four main components.
+
+To do this, we'll review a playbook together. Specifically, the **`~/project/labfiles/workshops/ansible/playbooks/deploy_banner.yml`** in our lab environment.
+
+![Ansible Overview](assets/images/ansible_playbook_anatomy.png)
+
+At the very start of our playbook, we have the ==Play==. This is the very root of the playbook. it is where we define the Managed Nodes we'd like to target with this play, as well as the list of task(s) we'd like
+to run on these ==target hosts==. We've also disabled the default `
+
+Next, we have the ==task== itself, which in our case is leveraging the **eos_facts** ==module== to gather information about the Managed Nodes, which are devices running Arista's EOS, in our topology.
+In a minute, we'll unpack what a module really is behind the scenes.
+
+Finally, we have any ==parameters== associated with module. Some of these parameters may be required, while others may be optional. The best way to learn about a module is to find it's documentation out on [Ansible Galaxy](https://galaxy.ansible.com/ "Ansible Galaxy") by searching for it. For example, when we search for `eos_` on Ansible Galaxy, we get the output below:
+
+![Ansible Overview](assets/images/ansible_module_search.png)
+
+34 Modules, and one of which is the `eos_banner` module, with all of it's associated documentaion!
+
+More on Ansible Galaxy in a bit...
+
+Let's go ahead and run our playbook! Bonus points if cowsay is enabled.
+
+```bash
+ansible-playbook playbooks/deploy_banner.yml
+```
+
+Alright! Let's hop into our switches and see what happened...
