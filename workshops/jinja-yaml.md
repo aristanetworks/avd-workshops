@@ -659,6 +659,10 @@ clock timezone America/Detroit
 
 ### **Conditionals and Loops**
 
+<br>
+
+#### ***Conditionals***
+
 Conditionals, such as `{% if %}`, `{% elif %}`, and `{% else %}`, as well as `{% for %}` loops are extremely helpful for either or configurations that may apply to only a subset of devices you are generating configurations for.  Additionally, for loops are a must for efficiently working through nested data structures like lists of lists or lists of dictionaries.
 
 Lets start our statements journey with conditionals, and where they can be helpful.
@@ -812,6 +816,166 @@ description TO_LEAF1
 
 interface Ethernet2
 description TO_LEAF2
+```
+
+<br>
+
+### ***Loops***
+
+Another great function that Jinja templates support is the use of `for` loops.  For loops come in handy when trying to interate through a list of dictionaries to repeat configuration lines.
+
+Lets start with a simple example, using a `for` loop to iterate through a list.  The below list shows a list with a single DNS server:
+
+```yaml
+# DNS Servers
+name_servers:
+  - 10.100.100.20
+```
+
+The template with a for loop to iterate through this list would be as follows:
+
+```bash
+{% for dns in global['name_servers'] %}
+ip name-server {{ dns }}
+{% endfor %}
+```
+
+Lets analyze the sections of this template.
+
+`dns`:  DNS is a variable that we are using to represent each item in the list.  This can be anything you wish.
+
+`global`:  If you recall, this is the name of the YAML file we are registering in our playbook.  This tells the template which YAML file to look at for the variable.
+
+`name_servers`:  This is the parent label or key of the list.  This says which items in the list we want to iterate through and assign to the variable we defined.
+
+After assigning the value in the list to our created variable, we issue our configuration line which contains static text and our variable.  The output would look as follows:
+
+```yaml
+ip name-server 10.100.100.20
+```
+
+What if we had multiple items in the list like this:
+
+```yaml
+# DNS Servers
+name_servers:
+  - 10.100.100.20
+  - 8.8.8.8
+  - 4.4.4.4
+  - 208.67.222.222
+```
+
+The for loop would run as many times as there are items in the list and the configuration file output would look as follows:
+
+```yaml
+ip name-server 10.100.100.20
+ip name-server 8.8.8.8
+ip name-server 4.4.4.4
+ip name-server 208.67.222.222
+```
+
+<br>
+
+Now lets take a look at a slightly more complex, nested data structure, such as a dictionary with a list item.  We will use the following portion from our data model:
+
+```yaml
+# radius servers
+radius_servers:
+  - host: 192.168.1.10
+    vrf: MGMT
+    key: radiusserverkey
+```
+
+The template with a for loop to iterate through this list would be as follows:
+
+```bash
+{% for rsrv in global['radius_servers'] %}
+radius-server host {{ rsrv['host'] }} vrf {{ rsrv['vrf'] }} key {{ rsrv['key'] }}
+{% endfor %}
+```
+
+Lets analyze the sections of this template.
+
+`rsrv`:  This is a variable we are setting that represents each item in the list of the dictionary **radius_servers**.
+
+`global`: This tells the template which YAML file to look at for the variable.
+
+Looking at the configuration line we are creating, we can see instead of walking through the dictionary via the dictionary key names, we are keying off the our variable which represents the items in our dictionary list.  This can be seen with the `rsrv['hosts']` line.  This means we are looking for the value of the **host** key for each server in our list that is currently assigned to the **rsrv** variable.  The same holds true for the `rsrv['vrf']` and `rsrv['key']` lines.
+
+The for loop would run as many times as there are items in the list, which is just one, and the configuration file output would look as follows:
+
+```yaml
+radius-server host 192.168.1.10 vrf MGMT key radiusserverkey
+```
+
+<br>
+
+While that was simple, what if we have something more complex, like a dictionary with a list of dictionaries?  Lets take a look at how this would be represented in Jinja using the following YAML data model from our `global.yml` file.
+
+```yaml
+ntp:
+  servers:
+    - name: 0.north-america.pool.ntp.org
+      vrf: MGMT
+    - name: 1.north-america.pool.ntp.org
+      vrf: MGMT
+    - name: 2.north-america.pool.ntp.org
+      vrf: MGMT
+    - name: time.google.com
+      vrf: MGMT
+```
+
+The template with a for loop to iterate through this list would be as follows:
+
+```bash
+{% for ntps in global['ntp']['servers'] %}
+ntp server vrf {{ ntps['vrf'] }} {{ ntps['name'] }}
+{% endfor %}
+```
+
+Lets analyze the sections of this template.
+
+`ntps`:  This is another variable we are setting that represents each item in the list of the dictionary **servers**.
+
+`global`: This tells the template which YAML file to look at for the variable.
+
+Looking at the configuration line we are creating, we can see instead of walking through the dictionary via the dictionary key names, we are keying off the our variable which represents the items in our dictionary list.  This can be seen with the `ntps['vrf']` line.  This means we are looking for the value of the **vrf** key for each server in our list that is currently assigned to the **ntps** variable.  The same holds true for the `ntps['name']` line.
+
+The for loop would run as many times as there are items in the list and the configuration file output would look as follows:
+
+```yaml
+ntp server vrf MGMT 0.north-america.pool.ntp.org
+ntp server vrf MGMT 1.north-america.pool.ntp.org
+ntp server vrf MGMT 2.north-america.pool.ntp.org
+ntp server vrf MGMT time.google.com
+```
+
+<br>
+
+In the previous examples we only covered single for loops iterating a single layer deep, however, what if we have a dictionary within a dictionary, which contains a list?  In that instance we would need to have nested for loops in our templates.  For this example we will introduce a new YAML data model to better illustrate nested for loops.  This section shows some configuration you may need to apply related to EVPN VXLAN:
+
+```yaml
+---
+# EVPN VXLAN vrfs
+Red:
+  l3vni: 10000
+  vlans:
+    101:
+      l2vni: 10001
+      anycast_gw: 10.10.10.1/24
+    102:
+      l2vni: 10002
+      anycast_gw: 10.10.20.1/24
+Blue:
+  l3vni: 20000
+  vlans:
+    201:
+      l2vni: 20001
+      anycast_gw: 10.20.10.1/24
+    202:
+      l2vni: 20002
+      anycast_gw: 10.20.20.1/24
+
 ```
 
 ### **Filters**
