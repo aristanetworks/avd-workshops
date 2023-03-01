@@ -557,7 +557,6 @@ detailed code behind the scenes necessary to get things done.
 
 Now, if we feel compelled to dive in and write our own modules, or our own roles/collections/plugins, we can certainly do this. Ansible is very extensible in this manner. When we're finished developing our content, if we want to share it with the world, then we can publish it as a Collection on [Ansible Galaxy!](https://galaxy.ansible.com "Ansible Galaxy").
 
-
 ### Ansible Galaxy
 
 Earlier, we specificed that we were using `ansible-core` for this workshop. This approach, as opposed to installing `ansible`, is becoming more and more preferred. The reason for this is the efficiency of `ansible-core`; it is a lightweight minimalist installation of Ansible without any extra modules, roles, plugins, etc. natively included.
@@ -586,13 +585,13 @@ This will yield output similar to below:
     # /home/coder/.ansible/collections/ansible_collections
     Collection        Version
     ----------------- -------
-    ansible.netcommon 4.1.0  
-    ansible.posix     1.4.0  
-    ansible.utils     2.8.0  
-    arista.avd        3.6.0  
-    arista.cvp        3.4.0  
-    arista.eos        6.0.0  
-    community.general 6.2.0  
+    ansible.netcommon 4.1.0
+    ansible.posix     1.4.0
+    ansible.utils     2.8.0
+    arista.avd        3.6.0
+    arista.cvp        3.4.0
+    arista.eos        6.0.0
+    community.general 6.2.0
 
     ```
 
