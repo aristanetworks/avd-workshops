@@ -73,7 +73,7 @@ All of the information displayed above is important, and can help when troublesh
 
 ## Control Node and Managed Nodes
 
-![Ansible Overview](assets/images/ansible_control_node.png)
+![Ansible Control Node](assets/images/ansible_control_node.png)
 
 Two important initial terms are the Ansible `Control Node` and `Managed Node`
 
@@ -113,7 +113,7 @@ When running an ad-hoc command, or playbook, Ansible will look for the configura
 
 This is illustrated in the image below:
 
-![Ansible Overview](assets/images/ansible_config_file.png)
+![Ansible Config File](assets/images/ansible_config_file.png)
 
 Once Ansible finds an `ansible.cfg` file, it will only use the configuration options defined in that file. If, for example, an `ansible.cfg` file exists in the current directory, and in `/etc/ansible/ansible.cfg`, then only the settings found in the `ansible.cfg` file in the current directory will be used.
 
@@ -226,7 +226,7 @@ An example of our inventory file can be seen below:
 
 This inventory file defines the hosts, and groupings, represented in the image below:
 
-![Ansible Overview](assets/images/ansible_inventory.png)
+![Ansible Inventory](assets/images/ansible_inventory.png)
 
 We can validate our inventory by using the `ansible-inventory` command, which is documented [here](https://docs.ansible.com/ansible/latest/network/getting_started/first_inventory.html#verifying-the-inventory "Verifying Ansible Inventory")
 
@@ -309,14 +309,14 @@ using the `vars` parameter. When we ran our playbook with `extra_vars`, this too
 
 Other valid locations for variables, and their respective precedence, are shown in the diagram below:
 
-![Ansible Overview](assets/images/ansible_variables1.png)
+![Ansible Variables Precedence](assets/images/ansible_variables1.png)
 
 As can be expected, there are a LOT of places where we can define variables. Each option has it's use case, but the general recommendation is to make use of ==host_vars== and ==group_vars== as much as possible.
 
 Inside of our `~/project/labfiles/workshops/ansible/inventory` directory, there is a `host_vars` and `group_vars` directory. These are special directories that Ansible will use to establish a hierarchy of variables
 that maps directly to our inventory hosts and groups structure. Each group can have a dedicated `yaml` file, as can each host. A visual representation of this can be seen below:
 
-![Ansible Overview](assets/images/ansible_variables2.png)
+![Ansible Variable Visualization](assets/images/ansible_variables2.png)
 
 In the example above, if we were to define a variable in the `~/project/labfiles/workshops/ansible/inventory/group_vars/WORKSHOP_FABRIC.yml` file, then all Managed Nodes contained within that group in our inventory file would
 inherit that variable. The contents of our `WORKSHOP_FABRIC.yml` file can be seen below:
@@ -502,7 +502,7 @@ Other items such as variables, conditionals, tags, comments, and more are all av
 
 To do this, we'll review a playbook together. Specifically, the **`~/project/labfiles/workshops/ansible/playbooks/deploy_banner.yml`** in our lab environment.
 
-![Ansible Overview](assets/images/ansible_playbook_anatomy.png)
+![Ansible Playbook Anatomy](assets/images/ansible_playbook_anatomy.png)
 
 At the very start of our playbook, we have the ==Play==. This is the very root of the playbook. it is where we define the Managed Nodes we'd like to target with this play, as well as the list of task(s) we'd like
 to run on these ==target hosts==.
@@ -512,7 +512,7 @@ In a minute, we'll unpack what a module really is behind the scenes.
 
 Finally, we have any ==parameters== associated with module. Some of these parameters may be required, while others may be optional. The best way to learn about a module is to find it's documentation out on [Ansible Galaxy](https://galaxy.ansible.com/ "Ansible Galaxy") by searching for it. For example, when we search for `eos_` on Ansible Galaxy, we get the output below:
 
-![Ansible Overview](assets/images/ansible_module_search.png)
+![Ansible Galaxy Module Search Result](assets/images/ansible_module_search.png)
 
 34 Modules, and one of which is the `eos_banner` module, with all of it's associated documentaion!
 
@@ -525,3 +525,87 @@ ansible-playbook playbooks/deploy_banner.yml
 ```
 
 Alright! Let's hop into our switches and see what happened...
+
+#### s2-spine1
+
+![s2-spine1 banner](assets/images/banner_s2-spine1.png)
+
+#### s1-spine1
+
+![s1-spine1 banner](assets/images/banner_s1-spine1.png)
+
+#### s1-leaf1
+
+![s1-leaf1 banner](assets/images/banner_s1-leaf1.png)
+
+As expected, each device used whichever `banner_text` variable was closest to it in the group hierarchy or, in the case of s1-leaf1, was applied via the host_vars file associated with the node.
+
+### Modules
+
+When we ran our playbook, one of the key components was the ==module==. In our case, this was the [eos_banner module](https://github.com/ansible-collections/arista.eos/blob/main/docs/arista.eos.eos_banner_module.rst "eos_banner Module Documentation").
+
+But, what is this module really doing behind the scenes? Why are modules such a key piece of what makes Ansible much easier to get started with than other Automation Frameworks?
+
+Modules are an abstaction of the Python code necessary to complete a given task, or tasks, associated with the module. In other words, behind the scenes, modules are just python code!
+
+An example of this can be seen below, specifically for the [eos_banner module](https://github.com/ansible-collections/arista.eos/blob/main/plugins/modules/eos_banner.py "eos_banner module python code"):
+
+![Ansible Module Anatomy](assets/images/ansible_module_anatomy.png)
+
+It's a heck of a lot easier to simply call `eos_banner` in a playbook than it is to write, in a reusable fashion, all of that Python code! This is why modules are such as big reason Ansible is easy to get started with - the abstraction of the
+detailed code behind the scenes necessary to get things done.
+
+Now, if we feel compelled to dive in and write our own modules, or our own roles/collections/plugins, we can certainly do this. Ansible is very extensible in this manner. When we're finished developing our content, if we want to share it with the world, then we can publish it as a Collection on [Ansible Galaxy!](https://galaxy.ansible.com "Ansible Galaxy").
+
+### Ansible Galaxy
+
+Earlier, we specificed that we were using `ansible-core` for this workshop. This approach, as opposed to installing `ansible`, is becoming more and more preferred. The reason for this is the efficiency of `ansible-core`; it is a lightweight minimalist installation of Ansible without any extra modules, roles, plugins, etc. natively included.
+
+With `ansible-core` we can only grab the modules, roles, plugins, etc. that we need from [Ansible Galaxy!](https://galaxy.ansible.com "Ansible Galaxy").
+
+![Ansible Galaxy](assets/images/ansible_galaxy.png){: style="width:800px"}
+
+For example, if we want to install the [Arista EOS Ansible Collection](https://galaxy.ansible.com/arista/eos "Arista EOS Collection"), we can enter the following command in our terminal
+
+```bash
+ansible-galaxy collection install arista.eos
+```
+
+Once completed, we can validate that the collection has been installed by running the command below:
+
+```bash
+ansible-galaxy collection list
+```
+
+This will yield output similar to below:
+
+??? eos-config annotate "Ansible Galaxy Collection List"
+    ```powershell
+
+    # /home/coder/.ansible/collections/ansible_collections
+    Collection        Version
+    ----------------- -------
+    ansible.netcommon 4.1.0
+    ansible.posix     1.4.0
+    ansible.utils     2.8.0
+    arista.avd        3.6.0
+    arista.cvp        3.4.0
+    arista.eos        6.0.0
+    community.general 6.2.0
+
+    ```
+
+Note the line in the output `/home/coder/.ansible/collections/ansible_collections`...how did Ansible know to look here? The answer: The `ansible.cfg` file!
+
+Specifically this parameter:
+
+```yaml
+# Path(s) to search for installed Ansible Galaxy Collections
+collections_paths = ~/.ansible/collections
+```
+
+Galaxy has thousands of modules, plugins, roles, and more from a multitude of community members.
+
+For those familiar with Python, we can think of Ansible Galaxy as [PyPi](https://www.pypi.org "Python Package Index"), and our Collections as Python modules.
+
+Go forth and explore!
