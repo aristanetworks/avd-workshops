@@ -21,7 +21,6 @@ Basic Git commands we will be working with:
 - git log
 - git branch
 - git clone
--
 - git merge
 - git switch
 - git diff
