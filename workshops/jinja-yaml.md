@@ -1175,6 +1175,8 @@ Ethernet2 ip is 2.2.2.2
 
 As has hopefully been explained well, the interdependent relationship between Jinja and YAML is that Jinja templates utilize the YAML vars files and their data model to generate new configurations, whether full or partial.  YAML files serve no purpose without being called and their variables used, and cofigurations rendered from Jinja templates would be no different than static configs without the variable substitution of YAML files.
 
+<br>
+
 ## **Jinja Templates**
 
 ### **Network Config Template Example**
@@ -1186,7 +1188,7 @@ The Jinja template would look as follows:
 ??? eos-config annotate "full_config.j2"
 
 ```bash
-{# Base Config Test #}
+{# Full Config #}
 
 hostname {{ inventory_hostname }}
 
