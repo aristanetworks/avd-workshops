@@ -33,7 +33,7 @@ There are multiple methods of installing Ansible on the Ansible Control Node. Th
 
 We will be using `ansible-core`, which is a lightweight minimalist installation of Ansible without any extra modules, plugins, etc. included. With this approach, we can use Ansible Galaxy (covered later in this section) to install collections containing the modules, plugins, roles, etc. that we need. For those familiar with Python, think of Ansible Galaxy as [pypi.org](https://pypi.org "Python Packge Index"), and Ansible Collections as Python modules.
 
-??? note
+???+ note
     In the Arista Test Drive lab topology, Ansible is already installed, so we won't need to perform any installation related tasks.
 
 Below is an example of installing `ansible-core` via pip on Ubuntu 20.04:
