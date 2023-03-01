@@ -12,11 +12,7 @@ YAML is what's officially referred to as a data serialization language.  While t
 
 <br>
 
-While this workshop is geared towards network automation, YAML files are not restricted to only representing a data model of a network configuration.  YAML files can be created to represent any parameters or information about anything you wish.  In fact, to help ease the learning of YAML files and data models, while reviewing all the different pieces that can be used in a YAML file, there will be two examples for each section.  One example will reference applicable sections of network device configurations, something you would encounter and see during your job, while the other example will use something completely unrelated, for the purpose of abstracting the point of YAML.
-
-<br>
-
-A final, important note is about why we are talking about and using YAML in the first place.  As mentioned in the beginning, YAML is a data serialization langauge, however, it is not the only one.  Some other common, data serialization languages are XML, JSON, and CSV.  The reason we are particular towards YAML is that not only are there libraries available in most programming languages, but also because as the following table shows, it is very human readable.
+An important note is about why we are talking about and using YAML in the first place.  As mentioned in the beginning, YAML is a data serialization langauge, however, it is not the only one.  Some other common, data serialization languages are XML, JSON, and CSV.  The reason we are particular towards YAML is that not only are there libraries available in most programming languages, but also because as the following table shows, it is very human readable.
 
 <table>
 <tr>
