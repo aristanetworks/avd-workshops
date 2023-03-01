@@ -757,6 +757,63 @@ peer-link po2000
 peer-address 192.0.0.0
 ```
 
+<br>
+
+Another aspect of conditionals to match on is a boolean, whether something is true or false, using the following example, also referencing our `interfaces.yml`:
+
+```bash
+{% for item in interface[inventory_hostname]['interfaces'] %}
+{% if interface[inventory_hostname]['interfaces'][item]['mlag_peerlink'] == true %}
+interface {{ item }}
+description {{ interface[inventory_hostname]['interfaces'][item]['desc'] }}
+channel-group 2000 mode active
+{% else %}
+
+interface {{ item }}
+description {{ interface[inventory_hostname]['interfaces'][item]['desc'] }}
+
+{% endif %}
+{% endfor %}
+```
+
+Ignoring for a moment the for loop part we haven't covered yet, we can see we are checking each interface that is defined to see if the interface parameter for `mlag_peerlink` is set to true, if it is, we want to apply an extra line of configuration, `channel-group 2000 mode active`, if it's not, we just configure the specifed interface with a description.  The output of running this against the spines would be as follows:
+
+??? eos-config annotate "spine1 Output"
+
+```yaml
+interface Ethernet47
+description To_SPINE2_MLAG_PEERLINK
+channel-group 2000 mode active
+
+interface Ethernet48
+description To_SPINE2_MLAG_PEERLINK
+channel-group 2000 mode active
+
+interface Ethernet1
+description TO_LEAF1
+
+interface Ethernet2
+description TO_LEAF2
+```
+
+??? eos-config annotate "spine2 Output"
+
+```yaml
+interface Ethernet47
+description To_SPINE1_MLAG_PEERLINK
+channel-group 2000 mode active
+
+interface Ethernet48
+description To_SPINE1_MLAG_PEERLINK
+channel-group 2000 mode active
+
+interface Ethernet1
+description TO_LEAF1
+
+interface Ethernet2
+description TO_LEAF2
+```
+
 ### **Filters**
 
 ## **Jinja Templates**
