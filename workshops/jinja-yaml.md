@@ -975,23 +975,772 @@ Blue:
     202:
       l2vni: 20002
       anycast_gw: 10.20.20.1/24
-
 ```
 
+Reviewing this data model we can see we have two dictionaries that represent different vrfs, **Red** and **Blue**.  Within each of those dictionaries we have another dictionary called **vlans**, which defines the interfaces in each of those vrfs.  When performing the configuration of say the vxlan interface where we would need to define both the l3vni, as well as each vlan to vxlan mapping, we would need to loop through each of the parent keys, then each of the items in vlans dictionary.
+
+The template to accomplish this would look like this:
+
+```bash
+{# Leaf evpn config #}
+interface vxlan1
+vxlan source-interface loopback1
+vxlan udp-port 4789
+
+{% for vrf,vrf_values in vrf.items() %}
+
+vxlan vrf {{vrf}} vni {{ vrf_values['l3vni']}}
+
+{% for vlan,vlan_values in vrf_values['vlans'].items() %}
+
+vxlan vlan {{ vlan }} vni {{ vlan_values['l2vni'] }}
+
+{% endfor %}
+{% endfor %}
+```
+
+Looking at this template, lets walk through whats happening.  First, we have a for loop that is iterating through the top level dictionary keys in the YAMl file itself.  Those keys would be `Red` and `Blue`.  Looking at the actual for loop syntax itself, we have some new parameters to look at:
+
+`vrf`:  This is a variable the keys in the dictionary list are assigned to.
+
+`vrf_vales`:  This is another variable the corresponding values of those keys are assigned to.
+
+`vrf.items()`: This uses the built in .items function to determine which items in the dictionary we are looping through.  It includes the top level keys.
+
+Using those parameters, we construct our configuration line, which includes the variable `vrf`, the key, and the value for the pair `l3vni`.
+
+After this we repeat the same loop logic, but for the nested dictionary.  In this instance we create a new set of variables for the keys and values, only this time, those are assigned the values within the `vlans` dictionary, as called by the `vrf_values['vlans'].items()` parameter.
+
+<br>
+
+Before we view the final output, lets look at what the variable output actually is.  This will both make it clearer what they represent based on the data model, as well as show you a nice way to troubleshoot your template while you are working on it.
+
+First we will look at the `vrf` variables, and we will do this by changing the template to this:
+
+```bash
+{# Leaf evpn config #}
+{# interface vxlan1
+vxlan source-interface loopback1
+vxlan udp-port 4789 #}
+{% for vrf,vrf_values in vrf.items() %}
+{# vxlan vrf {{vrf}} vni {{ vrf_params['l3vni']}}  #}
+{{ vrf }}
+
+{% for vlan,vlan_values in vrf_values['vlans'].items() %}
+{# vxlan vlan {{ vlan }} vni {{ vlan_params['l2vni'] }} #}
+{{ vlan }}
+
+{% endfor %}
+{% endfor %}
+```
+
+Reviewing the above template, we will comment out everything except for our for loop and out initial key variables.  The result of this template will run through the nested loops, and output the value of the variables called, `{{ vrf }}`, and `{{ vlan }}`.
+
+Viewing the output, we can see that these equal the top level keys of our data model:
+
+```yaml
+Red
+
+101
+
+102
+
+
+Blue
+
+201
+
+202
+```
+
+The first for loop runs and you can see `vrf`=Red.  Then the nested loop runs twice due to there being two vlans, and we can see both vlan values.  This then repeats for the second top level key, `Blue`.
+
+<br>
+
+Now lets take a look at the `_params` variable.  Changing the template to what follows and commenting out our intial variable, and adding a substitution line for the `_params` variable:
+
+```bash
+{# Leaf evpn config #}
+{# interface vxlan1
+vxlan source-interface loopback1
+vxlan udp-port 4789 #}
+{% for vrf,vrf_values in vrf.items() %}
+{# vxlan vrf {{vrf}} vni {{ vrf_params['l3vni']}}  #}
+{# {{ vrf }} #}
+{{ vrf_values }}
+
+{% for vlan,vlan_values in vrf_values['vlans'].items() %}
+{# vxlan vlan {{ vlan }} vni {{ vlan_params['l2vni'] }} #}
+{# {{ vlan }} #}
+{{ vlan_values }}
+
+{% endfor %}
+{% endfor %}
+```
+
+Viewing the output, we can see that these equal the dictionary key-pair values of the nested `vlan` dictionary:
+
+```yaml
+{'l3vni': 10000, 'vlans': {101: {'l2vni': 10001, 'anycast_gw': '10.10.10.1/24'}, 102: {'l2vni': 10002, 'anycast_gw': '10.10.20.1/24'}}}
+
+{'l2vni': 10001, 'anycast_gw': '10.10.10.1/24'}
+
+{'l2vni': 10002, 'anycast_gw': '10.10.20.1/24'}
+
+
+{'l3vni': 20000, 'vlans': {201: {'l2vni': 20001, 'anycast_gw': '10.20.10.1/24'}, 202: {'l2vni': 20002, 'anycast_gw': '10.20.20.1/24'}}}
+
+{'l2vni': 20001, 'anycast_gw': '10.20.10.1/24'}
+
+{'l2vni': 20002, 'anycast_gw': '10.20.20.1/24'}
+```
+
+<br>
+
+Reverting back to our desired template, we can see what the template and actual output would be:
+
+```bash
+{# Leaf evpn config #}
+interface vxlan1
+vxlan source-interface loopback1
+vxlan udp-port 4789
+
+{% for vrf,vrf_values in vrf.items() %}
+
+vxlan vrf {{vrf}} vni {{ vrf_values['l3vni']}}
+
+{% for vlan,vlan_values in vrf_values['vlans'].items() %}
+
+vxlan vlan {{ vlan }} vni {{ vlan_values['l2vni'] }}
+
+{% endfor %}
+{% endfor %}
+```
+
+```yaml
+interface vxlan1
+vxlan source-interface loopback1
+vxlan udp-port 4789
+vxlan vrf Red vni 10000
+vxlan vlan 101 vni 10001
+vxlan vlan 102 vni 10002
+vxlan vrf Blue vni 20000
+vxlan vlan 201 vni 20001
+vxlan vlan 202 vni 20002
+```
+
+<br>
+
 ### **Filters**
+
+The final section we will cover will be filters.  While there are an enormous amount of filters available, we will just cover a very common one, the `ipaddr` filter.  In a simple explanation, the `ipaddr` filter takes a full IP address and subnet mask, and strips off just the mask, with the end result being only the address.  This can be helpful in an instance where you are using a full prefix and mask in your data model and don't want to create a new, duplicate, key-value pair mapping to be called.
+
+To illustrate this, we will use a very simple example for showing the IP address of the interface run against a single device, **spine1**.
+
+The data model is as follows:
+
+```yaml
+---
+spine1:
+  interfaces:
+    Loopback0:
+      ipv4: 192.168.101.101/32
+    Ethernet1:
+      ipv4: 1.1.1.1/26
+    Ethernet2:
+      ipv4: 2.2.2.2/8
+```
+
+The Jinja template is as follows:
+
+```bash
+Loopback0 ip is {{ ipaddr[inventory_hostname]['interfaces']['Loopback0']['ipv4'] | ipaddr('address')  }}
+Ethernet1 ip is {{ ipaddr[inventory_hostname]['interfaces']['Ethernet1']['ipv4'] | ipaddr('address')  }}
+Ethernet2 ip is {{ ipaddr[inventory_hostname]['interfaces']['Ethernet2']['ipv4'] | ipaddr('address')  }}
+```
+
+Reviewing our template, we can see we are using the current inventory device we are running the playbook against, and keying in on the ipv4 address mapping.  We are then using the filter command, `|`, and specifying the `address` keyword, meaning we only want the address part of the whole prefix.
+
+Running the command results in the following output:
+
+```yaml
+Loopback0 ip is 192.168.101.101
+Ethernet1 ip is 1.1.1.1
+Ethernet2 ip is 2.2.2.2
+```
+
+<br>
+
+## **The Jinja YAML Relationship**
+
+As has hopefully been explained well, the interdependent relationship between Jinja and YAML is that Jinja templates utilize the YAML vars files and their data model to generate new configurations, whether full or partial.  YAML files serve no purpose without being called and their variables used, and cofigurations rendered from Jinja templates would be no different than static configs without the variable substitution of YAML files.
 
 ## **Jinja Templates**
 
 ### **Network Config Template Example**
 
-<br>
-<br>
-<br>
+Using all the above sections we have reviewed, lets put it all together into a template called `full_config.j2`, which renders an entire network config based on the `global.yml` and `interface.yml` YAML files.
 
-# **The Jinja YAML Relationship**
+The Jinja template would look as follows:
 
-<br>
-<br>
+??? eos-config annotate "full_config.j2"
+
+```bash
+{# Base Config Test #}
+
+hostname {{ inventory_hostname }}
+
+username admin priv {{ global['local_users']['admin']['privilege'] }} role {{ global['local_users']['admin']['role'] }} secret {{ global['local_users']['admin']['secret'] }}
+
+username noc priv {{ global['local_users']['noc']['privilege'] }} role {{ global['local_users']['noc']['role'] }} secret {{ global['local_users']['noc']['secret'] }}
+
+aaa authentication login default {{ global['aaa_authentication']['login']['default'] }}
+
+aaa authorization exec default {{ global['aaa_authorization']['exec']['default'] }}
+
+{% for rsrv in global['radius_servers'] %}
+radius-server host {{ rsrv['host'] }} vrf {{ rsrv['vrf'] }} key {{ rsrv['key'] }}
+{% endfor %}
+
+{% for httpsrc in global['ip_http_client_source_interfaces'] %}
+ip http client local-interface {{ httpsrc['name'] }} vrf {{ httpsrc['vrf'] }}
+{% endfor %}
+
+{% for radsrc in global['ip_radius_source_interfaces'] %}
+ip radius vrf {{ radsrc['vrf'] }} source-interface {{ radsrc['name'] }}
+{% endfor %}
+
+mac address-table aging-time {{ global['mac_address_table']['aging_time']}}
+
+arp aging timeout {{ global['arp']['aging']['timeout_default']}}
+
+{% for dns in global['name_servers'] %}
+ip name-server {{ dns }}
+{% endfor %}
+
+ip domain lookup vrf {{ global['ip_domain_lookup']['source_interfaces']['Management1']['vrf'] }} source-interface Management1
+
+
+{% for ntps in global['ntp']['servers'] %}
+ntp server vrf {{ ntps['vrf'] }} {{ ntps['name'] }}
+{% endfor %}
+
+clock timezone {{ global['clock']['timezone']}}
+
+vlan 4094
+name MLAG
+trunk group MLAGPeer
+
+no spanning-tree vlan 4094
+
+{% for item in interface[inventory_hostname]['interfaces'] %}
+{% if interface[inventory_hostname]['interfaces'][item]['mlag_peerlink'] == true %}
+interface {{ item }}
+description {{ interface[inventory_hostname]['interfaces'][item]['desc'] }}
+channel-group 2000 mode active
+{% else %}
+
+interface {{ item }}
+description {{ interface[inventory_hostname]['interfaces'][item]['desc'] }}
+
+{% endif %}
+
+{% endfor %}
+
+interface port-channel 2000
+switchport
+switchport mode trunk
+switchport trunk group MLAGPeer
+
+{% if interface[inventory_hostname]['mlag_side'] == 'A' %}
+int vlan 4094
+ip address 192.0.0.0/31
+
+mlag configuration
+domain-id workshop
+local-interface vlan4094
+peer-link po2000
+peer-address 192.0.0.1
+
+{% else %}
+
+int vlan 4094
+ip address 192.0.0.1/31
+
+mlag configuration
+domain-id workshop
+local-interface vlan4094
+peer-link po2000
+peer-address 192.0.0.0
+{% endif %}
+
+```
+
 <br>
 
 # **Final Output - Tying It All Together**
+
+Lets put our full YAML data models below, as well as the output that is generated for `spine1-2` and `leaf1-2`:
+
+??? eos-config annotate "global.yml"
+
+```yaml
+# local users
+local_users:
+  admin:
+    privilege: 15
+    role: network-admin
+    secret: aristaadmin
+  noc:
+    privilege: 1
+    role: network-operator
+    secret: aristaops
+
+# aaa authentication and authorization
+aaa_authentication:
+  login:
+    default: group radius local
+
+aaa_authorization:
+  exec:
+    default: group radius local
+
+# radius servers
+radius_servers:
+  - host: 192.168.1.10
+    vrf: MGMT
+    key: radiusserverkey
+
+# HTTP Client source interface and VRF
+ip_http_client_source_interfaces:
+    - name: Management1
+      vrf: MGMT
+
+# RADIUS source interface and VRF
+ip_radius_source_interfaces:
+  - name: Management1
+    vrf: MGMT
+
+#MAC and ARP aging timers
+mac_address_table:
+  aging_time: 1800
+
+arp:
+  aging:
+    timeout_default: 1500
+
+# DNS Servers
+name_servers:
+  - 10.100.100.20
+  - 8.8.8.8
+  - 4.4.4.4
+  - 208.67.222.222
+
+# DNS lookup source interface (Servers defined in 1L2P.yml)
+ip_domain_lookup:
+  source_interfaces:
+    Management1:
+      vrf: MGMT
+
+# NTP Servers (source interface defined in group specific YML files (CORE, ACCESS, MGMT, INET)
+ntp:
+  local_interface:
+    name: Management1
+    vrf: MGMT
+  servers:
+    - name: 0.north-america.pool.ntp.org
+      vrf: MGMT
+    - name: 1.north-america.pool.ntp.org
+      vrf: MGMT
+    - name: 2.north-america.pool.ntp.org
+      vrf: MGMT
+    - name: time.google.com
+      vrf: MGMT
+
+clock:
+  timezone: "America/Detroit"
+```
+
+??? eos-config annotate "interface.yml"
+
+```yaml
+---
+spine1:
+  mlag_side: A
+  interfaces:
+    Ethernet47:
+      desc: To_SPINE2_MLAG_PEERLINK
+      mlag_peerlink: true
+    Ethernet48:
+      desc: To_SPINE2_MLAG_PEERLINK
+      mlag_peerlink: true
+    Ethernet1:
+      desc: TO_LEAF1
+      mlag_peerlink: false
+    Ethernet2:
+      desc: TO_LEAF2
+      mlag_peerlink: false
+spine2:
+  mlag_side: B
+  interfaces:
+    Ethernet47:
+      desc: 'To_SPINE1_MLAG_PEERLINK'
+      mlag_peerlink: true
+    Ethernet48:
+      desc: 'To_SPINE1_MLAG_PEERLINK'
+      mlag_peerlink: true
+    Ethernet1:
+      desc: 'TO_LEAF1'
+      mlag_peerlink: false
+    Ethernet2:
+      desc: 'TO_LEAF2'
+      mlag_peerlink: false
+leaf1:
+  mlag_side: A
+  interfaces:
+    Ethernet47:
+      desc: 'To_LEAF2_MLAG_PEERLINK'
+      mlag_peerlink: true
+    Ethernet48:
+      desc: 'To_LEAF2_MLAG_PEERLINK'
+      mlag_peerlink: true
+    Ethernet1:
+      desc: 'TO_SPINE1'
+      mlag_peerlink: false
+    Ethernet2:
+      desc: 'TO_SPINE2'
+      mlag_peerlink: false
+leaf2:
+  mlag_side: B
+  interfaces:
+    Ethernet47:
+      desc: 'To_LEAF1_MLAG_PEERLINK'
+      mlag_peerlink: true
+    Ethernet48:
+      desc: 'To_LEAF1_MLAG_PEERLINK'
+      mlag_peerlink: true
+    Ethernet1:
+      desc: 'TO_SPINE1'
+      mlag_peerlink: false
+    Ethernet2:
+      desc: 'TO_SPINE2'
+      mlag_peerlink: false
+
+```
+
+<br>
+
+And the configuration outputs:
+
+??? eos-config annotate "spine1_config.cfg"
+
+```yaml
+hostname spine1
+
+username admin priv 15 role network-admin secret aristaadmin
+
+username noc priv 1 role network-operator secret aristaops
+
+aaa authentication login default group radius local
+
+aaa authorization exec default group radius local
+
+radius-server host 192.168.1.10 vrf MGMT key radiusserverkey
+
+ip http client local-interface Management1 vrf MGMT
+
+ip radius vrf MGMT source-interface Management1
+
+mac address-table aging-time 1800
+
+arp aging timeout 1500
+
+ip name-server 10.100.100.20
+ip name-server 8.8.8.8
+ip name-server 4.4.4.4
+ip name-server 208.67.222.222
+
+ip domain lookup vrf MGMT source-interface Management1
+
+
+ntp server vrf MGMT 0.north-america.pool.ntp.org
+ntp server vrf MGMT 1.north-america.pool.ntp.org
+ntp server vrf MGMT 2.north-america.pool.ntp.org
+ntp server vrf MGMT time.google.com
+
+clock timezone America/Detroit
+
+vlan 4094
+name MLAG
+trunk group MLAGPeer
+
+no spanning-tree vlan 4094
+
+interface Ethernet47
+description To_SPINE2_MLAG_PEERLINK
+channel-group 2000 mode active
+
+interface Ethernet48
+description To_SPINE2_MLAG_PEERLINK
+channel-group 2000 mode active
+
+
+interface Ethernet1
+description TO_LEAF1
+
+
+
+interface Ethernet2
+description TO_LEAF2
+
+
+
+interface port-channel 2000
+switchport
+switchport mode trunk
+switchport trunk group MLAGPeer
+
+int vlan 4094
+ip address 192.0.0.0/31
+
+mlag configuration
+domain-id workshop
+local-interface vlan4094
+peer-link po2000
+peer-address 192.0.0.1
+```
+
+??? eos-config annotate "spine2_config.cfg"
+
+```yaml
+hostname spine2
+
+username admin priv 15 role network-admin secret aristaadmin
+
+username noc priv 1 role network-operator secret aristaops
+
+aaa authentication login default group radius local
+
+aaa authorization exec default group radius local
+
+radius-server host 192.168.1.10 vrf MGMT key radiusserverkey
+
+ip http client local-interface Management1 vrf MGMT
+
+ip radius vrf MGMT source-interface Management1
+
+mac address-table aging-time 1800
+
+arp aging timeout 1500
+
+ip name-server 10.100.100.20
+ip name-server 8.8.8.8
+ip name-server 4.4.4.4
+ip name-server 208.67.222.222
+
+ip domain lookup vrf MGMT source-interface Management1
+
+
+ntp server vrf MGMT 0.north-america.pool.ntp.org
+ntp server vrf MGMT 1.north-america.pool.ntp.org
+ntp server vrf MGMT 2.north-america.pool.ntp.org
+ntp server vrf MGMT time.google.com
+
+clock timezone America/Detroit
+
+vlan 4094
+name MLAG
+trunk group MLAGPeer
+
+no spanning-tree vlan 4094
+
+interface Ethernet47
+description To_SPINE1_MLAG_PEERLINK
+channel-group 2000 mode active
+
+interface Ethernet48
+description To_SPINE1_MLAG_PEERLINK
+channel-group 2000 mode active
+
+
+interface Ethernet1
+description TO_LEAF1
+
+
+
+interface Ethernet2
+description TO_LEAF2
+
+
+
+interface port-channel 2000
+switchport
+switchport mode trunk
+switchport trunk group MLAGPeer
+
+int vlan 4094
+ip address 192.0.0.1/31
+
+mlag configuration
+domain-id workshop
+local-interface vlan4094
+peer-link po2000
+peer-address 192.0.0.0
+```
+
+??? eos-config annotate "leaf1_config.cfg"
+
+```yaml
+hostname leaf1
+
+username admin priv 15 role network-admin secret aristaadmin
+
+username noc priv 1 role network-operator secret aristaops
+
+aaa authentication login default group radius local
+
+aaa authorization exec default group radius local
+
+radius-server host 192.168.1.10 vrf MGMT key radiusserverkey
+
+ip http client local-interface Management1 vrf MGMT
+
+ip radius vrf MGMT source-interface Management1
+
+mac address-table aging-time 1800
+
+arp aging timeout 1500
+
+ip name-server 10.100.100.20
+ip name-server 8.8.8.8
+ip name-server 4.4.4.4
+ip name-server 208.67.222.222
+
+ip domain lookup vrf MGMT source-interface Management1
+
+
+ntp server vrf MGMT 0.north-america.pool.ntp.org
+ntp server vrf MGMT 1.north-america.pool.ntp.org
+ntp server vrf MGMT 2.north-america.pool.ntp.org
+ntp server vrf MGMT time.google.com
+
+clock timezone America/Detroit
+
+vlan 4094
+name MLAG
+trunk group MLAGPeer
+
+no spanning-tree vlan 4094
+
+interface Ethernet47
+description To_LEAF2_MLAG_PEERLINK
+channel-group 2000 mode active
+
+interface Ethernet48
+description To_LEAF2_MLAG_PEERLINK
+channel-group 2000 mode active
+
+
+interface Ethernet1
+description TO_SPINE1
+
+
+
+interface Ethernet2
+description TO_SPINE2
+
+
+
+interface port-channel 2000
+switchport
+switchport mode trunk
+switchport trunk group MLAGPeer
+
+int vlan 4094
+ip address 192.0.0.0/31
+
+mlag configuration
+domain-id workshop
+local-interface vlan4094
+peer-link po2000
+peer-address 192.0.0.1
+
+```
+
+??? eos-config annotate "leaf2_config.cfg"
+
+```yaml
+hostname leaf2
+
+username admin priv 15 role network-admin secret aristaadmin
+
+username noc priv 1 role network-operator secret aristaops
+
+aaa authentication login default group radius local
+
+aaa authorization exec default group radius local
+
+radius-server host 192.168.1.10 vrf MGMT key radiusserverkey
+
+ip http client local-interface Management1 vrf MGMT
+
+ip radius vrf MGMT source-interface Management1
+
+mac address-table aging-time 1800
+
+arp aging timeout 1500
+
+ip name-server 10.100.100.20
+ip name-server 8.8.8.8
+ip name-server 4.4.4.4
+ip name-server 208.67.222.222
+
+ip domain lookup vrf MGMT source-interface Management1
+
+
+ntp server vrf MGMT 0.north-america.pool.ntp.org
+ntp server vrf MGMT 1.north-america.pool.ntp.org
+ntp server vrf MGMT 2.north-america.pool.ntp.org
+ntp server vrf MGMT time.google.com
+
+clock timezone America/Detroit
+
+vlan 4094
+name MLAG
+trunk group MLAGPeer
+
+no spanning-tree vlan 4094
+
+interface Ethernet47
+description To_LEAF1_MLAG_PEERLINK
+channel-group 2000 mode active
+
+interface Ethernet48
+description To_LEAF1_MLAG_PEERLINK
+channel-group 2000 mode active
+
+
+interface Ethernet1
+description TO_SPINE1
+
+
+
+interface Ethernet2
+description TO_SPINE2
+
+
+
+interface port-channel 2000
+switchport
+switchport mode trunk
+switchport trunk group MLAGPeer
+
+int vlan 4094
+ip address 192.0.0.1/31
+
+mlag configuration
+domain-id workshop
+local-interface vlan4094
+peer-link po2000
+peer-address 192.0.0.0
+```
