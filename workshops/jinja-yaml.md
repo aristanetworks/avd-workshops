@@ -1,16 +1,12 @@
-![Jinja YAML Banner](assets/images/jinja-yaml-banner.png)
-
 # Welcome to YAML & Jinja
 
-This section will cover both Jinja and YAML, which are two interdependent pieces of basic configuration automation framework.  While both YAML and Jinja can get relatively complex with what they can accomplish and what can be done with them, we will only cover what is necessary to utilize these tools for network automation and DevOps.  At the end of the YAML and JINJA section, we will tie everything together with a final output.
+![Jinja YAML Banner](assets/images/jinja-yaml-banner.png)
 
-# YAML
+This section will cover both Jinja and YAML, which are two interdependent pieces of basic configuration automation framework.  While both YAML and Jinja can get relatively complex with what they can accomplish and what can be done with them, we will only cover what is necessary to utilize these tools for network automation and DevOps.  At the end of the YAML and JINJA section, we will tie everything together with a final output.
 
 ## What is YAML?
 
 YAML is what's officially referred to as a data serialization language.  While that sounds complex, data serialization is simply the process of converting objects within a data model into a byte stream for the purpose of storing or transferring it.  Breaking this down, we know when trying to automate configuration management or deployment, we need to specify ***what*** it is we want to configure, that is, what should our desired end state configuration look like.  ( **intent based networking** )
-
-<br>
 
 An important note is about why we are talking about and using YAML in the first place.  As mentioned in the beginning, YAML is a data serialization langauge, however, it is not the only one.  Some other common, data serialization languages are XML, JSON, and CSV.  The reason we are particular towards YAML is that not only are there libraries available in most programming languages, but also because as the following table shows, it is very human readable.
 
@@ -87,8 +83,6 @@ ntp:
 </tr>
 </table>
 
-<br>
-
 ## Common YAML Syntax
 
 Now that we know the idea of what YAML is and what it's used for, we can cover the various constructs within a YAML file, and how to use those expressions to create files that are useful to us as engineers trying to manage configurations.
@@ -97,11 +91,7 @@ Now that we know the idea of what YAML is and what it's used for, we can cover t
 
 Comments are an important part of any documentation or configuration you are doing.  When creating or modify any network configurations, while you don't realize it, you are commenting something that is important.  When configuring an interface, you may add a description, such as the name of a downstream device or server it's connected to.  Or if its a provider handoff you may add the NOC telephone number and the circuitID.  If you are configuring BGP peers, you may add a description to each peer so it's clear what the neighbor is.
 
-<br>
-
 In YAML, you can enter comments anywhere you'd like, and ideally, where it makes sense to help explain what your data model is representing.  Comments in YAML are represented with the pound symbol, and shown below.
-
-<br>
 
 ```yaml
 ---
@@ -114,15 +104,12 @@ mgmt_interface: Management0
 mgmt_interface_vrf: default
 ```
 
-:writing_hand: **Tip:**  In VSCode, you can auto-comment any text you want by selecting the text and pressing ***windows*** `winkey + /` or ***mac*** `cmd + /` .
-
-<br>
+???+ tip
+    :writing_hand: In VSCode, you can auto-comment any text you want by selecting the text and pressing ***windows*** ++ctrl++ + ++slash++ or ***mac*** ++cmd++ + ++slash++.
 
 ### Mappings
 
 The first, and basic YAML construct is a mapping, which comprises of what is technically called a `scalar`.  This will probably be the only time you hear or reference the word **scalar**, ever.
-
-<br>
 
 ```yaml
 ---
@@ -132,8 +119,6 @@ integer: 10
 boolean: true
 string: "Welcome to the Automation Workshop"
 ```
-
-<br>
 
 Sometimes, a scalar is referred to as only the initial part of the line of text such as a list of names or locations like such.
 
@@ -147,8 +132,6 @@ Sometimes, a scalar is referred to as only the initial part of the line of text 
 - Black Bears Pass
 - Ophir Pass
 ```
-
-<br>
 
 In normal day to day use, you will see scalars referred to as **key value pair mappings**, or just **mappings** for short.  A mapping is the data label, followed by its value, separated by a **`:`** colon.
 
@@ -164,8 +147,6 @@ mgmt_interface_vrf: MGMT
 spanning_tree_mode: rapid-pvst
 spanning_tree_priority: 4096
 ```
-
-<br>
 
 ### Boolean
 
@@ -185,8 +166,6 @@ evpn_gateway:
 
 mlag: false
 ```
-
-<br>
 
 ### Lists
 
@@ -211,8 +190,6 @@ bgp_defaults:
     - 'graceful-restart'
 ```
 
-<br>
-
 ### Dictionary
 
 While we just covered lists, which allow you to specify an item that falls inline below a parent label or key, what happens when you want to include more specific attributes to that parent label, or if you want to introduce more details such as key-value pair mappings to your list?  In that occasion, what is used, and what you will see regularly in just about every network vars file, is a dictionary.  As previously described, a dictionary is a list of key-value mappings.
@@ -234,15 +211,14 @@ l3spine:
     mlag_port_channel_id: 2000
 ```
 
-<br>
-
 ### Nested Data Structures
 
 One of the double edged parts of YAML is that it can be quite complex.  This is good because it is very flexible for how we can build our data model, but it also means that model can get out of control.  YAML syntax is hierarchical, and at the same time, just about every construct we covered previous to this can be nested within each other.  Lets take a look at some nested data structures that illustrate this.
 
 In this first example we will have a list of dictionaries:
 
-:writing_hand: **Reminder:**  Indentation is key.
+???+ tip "Reminder"
+    :writing_hand: Indentation is key.
 
 ```yaml
 ---
@@ -266,8 +242,6 @@ local_users:
     role: network-operator
     sha512_password: encrypted_pass
 ```
-
-<br>
 
 The following example will show another network device specific nested data structure which mixes dictionaries and lists in different places:
 
@@ -305,8 +279,6 @@ svis:
       SW-CORE-B:
         ip_address: 10.10.10.3/23
 ```
-
-<br>
 
 ## YAML File Examples
 
@@ -396,8 +368,6 @@ clock:
   timezone: "America/Detroit"
 ```
 
-<br>
-
 `interface.yml`
 
 ```yaml
@@ -464,17 +434,11 @@ leaf2:
       mlag_peerlink: false
 ```
 
-<br>
-<br>
-<br>
-
 # Jinja
 
 ## What is Jinja?
 
 At a high level, Jinja is a templating engine used to create markup files such as HTML or XML as well as custom text files, such as in our instance config files.  Under the hood, Jinja is an open source python library that lets you create extensible templates.  One of the major benefits of Jinja is that the template files you create allow you to define both static text, as well as variables.  Some of the Jinja template syntax may look familiar because Jinja is not the first templating engine, and is actually inspired by Django.
-
-<br>
 
 ## What is Jinja Used For?
 
@@ -484,38 +448,30 @@ As it may have become apparent from the YAML section, after creating our data mo
 
 As a foreward to getting into the different tasks we can accomplish in our Jinja templates, it's important to call out that there are a few common expressions that are used throughout all Jinja templates, including those related to network devices.  They are outlined below.
 
-<br>
-
 `Comments:`
 
 Comments are represented as such, with our friend the pound symbol:
 
-```bash
+```jinja
 {# Automation Is Fun #}
 ```
-
-<br>
 
 `Expressions/Variables`
 
 Expressions or variables are represented with a pair of curly brackets:
 
-```bash
+```jinja
  {{ inventory_hostname }}
- ```
-
-<br>
+```
 
 `Statements`
 
 Statements are represented with a percent symbol:
 
-```bash
+```jinja
 {% for items in vars_file['interfaces'] %}
 {% endfor %}
 ```
-
-<br>
 
 ### Inventory File and Ansible Playbook
 
@@ -532,8 +488,6 @@ fabric:
     leaf1:
     leaf2:
 ```
-
-<br>
 
 ```yaml
 ---
@@ -560,7 +514,7 @@ As shown previously, we know expressions or variable substitution is performed w
 
 For example, we may want to generate the hostname in our template for all the devices in our inventory file.  In order to this we can use a standard Ansible variable called `inventory_hostname`, which substitutes in the current name of the inventory host the Ansible play is running against.
 
-```bash
+```jinja
 {# Create a file assigning the device hostname #}
 
 hostname {{ inventory_hostname }}
@@ -568,18 +522,16 @@ hostname {{ inventory_hostname }}
 
 Assuming our pre-defined inventory file, running Ansible against this template with the relevant YAML file called would yield four different output files:
 
-```bash
+```jinja
 spine1_config.cfg
 spine2_config.cfg
 leaf1_config.cfg
 leaf2_config.cfg
 ```
 
-<br>
-
 The output of one of these files all listed below would be as follows:
 
-```bash
+```jinja
 #spine1_config.cfg
 hostname spine1
 
@@ -592,8 +544,6 @@ hostname leaf1
 #leaf2_config.cfg
 hostname leaf2
 ```
-
-<br>
 
 How about a more complex variable substitution using something from one of our data models above.  This shows how to substitute for a single dictionary item:
 
@@ -613,7 +563,7 @@ clock:
 
 The Jinja template to call these variables is shown here:
 
-```bash
+```jinja
 # Render aaa authC config line
 aaa authentication login default {{ global['aaa_authentication']['login']['default'] }}
 
@@ -623,8 +573,6 @@ aaa authorization exec default {{ global['aaa_authorization']['exec']['default']
 # Render clock timezone config line
 clock timezone {{ global['clock']['timezone']}}
 ```
-
-<br>
 
 As you can see, the variable has many parameters in them.  Lets walk through these parameters using the `aaa authentication` config line.
 
@@ -640,22 +588,18 @@ Running the playbook generates the following configuration against all devices c
 
 ??? eos-config annotate "Configuration Output"
 
-  ```yaml
-  # AAA authC Login
-  aaa authentication login default group radius local
+    ```yaml
+    # AAA authC Login
+    aaa authentication login default group radius local
 
-  # AAA authZ Login
-  aaa authorization exec default group radius local
+    # AAA authZ Login
+    aaa authorization exec default group radius local
 
-  # Device Timezone
-  clock timezone America/Detroit
-  ```
-
-<br>
+    # Device Timezone
+    clock timezone America/Detroit
+    ```
 
 ### Conditionals and Loops
-
-<br>
 
 #### Conditionals
 
@@ -703,7 +647,7 @@ The following dictionary key is what we are going to pay close attention to for 
 
 Here we will use a Jinja template to create a partial, correct MLAG configuration per spine device, based on which side it is.
 
-```bash
+```jinja
 {% if interface[inventory_hostname]['mlag_side'] == 'A' %}
 int vlan 4094
 ip address 192.0.0.0/31
@@ -733,35 +677,33 @@ Here is the output of running the Ansible playbook and the configs that are gene
 
 ??? eos-config annotate "spine1 Output"
 
-  ```yaml
-  int vlan 4094
-  ip address 192.0.0.0/31
+    ```yaml
+    int vlan 4094
+    ip address 192.0.0.0/31
 
-  mlag configuration
-  domain-id workshop
-  local-interface vlan4094
-  peer-link po2000
-  peer-address 192.0.0.1
-  ```
+    mlag configuration
+    domain-id workshop
+    local-interface vlan4094
+    peer-link po2000
+    peer-address 192.0.0.1
+    ```
 
 ??? eos-config annotate "spine2 Output"
 
-  ```yaml
-  int vlan 4094
-  ip address 192.0.0.1/31
+    ```yaml
+    int vlan 4094
+    ip address 192.0.0.1/31
 
-  mlag configuration
-  domain-id workshop
-  local-interface vlan4094
-  peer-link po2000
-  peer-address 192.0.0.0
-  ```
-
-<br>
+    mlag configuration
+    domain-id workshop
+    local-interface vlan4094
+    peer-link po2000
+    peer-address 192.0.0.0
+    ```
 
 Another aspect of conditionals to match on is a boolean, whether something is true or false, using the following example, also referencing our `interfaces.yml`:
 
-```bash
+```jinja
 {% for item in interface[inventory_hostname]['interfaces'] %}
 {% if interface[inventory_hostname]['interfaces'][item]['mlag_peerlink'] == true %}
 interface {{ item }}
@@ -780,41 +722,39 @@ Ignoring for a moment the for loop part we haven't covered yet, we can see we ar
 
 ??? eos-config annotate "spine1 Output"
 
-  ```yaml
-  interface Ethernet47
-  description To_SPINE2_MLAG_PEERLINK
-  channel-group 2000 mode active
+    ```yaml
+    interface Ethernet47
+    description To_SPINE2_MLAG_PEERLINK
+    channel-group 2000 mode active
 
-  interface Ethernet48
-  description To_SPINE2_MLAG_PEERLINK
-  channel-group 2000 mode active
+    interface Ethernet48
+    description To_SPINE2_MLAG_PEERLINK
+    channel-group 2000 mode active
 
-  interface Ethernet1
-  description TO_LEAF1
+    interface Ethernet1
+    description TO_LEAF1
 
-  interface Ethernet2
-  description TO_LEAF2
-  ```
+    interface Ethernet2
+    description TO_LEAF2
+    ```
 
 ??? eos-config annotate "spine2 Output"
 
-  ```yaml
-  interface Ethernet47
-  description To_SPINE1_MLAG_PEERLINK
-  channel-group 2000 mode active
+    ```yaml
+    interface Ethernet47
+    description To_SPINE1_MLAG_PEERLINK
+    channel-group 2000 mode active
 
-  interface Ethernet48
-  description To_SPINE1_MLAG_PEERLINK
-  channel-group 2000 mode active
+    interface Ethernet48
+    description To_SPINE1_MLAG_PEERLINK
+    channel-group 2000 mode active
 
-  interface Ethernet1
-  description TO_LEAF1
+    interface Ethernet1
+    description TO_LEAF1
 
-  interface Ethernet2
-  description TO_LEAF2
-  ```
-
-<br>
+    interface Ethernet2
+    description TO_LEAF2
+    ```
 
 ### Loops
 
@@ -830,7 +770,7 @@ name_servers:
 
 The template with a for loop to iterate through this list would be as follows:
 
-```bash
+```jinja
 {% for dns in global['name_servers'] %}
 ip name-server {{ dns }}
 {% endfor %}
@@ -870,8 +810,6 @@ ip name-server 4.4.4.4
 ip name-server 208.67.222.222
 ```
 
-<br>
-
 Now lets take a look at a slightly more complex, nested data structure, such as a dictionary with a list item.  We will use the following portion from our data model:
 
 ```yaml
@@ -884,7 +822,7 @@ radius_servers:
 
 The template with a for loop to iterate through this list would be as follows:
 
-```bash
+```jinja
 {% for rsrv in global['radius_servers'] %}
 radius-server host {{ rsrv['host'] }} vrf {{ rsrv['vrf'] }} key {{ rsrv['key'] }}
 {% endfor %}
@@ -904,8 +842,6 @@ The for loop would run as many times as there are items in the list, which is ju
 radius-server host 192.168.1.10 vrf MGMT key radiusserverkey
 ```
 
-<br>
-
 While that was simple, what if we have something more complex, like a dictionary with a list of dictionaries?  Lets take a look at how this would be represented in Jinja using the following YAML data model from our `global.yml` file.
 
 ```yaml
@@ -923,7 +859,7 @@ ntp:
 
 The template with a for loop to iterate through this list would be as follows:
 
-```bash
+```jinja
 {% for ntps in global['ntp']['servers'] %}
 ntp server vrf {{ ntps['vrf'] }} {{ ntps['name'] }}
 {% endfor %}
@@ -945,8 +881,6 @@ ntp server vrf MGMT 1.north-america.pool.ntp.org
 ntp server vrf MGMT 2.north-america.pool.ntp.org
 ntp server vrf MGMT time.google.com
 ```
-
-<br>
 
 In the previous examples we only covered single for loops iterating a single layer deep, however, what if we have a dictionary within a dictionary, which contains a list?  In that instance we would need to have nested for loops in our templates.  For this example we will introduce a new YAML data model to better illustrate nested for loops.  This section shows some configuration you may need to apply related to EVPN VXLAN:
 
@@ -977,7 +911,7 @@ Reviewing this data model we can see we have two dictionaries that represent dif
 
 The template to accomplish this would look like this:
 
-```bash
+```jinja
 {# Leaf evpn config #}
 interface vxlan1
 vxlan source-interface loopback1
@@ -1007,13 +941,11 @@ Using those parameters, we construct our configuration line, which includes the 
 
 After this we repeat the same loop logic, but for the nested dictionary.  In this instance we create a new set of variables for the keys and values, only this time, those are assigned the values within the `vlans` dictionary, as called by the `vrf_values['vlans'].items()` parameter.
 
-<br>
-
 Before we view the final output, lets look at what the variable output actually is.  This will both make it clearer what they represent based on the data model, as well as show you a nice way to troubleshoot your template while you are working on it.
 
 First we will look at the `vrf` variables, and we will do this by changing the template to this:
 
-```bash
+```jinja
 {# Leaf evpn config #}
 {# interface vxlan1
 vxlan source-interface loopback1
@@ -1051,11 +983,9 @@ Blue
 
 The first for loop runs and you can see `vrf`=Red.  Then the nested loop runs twice due to there being two vlans, and we can see both vlan values.  This then repeats for the second top level key, `Blue`.
 
-<br>
-
 Now lets take a look at the `_params` variable.  Changing the template to what follows and commenting out our intial variable, and adding a substitution line for the `_params` variable:
 
-```bash
+```jinja
 {# Leaf evpn config #}
 {# interface vxlan1
 vxlan source-interface loopback1
@@ -1091,11 +1021,9 @@ Viewing the output, we can see that these equal the dictionary key-pair values o
 {'l2vni': 20002, 'anycast_gw': '10.20.20.1/24'}
 ```
 
-<br>
-
 Reverting back to our desired template, we can see what the template and actual output would be:
 
-```bash
+```jinja
 {# Leaf evpn config #}
 interface vxlan1
 vxlan source-interface loopback1
@@ -1125,8 +1053,6 @@ vxlan vlan 201 vni 20001
 vxlan vlan 202 vni 20002
 ```
 
-<br>
-
 ### Filters
 
 The final section we will cover will be filters.  While there are an enormous amount of filters available, we will just cover a very common one, the `ipaddr` filter.  In a simple explanation, the `ipaddr` filter takes a full IP address and subnet mask, and strips off just the mask, with the end result being only the address.  This can be helpful in an instance where you are using a full prefix and mask in your data model and don't want to create a new, duplicate, key-value pair mapping to be called.
@@ -1149,7 +1075,7 @@ spine1:
 
 The Jinja template is as follows:
 
-```bash
+```jinja
 Loopback0 ip is {{ ipaddr[inventory_hostname]['interfaces']['Loopback0']['ipv4'] | ipaddr('address')  }}
 Ethernet1 ip is {{ ipaddr[inventory_hostname]['interfaces']['Ethernet1']['ipv4'] | ipaddr('address')  }}
 Ethernet2 ip is {{ ipaddr[inventory_hostname]['interfaces']['Ethernet2']['ipv4'] | ipaddr('address')  }}
@@ -1165,13 +1091,9 @@ Ethernet1 ip is 1.1.1.1
 Ethernet2 ip is 2.2.2.2
 ```
 
-<br>
-
 ## The Jinja YAML Relationship
 
 As has hopefully been explained well, the interdependent relationship between Jinja and YAML is that Jinja templates utilize the YAML vars files and their data model to generate new configurations, whether full or partial.  YAML files serve no purpose without being called and their variables used, and cofigurations rendered from Jinja templates would be no different than static configs without the variable substitution of YAML files.
-
-<br>
 
 ## Jinja Templates
 
@@ -1183,97 +1105,95 @@ The Jinja template would look as follows:
 
 ??? eos-config annotate "full_config.j2"
 
-  ```bash
-  {# Full Config #}
+    ```jinja
+    {# Full Config #}
 
-  hostname {{ inventory_hostname }}
+    hostname {{ inventory_hostname }}
 
-  username admin priv {{ global['local_users']['admin']['privilege'] }} role {{ global['local_users']['admin']['role'] }} secret {{ global['local_users']['admin']['secret'] }}
+    username admin priv {{ global['local_users']['admin']['privilege'] }} role {{ global['local_users']['admin']['role'] }} secret {{ global['local_users']['admin']['secret'] }}
 
-  username noc priv {{ global['local_users']['noc']['privilege'] }} role {{ global['local_users']['noc']['role'] }} secret {{ global['local_users']['noc']['secret'] }}
+    username noc priv {{ global['local_users']['noc']['privilege'] }} role {{ global['local_users']['noc']['role'] }} secret {{ global['local_users']['noc']['secret'] }}
 
-  aaa authentication login default {{ global['aaa_authentication']['login']['default'] }}
+    aaa authentication login default {{ global['aaa_authentication']['login']['default'] }}
 
-  aaa authorization exec default {{ global['aaa_authorization']['exec']['default'] }}
+    aaa authorization exec default {{ global['aaa_authorization']['exec']['default'] }}
 
-  {% for rsrv in global['radius_servers'] %}
-  radius-server host {{ rsrv['host'] }} vrf {{ rsrv['vrf'] }} key {{ rsrv['key'] }}
-  {% endfor %}
+    {% for rsrv in global['radius_servers'] %}
+    radius-server host {{ rsrv['host'] }} vrf {{ rsrv['vrf'] }} key {{ rsrv['key'] }}
+    {% endfor %}
 
-  {% for httpsrc in global['ip_http_client_source_interfaces'] %}
-  ip http client local-interface {{ httpsrc['name'] }} vrf {{ httpsrc['vrf'] }}
-  {% endfor %}
+    {% for httpsrc in global['ip_http_client_source_interfaces'] %}
+    ip http client local-interface {{ httpsrc['name'] }} vrf {{ httpsrc['vrf'] }}
+    {% endfor %}
 
-  {% for radsrc in global['ip_radius_source_interfaces'] %}
-  ip radius vrf {{ radsrc['vrf'] }} source-interface {{ radsrc['name'] }}
-  {% endfor %}
+    {% for radsrc in global['ip_radius_source_interfaces'] %}
+    ip radius vrf {{ radsrc['vrf'] }} source-interface {{ radsrc['name'] }}
+    {% endfor %}
 
-  mac address-table aging-time {{ global['mac_address_table']['aging_time']}}
+    mac address-table aging-time {{ global['mac_address_table']['aging_time']}}
 
-  arp aging timeout {{ global['arp']['aging']['timeout_default']}}
+    arp aging timeout {{ global['arp']['aging']['timeout_default']}}
 
-  {% for dns in global['name_servers'] %}
-  ip name-server {{ dns }}
-  {% endfor %}
+    {% for dns in global['name_servers'] %}
+    ip name-server {{ dns }}
+    {% endfor %}
 
-  ip domain lookup vrf {{ global['ip_domain_lookup']['source_interfaces']['Management1']['vrf'] }} source-interface Management1
+    ip domain lookup vrf {{ global['ip_domain_lookup']['source_interfaces']['Management1']['vrf'] }} source-interface Management1
 
 
-  {% for ntps in global['ntp']['servers'] %}
-  ntp server vrf {{ ntps['vrf'] }} {{ ntps['name'] }}
-  {% endfor %}
+    {% for ntps in global['ntp']['servers'] %}
+    ntp server vrf {{ ntps['vrf'] }} {{ ntps['name'] }}
+    {% endfor %}
 
-  clock timezone {{ global['clock']['timezone']}}
+    clock timezone {{ global['clock']['timezone']}}
 
-  vlan 4094
-  name MLAG
-  trunk group MLAGPeer
+    vlan 4094
+    name MLAG
+    trunk group MLAGPeer
 
-  no spanning-tree vlan 4094
+    no spanning-tree vlan 4094
 
-  {% for item in interface[inventory_hostname]['interfaces'] %}
-  {% if interface[inventory_hostname]['interfaces'][item]['mlag_peerlink'] == true %}
-  interface {{ item }}
-  description {{ interface[inventory_hostname]['interfaces'][item]['desc'] }}
-  channel-group 2000 mode active
-  {% else %}
+    {% for item in interface[inventory_hostname]['interfaces'] %}
+    {% if interface[inventory_hostname]['interfaces'][item]['mlag_peerlink'] == true %}
+    interface {{ item }}
+    description {{ interface[inventory_hostname]['interfaces'][item]['desc'] }}
+    channel-group 2000 mode active
+    {% else %}
 
-  interface {{ item }}
-  description {{ interface[inventory_hostname]['interfaces'][item]['desc'] }}
+    interface {{ item }}
+    description {{ interface[inventory_hostname]['interfaces'][item]['desc'] }}
 
-  {% endif %}
+    {% endif %}
 
-  {% endfor %}
+    {% endfor %}
 
-  interface port-channel 2000
-  switchport
-  switchport mode trunk
-  switchport trunk group MLAGPeer
+    interface port-channel 2000
+    switchport
+    switchport mode trunk
+    switchport trunk group MLAGPeer
 
-  {% if interface[inventory_hostname]['mlag_side'] == 'A' %}
-  int vlan 4094
-  ip address 192.0.0.0/31
+    {% if interface[inventory_hostname]['mlag_side'] == 'A' %}
+    int vlan 4094
+    ip address 192.0.0.0/31
 
-  mlag configuration
-  domain-id workshop
-  local-interface vlan4094
-  peer-link po2000
-  peer-address 192.0.0.1
+    mlag configuration
+    domain-id workshop
+    local-interface vlan4094
+    peer-link po2000
+    peer-address 192.0.0.1
 
-  {% else %}
+    {% else %}
 
-  int vlan 4094
-  ip address 192.0.0.1/31
+    int vlan 4094
+    ip address 192.0.0.1/31
 
-  mlag configuration
-  domain-id workshop
-  local-interface vlan4094
-  peer-link po2000
-  peer-address 192.0.0.0
-  {% endif %}
-  ```
-
-<br>
+    mlag configuration
+    domain-id workshop
+    local-interface vlan4094
+    peer-link po2000
+    peer-address 192.0.0.0
+    {% endif %}
+    ```
 
 # Final Output - Tying It All Together
 
@@ -1281,462 +1201,460 @@ Lets put our full YAML data models below, as well as the output that is generate
 
 ??? eos-config annotate "global.yml"
 
-  ```yaml
-  # local users
-  local_users:
-    admin:
-      privilege: 15
-      role: network-admin
-      secret: aristaadmin
-    noc:
-      privilege: 1
-      role: network-operator
-      secret: aristaops
+    ```yaml
+    # local users
+    local_users:
+      admin:
+        privilege: 15
+        role: network-admin
+        secret: aristaadmin
+      noc:
+        privilege: 1
+        role: network-operator
+        secret: aristaops
 
-  # aaa authentication and authorization
-  aaa_authentication:
-    login:
-      default: group radius local
+    # aaa authentication and authorization
+    aaa_authentication:
+      login:
+        default: group radius local
 
-  aaa_authorization:
-    exec:
-      default: group radius local
+    aaa_authorization:
+      exec:
+        default: group radius local
 
-  # radius servers
-  radius_servers:
-    - host: 192.168.1.10
-      vrf: MGMT
-      key: radiusserverkey
+    # radius servers
+    radius_servers:
+      - host: 192.168.1.10
+        vrf: MGMT
+        key: radiusserverkey
 
-  # HTTP Client source interface and VRF
-  ip_http_client_source_interfaces:
+    # HTTP Client source interface and VRF
+    ip_http_client_source_interfaces:
+        - name: Management1
+          vrf: MGMT
+
+    # RADIUS source interface and VRF
+    ip_radius_source_interfaces:
       - name: Management1
         vrf: MGMT
 
-  # RADIUS source interface and VRF
-  ip_radius_source_interfaces:
-    - name: Management1
-      vrf: MGMT
+    #MAC and ARP aging timers
+    mac_address_table:
+      aging_time: 1800
 
-  #MAC and ARP aging timers
-  mac_address_table:
-    aging_time: 1800
+    arp:
+      aging:
+        timeout_default: 1500
 
-  arp:
-    aging:
-      timeout_default: 1500
+    # DNS Servers
+    name_servers:
+      - 10.100.100.20
+      - 8.8.8.8
+      - 4.4.4.4
+      - 208.67.222.222
 
-  # DNS Servers
-  name_servers:
-    - 10.100.100.20
-    - 8.8.8.8
-    - 4.4.4.4
-    - 208.67.222.222
+    # DNS lookup source interface (Servers defined in 1L2P.yml)
+    ip_domain_lookup:
+      source_interfaces:
+        Management1:
+          vrf: MGMT
 
-  # DNS lookup source interface (Servers defined in 1L2P.yml)
-  ip_domain_lookup:
-    source_interfaces:
-      Management1:
+    # NTP Servers (source interface defined in group specific YML files (CORE, ACCESS, MGMT, INET)
+    ntp:
+      local_interface:
+        name: Management1
         vrf: MGMT
+      servers:
+        - name: 0.north-america.pool.ntp.org
+          vrf: MGMT
+        - name: 1.north-america.pool.ntp.org
+          vrf: MGMT
+        - name: 2.north-america.pool.ntp.org
+          vrf: MGMT
+        - name: time.google.com
+          vrf: MGMT
 
-  # NTP Servers (source interface defined in group specific YML files (CORE, ACCESS, MGMT, INET)
-  ntp:
-    local_interface:
-      name: Management1
-      vrf: MGMT
-    servers:
-      - name: 0.north-america.pool.ntp.org
-        vrf: MGMT
-      - name: 1.north-america.pool.ntp.org
-        vrf: MGMT
-      - name: 2.north-america.pool.ntp.org
-        vrf: MGMT
-      - name: time.google.com
-        vrf: MGMT
-
-  clock:
-    timezone: "America/Detroit"
-  ```
+    clock:
+      timezone: "America/Detroit"
+    ```
 
 ??? eos-config annotate "interface.yml"
 
-  ```yaml
-  ---
-  spine1:
-    mlag_side: A
-    interfaces:
-      Ethernet47:
-        desc: To_SPINE2_MLAG_PEERLINK
-        mlag_peerlink: true
-      Ethernet48:
-        desc: To_SPINE2_MLAG_PEERLINK
-        mlag_peerlink: true
-      Ethernet1:
-        desc: TO_LEAF1
-        mlag_peerlink: false
-      Ethernet2:
-        desc: TO_LEAF2
-        mlag_peerlink: false
-  spine2:
-    mlag_side: B
-    interfaces:
-      Ethernet47:
-        desc: 'To_SPINE1_MLAG_PEERLINK'
-        mlag_peerlink: true
-      Ethernet48:
-        desc: 'To_SPINE1_MLAG_PEERLINK'
-        mlag_peerlink: true
-      Ethernet1:
-        desc: 'TO_LEAF1'
-        mlag_peerlink: false
-      Ethernet2:
-        desc: 'TO_LEAF2'
-        mlag_peerlink: false
-  leaf1:
-    mlag_side: A
-    interfaces:
-      Ethernet47:
-        desc: 'To_LEAF2_MLAG_PEERLINK'
-        mlag_peerlink: true
-      Ethernet48:
-        desc: 'To_LEAF2_MLAG_PEERLINK'
-        mlag_peerlink: true
-      Ethernet1:
-        desc: 'TO_SPINE1'
-        mlag_peerlink: false
-      Ethernet2:
-        desc: 'TO_SPINE2'
-        mlag_peerlink: false
-  leaf2:
-    mlag_side: B
-    interfaces:
-      Ethernet47:
-        desc: 'To_LEAF1_MLAG_PEERLINK'
-        mlag_peerlink: true
-      Ethernet48:
-        desc: 'To_LEAF1_MLAG_PEERLINK'
-        mlag_peerlink: true
-      Ethernet1:
-        desc: 'TO_SPINE1'
-        mlag_peerlink: false
-      Ethernet2:
-        desc: 'TO_SPINE2'
-        mlag_peerlink: false
-  ```
-
-<br>
+    ```yaml
+    ---
+    spine1:
+      mlag_side: A
+      interfaces:
+        Ethernet47:
+          desc: To_SPINE2_MLAG_PEERLINK
+          mlag_peerlink: true
+        Ethernet48:
+          desc: To_SPINE2_MLAG_PEERLINK
+          mlag_peerlink: true
+        Ethernet1:
+          desc: TO_LEAF1
+          mlag_peerlink: false
+        Ethernet2:
+          desc: TO_LEAF2
+          mlag_peerlink: false
+    spine2:
+      mlag_side: B
+      interfaces:
+        Ethernet47:
+          desc: 'To_SPINE1_MLAG_PEERLINK'
+          mlag_peerlink: true
+        Ethernet48:
+          desc: 'To_SPINE1_MLAG_PEERLINK'
+          mlag_peerlink: true
+        Ethernet1:
+          desc: 'TO_LEAF1'
+          mlag_peerlink: false
+        Ethernet2:
+          desc: 'TO_LEAF2'
+          mlag_peerlink: false
+    leaf1:
+      mlag_side: A
+      interfaces:
+        Ethernet47:
+          desc: 'To_LEAF2_MLAG_PEERLINK'
+          mlag_peerlink: true
+        Ethernet48:
+          desc: 'To_LEAF2_MLAG_PEERLINK'
+          mlag_peerlink: true
+        Ethernet1:
+          desc: 'TO_SPINE1'
+          mlag_peerlink: false
+        Ethernet2:
+          desc: 'TO_SPINE2'
+          mlag_peerlink: false
+    leaf2:
+      mlag_side: B
+      interfaces:
+        Ethernet47:
+          desc: 'To_LEAF1_MLAG_PEERLINK'
+          mlag_peerlink: true
+        Ethernet48:
+          desc: 'To_LEAF1_MLAG_PEERLINK'
+          mlag_peerlink: true
+        Ethernet1:
+          desc: 'TO_SPINE1'
+          mlag_peerlink: false
+        Ethernet2:
+          desc: 'TO_SPINE2'
+          mlag_peerlink: false
+    ```
 
 And the configuration outputs:
 
 ??? eos-config annotate "spine1_config.cfg"
 
-  ```yaml
-  hostname spine1
+    ```yaml
+    hostname spine1
 
-  username admin priv 15 role network-admin secret aristaadmin
+    username admin priv 15 role network-admin secret aristaadmin
 
-  username noc priv 1 role network-operator secret aristaops
+    username noc priv 1 role network-operator secret aristaops
 
-  aaa authentication login default group radius local
+    aaa authentication login default group radius local
 
-  aaa authorization exec default group radius local
+    aaa authorization exec default group radius local
 
-  radius-server host 192.168.1.10 vrf MGMT key radiusserverkey
+    radius-server host 192.168.1.10 vrf MGMT key radiusserverkey
 
-  ip http client local-interface Management1 vrf MGMT
+    ip http client local-interface Management1 vrf MGMT
 
-  ip radius vrf MGMT source-interface Management1
+    ip radius vrf MGMT source-interface Management1
 
-  mac address-table aging-time 1800
+    mac address-table aging-time 1800
 
-  arp aging timeout 1500
+    arp aging timeout 1500
 
-  ip name-server 10.100.100.20
-  ip name-server 8.8.8.8
-  ip name-server 4.4.4.4
-  ip name-server 208.67.222.222
+    ip name-server 10.100.100.20
+    ip name-server 8.8.8.8
+    ip name-server 4.4.4.4
+    ip name-server 208.67.222.222
 
-  ip domain lookup vrf MGMT source-interface Management1
-
-
-  ntp server vrf MGMT 0.north-america.pool.ntp.org
-  ntp server vrf MGMT 1.north-america.pool.ntp.org
-  ntp server vrf MGMT 2.north-america.pool.ntp.org
-  ntp server vrf MGMT time.google.com
-
-  clock timezone America/Detroit
-
-  vlan 4094
-  name MLAG
-  trunk group MLAGPeer
-
-  no spanning-tree vlan 4094
-
-  interface Ethernet47
-  description To_SPINE2_MLAG_PEERLINK
-  channel-group 2000 mode active
-
-  interface Ethernet48
-  description To_SPINE2_MLAG_PEERLINK
-  channel-group 2000 mode active
+    ip domain lookup vrf MGMT source-interface Management1
 
 
-  interface Ethernet1
-  description TO_LEAF1
+    ntp server vrf MGMT 0.north-america.pool.ntp.org
+    ntp server vrf MGMT 1.north-america.pool.ntp.org
+    ntp server vrf MGMT 2.north-america.pool.ntp.org
+    ntp server vrf MGMT time.google.com
+
+    clock timezone America/Detroit
+
+    vlan 4094
+    name MLAG
+    trunk group MLAGPeer
+
+    no spanning-tree vlan 4094
+
+    interface Ethernet47
+    description To_SPINE2_MLAG_PEERLINK
+    channel-group 2000 mode active
+
+    interface Ethernet48
+    description To_SPINE2_MLAG_PEERLINK
+    channel-group 2000 mode active
 
 
-
-  interface Ethernet2
-  description TO_LEAF2
+    interface Ethernet1
+    description TO_LEAF1
 
 
 
-  interface port-channel 2000
-  switchport
-  switchport mode trunk
-  switchport trunk group MLAGPeer
+    interface Ethernet2
+    description TO_LEAF2
 
-  int vlan 4094
-  ip address 192.0.0.0/31
 
-  mlag configuration
-  domain-id workshop
-  local-interface vlan4094
-  peer-link po2000
-  peer-address 192.0.0.1
-  ```
+
+    interface port-channel 2000
+    switchport
+    switchport mode trunk
+    switchport trunk group MLAGPeer
+
+    int vlan 4094
+    ip address 192.0.0.0/31
+
+    mlag configuration
+    domain-id workshop
+    local-interface vlan4094
+    peer-link po2000
+    peer-address 192.0.0.1
+    ```
 
 ??? eos-config annotate "spine2_config.cfg"
 
-  ```yaml
-  hostname spine2
+    ```yaml
+    hostname spine2
 
-  username admin priv 15 role network-admin secret aristaadmin
+    username admin priv 15 role network-admin secret aristaadmin
 
-  username noc priv 1 role network-operator secret aristaops
+    username noc priv 1 role network-operator secret aristaops
 
-  aaa authentication login default group radius local
+    aaa authentication login default group radius local
 
-  aaa authorization exec default group radius local
+    aaa authorization exec default group radius local
 
-  radius-server host 192.168.1.10 vrf MGMT key radiusserverkey
+    radius-server host 192.168.1.10 vrf MGMT key radiusserverkey
 
-  ip http client local-interface Management1 vrf MGMT
+    ip http client local-interface Management1 vrf MGMT
 
-  ip radius vrf MGMT source-interface Management1
+    ip radius vrf MGMT source-interface Management1
 
-  mac address-table aging-time 1800
+    mac address-table aging-time 1800
 
-  arp aging timeout 1500
+    arp aging timeout 1500
 
-  ip name-server 10.100.100.20
-  ip name-server 8.8.8.8
-  ip name-server 4.4.4.4
-  ip name-server 208.67.222.222
+    ip name-server 10.100.100.20
+    ip name-server 8.8.8.8
+    ip name-server 4.4.4.4
+    ip name-server 208.67.222.222
 
-  ip domain lookup vrf MGMT source-interface Management1
-
-
-  ntp server vrf MGMT 0.north-america.pool.ntp.org
-  ntp server vrf MGMT 1.north-america.pool.ntp.org
-  ntp server vrf MGMT 2.north-america.pool.ntp.org
-  ntp server vrf MGMT time.google.com
-
-  clock timezone America/Detroit
-
-  vlan 4094
-  name MLAG
-  trunk group MLAGPeer
-
-  no spanning-tree vlan 4094
-
-  interface Ethernet47
-  description To_SPINE1_MLAG_PEERLINK
-  channel-group 2000 mode active
-
-  interface Ethernet48
-  description To_SPINE1_MLAG_PEERLINK
-  channel-group 2000 mode active
+    ip domain lookup vrf MGMT source-interface Management1
 
 
-  interface Ethernet1
-  description TO_LEAF1
+    ntp server vrf MGMT 0.north-america.pool.ntp.org
+    ntp server vrf MGMT 1.north-america.pool.ntp.org
+    ntp server vrf MGMT 2.north-america.pool.ntp.org
+    ntp server vrf MGMT time.google.com
+
+    clock timezone America/Detroit
+
+    vlan 4094
+    name MLAG
+    trunk group MLAGPeer
+
+    no spanning-tree vlan 4094
+
+    interface Ethernet47
+    description To_SPINE1_MLAG_PEERLINK
+    channel-group 2000 mode active
+
+    interface Ethernet48
+    description To_SPINE1_MLAG_PEERLINK
+    channel-group 2000 mode active
 
 
-
-  interface Ethernet2
-  description TO_LEAF2
+    interface Ethernet1
+    description TO_LEAF1
 
 
 
-  interface port-channel 2000
-  switchport
-  switchport mode trunk
-  switchport trunk group MLAGPeer
+    interface Ethernet2
+    description TO_LEAF2
 
-  int vlan 4094
-  ip address 192.0.0.1/31
 
-  mlag configuration
-  domain-id workshop
-  local-interface vlan4094
-  peer-link po2000
-  peer-address 192.0.0.0
-  ```
+
+    interface port-channel 2000
+    switchport
+    switchport mode trunk
+    switchport trunk group MLAGPeer
+
+    int vlan 4094
+    ip address 192.0.0.1/31
+
+    mlag configuration
+    domain-id workshop
+    local-interface vlan4094
+    peer-link po2000
+    peer-address 192.0.0.0
+    ```
 
 ??? eos-config annotate "leaf1_config.cfg"
 
-  ```yaml
-  hostname leaf1
+    ```yaml
+    hostname leaf1
 
-  username admin priv 15 role network-admin secret aristaadmin
+    username admin priv 15 role network-admin secret aristaadmin
 
-  username noc priv 1 role network-operator secret aristaops
+    username noc priv 1 role network-operator secret aristaops
 
-  aaa authentication login default group radius local
+    aaa authentication login default group radius local
 
-  aaa authorization exec default group radius local
+    aaa authorization exec default group radius local
 
-  radius-server host 192.168.1.10 vrf MGMT key radiusserverkey
+    radius-server host 192.168.1.10 vrf MGMT key radiusserverkey
 
-  ip http client local-interface Management1 vrf MGMT
+    ip http client local-interface Management1 vrf MGMT
 
-  ip radius vrf MGMT source-interface Management1
+    ip radius vrf MGMT source-interface Management1
 
-  mac address-table aging-time 1800
+    mac address-table aging-time 1800
 
-  arp aging timeout 1500
+    arp aging timeout 1500
 
-  ip name-server 10.100.100.20
-  ip name-server 8.8.8.8
-  ip name-server 4.4.4.4
-  ip name-server 208.67.222.222
+    ip name-server 10.100.100.20
+    ip name-server 8.8.8.8
+    ip name-server 4.4.4.4
+    ip name-server 208.67.222.222
 
-  ip domain lookup vrf MGMT source-interface Management1
-
-
-  ntp server vrf MGMT 0.north-america.pool.ntp.org
-  ntp server vrf MGMT 1.north-america.pool.ntp.org
-  ntp server vrf MGMT 2.north-america.pool.ntp.org
-  ntp server vrf MGMT time.google.com
-
-  clock timezone America/Detroit
-
-  vlan 4094
-  name MLAG
-  trunk group MLAGPeer
-
-  no spanning-tree vlan 4094
-
-  interface Ethernet47
-  description To_LEAF2_MLAG_PEERLINK
-  channel-group 2000 mode active
-
-  interface Ethernet48
-  description To_LEAF2_MLAG_PEERLINK
-  channel-group 2000 mode active
+    ip domain lookup vrf MGMT source-interface Management1
 
 
-  interface Ethernet1
-  description TO_SPINE1
+    ntp server vrf MGMT 0.north-america.pool.ntp.org
+    ntp server vrf MGMT 1.north-america.pool.ntp.org
+    ntp server vrf MGMT 2.north-america.pool.ntp.org
+    ntp server vrf MGMT time.google.com
+
+    clock timezone America/Detroit
+
+    vlan 4094
+    name MLAG
+    trunk group MLAGPeer
+
+    no spanning-tree vlan 4094
+
+    interface Ethernet47
+    description To_LEAF2_MLAG_PEERLINK
+    channel-group 2000 mode active
+
+    interface Ethernet48
+    description To_LEAF2_MLAG_PEERLINK
+    channel-group 2000 mode active
 
 
-
-  interface Ethernet2
-  description TO_SPINE2
+    interface Ethernet1
+    description TO_SPINE1
 
 
 
-  interface port-channel 2000
-  switchport
-  switchport mode trunk
-  switchport trunk group MLAGPeer
+    interface Ethernet2
+    description TO_SPINE2
 
-  int vlan 4094
-  ip address 192.0.0.0/31
 
-  mlag configuration
-  domain-id workshop
-  local-interface vlan4094
-  peer-link po2000
-  peer-address 192.0.0.1
 
-  ```
+    interface port-channel 2000
+    switchport
+    switchport mode trunk
+    switchport trunk group MLAGPeer
+
+    int vlan 4094
+    ip address 192.0.0.0/31
+
+    mlag configuration
+    domain-id workshop
+    local-interface vlan4094
+    peer-link po2000
+    peer-address 192.0.0.1
+
+    ```
 
 ??? eos-config annotate "leaf2_config.cfg"
 
-  ```yaml
-  hostname leaf2
+    ```yaml
+    hostname leaf2
 
-  username admin priv 15 role network-admin secret aristaadmin
+    username admin priv 15 role network-admin secret aristaadmin
 
-  username noc priv 1 role network-operator secret aristaops
+    username noc priv 1 role network-operator secret aristaops
 
-  aaa authentication login default group radius local
+    aaa authentication login default group radius local
 
-  aaa authorization exec default group radius local
+    aaa authorization exec default group radius local
 
-  radius-server host 192.168.1.10 vrf MGMT key radiusserverkey
+    radius-server host 192.168.1.10 vrf MGMT key radiusserverkey
 
-  ip http client local-interface Management1 vrf MGMT
+    ip http client local-interface Management1 vrf MGMT
 
-  ip radius vrf MGMT source-interface Management1
+    ip radius vrf MGMT source-interface Management1
 
-  mac address-table aging-time 1800
+    mac address-table aging-time 1800
 
-  arp aging timeout 1500
+    arp aging timeout 1500
 
-  ip name-server 10.100.100.20
-  ip name-server 8.8.8.8
-  ip name-server 4.4.4.4
-  ip name-server 208.67.222.222
+    ip name-server 10.100.100.20
+    ip name-server 8.8.8.8
+    ip name-server 4.4.4.4
+    ip name-server 208.67.222.222
 
-  ip domain lookup vrf MGMT source-interface Management1
-
-
-  ntp server vrf MGMT 0.north-america.pool.ntp.org
-  ntp server vrf MGMT 1.north-america.pool.ntp.org
-  ntp server vrf MGMT 2.north-america.pool.ntp.org
-  ntp server vrf MGMT time.google.com
-
-  clock timezone America/Detroit
-
-  vlan 4094
-  name MLAG
-  trunk group MLAGPeer
-
-  no spanning-tree vlan 4094
-
-  interface Ethernet47
-  description To_LEAF1_MLAG_PEERLINK
-  channel-group 2000 mode active
-
-  interface Ethernet48
-  description To_LEAF1_MLAG_PEERLINK
-  channel-group 2000 mode active
+    ip domain lookup vrf MGMT source-interface Management1
 
 
-  interface Ethernet1
-  description TO_SPINE1
+    ntp server vrf MGMT 0.north-america.pool.ntp.org
+    ntp server vrf MGMT 1.north-america.pool.ntp.org
+    ntp server vrf MGMT 2.north-america.pool.ntp.org
+    ntp server vrf MGMT time.google.com
+
+    clock timezone America/Detroit
+
+    vlan 4094
+    name MLAG
+    trunk group MLAGPeer
+
+    no spanning-tree vlan 4094
+
+    interface Ethernet47
+    description To_LEAF1_MLAG_PEERLINK
+    channel-group 2000 mode active
+
+    interface Ethernet48
+    description To_LEAF1_MLAG_PEERLINK
+    channel-group 2000 mode active
 
 
-
-  interface Ethernet2
-  description TO_SPINE2
+    interface Ethernet1
+    description TO_SPINE1
 
 
 
-  interface port-channel 2000
-  switchport
-  switchport mode trunk
-  switchport trunk group MLAGPeer
+    interface Ethernet2
+    description TO_SPINE2
 
-  int vlan 4094
-  ip address 192.0.0.1/31
 
-  mlag configuration
-  domain-id workshop
-  local-interface vlan4094
-  peer-link po2000
-  peer-address 192.0.0.0
-  ```
+
+    interface port-channel 2000
+    switchport
+    switchport mode trunk
+    switchport trunk group MLAGPeer
+
+    int vlan 4094
+    ip address 192.0.0.1/31
+
+    mlag configuration
+    domain-id workshop
+    local-interface vlan4094
+    peer-link po2000
+    peer-address 192.0.0.0
+    ```
