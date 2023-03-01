@@ -544,6 +544,14 @@ fabric:
 #Config Playbook
 - hosts: spine1,spine2,leaf1,leaf2
   gather_facts: false
+  - name: Register variables
+    include_vars:
+      file: "{{lookup('env','PWD')}}/vars/global.yml"
+      name: global
+  - name: Register variables
+    include_vars:
+      file: "{{lookup('env','PWD')}}/vars/interface.yml"
+      name: interface
   - name: Create configs
     template:
       src: "{{lookup('env','PWD')}}/templates/full_config.j2"
@@ -556,7 +564,7 @@ As shown previously, we know expressions or variable substitution is performed w
 
 For example, we may want to generate the hostname in our template for all the devices in our inventory file.  In order to this we can use a standard Ansible variable called `inventory_hostname`, which substitutes in the current name of the inventory host the Ansible play is running against.
 
-```yaml
+```bash
 {# Create a file assigning the device hostname #}
 
 hostname {{ inventory_hostname }}
@@ -591,9 +599,163 @@ hostname leaf2
 
 <br>
 
-### **Conditionals**
+How about a more complex variable substitution using something from one of our data models above.  This shows how to substitute for a single dictionary item:
 
-### **Loops**
+```yaml
+# Global.yml
+aaa_authentication:
+  login:
+    default: group radius local
+
+aaa_authorization:
+  exec:
+    default: group radius local
+
+clock:
+  timezone: "America/Detroit"
+```
+
+The Jinja template to call these variables is shown here:
+
+```bash
+# Render aaa authC config line
+aaa authentication login default {{ global['aaa_authentication']['login']['default'] }}
+
+# Render aaa authZ config line
+aaa authorization exec default {{ global['aaa_authorization']['exec']['default'] }}
+
+# Render clock timezone config line
+clock timezone {{ global['clock']['timezone']}}
+```
+
+<br>
+
+As you can see, the variable has many parameters in them.  Lets walk through these parameters using the `aaa authentication` config line.
+
+`global`:  Global is the name of the vars file when we registered it in our Ansible playbook.  You can register this as anything you want.
+
+`aaa_authentication`:  This is the name of the parent or top level label or key in our dictionary.  This tells the Jinja template the next level to look for the variable we substitute.
+
+`login`: This is another label or key down the dictionary, and again tell us where to keep looking for the final variable.
+
+`default`:  This is the key-value pair mapping in the dictionary that we want assigned as the variable.  We see this is the final parameter in our variable substitution because we want the value of that key to be the result.
+
+Running the playbook generates the following configuration against all devices called in the inventory file:
+
+??? eos-config annotate "Configuration Output"
+
+```yaml
+# AAA authC Login
+aaa authentication login default group radius local
+
+# AAA authZ Login
+aaa authorization exec default group radius local
+
+# Device Timezone
+clock timezone America/Detroit
+```
+
+<br>
+
+### **Conditionals and Loops**
+
+Conditionals, such as `{% if %}`, `{% elif %}`, and `{% else %}`, as well as `{% for %}` loops are extremely helpful for either or configurations that may apply to only a subset of devices you are generating configurations for.  Additionally, for loops are a must for efficiently working through nested data structures like lists of lists or lists of dictionaries.
+
+Lets start our statements journey with conditionals, and where they can be helpful.
+
+In this first example we will look at the following portion of our `interfaces.yml` YAML vars file:
+
+```yaml
+---
+spine1:
+  mlag_side: A
+  interfaces:
+    Ethernet47:
+      desc: To_SPINE2_MLAG_PEERLINK
+      mlag_peerlink: true
+    Ethernet48:
+      desc: To_SPINE2_MLAG_PEERLINK
+      mlag_peerlink: true
+    Ethernet1:
+      desc: TO_LEAF1
+      mlag_peerlink: false
+    Ethernet2:
+      desc: TO_LEAF2
+      mlag_peerlink: false
+spine2:
+  mlag_side: B
+  interfaces:
+    Ethernet47:
+      desc: 'To_SPINE1_MLAG_PEERLINK'
+      mlag_peerlink: true
+    Ethernet48:
+      desc: 'To_SPINE1_MLAG_PEERLINK'
+      mlag_peerlink: true
+    Ethernet1:
+      desc: 'TO_LEAF1'
+      mlag_peerlink: false
+    Ethernet2:
+      desc: 'TO_LEAF2'
+      mlag_peerlink: false
+```
+
+The following dictionary key is what we are going to pay close attention to for our Jinja template: `mlag_side`
+
+Here we will use a Jinja template to create a partial, correct MLAG configuration per spine device, based on which side it is.
+
+```bash
+{% if interface[inventory_hostname]['mlag_side'] == 'A' %}
+int vlan 4094
+ip address 192.0.0.0/31
+
+mlag configuration
+domain-id workshop
+local-interface vlan4094
+peer-link po2000
+peer-address 192.0.0.1
+
+{% else %}
+int vlan 4094
+ip address 192.0.0.1/31
+
+mlag configuration
+domain-id workshop
+local-interface vlan4094
+peer-link po2000
+peer-address 192.0.0.0
+
+{% endif %}
+```
+
+Reviewing this template, we can see we are using a conditional based on which MLAG side the device is.  If the device belongs to side **A**, it will apply the matching configuration.  If the device belongs to side **B** it will apply the other configuration.
+
+Here is the output of running the Ansible playbook and the configs that are generated:
+
+??? eos-config annotate "spine1 Output"
+
+```yaml
+int vlan 4094
+ip address 192.0.0.0/31
+
+mlag configuration
+domain-id workshop
+local-interface vlan4094
+peer-link po2000
+peer-address 192.0.0.1
+```
+
+??? eos-config annotate "spine2 Output"
+
+```yaml
+int vlan 4094
+ip address 192.0.0.1/31
+
+mlag configuration
+domain-id workshop
+local-interface vlan4094
+peer-link po2000
+peer-address 192.0.0.0
+```
 
 ### **Filters**
 
