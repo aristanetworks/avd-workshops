@@ -1,12 +1,6 @@
 # Welcome to Ansible
 
-![Ansible Overview](assets/images/ansible_overview.png)
-
-???+ tip "Important Note Before Getting Started"
-
-    This section will make use of the fork of the [Workshops](https://github.com/PacketAnglers/workshops "Workshops Repo on GitHub") GitHub repository that was
-    created during the [Git](git.md) section. If you have not created a fork of this repository, and cloned it into the `/home/coder/project/labfiles/` directory of
-    your lab environment's VS Code IDE, please do so before moving forward.
+![Ansible Overview](assets/images/ansible_overview.png){: style="width:800px"}
 
 ## What is Ansible
 
@@ -27,11 +21,20 @@ There is a very large, and very active, user and development community with Ansi
 
 Finally, all that is required to get started is a Linux host with Python installed. A single Ansible Control Node (ACN) can manage hundreds, or thousands, of endpoints.
 
+???+ tip "Important Note Before Getting Started"
+
+    This section will make use of the fork of the [Workshops](https://github.com/PacketAnglers/workshops "Workshops Repo on GitHub") GitHub repository that was
+    created during the [Git](git.md) section. If you have not created a fork of this repository, and cloned it into the `/home/coder/project/labfiles/` directory of
+    your lab environment's VS Code IDE, please do so before moving forward.
+
 ## Ansible Initial Setup
 
 There are multiple methods of installing Ansible on the Ansible Control Node. The most popular method is to leverage `pip`, and is covered in detail [here](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html "Ansible Installation Documentation").
 
-We will be installing `ansible-core`, which is a lightweight minimalist installation of Ansible without any extra modules, plugins, etc. included. With this approach, we can use Ansible Galaxy (covered later in this section) to install collections containing the modules, plugins, roles, etc. that we need. For those familiar with Python, think of Ansible Galaxy as [pypi.org](https://pypi.org "Python Packge Index"), and Ansible Collections as Python modules.
+We will be using `ansible-core`, which is a lightweight minimalist installation of Ansible without any extra modules, plugins, etc. included. With this approach, we can use Ansible Galaxy (covered later in this section) to install collections containing the modules, plugins, roles, etc. that we need. For those familiar with Python, think of Ansible Galaxy as [pypi.org](https://pypi.org "Python Packge Index"), and Ansible Collections as Python modules.
+
+??? note
+    In the Arista Test Drive lab topology, Ansible is already installed, so we won't need to perform any installation related tasks.
 
 Below is an example of installing `ansible-core` via pip on Ubuntu 20.04:
 
@@ -45,8 +48,6 @@ pip3 install ansible-core
 ```
 
 It really is that easy to get started!
-
-In the Arista Test Drive lab topology, Ansible is already installed, so we won't need to perform any installation related tasks.
 
 Before running any commands, let's first ensure that we're in the `/home/coder/project/labfiles/workshops/ansible` directory
 
@@ -287,7 +288,7 @@ ansible-playbook playbooks/hello_world.yml -e 'name=Mitch'
 The contents of the playbook we just ran can be seen below. We will look more into the anatomy of a playbook in our next section. For now, make note of the fact that the `name` variable is also set in the `hello-world.yml` playbook
 using the `vars` parameter. When we ran our playbook with `extra_vars`, this took precedence over the variable defined inside of the playbook.
 
-??? eos-config annotate "Example group_vars File (~/project/labfiles/workshops/ansible/playbooks/hello_world.yml)"
+??? eos-config annotate "hello_world.yml Playbook (~/project/labfiles/workshops/ansible/playbooks/hello_world.yml)"
     ```yaml
 
     ---
@@ -504,7 +505,7 @@ To do this, we'll review a playbook together. Specifically, the **`~/project/lab
 ![Ansible Overview](assets/images/ansible_playbook_anatomy.png)
 
 At the very start of our playbook, we have the ==Play==. This is the very root of the playbook. it is where we define the Managed Nodes we'd like to target with this play, as well as the list of task(s) we'd like
-to run on these ==target hosts==. We've also disabled the default `
+to run on these ==target hosts==.
 
 Next, we have the ==task== itself, which in our case is leveraging the **eos_facts** ==module== to gather information about the Managed Nodes, which are devices running Arista's EOS, in our topology.
 In a minute, we'll unpack what a module really is behind the scenes.
