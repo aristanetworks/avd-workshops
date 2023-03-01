@@ -77,15 +77,15 @@ All of the information displayed above is important, and can help when troublesh
 
 Two important initial terms are the Ansible `Control Node` and `Managed Node`
 
-The Control Node is where our playbooks are executed from. This node then connects to the Managed Node(s) to interact with them as needed to perform the desired task(s). How the Control Node interacts with the Managed Node is dependent upon the type of operating system running on the Managed Node. For example, if the Managed Node is a Linux server, then the Control Node will "ship" the python code associated with the task(s) to the Managed Node. Then, the Managed Node will locally excute that code to complete the task(s).
+The Control Node is where our playbooks are executed from. This node then connects to the Managed Node(s) to interact with them as needed to perform the desired task(s). How the Control Node interacts with the Managed Node is dependent upon the type of operating system running on the Managed Node. For example, if the Managed Node is a Linux server, then the Control Node will "ship" the python code associated with the task(s) to the Managed Node. Then, the Managed Node will locally execute that code to complete the task(s).
 
 ??? note "What about the lab environment?"
-    In our ATD lab enviornment, the `Control Node` is our JumpHost that we're running our VS Code IDE from.
+    In our ATD lab environment, the `Control Node` is our JumpHost that we're running our VS Code IDE from.
     The `Managed Nodes` are the switches that make up our lab's network topology.
 
-If the Managed Node is a network device, then the Control Node will locally execute the python code assocaited with the task(s), and then interact with the network devices via SSH or API to complete the task(s).
+If the Managed Node is a network device, then the Control Node will locally execute the python code associated with the task(s), and then interact with the network devices via SSH or API to complete the task(s).
 
-The Control Node must be a Linux host (Ubuntu, CentOS, Rocky, Debian, etc.) with Ansible installed. That's it! Really! This is part of what makes Ansible easy to get started with, and also efficient. It does not require a suite of software to be installed in order to get started. A single Control Node can manage hudreds, or thousands, of Managed Nodes.
+The Control Node must be a Linux host (Ubuntu, CentOS, Rocky, Debian, etc.) with Ansible installed. That's it! Really! This is part of what makes Ansible easy to get started with, and also efficient. It does not require a suite of software to be installed in order to get started. A single Control Node can manage hundreds, or thousands, of Managed Nodes.
 
 A Managed Node does not need any specialized software installed. In other words, Ansible is `agentless`. If a Managed Node is a Linux server, then it will need to have Python3 installed. However, for Managed Nodes that are network devices, there are no pre-requisites required; Not even Python. This is because the Control Node will locally execute the python code necessary to complete the task(s) on the network device, and will then interact as needed with the network device via SSH/API.
 
@@ -177,7 +177,7 @@ Below is an example of the `ansible.cfg` located in our fork of the [Workshops](
 
     ```
 
-One of the most common setings in the ansible.cfg file is the location of the `inventory` file, which we will discuss next.
+One of the most common settings in the ansible.cfg file is the location of the `inventory` file, which we will discuss next.
 
 ### Inventory
 
@@ -514,7 +514,7 @@ Finally, we have any ==parameters== associated with module. Some of these parame
 
 ![Ansible Galaxy Module Search Result](assets/images/ansible_module_search.png)
 
-34 Modules, and one of which is the `eos_banner` module, with all of it's associated documentaion!
+34 Modules, and one of which is the `eos_banner` module, with all of it's associated documentation!
 
 More on Ansible Galaxy in a bit...
 
@@ -528,15 +528,24 @@ Alright! Let's hop into our switches and see what happened...
 
 #### s2-spine1
 
-![s2-spine1 banner](assets/images/banner_s2-spine1.png)
+```txt
+"This banner came from group_vars/WORKSHOP_FABRIC.yml"
+s2-spine1#
+```
 
 #### s1-spine1
 
-![s1-spine1 banner](assets/images/banner_s1-spine1.png)
+```txt
+"This banner came from group_vars/S1.yml"
+s1-spine1#
+```
 
 #### s1-leaf1
 
-![s1-leaf1 banner](assets/images/banner_s1-leaf1.png)
+```txt
+"This banner came from host_vars/s1-leaf1.yml"
+s1-leaf1#
+```
 
 As expected, each device used whichever `banner_text` variable was closest to it in the group hierarchy or, in the case of s1-leaf1, was applied via the host_vars file associated with the node.
 
@@ -546,7 +555,7 @@ When we ran our playbook, one of the key components was the ==module==. In our c
 
 But, what is this module really doing behind the scenes? Why are modules such a key piece of what makes Ansible much easier to get started with than other Automation Frameworks?
 
-Modules are an abstaction of the Python code necessary to complete a given task, or tasks, associated with the module. In other words, behind the scenes, modules are just python code!
+Modules are an abstraction of the Python code necessary to complete a given task, or tasks, associated with the module. In other words, behind the scenes, modules are just python code!
 
 An example of this can be seen below, specifically for the [eos_banner module](https://github.com/ansible-collections/arista.eos/blob/main/plugins/modules/eos_banner.py "eos_banner module python code"):
 
@@ -559,7 +568,7 @@ Now, if we feel compelled to dive in and write our own modules, or our own roles
 
 ### Ansible Galaxy
 
-Earlier, we specificed that we were using `ansible-core` for this workshop. This approach, as opposed to installing `ansible`, is becoming more and more preferred. The reason for this is the efficiency of `ansible-core`; it is a lightweight minimalist installation of Ansible without any extra modules, roles, plugins, etc. natively included.
+Earlier, we specified that we were using `ansible-core` for this workshop. This approach, as opposed to installing `ansible`, is becoming more and more preferred. The reason for this is the efficiency of `ansible-core`; it is a lightweight minimalist installation of Ansible without any extra modules, roles, plugins, etc. natively included.
 
 With `ansible-core` we can only grab the modules, roles, plugins, etc. that we need from [Ansible Galaxy!](https://galaxy.ansible.com "Ansible Galaxy").
 
@@ -576,6 +585,9 @@ Once completed, we can validate that the collection has been installed by runnin
 ```bash
 ansible-galaxy collection list
 ```
+
+???+ info
+    The `ansible-galaxy collection list` command is supported in ansible 2.10+
 
 This will yield output similar to below:
 
