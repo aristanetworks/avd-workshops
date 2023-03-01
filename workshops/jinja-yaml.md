@@ -476,11 +476,120 @@ leaf2:
 
 ## **What is Jinja?**
 
+At a high level, Jinja is a templating engine used to create markup files such as HTML or XML as well as custom text files, such as in our instance config files.  Under the hood, Jinja is an open source python library that lets you create extensible templates.  One of the major benefits of Jinja is that the template files you create allow you to define both static text, as well as variables.  Some of the Jinja template syntax may look familiar because Jinja is not the first templating engine, and is actually inspired by Django.
+
+<br>
+
 ## **What is Jinja Used For?**
+
+As it may have become apparent from the YAML section, after creating our data model of the various configuration parameters we want to automate, we need to get that data model and all its variables into a format that can read and understood by our network devices.  This is where Jinja comes in.  The use of Jinja templates, along with some yet to be shown Ansible magic, allows us to render full or partial configuration files that can loaded onto network devices.  The underlying purpose of this, as it relates to automation, is that with the use of various expressions and variables in the Jinja templates, we can use a single template, with single or multiple YAML variable files, and create configurations against a multitude of network devices.  As far as the actual template file and its file extension, technically any file can be called as a template regardless of its extension as long as its formatted correctly, however, we typically use the `.j2` extension on all Jinja template files.
 
 ## **Jinja Syntax**
 
+As a foreward to getting into the different tasks we can accomplish in our Jinja templates, it's important to call out that there are a few common expressions that are used throughout all Jinja templates, including those related to network devices.  They are outlined below.
+
+<br>
+
+`Comments:`
+
+Comments are represented as such, with our friend the pound symbol:
+
+```bash
+{# Automation Is Fun #}
+```
+
+<br>
+
+`Expressions/Variables`
+
+Expressions or variables are represented with a pair of curly brackets:
+
+```bash
+ {{ inventory_hostname }}
+ ```
+
+<br>
+
+`Statements`
+
+Statements are represented with a percent symbol:
+
+```bash
+{% for items in vars_file['interfaces'] %}
+{% endfor %}
+```
+
+<br>
+
+### Inventory File and Ansible Playbook
+
+While we won't cover the inventory file or Ansible playbooks in depth in this section as it will be covered in Ansible, it is important to call out it's importance in relation to Jinja.  You may wonder, when using Ansible to automate and render any configurations, how does it know what devices I want to create configurations for?  This is accomplished with the Ansible inventory file.  This will be covered more thoroughly, however, for the purpose of the following examples, we will assume we have an inventory file with four hosts, `spine1`, `spine2`, `leaf1`, and `leaf2`.  Some examples may show output for all four devices, and some may show output for just one, depending on the complexity of the example.  Also, every example we show will use the following Ansible Playbook so you understand the destination filename syntax.  There are more parts to this playbook but they will be shown at the end and covered in the next presentation:
+
+```yaml
+---
+# Inventory File
+fabric:
+  spines:
+    spine1:
+    spine2:
+  leafs:
+    leaf1:
+    leaf2:
+```
+
+<br>
+
+```yaml
+---
+#Config Playbook
+- hosts: spine1,spine2,leaf1,leaf2
+  gather_facts: false
+  - name: Create configs
+    template:
+      src: "{{lookup('env','PWD')}}/templates/full_config.j2"
+      dest: "{{lookup('env','PWD')}}/configs/full_config/{{inventory_hostname}}_config.cfg"
+```
+
 ### **Variable Substitution**
+
+As shown previously, we know expressions or variable substitution is performed with the double curly brackets, `{{ my_var }}`, but what does this look like in a Jinja template?
+
+For example, we may want to generate the hostname in our template for all the devices in our inventory file.  In order to this we can use a standard Ansible variable called `inventory_hostname`, which substitutes in the current name of the inventory host the Ansible play is running against.
+
+```yaml
+{# Create a file assigning the device hostname #}
+
+hostname {{ inventory_hostname }}
+```
+
+Assuming our pre-defined inventory file, running Ansible against this template with the relevant YAML file called would yield four different output files:
+
+```bash
+spine1_config.cfg
+spine2_config.cfg
+leaf1_config.cfg
+leaf2_config.cfg
+```
+
+<br>
+
+The output of one of these files all listed below would be as follows:
+
+```bash
+#spine1_config.cfg
+hostname spine1
+
+#spine2_config.cfg
+hostname spine2
+
+#leaf1_config.cfg
+hostname leaf1
+
+#leaf2_config.cfg
+hostname leaf2
+```
+
+<br>
 
 ### **Conditionals**
 
