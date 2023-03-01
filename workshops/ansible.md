@@ -1,11 +1,16 @@
 # Welcome to Ansible
 
-![Ansible Logo Dark](assets/images/ansible_logo_dark.png#only-dark){: style="width:200px"}
-![Ansible Logo Light](assets/images/ansible_logo_light.png#only-light){: style="width:200px"}
+![Ansible Overview](assets/images/ansible_overview.png)
+
+???+ tip "Important Note Before Getting Started"
+
+    This section will make use of the fork of the [Workshops](https://github.com/PacketAnglers/workshops "Workshops Repo on GitHub") GitHub repository that was
+    created during the [Git](git.md) section. If you have not created a fork of this repository, and cloned it into your lab environment's VS Code IDE, please do so
+    before moving forward.
 
 ## What is Ansible
 
-Ansible is a python based automation framework. Today, the term "Ansible Automation Platform" refers to multiple applications, including:
+Ansible is a python based automation framework. Today, the term "Ansible Automation Platform" can refer to multiple applications, including:
 
 - Ansible Core
 - Ansible Galaxy
@@ -26,7 +31,7 @@ Finally, all that is required to get started is a Linux host with Python install
 
 There are multiple methods of installing Ansible on the Ansible Control Node. The most popular method is to leverage `pip`, and is covered in detail [here](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html "Ansible Installation Documentation").
 
-We will be installing `ansible-core`, which is a lightweight minimalist installation of Ansible without any extra modules, plugins, etc. included. With this approach, we can use Ansible Galaxy (covered later in this section) to install collections containing only the modules, plugins, roles, etc. that we need. For those familiar with Python, think of Ansible Galaxy as [pypi.org](https://pypi.org "Python Packge Index"), and Ansible Collections as Python modules.
+We will be installing `ansible-core`, which is a lightweight minimalist installation of Ansible without any extra modules, plugins, etc. included. With this approach, we can use Ansible Galaxy (covered later in this section) to install collections containing the modules, plugins, roles, etc. that we need. For those familiar with Python, think of Ansible Galaxy as [pypi.org](https://pypi.org "Python Packge Index"), and Ansible Collections as Python modules.
 
 Below is an example of installing `ansible-core` via pip on Ubuntu 20.04:
 
@@ -41,23 +46,55 @@ pip3 install ansible-core
 
 It really is that easy to get started!
 
-In the Arista Test Drive lab topology, Ansible is already installed, so we won't need to perform any installation related tasks. However, we should still validate that Ansible is installed.
+In the Arista Test Drive lab topology, Ansible is already installed, so we won't need to perform any installation related tasks.
 
-Running `ansible --version` in the terminal of your lab instance of VS Code should yield output similar to below:
+Before running any commands, let's first ensure that we're in the `/home/coder/project/labfiles/workshops/ansible` directory
+
+```bash
+cd ~/project/labfiles/workshops/ansible
+```
+
+Next, we'll confirm that Ansible is installed by running the `ansible --version` in the terminal. This should yield output similar to below:
 
 ```powershell
 ansible [core 2.12.10]
-  config file = /home/coder/.ansible.cfg
+  config file = /home/coder/project/labfiles/workshops/ansible/ansible.cfg
   configured module search path = ['/home/coder/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
   ansible python module location = /home/coder/.local/lib/python3.9/site-packages/ansible
-  ansible collection location = /home/coder/.ansible/collections:/usr/share/ansible/collections
+  ansible collection location = /home/coder/.ansible/collections
   executable location = /home/coder/.local/bin/ansible
   python version = 3.9.2 (default, Feb 28 2021, 17:03:44) [GCC 10.2.1 20210110]
   jinja version = 3.1.2
   libyaml = True
 ```
 
-All of the information displayed above is important, and can help when troubleshooting why something may not be working as expected when working with Ansible. For now, we are going to focus on the Ansible configuration file, which defined above via the `config file` parameter.
+All of the information displayed above is important, and can help when troubleshooting why something may not be working as expected when working with Ansible.
+
+## Control Node and Managed Nodes
+
+![Ansible Overview](assets/images/ansible_control_node.png)
+
+Two important initial terms are the Ansible `Control Node` and `Managed Node`
+
+The Control Node is where our playbooks are executed from. This node then connects to the Managed Node(s) to interact with them as needed to perform the desired task(s). How the Control Node interacts with the Managed Node is dependent upon the type of operating system running on the Managed Node. For example, if the Managed Node is a Linux server, then the Control Node will "ship" the python code associated with the task(s) to the Managed Node. Then, the Managed Node will locally excute that code to complete the task(s).
+
+??? note "What about the lab environment?"
+    In our ATD lab enviornment, the `Control Node` is our JumpHost that we're running our VS Code IDE from.
+    The `Managed Nodes` are the switches that make up our lab's network topology.
+
+If the Managed Node is a network device, then the Control Node will locally execute the python code assocaited with the task(s), and then interact with the network devices via SSH or API to complete the task(s).
+
+The Control Node must be a Linux host (Ubuntu, CentOS, Rocky, Debian, etc.) with Ansible installed. That's it! Really! This is part of what makes Ansible easy to get started with, and also efficient. It does not require a suite of software to be installed in order to get started. A single Control Node can manage hudreds, or thousands, of Managed Nodes.
+
+A Managed Node does not need any specialized software installed. In other words, Ansible is `agentless`. If a Managed Node is a Linux server, then it will need to have Python3 installed. However, for Managed Nodes that are network devices, there are no pre-requisites required; Not even Python. This is because the Control Node will locally execute the python code necessary to complete the task(s) on the network device, and will then interact as needed with the network device via SSH/API.
+
+## Ansible Components
+
+Ansible, just like any other framework, is made up of a group of components that come together to make the magic happen. The components that we'll be focusing on during this workshop are shown below.
+
+![Ansible Overview](assets/images/ansible_components.png)
+
+In the next sections, we'll go through each of these components one at a time to get a better understanding of how each piece fits together to ultimately make the magic happen.
 
 ### Config File
 
@@ -73,9 +110,22 @@ When running an ad-hoc command, or playbook, Ansible will look for the configura
 
 4. /etc/ansible/ansible.cfg
 
+This is illustrated in the image below:
+
+![Ansible Overview](assets/images/ansible_config_file.png)
+
 Once Ansible finds an `ansible.cfg` file, it will only use the configuration options defined in that file. If, for example, an `ansible.cfg` file exists in the current directory, and in `/etc/ansible/ansible.cfg`, then only the settings found in the `ansible.cfg` file in the current directory will be used.
 
-??? eos-config annotate "Example Ansible Configuration File (~/projects/ansible.cfg)"
+??? question "Cows?"
+
+    Yes! First, install cowsay: `sudo apt-get update && sudo apt-get install cowsay -y`
+    Next, in the `ansible.cfg` file, set it to what should be the only acceptable setting `nocows = False`.
+    This feature is udderly ridiculous, and as much as I'd love to milk it for all the Dad jokes possible,
+    I don't want to start any beef by delaying the workshop...Moo.
+
+Below is an example of the `ansible.cfg` located in our fork of the [Workshops](https://github.com/PacketAnglers/workshops "Workshops Repo on GitHub") repo:
+
+??? eos-config annotate "Example Ansible Configuration File (~/project/labfiles/workshops/ansible/ansible.cfg)"
     ```apache
 
     [defaults]
@@ -84,7 +134,7 @@ Once Ansible finds an `ansible.cfg` file, it will only use the configuration opt
     host_key_checking = False
 
     # Location of inventory file containing target hosts
-    inventory = ~/projects/inventory/inventory.yml
+    inventory = ./inventory/inventory.yml
 
     # Only gather Ansible facts if explicity directed to in a given play
     gathering = explicit
@@ -110,6 +160,9 @@ Once Ansible finds an `ansible.cfg` file, it will only use the configuration opt
     # Maximum number of forks that Ansible will use to execute tasks on target hosts
     forks = 15
 
+    # Disable cowsay (Why?)
+    nocows = True
+
     [paramiko_connection]
     # Automatically add the keys of target hosts to known hosts
     host_key_auto_add = True
@@ -123,9 +176,15 @@ Once Ansible finds an `ansible.cfg` file, it will only use the configuration opt
 
     ```
 
+One of the most common setings in the ansible.cfg file is the location of the `inventory` file, which we will discuss next.
+
 ### Inventory
 
-??? eos-config annotate "Example Inventory File in YAML Format (~/projects/inventory/inventory.yml)"
+The inventory file is where we define our hosts, groups that we'll be targeting with our playbooks. The inventory file supports many different formats, but the most common are `ini` and `yaml`. For our workshop, we'll be using the `yaml` format.
+
+An example of our inventory file can be seen below:
+
+??? eos-config annotate "Example Inventory File (~project/labfiles/workshops/ansible/inventory/inventory.yml)"
     ```yaml
     WORKSHOP_FABRIC:
       children:
@@ -163,6 +222,56 @@ Once Ansible finds an `ansible.cfg` file, it will only use the configuration opt
                 s2-core2:
 
     ```
+
+This inventory file defines the hosts, and groupings, represented in the image below:
+
+![Ansible Overview](assets/images/ansible_inventory.png)
+
+We can validate our inventory by using the `ansible-inventory` command, which is documented [here](https://docs.ansible.com/ansible/latest/network/getting_started/first_inventory.html#verifying-the-inventory "Verifying Ansible Inventory")
+
+The below command will list the entire inventory, consisting of all hosts/groups and their respective variable values.
+
+```bash
+ansible-inventory --list --yaml
+```
+
+If we'd like to get more specific, we can filter the output down to a single host by using the command shown below:
+
+```bash
+ansible-inventory --host s1-leaf1 --yaml
+```
+
+??? eos-config annotate "Example inventory output for s1-leaf1"
+    ```yaml
+    ansible_connection: ansible.netcommon.httpapi
+    ansible_httpapi_use_ssl: true
+    ansible_httpapi_validate_certs: false
+    ansible_network_os: arista.eos.eos
+    ansible_ssh_pass: arista1c7z
+    ansible_user: arista
+    banner_text: This banner came from host_vars/s1-leaf1.YML
+    mlag:
+      enabled: true
+      peer_link_int_1: 1
+      peer_link_int_2: 6
+      side_a: true
+    mlag_config:
+      domain_id: 1000
+      peer_link_id: 1000
+      side_a:
+        ip: 10.0.0.1/30
+        peer_ip: 10.0.0.2
+      side_b:
+        ip: 10.0.0.2/30
+        peer_ip: 10.0.0.1
+      vlan:
+        id: 4094
+        name: mlagpeer
+        trunk_group_name: mlagpeer
+
+    ```
+
+Notice the variables associated with `s1-leaf1`. Where did these come from? We'll be exploring that next...
 
 ### Variables
 
