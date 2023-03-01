@@ -21,6 +21,7 @@ Basic Git commands we will be working with:
 - git log
 - git branch
 - git clone
+-
 - git merge
 - git switch
 - git diff
@@ -39,9 +40,9 @@ Configuration - [https://git-scm.com/book/en/v2/Getting-Started-Installing-Git](
 
 ### Setup
 
-When setting up Git for the first time you need to configure your Identity with a name and email address. This is used to add your signature to commits. Additonally, set the default branch name to `main`.
+When setting up Git for the first time you need to configure your Identity with a name and email address. This is used to add your signature to commits. Additionally, set the default branch name to `main`.
 
-From the Terminal in your ATD Lab Progammability IDE running the following commands.
+From the Terminal in your ATD Lab Programmability IDE running the following commands.
 
 ``` bash
 # Set your username:
@@ -54,7 +55,7 @@ git config --global user.email "name@example.com"
 git config --global init.defaultBranch main
 ```
 
-#### Progammability IDE (VS Code)
+#### Programmability IDE (VS Code)
 
 ![Programmability IDE](assets/images/git_programmability_ide.png){: style="width:1000px"}
 
@@ -99,7 +100,7 @@ Check the current status of your repo.
 git status
 ```
 
-Since this is a brand new repo you should see output similar to the following, indicating there are Untracked files.
+Since this is a brand new repo you should see output similar to the following, indicating there are untracked files.
 
 ``` bash
 On branch main
@@ -186,7 +187,7 @@ On branch main
 nothing to commit, working tree clean
 ```
 
-You have successfuly made your first historical marker in your repo.  Check the log to see what is there.
+You have successfully made your first historical marker in your repo. Check the log to see what is there.
 
 ``` bash
 git log
@@ -219,7 +220,7 @@ Switch to this new branch:
 git switch update-hostnames
 ```
 
-Using the IDE, open each switch config file and update the hostname.  Changes are auto-saved. Let's verify the changes (diffs) we are about to commit to make sure they are correct.
+Using the IDE, open each switch config file and update the hostname. Changes are auto-saved. Let's verify the changes (diffs) we are about to commit to make sure they are correct.
 
 ``` bash
 git diff
@@ -236,7 +237,7 @@ git commit -m "updated hostname on each switch"
 
 Now that we are satisfied with our hostnames changes we can merge branch `update-hostnames` into `main`.
 
-First, switch back to the `main` branch and notice the hostnames go back to the original name. Why did that happen?  Remember we never modifed the original copy `main` branch.  This is a different version of the file. Once we merge the `update-hostnames` branch into `main`, then both copies will be the same.
+First, switch back to the `main` branch and notice the hostnames go back to the original name. Why did that happen? Remember we never modifed the original copy `main` branch. This is a different version of the file. Once we merge the `update-hostnames` branch into `main`, then both copies will be the same.
 
 ``` bash
 git switch main
@@ -266,7 +267,7 @@ Before proceeding further, make sure you are logged into your active GitHub acco
 If you do not have a GitHub account, you can create one **[here](https://github.com/join)**.
 
 ???+ note
-    In the ATD Lab, you will authenticate to GitHub using an 8 digit access code.  On other systems you will need a Personal Access Token. You may skip the next step if you are working in the ATD Lab IDE. Detailed instructions for creating a Personal Access Token can be found [here](https://docs.github.com/en/enterprise-server@3.4/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token).
+    In the ATD Lab, you will authenticate to GitHub using an 8 digit access code. On other systems you will need a Personal Access Token. You may skip the next step if you are working in the ATD Lab IDE. Detailed instructions for creating a Personal Access Token can be found [here](https://docs.github.com/en/enterprise-server@3.4/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token).
 
 ### Create a GitHub personal access token
 
@@ -326,7 +327,7 @@ Verify where the remote copy of this clones lives.
 git remote -v
 ```
 
-In the next step, let's add a new vlan 40 to the the `atd/vlans.yml` file.  First we should create a new branch.
+In the next step, let's add a new vlan 40 to the `atd/vlans.yml` file. First we should create a new branch.
 
 ### Create the branch
 
@@ -338,7 +339,7 @@ git switch add-vlan-40
 
 Now update `vlans.yml` with vlan 40 information.
 
-Additonally, stage and commit these changes to the new branch.
+Additionally, stage and commit these changes to the new branch.
 
 ### Push Changes to GitHub
 
@@ -350,7 +351,7 @@ git push --set-upstream origin add-vlan-40
 ```
 
 ???+ note
-    You will be prompted to authenticate to GitHub if this is the first time you are pushing from the Lab environment.  Follow along the `Copy & Continue to GitHub` prompts by entering the 8 digit authentication code. Additional pushes to GitHub will cache your credentials.
+    You will be prompted to authenticate to GitHub if this is the first time you are pushing from the Lab environment. Follow along the `Copy & Continue to GitHub` prompts by entering the 8 digit authentication code. Additional pushes to GitHub will cache your credentials.
 
 Once authenticated your new branch and updated file will exist on GitHub.
 
@@ -375,7 +376,7 @@ Branch 'add-vlan-40' set up to track remote branch 'add-vlan-40' from 'origin'.
 
 You should now see the new branch `add-vlan-40` and commit messages in GitHub.
 
-The next step is to merge the `add-vlan-40` branch into the `main` branch.  A Pull Request is used to do this.
+The next step is to merge the `add-vlan-40` branch into the `main` branch. A Pull Request is used to do this.
 
 ### Pull request
 
@@ -398,7 +399,7 @@ This will generate a Pull Request on the main project repository. The owner/main
 
 ### Cleanup
 
-After your Pull Request is merged, there are some additonal steps you may want to do.
+After your Pull Request is merged, there are some additional steps you may want to do.
 
 1. Delete your branch on GitHub and your local host.
 2. Sync your Forked repo (below)
