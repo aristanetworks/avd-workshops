@@ -621,3 +621,11 @@ Galaxy has thousands of modules, plugins, roles, and more from a multitude of co
 For those familiar with Python, we can think of Ansible Galaxy as [PyPi](https://www.pypi.org "Python Package Index"), and our Collections as Python modules.
 
 Go forth and explore!
+
+### Ansible Roles
+
+![Ansible Roles](assets/images/ansible_roles.png)
+
+Ansible roles allow us to neatly pack all of the tasks, templates, files, etc. that we used to accomplish a task, into a nice reusable format. An example of this could be a standardized method for installing nginx or apache on a server. Or, as we'll see in our labs, deploying an MLAG domain configuration on Arista switches.
+
+Ultimately, Ansible Roles can be seen as a blueprint to not only automate, but standardize, our repeatable tasks.
