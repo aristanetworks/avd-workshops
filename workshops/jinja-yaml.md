@@ -8,7 +8,7 @@ This section will cover both Jinja and YAML, which are two interdependent pieces
 
 YAML is what's officially referred to as a data serialization language.  While that sounds complex, data serialization is simply the process of converting objects within a data model into a byte stream for the purpose of storing or transferring it.  Breaking this down, we know when trying to automate configuration management or deployment, we need to specify ***what*** it is we want to configure, that is, what should our desired end state configuration look like.  ( **intent based networking** )
 
-An important note is about why we are talking about and using YAML in the first place.  As mentioned in the beginning, YAML is a data serialization langauge, however, it is not the only one.  Some other common, data serialization languages are XML, JSON, and CSV.  The reason we are particular towards YAML is that not only are there libraries available in most programming languages, but also because as the following table shows, it is very human readable.
+An important note is about why we are talking about and using YAML in the first place.  As mentioned in the beginning, YAML is a data serialization language, however, it is not the only one.  Some other common, data serialization languages are XML, JSON, and CSV.  The reason we are particular towards YAML is that not only are there libraries available in most programming languages, but also because as the following table shows, it is very human readable.
 
 <table>
 <tr>
@@ -288,7 +288,7 @@ Now that we have gone through all the most common constructs within a YAML file 
 
 These example YAML files could be used to build a base config for a series of devices.  The devices would be based on your inventory file, however, for this example, we will assume there is a layer2 leaf/spine topology, with two spines and two leafs.  For this example we will use two files, a `global.yml` and a `interface.yml` file.
 
-The global.yml file that follows includes the data model used for the base configuration.  These items apply to all four devices in the fabric.  ***( This could be imported in the playbook, or put in the group_vars directory and named after the level of your heirarchy that contains the devices you want this to apply to. )***
+The global.yml file that follows includes the data model used for the base configuration.  These items apply to all four devices in the fabric.  ***( This could be imported in the playbook, or put in the group_vars directory and named after the level of your hierarchy that contains the devices you want this to apply to. )***
 
 `global.yml`
 
@@ -718,7 +718,7 @@ description {{ interface[inventory_hostname]['interfaces'][item]['desc'] }}
 {% endfor %}
 ```
 
-Ignoring for a moment the for loop part we haven't covered yet, we can see we are checking each interface that is defined to see if the interface parameter for `mlag_peerlink` is set to true, if it is, we want to apply an extra line of configuration, `channel-group 2000 mode active`, if it's not, we just configure the specifed interface with a description.  The output of running this against the spines would be as follows:
+Ignoring for a moment the for loop part we haven't covered yet, we can see we are checking each interface that is defined to see if the interface parameter for `mlag_peerlink` is set to true, if it is, we want to apply an extra line of configuration, `channel-group 2000 mode active`, if it's not, we just configure the specified interface with a description.  The output of running this against the spines would be as follows:
 
 ??? eos-config annotate "spine1 Output"
 
@@ -758,7 +758,7 @@ Ignoring for a moment the for loop part we haven't covered yet, we can see we ar
 
 ### Loops
 
-Another great function that Jinja templates support is the use of `for` loops.  For loops come in handy when trying to interate through a list of dictionaries to repeat configuration lines.
+Another great function that Jinja templates support is the use of `for` loops.  For loops come in handy when trying to iterate through a list of dictionaries to repeat configuration lines.
 
 Lets start with a simple example, using a `for` loop to iterate through a list.  The below list shows a list with a single DNS server:
 
@@ -1093,7 +1093,7 @@ Ethernet2 ip is 2.2.2.2
 
 ## The Jinja YAML Relationship
 
-As has hopefully been explained well, the interdependent relationship between Jinja and YAML is that Jinja templates utilize the YAML vars files and their data model to generate new configurations, whether full or partial.  YAML files serve no purpose without being called and their variables used, and cofigurations rendered from Jinja templates would be no different than static configs without the variable substitution of YAML files.
+As has hopefully been explained well, the interdependent relationship between Jinja and YAML is that Jinja templates utilize the YAML vars files and their data model to generate new configurations, whether full or partial.  YAML files serve no purpose without being called and their variables used, and configurations rendered from Jinja templates would be no different than static configs without the variable substitution of YAML files.
 
 ## Jinja Templates
 
