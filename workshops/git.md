@@ -1,7 +1,5 @@
 # Getting started with Git
 
-TEST
-
 ![Git Logo Dark](assets/images/git_logo_darkbg.png#only-dark){: style="width:200px"}
 ![Git Logo Light](assets/images/git_logo_lightbg.png#only-light){: style="width:200px"}
 
