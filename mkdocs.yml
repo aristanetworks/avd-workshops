@@ -77,7 +77,7 @@ plugins:
   - search:
       lang: en
 
-repo_name: AVD Workshops on GitHub
+repo_name: Workshops on GitHub
 
 theme:
 
