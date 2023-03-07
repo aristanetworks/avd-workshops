@@ -11,8 +11,8 @@ nav:
     - VS Code: vscode.md
     - Jinja/YAML: jinja-yaml.md
     - Ansible: ansible.md
-  - AVD:
-    - Arista Validated Designs: avd.md
+  - Arista CI:
+    - AVD: avd.md
     - CI/CD Basics: cicd-basics.md
 
 copyright: Copyright &copy; 2023 Arista Networks
