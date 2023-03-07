@@ -1,4 +1,4 @@
-site_name: Arista Validated Designs Workshops
+site_name: Arista CI Workshops
 
 repo_url: https://github.com/aristanetworks/avd-workshops
 docs_dir: workshops/
