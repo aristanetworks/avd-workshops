@@ -13,11 +13,11 @@ The AVD Workshops are intended for engineers looking to learn the fundamentals o
 - [VS Code](workshops/vscode.md)
 - [Jinja/YAML](workshops/jinja-yaml.md)
 - [Ansible](workshops/ansible.md)
-- [CI/CD Basics](workshops/cicd-basics.md)
 
-## AVD
+## Arista CI
 
 - [AVD](workshops/avd.md)
+- [CI/CD Basics](workshops/cicd-basics.md)
 
 ## Contributing
 
