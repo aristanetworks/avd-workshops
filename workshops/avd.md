@@ -16,7 +16,7 @@ Each attendee will receive their own dedicated virtual lab environment with Git,
 Attendees will need:
 
 - A laptop
-- An account on www.github.com
+- An account on [GitHub](https://github.com/)
 - Familiarity with the concepts and tools covered in the previous [Automation Fundamentals workshop](https://aristanetworks.github.io/avd-workshops/) (Git, VSCode, Jinja/YAML, Ansible).
 
 ## Lab Topology
