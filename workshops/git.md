@@ -79,13 +79,13 @@ cd /home/coder/project/labfiles/samplefiles
 
 #### Initialize directory as a Git repository
 
-Next we initialize the current directory `/home/coder/project/labfiles/samplefiles/` as a repository (repo).
+Next we initialize the current directory `/home/coder/project/labfiles/samplefiles/` as a repository.
 
 ``` bash
 git init
 ```
 
-Notice your cli prompt changed.
+Notice your CLI prompt changed.
 
 The directory is now initialized as a Git repository and the following hidden sub-directory `/home/coder/project/labfiles/samplefiles/.git/` was created. It holds version control information for your repository.
 
@@ -93,13 +93,13 @@ The directory is now initialized as a Git repository and the following hidden su
 
 #### Git Repository Status
 
-Check the current status of your repo.
+Check the current status of your repository.
 
 ``` bash
 git status
 ```
 
-Since this is a brand new repo you should see output similar to the following, indicating there are untracked files.
+Since this is a brand new repository you should see output similar to the following, indicating there are untracked files.
 
 ``` bash
 On branch main
@@ -186,7 +186,7 @@ On branch main
 nothing to commit, working tree clean
 ```
 
-You have successfully made your first historical marker in your repo. Check the log to see what is there.
+You have successfully made your first historical marker in your repository. Check the log to see what is there.
 
 ``` bash
 git log
@@ -197,7 +197,7 @@ git log
 
 ### Create a branch
 
-Creating a branch allows you to make a new copy of your files without affecting the files in the `main` branch. For example, if you wanted to update the hostnames on your switches, you might create a new branch called, `update-hostnames`.
+Creating a branch allows you to make a new copy of your files without affecting the files in the `main` branch. For example, if you wanted to update the hostnames on your switches, you might create a new branch called `update-hostnames`.
 
 ![Branch](assets/images/git_branch.png){: style="width:500px"}
 
@@ -236,7 +236,7 @@ git commit -m "updated hostname on each switch"
 
 Now that we are satisfied with our hostnames changes we can merge branch `update-hostnames` into `main`.
 
-First, switch back to the `main` branch and notice the hostnames go back to the original name. Why did that happen? Remember we never modifed the original copy `main` branch. This is a different version of the file. Once we merge the `update-hostnames` branch into `main`, then both copies will be the same.
+First, switch back to the `main` branch and notice the hostnames go back to the original name. Why did that happen? Remember we never modified the original copy `main` branch. This is a different version of the file. Once we merge the `update-hostnames` branch into `main`, then both copies will be the same.
 
 ``` bash
 git switch main
@@ -270,7 +270,7 @@ If you do not have a GitHub account, you can create one **[here](https://github.
 
 ### Create a GitHub personal access token
 
-To push your local repo to GitHUb you will need a Personal Access Token. From your **GitHub** account, click through the following path to generate a new personal access token.  **Profile --> Settings --> Developer Settings --> Personal Access Tokens --> Tokens (classic) --> Generate new token (classic)**
+To push your local repository to GitHUb you will need a Personal Access Token. From your **GitHub** account, click through the following path to generate a new personal access token.  **Profile --> Settings --> Developer Settings --> Personal Access Tokens --> Tokens (classic) --> Generate new token (classic)**
 
 - Give the token a meaningful name by setting the **Note**: `MyNewToken`
 - Set the **Expiration**: 30 days (default)
@@ -299,9 +299,9 @@ Fork the example [repository](https://github.com/PacketAnglers/workshops) to mak
 
 Next up... Clone this forked repository to your local host machine.
 
-### Clone forked repo to local host
+### Clone forked repository to local host
 
-Cloning a repository allows us to make a local copy of a project that resides on GitHub. In the previous step, you forked a repo to your local GitHub account. Navigate to your forked repository in GitHub. From there, click on the green code button and copy the URL of the forked repository.
+Cloning a repository allows us to make a local copy of a project that resides on GitHub. In the previous step, you forked a repository to your local GitHub account. Navigate to your forked repository in GitHub. From there, click on the green code button and copy the URL of the forked repository.
 
 ![Git Clone](assets/images/git_clone.png){: style="width:400px"}
 
@@ -326,7 +326,7 @@ Verify where the remote copy of this clones lives.
 git remote -v
 ```
 
-In the next step, let's add a new vlan 40 to the `atd/vlans.yml` file. First we should create a new branch.
+In the next step, let's add a new VLAN 40 to the `atd/vlans.yml` file. First we should create a new branch.
 
 ### Create the branch
 
@@ -336,7 +336,7 @@ git branch add-vlan-40
 git switch add-vlan-40
 ```
 
-Now update `vlans.yml` with vlan 40 information.
+Now update `vlans.yml` with VLAN 40 information.
 
 Additionally, stage and commit these changes to the new branch.
 
@@ -381,7 +381,7 @@ The next step is to merge the `add-vlan-40` branch into the `main` branch. A Pul
 
 A Pull Request in Git allows a contributor (you) to ask a maintainer (owner) of origin repository to review code changes you wish to merge into a project. Once a pull request is opened, you can discuss and review the potential changes with collaborators and add follow-up commits before your changes are merged into the `main` branch.
 
-Once all changes have been agreed upon, the maintainer of the original repo will merge your changes. At this point, your code changes are visible in the origin project repo.
+Once all changes have been agreed upon, the maintainer of the original repository will merge your changes. At this point, your code changes are visible in the origin project repository.
 
 #### Steps to initiate a Pull Request
 
@@ -401,7 +401,7 @@ This will generate a Pull Request on the main project repository. The owner/main
 After your Pull Request is merged, there are some additional steps you may want to do.
 
 1. Delete your branch on GitHub and your local host.
-2. Sync your Forked repo (below)
+2. Sync your Forked repository (below)
 3. Pull the updates into `main` branch on your local host. `git pull`
 
 ![GitHub Sync Fork](assets/images/github_sync_fork.png){: style="width:750px"}

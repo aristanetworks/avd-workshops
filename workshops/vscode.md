@@ -29,7 +29,7 @@ Recommend Hardware:
 
 Support Platforms:
 
-- OS X El Capitan (10.11+)
+- macOS X (10.11+)
 - Windows 8.0, 8.1 and 10, 11 (32-bit and 64-bit)
 - Linux (Debian): Ubuntu Desktop 16.04, Debian 9
 - Linux (Red Hat): Red Hat Enterprise Linux 7, CentOS 7, Fedora 34
@@ -61,7 +61,7 @@ There are tons of extensions to enhance your experience with VS Code. Below is a
 - Better Jinja (Samuel Colvin)
 - Peacock (John Papa)
 - Remote - SSH (Microsoft)
-- Dev Containers (Microsoft)
+- Development Containers (Microsoft)
 
 ## Using Git source control in VS Code
 
@@ -90,11 +90,11 @@ Re-open a new terminal window.
 
 Next click on the `Source Control` icon in the Activity Bar, and then click `Initialize Repository`.
 
-![Init Repo](assets/images/vscode_init_repo.png){: style="width:300px"}
+![Init Repository](assets/images/vscode_init_repo.png){: style="width:300px"}
 
 This is equivalent to running `git init` from within that directory.
 
-Several things just happened. VS Code is giving us a visual representation of the newly created Git repository.  The `Source Control` icon now shows a blue dot with a `6`.  This is indicates there a 6 untracked, represented by the capital `U` next to each file.
+Several things just happened. VS Code gives us a visual representation of the newly created Git repository. The `Source Control` icon now shows a blue dot with a `6`. This indicates six untracked, represented by the capital `U` next to each file.
 
 Also, in the bottom left corner of status bar we can see we are on the `main`* branch.
 
@@ -118,7 +118,7 @@ Use VS Code to perform the following actions.
   - Command-Palette - git merge
 - Verify files have new names in the `main` branch
 - Be a good citizen and clean up old branch
-- Publish Repo to GitHub
+- Publish repository to GitHub
 
 ## Dev Containers
 
