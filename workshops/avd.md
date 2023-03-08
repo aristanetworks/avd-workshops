@@ -1,6 +1,6 @@
 # Arista CI Workshop
 
-This section we will leverage open source tools to build a network CI pipeline for configuration development, deployment, documentation and validation. Enabling us to manage our network environment as code!
+This section we will leverage open source tools to build a network CI pipeline for configuration development, deployment, documentation and validation. Enabling us to manage our network environment as code.
 
 This section will cover:
 
@@ -17,10 +17,10 @@ Attendees will need:
 
 - A laptop
 - An account on [GitHub](https://github.com/)
-- Familiarity with the concepts and tools covered in the previous [Automation Fundamentals workshop](https://aristanetworks.github.io/avd-workshops/) (Git, VSCode, Jinja/YAML, Ansible).
+- Familiarity with the concepts and tools covered in the previous [Automation Fundamentals workshop](https://aristanetworks.github.io/avd-workshops/) (Git, VSCode, Jinja/YAML, Ansible)
 
 ## Lab Topology
 
 Throughout this section we will make use of the following dual datacenter topology. Click on the image to zoom in for details.
 
-![Dual DC Topo](assets/images/dual-dc-topo.svg)
+![Dual DC Topology](assets/images/dual-dc-topo.svg)
