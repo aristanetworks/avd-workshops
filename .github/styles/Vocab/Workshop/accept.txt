@@ -1,4 +1,5 @@
 agentless
+Arista
 (?i)ansible
 boolean\w*\b
 cmd
@@ -20,12 +21,14 @@ mlag
 mlagpeer
 netcommon
 (?i)reachability
+repo
 ssl
 subnet
 toolchain
 uncomment
 untracked
 vlan
+VRF\w*\b
 yaml
 yml
 Yu

@@ -15,7 +15,7 @@ We will be focusing on the first two items during this workshop.
 
 ## Why use Ansible
 
-Aside from being 'agentless', meaning that Ansible does not require any specialized software on the target hosts, Ansible is also easy to get started with. While prior coding or experience in automation is of course helpful, it is not required to get up and running with Ansible. Playbooks are written in YAML, a language that we'll cover in detail in the [YAML](jinja-yaml.md "Jinja and YAML") section. For now, rest assured that YAML is a human readable language, and it's a big reason why it's easy to get started on our Ansible journey.
+Aside from being 'agentless', meaning that Ansible does not require any specialized software on the target hosts, Ansible is also straightforward to get started with. While prior coding or experience in automation is helpful, it is not required to get up and running with Ansible. Playbooks are written in YAML, a language that we'll cover in detail in the [YAML](jinja-yaml.md "Jinja and YAML") section. For now, rest assured that YAML is a human-readable language, which is why it's accessible to start our Ansible journey.
 
 There is a very large, and very active, user and development community with Ansible. The project itself is open source, with the GitHub repository available [here](https://github.com/ansible/ansible "Ansible on GitHub"). The popularity of Ansible has led to broad vendor support, spanning multiple technology silos. Network, Compute, Storage, Cloud, Security, and more can all be automated via Ansible.
 
@@ -400,7 +400,7 @@ If we run this same command, but specifying `s1-leaf3` we'll see some additional
 
     ```
 
-Whoa! There is certainly more there...and looking at `banner_text`, we can see that it's different. With group_vars, the closer to the host we get, the higher the precedence of the variable. So, in the case of `banner_text`, it is defined
+Whoa! There is certainly more there...and looking at `banner_text`, we can see that it's different. With `group_vars`, the closer to the host we get, the higher the precedence of the variable. So, in the case of `banner_text`, it is defined
 in `WORKSHOP_FABRIC.yml` and `S1.yml`. Because the `S1` group is closer to the host (`s1-leaf3`) in this case, the `banner_text` variable defined in `S1.yml` take priority.
 
 ??? eos-config annotate "S1.yml (~/project/labfiles/workshops/ansible/inventory/group_vars/S1.yml)"
@@ -504,7 +504,7 @@ To do this, we'll review a playbook together. Specifically, the **`~/project/lab
 
 ![Ansible Playbook Anatomy](assets/images/ansible_playbook_anatomy.png)
 
-At the very start of our playbook, we have the ==Play==. This is the very root of the playbook. it is where we define the Managed Nodes we'd like to target with this play, as well as the list of task we'd like
+At the very start of our playbook, we have the ==Play==. This is the very root of the playbook. it is where we define the Managed Nodes we'd like to target with this play, as well as the list of tasks we'd like
 to run on these ==target hosts==.
 
 Next, we have the ==task== itself, which in our case is leveraging the **eos_facts** ==module== to gather information about the Managed Nodes, which are devices running Arista's EOS, in our topology.
@@ -547,7 +547,7 @@ s1-spine1#
 s1-leaf1#
 ```
 
-As expected, each device used whichever `banner_text` variable was closest to it in the group hierarchy or, in the case of s1-leaf1, was applied via the host_vars file associated with the node.
+As expected, each device used whichever `banner_text` variable was closest to it in the group hierarchy or, in the case of s1-leaf1, was applied via the `host_vars` file associated with the node.
 
 ### Modules
 

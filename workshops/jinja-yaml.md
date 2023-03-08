@@ -6,7 +6,7 @@ This section will cover both Jinja and YAML, which are two interdependent pieces
 
 ## What is YAML?
 
-YAML is what's officially referred to as a data serialization language. While that sounds complex, data serialization is simply the process of converting objects within a data model into a byte stream for the purpose of storing or transferring it. Breaking this down, we know when trying to automate configuration management or deployment, we need to specify ***what*** it is we want to configure, that is, what should our desired end state configuration look like. ( **intent based networking** )
+YAML is what's officially referred to as a data serialization language. While that sounds complex, data serialization is the process of converting objects within a data model into a byte stream for the purpose of storing or transferring it. Breaking this down, we know when trying to automate configuration management or deployment, we need to specify ***what*** it is we want to configure, that is, what should our desired end state configuration look like. ( **intent based networking** )
 
 An important note is about why we are talking about and using YAML in the first place. As mentioned in the beginning, YAML is a data serialization language, however, it is not the only one. Some other common, data serialization languages are XML, JSON, and CSV. The reason we are particular towards YAML is that not only are there libraries available in most programming languages, but also because as the following table shows, it is very human readable.
 
@@ -105,7 +105,7 @@ mgmt_interface_vrf: default
 ```
 
 ???+ tip
-    :writing_hand: In VSCode, you can auto-comment any text you want by selecting the text and pressing ***windows*** ++ctrl++ + ++slash++ or ***mac*** ++cmd++ + ++slash++.
+    :writing_hand: In VS Code, you can auto-comment any text you want by selecting the text and pressing ***windows*** ++ctrl++ + ++slash++ or ***mac*** ++cmd++ + ++slash++.
 
 ### Mappings
 
@@ -288,7 +288,7 @@ Now that we have gone through all the most common constructs within a YAML file 
 
 These example YAML files could be used to build a base config for a series of devices. The devices would be based on your inventory file, however, for this example, we will assume there is a layer2 leaf/spine topology, with two spines and two leafs. For this example we will use two files, a `global.yml` and a `interface.yml` file.
 
-The global.yml file that follows includes the data model used for the base configuration. These items apply to all four devices in the fabric. ***( This could be imported in the playbook, or put in the group_vars directory and named after the level of your hierarchy that contains the devices you want this to apply to. )***
+The global.yml file that follows includes the data model used for the base configuration. These items apply to all four devices in the fabric. ***( This could be imported in the playbook, or put in the `group_vars` directory and named after the level of your hierarchy that contains the devices you want this to apply to. )***
 
 `global.yml`
 
@@ -763,7 +763,7 @@ Ignoring for a moment the for loop part we haven't covered yet, we can see we ar
 
 Another great function that Jinja templates support is the use of `for` loops. For loops come in handy when trying to iterate through a list of dictionaries to repeat configuration lines.
 
-Lets start with a simple example, using a `for` loop to iterate through a list. The below list shows a list with a single DNS server:
+Let's start with an example using a `for` loop to iterate through a list. For example, the below list shows a list with a single DNS server:
 
 ```yaml
 # DNS Servers
@@ -833,7 +833,7 @@ radius-server host {{ rsrv['host'] }} vrf {{ rsrv['vrf'] }} key {{ rsrv['key'] }
 
 Lets analyze the sections of this template.
 
-`rsrv`:  This is a variable we are setting that represents each item in the list of the dictionary **radius_servers**.
+`rsrv`:  This is a variable we are setting that represents each item in the list of the dictionary **`radius_servers`**.
 
 `global`: This tells the template which YAML file to look at for the variable.
 

@@ -6,7 +6,7 @@
 
 Visual Studio Code (VS Code), written by Microsoft, is a lightweight but powerful source code editor which runs on your desktop and is available for Windows, macOS and Linux. It comes with built-in support for JavaScript, TypeScript and Node.js and has a rich ecosystem of extensions for other languages and runtime environments (such as C++, C#, Java, Python, PHP, Go, .NET).
 
-VS Code integrates directly with Git and allows Network Engineers to easily perform the following tasks:
+VS Code integrates directly with Git and allows Network Engineers to efficiently perform the following tasks:
 
 - Edit Files
 - Drag and Drop Files into the Explorer
@@ -16,11 +16,11 @@ VS Code integrates directly with Git and allows Network Engineers to easily perf
 - Execute various Git commands (such as: status, init, log, commit, switch, add, etc...)
 - Connect to Remote Hosts
 
-VS Code is your personal Git Genie making automation workflows easy. Once you learn to use VS Code, you will wonder why it took so long to get on the bandwagon.
+VS Code is your personal Git Genie making automation workflows effortless. Once you learn to use VS Code, you will wonder why it took so long to get on the bandwagon.
 
 ## System Requirements
 
-Visual Studio Code is a small download (< 200 MB) and has a disk footprint of < 500 MB. VS Code is lightweight and should easily run on today's hardware.
+Visual Studio Code is a small download (< 200 MB) and has a disk footprint of < 500 MB. VS Code is lightweight and should run on today's hardware.
 
 Recommend Hardware:
 

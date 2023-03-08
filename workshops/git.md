@@ -9,7 +9,7 @@ In this section we will explore a brief introduction of Git. We will cover the i
 
 ![Git Snapshots](assets/images/git_snapshots.png){: style="width:800px"}
 
-Git makes collaboration easy by allowing multiple people to merge their changes into one source. Regardless of whether you work solo or as part of a team, Git will be useful for you.
+Git makes collaboration effortless by allowing multiple people to merge their changes into one source. Regardless of whether you work solo or as part of a team, Git will be useful for you.
 
 Basic Git commands we will be working with:
 
