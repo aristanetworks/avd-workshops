@@ -473,6 +473,9 @@ Statements are represented with a percent symbol:
 {% endfor %}
 ```
 
+???+ tip "Live Jinja Parser"
+    Quick and easy method for testing data models and Jinja syntax: [https://j2live.ttl255.com/](https://j2live.ttl255.com/ "Live Jinja Parser!")  
+
 ### Inventory File and Ansible Playbook
 
 While we won't cover the inventory file or Ansible playbooks in depth in this section as it will be covered in Ansible, it is important to call out it's importance in relation to Jinja.  You may wonder, when using Ansible to automate and render any configurations, how does it know what devices I want to create configurations for?  This is accomplished with the Ansible inventory file.  This will be covered more thoroughly, however, for the purpose of the following examples, we will assume we have an inventory file with four hosts, `spine1`, `spine2`, `leaf1`, and `leaf2`.  Some examples may show output for all four devices, and some may show output for just one, depending on the complexity of the example.  Also, every example we show will use the following Ansible Playbook so you understand the destination filename syntax.  There are more parts to this playbook but they will be shown at the end and covered in the next presentation:
