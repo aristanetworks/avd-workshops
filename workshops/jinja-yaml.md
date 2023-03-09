@@ -474,7 +474,7 @@ Statements are represented with a percent symbol:
 ```
 
 ???+ tip "Live Jinja Parser"
-    Quick and easy method for testing data models and Jinja syntax: [https://j2live.ttl255.com/](https://j2live.ttl255.com/ "Live Jinja Parser!")  
+    Quick and easy method for testing data models and Jinja syntax: [https://j2live.ttl255.com/](https://j2live.ttl255.com/ "Live Jinja Parser!")
 
 ### Inventory File and Ansible Playbook
 
