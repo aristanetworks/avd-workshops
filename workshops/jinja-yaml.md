@@ -1058,9 +1058,27 @@ vxlan vlan 202 vni 20002
 
 ### Filters
 
-The final section we will cover will be filters.  While there are an enormous amount of filters available, we will just cover a very common one, the `ipaddr` filter.  In a simple explanation, the `ipaddr` filter takes a full IP address and subnet mask, and strips off just the mask, with the end result being only the address.  This can be helpful in an instance where you are using a full prefix and mask in your data model and don't want to create a new, duplicate, key-value pair mapping to be called.
+The final section we will cover will be filters.  Filters are built in functions that apply some task to a variable you may substitute in.  While there are many filters available, we will cover two common ones, the `ipaddr` and `join` filters.
 
-To illustrate this, we will use a very simple example for showing the IP address of the interface run against a single device, **spine1**.
+#### IPADDR()
+
+In a simple explanation, the `ipaddr` filter has various operations allowing you to manipulate a prefix or network and obtain certain information about it.  This can be helpful in an instance where you are using a full prefix and mask in your data model and don't want to create a new, duplicate, key-value pair mapping to be called.
+
+The following are some of the functions availble within the **ipaddr()** filter:
+
+`address:` When using a prefix in x.x.x.x/yy notation, this filter will pull only the address portion.
+
+`network:` This filter will calculate the network ID of a given prefix.
+
+`netmask:` This filter will expand out the subnet mask from /yy notation.
+
+`broadcast:` This filter will calculate the broadcast address of a given prefix.
+
+`size:` This filter will calculate the size of a subnet based on the subnet mask.
+
+`range_usable:` This filter finds the range of usable addresses within a subnet.
+
+To illustrate this, we will use a simple example for showing the IP info of these two interfaces run against a single device, **spine1**.
 
 The data model is as follows:
 
@@ -1068,30 +1086,88 @@ The data model is as follows:
 ---
 spine1:
   interfaces:
-    Loopback0:
-      ipv4: 192.168.101.101/32
     Ethernet1:
       ipv4: 1.1.1.1/26
     Ethernet2:
       ipv4: 2.2.2.2/8
 ```
 
-The Jinja template is as follows:
+The Jinja template is as follows, which will use the above described filters to give us various information about the IP addresses assigned to Ethernet1 and Ethernet2:
 
 ```jinja
-Loopback0 ip is {{ ipaddr[inventory_hostname]['interfaces']['Loopback0']['ipv4'] | ipaddr('address')  }}
-Ethernet1 ip is {{ ipaddr[inventory_hostname]['interfaces']['Ethernet1']['ipv4'] | ipaddr('address')  }}
-Ethernet2 ip is {{ ipaddr[inventory_hostname]['interfaces']['Ethernet2']['ipv4'] | ipaddr('address')  }}
+Here is some information about some of Spine1's interfaces:
+
+Ethernet1
+    IP: {{ ipaddr[inventory_hostname]['interfaces']['Ethernet1']['ipv4'] | ipaddr('address')  }}
+    Subnet Mask:  {{ ipaddr[inventory_hostname]['interfaces']['Ethernet1']['ipv4'] | ipaddr('netmask')  }}
+    Network ID:  {{ ipaddr[inventory_hostname]['interfaces']['Ethernet1']['ipv4'] | ipaddr('network')  }}
+    Network Size:  {{ ipaddr[inventory_hostname]['interfaces']['Ethernet1']['ipv4'] | ipaddr('size')  }}
+    Usable Range:  {{ ipaddr[inventory_hostname]['interfaces']['Ethernet1']['ipv4'] | ipaddr('range_usable')  }}
+    Broadcast Address:  {{ ipaddr[inventory_hostname]['interfaces']['Ethernet1']['ipv4'] | ipaddr('broadcast')  }}
+
+Ethernet2
+    IP: {{ ipaddr[inventory_hostname]['interfaces']['Ethernet2']['ipv4'] | ipaddr('address')  }}
+    Subnet Mask:  {{ ipaddr[inventory_hostname]['interfaces']['Ethernet2']['ipv4'] | ipaddr('netmask')  }}
+    Network ID:  {{ ipaddr[inventory_hostname]['interfaces']['Ethernet2']['ipv4'] | ipaddr('network')  }}
+    Network Size:  {{ ipaddr[inventory_hostname]['interfaces']['Ethernet2']['ipv4'] | ipaddr('size')  }}
+    Usable Range:  {{ ipaddr[inventory_hostname]['interfaces']['Ethernet2']['ipv4'] | ipaddr('range_usable')  }}
+    Broadcast Address:  {{ ipaddr[inventory_hostname]['interfaces']['Ethernet2']['ipv4'] | ipaddr('broadcast')  }}
 ```
 
-Reviewing our template, we can see we are using the current inventory device we are running the playbook against, and keying in on the ipv4 address mapping.  We are then using the filter command, `|`, and specifying the `address` keyword, meaning we only want the address part of the whole prefix.
+Reviewing our template, we can see we are using the current inventory device we are running the playbook against, and keying in on the ipv4 address mapping for interfaces Ethernet1 and Ethernet2.  We are then using the filter command, `|`, and specifying the various keywords.
 
-Running the command results in the following output:
+Running the playbook results in the following output:
 
 ```yaml
-Loopback0 ip is 192.168.101.101
-Ethernet1 ip is 1.1.1.1
-Ethernet2 ip is 2.2.2.2
+Here is some information about some of Spine1's interfaces:
+
+Ethernet1
+    IP: 1.1.1.1
+    Subnet Mask:  255.255.255.192
+    Network ID:  1.1.1.0
+    Network Size:  64
+    Usable Range:  1.1.1.1-1.1.1.62
+    Broadcast Address:  1.1.1.63
+
+Ethernet2
+    IP: 2.2.2.2
+    Subnet Mask:  255.0.0.0
+    Network ID:  2.0.0.0
+    Network Size:  16777216
+    Usable Range:  2.0.0.1-2.255.255.254
+    Broadcast Address:  2.255.255.255
+```
+
+#### JOIN()
+
+When working with lists in YAML, it may be needed to have all items in a list concatenated into a single line of a configuration command, instead of looping through the list and creating a configuration command for each item.  Some examples of this could be configuring a list of NTP or DNS servers in a single line, versus individual entries.  This can be accomplished with the following filter:
+
+`join(" "):` This filter joins all the items in the list.  Pay close attention to the space between the double quotes.  This provides spacing between the items in a list.  Without this space, all items in the list would be joined into one continuous string.
+
+To illustrate this, we will use simple DNS server data model and Jinja template.
+
+The data model is as follows:
+
+```yaml
+---
+# DNS Servers
+name_servers:
+  - 10.100.100.20
+  - 8.8.8.8
+  - 4.4.4.4
+  - 208.67.222.222
+```
+
+The following Jinja template will allow us to configure all four DNS servers on a single line for a single configuration command:
+
+```jinja
+ip name-server {{ global['name_servers'] | join(" ") }}
+```
+
+Running the playbook results in the following output:
+
+```yaml
+ip name-server 10.100.100.20 8.8.8.8 4.4.4.4 208.67.222.222
 ```
 
 ## The Jinja YAML Relationship
