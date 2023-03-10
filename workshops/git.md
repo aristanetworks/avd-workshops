@@ -79,7 +79,7 @@ cd /home/coder/project/labfiles/samplefiles
 
 #### Initialize directory as a Git repository
 
-Next we initialize the current directory `/home/coder/project/labfiles/samplefiles/` as a repository.
+Next we initialize the current directory `/home/coder/project/labfiles/samplefiles/` as a repository (repo).
 
 ``` bash
 git init
@@ -93,13 +93,13 @@ The directory is now initialized as a Git repository and the following hidden su
 
 #### Git Repository Status
 
-Check the current status of your repository.
+Check the current status of your repo.
 
 ``` bash
 git status
 ```
 
-Since this is a brand new repository you should see output similar to the following, indicating there are untracked files.
+Since this is a brand new repo you should see output similar to the following, indicating there are untracked files.
 
 ``` bash
 On branch main
@@ -186,7 +186,7 @@ On branch main
 nothing to commit, working tree clean
 ```
 
-You have successfully made your first historical marker in your repository. Check the log to see what is there.
+You have successfully made your first historical marker in your repo. Check the log to see what is there.
 
 ``` bash
 git log
@@ -270,7 +270,7 @@ If you do not have a GitHub account, you can create one **[here](https://github.
 
 ### Create a GitHub personal access token
 
-To push your local repository to GitHUb you will need a Personal Access Token. From your **GitHub** account, click through the following path to generate a new personal access token.  **Profile --> Settings --> Developer Settings --> Personal Access Tokens --> Tokens (classic) --> Generate new token (classic)**
+To push your local repo to GitHUb you will need a Personal Access Token. From your **GitHub** account, click through the following path to generate a new personal access token.  **Profile --> Settings --> Developer Settings --> Personal Access Tokens --> Tokens (classic) --> Generate new token (classic)**
 
 - Give the token a meaningful name by setting the **Note**: `MyNewToken`
 - Set the **Expiration**: 30 days (default)
@@ -299,9 +299,9 @@ Fork the example [repository](https://github.com/PacketAnglers/workshops) to mak
 
 Next up... Clone this forked repository to your local host machine.
 
-### Clone forked repository to local host
+### Clone forked repo to local host
 
-Cloning a repository allows us to make a local copy of a project that resides on GitHub. In the previous step, you forked a repository to your local GitHub account. Navigate to your forked repository in GitHub. From there, click on the green code button and copy the URL of the forked repository.
+Cloning a repository allows us to make a local copy of a project that resides on GitHub. In the previous step, you forked a repository to your local GitHub account. Navigate to your forked repo in GitHub. From there, click on the green code button and copy the URL of the forked repository.
 
 ![Git Clone](assets/images/git_clone.png){: style="width:400px"}
 
@@ -381,7 +381,7 @@ The next step is to merge the `add-vlan-40` branch into the `main` branch. A Pul
 
 A Pull Request in Git allows a contributor (you) to ask a maintainer (owner) of origin repository to review code changes you wish to merge into a project. Once a pull request is opened, you can discuss and review the potential changes with collaborators and add follow-up commits before your changes are merged into the `main` branch.
 
-Once all changes have been agreed upon, the maintainer of the original repository will merge your changes. At this point, your code changes are visible in the origin project repository.
+Once all changes have been agreed upon, the maintainer of the original repo will merge your changes. At this point, your code changes are visible in the origin project repo.
 
 #### Steps to initiate a Pull Request
 
@@ -401,7 +401,7 @@ This will generate a Pull Request on the main project repository. The owner/main
 After your Pull Request is merged, there are some additional steps you may want to do.
 
 1. Delete your branch on GitHub and your local host.
-2. Sync your Forked repository (below)
+2. Sync your Forked repo (below)
 3. Pull the updates into `main` branch on your local host. `git pull`
 
 ![GitHub Sync Fork](assets/images/github_sync_fork.png){: style="width:750px"}

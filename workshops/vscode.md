@@ -118,7 +118,7 @@ Use VS Code to perform the following actions.
   - Command-Palette - git merge
 - Verify files have new names in the `main` branch
 - Be a good citizen and clean up old branch
-- Publish repository to GitHub
+- Publish repo to GitHub
 
 ## Dev Containers
 

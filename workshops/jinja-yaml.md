@@ -1062,9 +1062,9 @@ The final section we will cover will be filters. While there are an enormous amo
 
 #### IPADDR()
 
-In a simple explanation, the `ipaddr` filter has various operations allowing you to manipulate a prefix or network and obtain certain information about it.  This can be helpful in an instance where you are using a full prefix and mask in your data model and don't want to create a new, duplicate, key-value pair mapping to be called.
+In a simple explanation, the `ipaddr` filter has various operations allowing you to manipulate a prefix or network and obtain certain information about it. This can be helpful in an instance where you are using a full prefix and mask in your data model and don't want to create a new, duplicate, key-value pair mapping to be called.
 
-The following are some of the functions availble within the **ipaddr()** filter:
+The following are some of the functions available within the **ipaddr()** filter:
 
 `address:` When using a prefix in x.x.x.x/yy notation, this filter will pull only the address portion.
 
@@ -1140,9 +1140,9 @@ Ethernet2
 
 #### JOIN()
 
-When working with lists in YAML, it may be needed to have all items in a list concatenated into a single line of a configuration command, instead of looping through the list and creating a configuration command for each item.  Some examples of this could be configuring a list of NTP or DNS servers in a single line, versus individual entries.  This can be accomplished with the following filter:
+When working with lists in YAML, it may be needed to have all items in a list concatenated into a single line of a configuration command, instead of looping through the list and creating a configuration command for each item. Some examples of this could be configuring a list of NTP or DNS servers in a single line, versus individual entries. This can be accomplished with the following filter:
 
-`join(" "):` This filter joins all the items in the list.  Pay close attention to the space between the double quotes.  This provides spacing between the items in a list.  Without this space, all items in the list would be joined into one continuous string.
+`join(" "):` This filter joins all the items in the list. Pay close attention to the space between the double quotes. This provides spacing between the items in a list. Without this space, all items in the list would be joined into one continuous string.
 
 To illustrate this, we will use simple DNS server data model and Jinja template.
 
