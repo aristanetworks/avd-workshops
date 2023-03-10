@@ -11,13 +11,13 @@ This section will cover:
 - Validation and Troubleshooting
 - Enhancing our CI/CD Pipelines with GitHub Actions
 
-Each attendee will receive their own dedicated virtual lab environment with Git, VSCode and Ansible already installed and ready to use.
+Each attendee will receive their own dedicated virtual lab environment with Git, VS Code and Ansible already installed and ready to use.
 
 Attendees will need:
 
 - A laptop
 - An account on [GitHub](https://github.com/)
-- Familiarity with the concepts and tools covered in the previous [Automation Fundamentals workshop](https://aristanetworks.github.io/avd-workshops/) (Git, VSCode, Jinja/YAML, Ansible)
+- Familiarity with the concepts and tools covered in the previous [Automation Fundamentals workshop](https://aristanetworks.github.io/avd-workshops/) (Git, VS Code, Jinja/YAML, Ansible)
 
 ## Lab Topology
 

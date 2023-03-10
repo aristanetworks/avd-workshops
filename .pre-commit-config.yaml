@@ -13,6 +13,7 @@ repos:
     hooks:
       - id: markdownlint
         name: Check for Linting errors on MarkDown files
+        exclude: .github/styles
         args:
           - --config=.github/.markdownlint.yaml
           - --fix
@@ -29,3 +30,9 @@ repos:
         stages: [commit, push, manual]
         args:
           - --quiet
+
+  - repo: https://github.com/errata-ai/vale
+    rev: ab5fe92
+    hooks:
+      - id: vale
+        files: workshops/

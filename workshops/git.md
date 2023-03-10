@@ -9,7 +9,7 @@ In this section we will explore a brief introduction of Git. We will cover the i
 
 ![Git Snapshots](assets/images/git_snapshots.png){: style="width:800px"}
 
-Git makes collaboration easy by allowing multiple people to merge their changes into one source. Regardless of whether you work solo or as part of a team, Git will be useful for you.
+Git makes collaboration effortless by allowing multiple people to merge their changes into one source. Regardless of whether you work solo or as part of a team, Git will be useful for you.
 
 Basic Git commands we will be working with:
 
@@ -85,7 +85,7 @@ Next we initialize the current directory `/home/coder/project/labfiles/samplefil
 git init
 ```
 
-Notice your cli prompt changed.
+Notice your CLI prompt changed.
 
 The directory is now initialized as a Git repository and the following hidden sub-directory `/home/coder/project/labfiles/samplefiles/.git/` was created. It holds version control information for your repository.
 
@@ -197,7 +197,7 @@ git log
 
 ### Create a branch
 
-Creating a branch allows you to make a new copy of your files without affecting the files in the `main` branch. For example, if you wanted to update the hostnames on your switches, you might create a new branch called, `update-hostnames`.
+Creating a branch allows you to make a new copy of your files without affecting the files in the `main` branch. For example, if you wanted to update the hostnames on your switches, you might create a new branch called `update-hostnames`.
 
 ![Branch](assets/images/git_branch.png){: style="width:500px"}
 
@@ -236,7 +236,7 @@ git commit -m "updated hostname on each switch"
 
 Now that we are satisfied with our hostnames changes we can merge branch `update-hostnames` into `main`.
 
-First, switch back to the `main` branch and notice the hostnames go back to the original name. Why did that happen? Remember we never modifed the original copy `main` branch. This is a different version of the file. Once we merge the `update-hostnames` branch into `main`, then both copies will be the same.
+First, switch back to the `main` branch and notice the hostnames go back to the original name. Why did that happen? Remember we never modified the original copy `main` branch. This is a different version of the file. Once we merge the `update-hostnames` branch into `main`, then both copies will be the same.
 
 ``` bash
 git switch main
@@ -301,7 +301,7 @@ Next up... Clone this forked repository to your local host machine.
 
 ### Clone forked repo to local host
 
-Cloning a repository allows us to make a local copy of a project that resides on GitHub. In the previous step, you forked a repo to your local GitHub account. Navigate to your forked repository in GitHub. From there, click on the green code button and copy the URL of the forked repository.
+Cloning a repository allows us to make a local copy of a project that resides on GitHub. In the previous step, you forked a repository to your local GitHub account. Navigate to your forked repo in GitHub. From there, click on the green code button and copy the URL of the forked repository.
 
 ![Git Clone](assets/images/git_clone.png){: style="width:400px"}
 
@@ -326,7 +326,7 @@ Verify where the remote copy of this clones lives.
 git remote -v
 ```
 
-In the next step, let's add a new vlan 40 to the `atd/vlans.yml` file. First we should create a new branch.
+In the next step, let's add a new VLAN 40 to the `atd/vlans.yml` file. First we should create a new branch.
 
 ### Create the branch
 
@@ -336,7 +336,7 @@ git branch add-vlan-40
 git switch add-vlan-40
 ```
 
-Now update `vlans.yml` with vlan 40 information.
+Now update `vlans.yml` with VLAN 40 information.
 
 Additionally, stage and commit these changes to the new branch.
 

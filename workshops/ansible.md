@@ -15,7 +15,7 @@ We will be focusing on the first two items during this workshop.
 
 ## Why use Ansible
 
-Aside from being 'agentless', meaning that Ansible does not require any specialized software on the target hosts, Ansible is also easy to get started with. While prior coding or experience in automation is of course helpful, it is not required to get up and running with Ansible. Playbooks are written in YAML, a language that we'll cover in detail in the [YAML](jinja-yaml.md "Jinja and YAML") section. For now, rest assured that YAML is a human readable language, and it's a big reason why it's easy to get started on our Ansible journey.
+Aside from being 'agentless', meaning that Ansible does not require any specialized software on the target hosts, Ansible is also straightforward to get started with. While prior coding or experience in automation is helpful, it is not required to get up and running with Ansible. Playbooks are written in YAML, a language that we'll cover in detail in the [YAML](jinja-yaml.md "Jinja and YAML") section. For now, rest assured that YAML is a human-readable language, which is why it's accessible to start our Ansible journey.
 
 There is a very large, and very active, user and development community with Ansible. The project itself is open source, with the GitHub repository available [here](https://github.com/ansible/ansible "Ansible on GitHub"). The popularity of Ansible has led to broad vendor support, spanning multiple technology silos. Network, Compute, Storage, Cloud, Security, and more can all be automated via Ansible.
 
@@ -77,17 +77,17 @@ All of the information displayed above is important, and can help when troublesh
 
 Two important initial terms are the Ansible `Control Node` and `Managed Node`
 
-The Control Node is where our playbooks are executed from. This node then connects to the Managed Node(s) to interact with them as needed to perform the desired task(s). How the Control Node interacts with the Managed Node is dependent upon the type of operating system running on the Managed Node. For example, if the Managed Node is a Linux server, then the Control Node will "ship" the python code associated with the task(s) to the Managed Node. Then, the Managed Node will locally execute that code to complete the task(s).
+The Control Node is where our playbooks are executed from. This Node then connects to the Managed Nodes to interact with them as needed to perform the desired tasks. How the Control Node interacts with the Managed Node depends on the type of operating system running on the Managed Node. For example, if the Managed Node is a Linux server, then the Control Node will "ship" the python code associated with the tasks to the Managed Node. Then, the Managed Node will locally execute that code to complete the tasks.
 
 ??? note "What about the lab environment?"
     In our ATD lab environment, the `Control Node` is our JumpHost that we're running our VS Code IDE from.
     The `Managed Nodes` are the switches that make up our lab's network topology.
 
-If the Managed Node is a network device, then the Control Node will locally execute the python code associated with the task(s), and then interact with the network devices via SSH or API to complete the task(s).
+If the Managed Node is a network device, then the Control Node will locally execute the python code associated with the tasks, and then interact with the network devices via SSH or API to complete the tasks.
 
 The Control Node must be a Linux host (Ubuntu, CentOS, Rocky, Debian, etc.) with Ansible installed. That's it! Really! This is part of what makes Ansible easy to get started with, and also efficient. It does not require a suite of software to be installed in order to get started. A single Control Node can manage hundreds, or thousands, of Managed Nodes.
 
-A Managed Node does not need any specialized software installed. In other words, Ansible is `agentless`. If a Managed Node is a Linux server, then it will need to have Python3 installed. However, for Managed Nodes that are network devices, there are no pre-requisites required; Not even Python. This is because the Control Node will locally execute the python code necessary to complete the task(s) on the network device, and will then interact as needed with the network device via SSH/API.
+A Managed Node does not need any specialized software installed. In other words, Ansible is `agentless`. If a Managed Node is a Linux server, it will need to have Python3 installed. However, no prerequisites are required for Managed Nodes that are network devices, not even Python. This is because the Control Node will locally execute the python code necessary to complete the tasks on the network device and will then interact as needed with the network device via SSH/API.
 
 ## Ansible Components
 
@@ -99,7 +99,7 @@ In the next sections, we'll go through each of these components one at a time to
 
 ### Config File
 
-The Ansible configuration file is where we set environment variables for our Ansible project(s). There are many variables that can be set in this file, and the most common ones are documented [here](https://docs.ansible.com/ansible/latest/reference_appendices/config.html#common-options "Common Ansible Configuration File Options").
+The Ansible configuration file is where we set environment variables for our Ansible projects. There are many variables that can be set in this file, and the most common ones are documented [here](https://docs.ansible.com/ansible/latest/reference_appendices/config.html#common-options "Common Ansible Configuration File Options").
 
 When running an ad-hoc command, or playbook, Ansible will look for the configuration file in the locations listed below. These locations are defined in order of precedence:
 
@@ -400,7 +400,7 @@ If we run this same command, but specifying `s1-leaf3` we'll see some additional
 
     ```
 
-Whoa! There is certainly more there...and looking at `banner_text`, we can see that it's different. With group_vars, the closer to the host we get, the higher the precedence of the variable. So, in the case of `banner_text`, it is defined
+Whoa! There is certainly more there...and looking at `banner_text`, we can see that it's different. With `group_vars`, the closer to the host we get, the higher the precedence of the variable. So, in the case of `banner_text`, it is defined
 in `WORKSHOP_FABRIC.yml` and `S1.yml`. Because the `S1` group is closer to the host (`s1-leaf3`) in this case, the `banner_text` variable defined in `S1.yml` take priority.
 
 ??? eos-config annotate "S1.yml (~/project/labfiles/workshops/ansible/inventory/group_vars/S1.yml)"
@@ -504,7 +504,7 @@ To do this, we'll review a playbook together. Specifically, the **`~/project/lab
 
 ![Ansible Playbook Anatomy](assets/images/ansible_playbook_anatomy.png)
 
-At the very start of our playbook, we have the ==Play==. This is the very root of the playbook. it is where we define the Managed Nodes we'd like to target with this play, as well as the list of task(s) we'd like
+At the very start of our playbook, we have the ==Play==. This is the very root of the playbook. it is where we define the Managed Nodes we'd like to target with this play, as well as the list of tasks we'd like
 to run on these ==target hosts==.
 
 Next, we have the ==task== itself, which in our case is leveraging the **eos_facts** ==module== to gather information about the Managed Nodes, which are devices running Arista's EOS, in our topology.
@@ -547,7 +547,7 @@ s1-spine1#
 s1-leaf1#
 ```
 
-As expected, each device used whichever `banner_text` variable was closest to it in the group hierarchy or, in the case of s1-leaf1, was applied via the host_vars file associated with the node.
+As expected, each device used whichever `banner_text` variable was closest to it in the group hierarchy or, in the case of s1-leaf1, was applied via the `host_vars` file associated with the node.
 
 ### Modules
 
@@ -626,6 +626,6 @@ Go forth and explore!
 
 ![Ansible Roles](assets/images/ansible_roles.png)
 
-Ansible roles allow us to neatly pack all of the tasks, templates, files, etc. that we used to accomplish a task, into a nice reusable format. An example of this could be a standardized method for installing nginx or apache on a server. Or, as we'll see in our labs, deploying an MLAG domain configuration on Arista switches.
+Ansible roles allow us to neatly pack all of the tasks, templates, files, etc. that we used to accomplish a task, into a nice reusable format. An example of this could be a standardized method for installing NGINX or Apache on a server. Or, as we'll see in our labs, deploying an MLAG domain configuration on Arista switches.
 
 Ultimately, Ansible Roles can be seen as a blueprint to not only automate, but standardize, our repeatable tasks.
