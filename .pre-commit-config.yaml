@@ -30,6 +30,7 @@ repos:
         stages: [commit, push, manual]
         args:
           - --quiet
+          - --config=config.json
 
   - repo: https://github.com/errata-ai/vale
     rev: ab5fe92
