@@ -6,7 +6,7 @@ tenants:
         svis:
           10:
             name: 'Ten'
-            tags: ["10"]
+            tags: [ "10" ]
             enabled: true
             ip_virtual_router_addresses:
               - 10.10.10.1
@@ -17,7 +17,7 @@ tenants:
                 ip_address: 10.10.10.3/24
           20:
             name: 'Twenty'
-            tags: ["20"]
+            tags: [ "20" ]
             enabled: true
             ip_virtual_router_addresses:
               - 10.20.20.1
