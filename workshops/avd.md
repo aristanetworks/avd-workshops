@@ -93,6 +93,10 @@ To apply AVD variables to the nodes in the fabric, we make use of Ansible group_
 | SITE1_NETWORK_SERVICES.yml | VLANs                                         |
 | SITE1_NETWORK_PORTS.yml    | Port Profiles and Connected Endpoint settings |
 
+???+ Note
+
+    Global Variables (AAA, SNMP, Local Users, etc...) that apply to both `Site 1` and `Site 2` are defined in another file called `global_vars/global_dc_vars.yml`.  These variables are imported dynamically at playbook run time. This will be discussed in `The Playbooks` section below.
+
 === "SITE1_FABRIC"
     At the Fabric level (SITE1_FABRIC), the following variables are defined in **group_vars/SITE1_FABRIC.yml**. The fabric name, design type (l2ls), l3spine and leaf node type defaults, interface links, and core interface P2P links are defined at this level. Other variables you must supply include:
 
