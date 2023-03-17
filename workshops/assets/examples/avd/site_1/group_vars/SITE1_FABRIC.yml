@@ -8,14 +8,14 @@ design:
 # Spine Switches
 l3spine:
   defaults:
-    platform: vEOS
+    platform: cEOS
     spanning_tree_mode: mstp
     spanning_tree_priority: 4096
     loopback_ipv4_pool: 10.1.252.0/24
     mlag_peer_ipv4_pool: 10.1.253.0/24
     mlag_peer_l3_ipv4_pool: 10.1.254.0/24
     virtual_router_mac_address: 00:1c:73:00:dc:01
-    mlag_interfaces: [Ethernet1, Ethernet6]
+    mlag_interfaces: [ Ethernet1, Ethernet6 ]
   node_groups:
     SPINES:
       nodes:
@@ -29,13 +29,13 @@ l3spine:
 # IDF - Leaf Switches
 leaf:
   defaults:
-    platform: vEOS
+    platform: cEOS
     mlag_peer_ipv4_pool: 10.1.253.0/24
     spanning_tree_mode: mstp
     spanning_tree_priority: 16384
-    uplink_switches: [s1-spine1, s1-spine2]
-    uplink_interfaces: [Ethernet2, Ethernet3]
-    mlag_interfaces: [Ethernet1, Ethernet6]
+    uplink_switches: [ s1-spine1, s1-spine2 ]
+    uplink_interfaces: [ Ethernet2, Ethernet3 ]
+    mlag_interfaces: [ Ethernet1, Ethernet6 ]
   node_groups:
     RACK1:
       mlag: true
@@ -45,11 +45,11 @@ leaf:
         s1-leaf1:
           id: 3
           mgmt_ip: 192.168.0.12/24
-          uplink_switch_interfaces: [Ethernet2, Ethernet2]
+          uplink_switch_interfaces: [ Ethernet2, Ethernet2 ]
         s1-leaf2:
           id: 4
           mgmt_ip: 192.168.0.13/24
-          uplink_switch_interfaces: [Ethernet3, Ethernet3]
+          uplink_switch_interfaces: [ Ethernet3, Ethernet3 ]
     RACK2:
       mlag: true
       filter:
@@ -58,11 +58,11 @@ leaf:
         s1-leaf3:
           id: 5
           mgmt_ip: 192.168.0.14/24
-          uplink_switch_interfaces: [Ethernet4, Ethernet4]
+          uplink_switch_interfaces: [ Ethernet4, Ethernet4 ]
         s1-leaf4:
           id: 6
           mgmt_ip: 192.168.0.15/24
-          uplink_switch_interfaces: [Ethernet5, Ethernet5]
+          uplink_switch_interfaces: [ Ethernet5, Ethernet5 ]
 
 ##################################################################
 # Underlay Routing Protocol - ran on Spines
