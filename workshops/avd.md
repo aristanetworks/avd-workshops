@@ -83,7 +83,7 @@ The following is a graphical representation of the Ansible inventory groups and 
 
 ## AVD Fabric Variables
 
-To apply AVD variables to the nodes in the fabric, we make use of Ansible `group_vars`. How and where you define the variables is your choice. The `group_vars` table below is one example of AVD fabric variables.
+To apply AVD variables to the nodes in the fabric, we make use of Ansible group_vars. How and where you define the variables is your choice. The group_vars table below is one example of AVD fabric variables.
 
 | group_vars/                | Description                                   |
 | -------------------------- | --------------------------------------------- |
