@@ -1,6 +1,6 @@
 agentless
 Arista
-(?i)ansible
+ansible
 boolean\w*\b
 cmd
 Colvin
@@ -11,11 +11,14 @@ datacenter
 dev
 devcontainer
 eos
+group_vars
+host_vars
 hostname\w*\b
 httpapi
 Intentionet
 ip
 labfiles
+makefile
 mkdocs
 mlag
 mlagpeer
