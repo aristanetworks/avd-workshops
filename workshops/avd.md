@@ -63,7 +63,7 @@ Below is an example basic configuration file for s1-spine1:
 
 ``` shell
 --8<--
-workshops/example_files/s1-spine1.cfg
+workshops/assets/examples/s1-spine1.cfg
 --8<--
 ```
 
@@ -82,6 +82,76 @@ The following is a graphical representation of the Ansible inventory groups and 
 ![Ansible Groups](assets/images/ansible_groups_site1.svg)
 
 ## AVD Fabric Variables
+
+To apply AVD variables to the nodes in the fabric, we make use of Ansible group_vars. How and where you define the variables is your choice. The group_vars table below is one example of AVD fabric variables.
+
+| group_vars/                | Description                                   |
+| -------------------------- | --------------------------------------------- |
+| SITE1_FABRIC.yml           | Fabric, Topology, and Device settings         |
+| SITE1_SPINES.yml           | Device type for Spines                        |
+| SITE1_LEAFS.yml            | Device type for Leafs                         |
+| SITE1_NETWORK_SERVICES.yml | VLANs                                         |
+| SITE1_NETWORK_PORTS.yml    | Port Profiles and Connected Endpoint settings |
+
+=== "SITE1_FABRIC"
+    At the Fabric level (SITE1_FABRIC), the following variables are defined in **group_vars/SITE1_FABRIC.yml**. The fabric name, design type (l2ls), l3spine and leaf node type defaults, interface links, and core interface P2P links are defined at this level. Other variables you must supply include:
+
+    - spanning_tree_mode
+    - spanning_tree_priority
+    - mlag_peer_ipv4_pool
+
+    The l3spine node will need these additonal variables set.
+
+    - loopback_ipv4_pool
+    - mlag_peer_l3_ipv4_pool
+    - virtual_router_mac_address
+
+    Variables applied under the node key type (l3spine/leaf) defaults section are inherited to nodes under each type. These variables may be overwritten under the node itself.
+
+    The spine interface used by a particular leaf is defined from the leaf's perspective with a variable called `uplink_switch_interfaces`. For example, s1-leaf1 has a unique variable `uplink_switch_interfaces: [Ethernet2, Ethernet2]` defined. This means that s1-leaf1 is connected to `s1-spine1` Ethernet2 and `s1-spine2` Ethernet2, respectively.
+
+    ``` yaml
+    --8<--
+    workshops/assets/examples/avd/site_1/group_vars/SITE1_FABRIC.yml
+    --8<--
+    ```
+
+=== "SITE1_SPINES"
+    In an L2LS design, there are two types of spine nodes: `spine` and `l3spine`. In AVD. the node type defines the functionality and the EOS CLI configuration to be generated. For our L2LS topology, we will use node type `l3spine` to include SVI functionality.
+
+    ``` yaml
+    --8<--
+    workshops/assets/examples/avd/site_1/group_vars/SITE1_SPINES.yml
+    --8<--
+    ```
+
+=== "SITE1_LEAFS"
+    In an L2LS design, we have one type of leaf node: `leaf`. This will provide L2 functionality to the leaf nodes.
+
+    ``` yaml
+    --8<--
+    workshops/assets/examples/avd/site_1/group_vars/SITE1_LEAFS.yml
+    --8<--
+    ```
+
+=== "SITE1_NETWORK_SERVICES"
+    You add VLANs to the Fabric by updating the **group_vars/SITE1_NETWORK_SERVICES.yml**. Each VLAN will be given a name and a list of tags. The tags filter the VLAN to specific Leaf Pairs. These variables are applied to spine and leaf nodes since they are a part of this nested group.
+
+    ``` yaml
+    --8<--
+    workshops/assets/examples/avd/site_1/group_vars/SITE1_FABRIC_SERVICES.yml
+    --8<--
+    ```
+
+=== "SITE1_NETWORK_PORTS"
+    Our fabric would not be complete without connecting some devices to it. We define connected endpoints and port profiles in **group_vars/SITE1_NETWORKS_PORTS.yml**. Each endpoint's adapter defines which switch port(s) and port profile to use. In our lab, we have two hosts connected to the `site 1` fabric. The connected endpoints keys are used for logical separation and apply to interface descriptions. These variables are applied to spine and leaf nodes since they are a part of this nested inventory group.
+
+    ``` yaml
+    --8<--
+    workshops/assets/examples/avd/site_1/group_vars/SITE1_FABRIC_PORTS.yml
+    --8<--
+    ```
+
 
 ## The Playbooks
 
