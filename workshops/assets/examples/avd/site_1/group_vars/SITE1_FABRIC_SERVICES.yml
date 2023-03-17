@@ -26,4 +26,3 @@ tenants:
                 ip_address: 10.20.20.2/24
               s1-spine2:
                 ip_address: 10.20.20.3/24
-
