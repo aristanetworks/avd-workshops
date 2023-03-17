@@ -70,20 +70,9 @@ workshops/example_files/s1-spine1.cfg
 
 ## Ansible Inventory
 
-Our lab L2LS topology contains two sites, `Site 1` and `Site 2`. We need to create the Ansible inventory for each site. The following is a textual and graphical representation of the Ansible inventory groups and naming scheme used for `Site 1` in this example.  This is replicated for `Site 2`.
+Our lab L2LS topology contains two sites, `Site 1` and `Site 2`. We need to create the Ansible inventory for each site. The following is a graphical representation of the Ansible inventory groups and naming scheme used for `Site 1` in this example.  This is replicated for `Site 2`.
 
-``` text
-- SITE1
-  - SITE1_FABRIC
-    - SITE1_SPINES
-    - SITE1_LEAFS
-  - SITE1_NETWORK_SERVICES
-    - SITE1_SPINES
-    - SITE1_LEAFS
-  - SITE1_NETWORK_PORTS
-    - SITE1_SPINES
-    - SITE1_LEAFS
-```
+![Ansible Groups](assets/images/ansible_groups_site1.svg)
 
 > insert Ansible Groups graphic here
 
