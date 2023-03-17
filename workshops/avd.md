@@ -69,17 +69,17 @@ workshops/example_files/s1-spine1.cfg
 
 ## Ansible Inventory
 
-Our lab L2LS topology contains two sites, `Site 1` and `Site 2`. We need to create the Ansible inventory for each site. The following is a graphical representation of the Ansible inventory groups and naming scheme used for `Site 1` in this example.  This is replicated for `Site 2`.
-
-![Ansible Groups](assets/images/ansible_groups_site1.svg)
-
-We have created two separate directories for each sites under the `sites` sub-directory in our repo.
+Our lab L2LS topology contains two sites, `Site 1` and `Site 2`. We need to create the Ansible inventory for each site. We have created two separate directories for each site under the `sites` sub-directory in our repo.
 
 ``` text
 ├── sites/
   ├── site_1/
   ├── site_2/
 ```
+
+The following is a graphical representation of the Ansible inventory groups and naming scheme used for `Site 1` in this example.  This is replicated for `Site 2`.
+
+![Ansible Groups](assets/images/ansible_groups_site1.svg)
 
 ## AVD Fabric Variables
 
