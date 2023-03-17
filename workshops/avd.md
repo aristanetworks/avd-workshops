@@ -77,13 +77,13 @@ Our lab L2LS topology contains two sites, `Site 1` and `Site 2`. We need to crea
   ├── site_2/
 ```
 
-The following is a graphical representation of the Ansible inventory groups and naming scheme used for `Site 1` in this example.  This is replicated for `Site 2`.
+The following is a graphical representation of the Ansible inventory groups and naming scheme used for `Site 1` in this example. This is replicated for `Site 2`.
 
 ![Ansible Groups](assets/images/ansible_groups_site1.svg)
 
 ## AVD Fabric Variables
 
-To apply AVD variables to the nodes in the fabric, we make use of Ansible group_vars. How and where you define the variables is your choice. The group_vars table below is one example of AVD fabric variables.
+To apply AVD variables to the nodes in the fabric, we make use of Ansible `group_vars`. How and where you define the variables is your choice. The `group_vars` table below is one example of AVD fabric variables.
 
 | group_vars/                | Description                                   |
 | -------------------------- | --------------------------------------------- |
@@ -148,7 +148,7 @@ To apply AVD variables to the nodes in the fabric, we make use of Ansible group_
     ```
 
 === "SITE1_NETWORK_PORTS"
-    Our fabric would not be complete without connecting some devices to it. We define connected endpoints and port profiles in **group_vars/SITE1_NETWORKS_PORTS.yml**. Each endpoint's adapter defines which switch port(s) and port profile to use. In our lab, we have two hosts connected to the `site 1` fabric. The connected endpoints keys are used for logical separation and apply to interface descriptions. These variables are applied to spine and leaf nodes since they are a part of this nested inventory group.
+    Our fabric would not be complete without connecting some devices to it. We define connected endpoints and port profiles in **group_vars/SITE1_NETWORKS_PORTS.yml**. Each endpoint adapter defines which switch port and port profile to use. In our lab, we have two hosts connected to the `site 1` fabric. The connected endpoints keys are used for logical separation and apply to interface descriptions. These variables are applied to spine and leaf nodes since they are a part of this nested inventory group.
 
     ``` yaml
     --8<--
@@ -156,7 +156,54 @@ To apply AVD variables to the nodes in the fabric, we make use of Ansible group_
     --8<--
     ```
 
-
 ## The Playbooks
+
+There are exactly 2 playbooks used to build and deploy configurations in our Lab. We use a Makefile to create aliases to run the playbooks and provide the needed options. This is much easier than typing in long commands.
+
+=== "build.yml"
+
+    ``` yaml
+    --8<--
+    workshops/assets/examples/avd/playbooks/build.yml
+    --8<--
+    ```
+
+=== "deploy.yml"
+
+    ``` yaml
+    --8<--
+    workshops/assets/examples/avd/playbooks/deploy.yml
+    --8<--
+    ```
+
+=== "Makefile"
+
+    ``` yaml
+    --8<--
+    workshops/assets/examples/avd/Makefile
+    --8<--
+    ```
+
+Use the following `make` command to:
+
+Build configurations
+
+```bash
+# Build configs for Site 1
+make build-site-1
+
+# Build configs for Site 2
+make build-site-2
+```
+
+Deploy configurations
+
+```bash
+# Deploy configs for Site 1
+make deploy-site-1
+
+# Deploy configs for Site 2
+make deploy-site-2
+```
 
 ## EOS Intended Configurations
