@@ -23,7 +23,7 @@ Attendees will need:
 
 ### ATD Environment
 
-The Lab ATD environment has been pre-installed with Ansible and Git.  We still must update AVD and the required modules to th elatest versions.  The following commands will install AVD and needed modules.
+The Lab ATD environment has been pre-installed with Ansible and Git. We still must update AVD and the required modules to the latest version. The following commands will install AVD and needed modules.
 
 ``` bash
 ansible-galaxy collection install arista.avd arista.cvp --force
@@ -38,8 +38,7 @@ pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
 
 ### Other Environments
 
-1. Install AVD - Installation guide found [here](../../docs/installation/collection-installation.md).
-2. Install Ansible module requirements - Instructions found [here](../../docs/installation/collection-installation.md).
+Install AVD and required modules - Installation guide found [here](https://avd.sh/en/stable/docs/installation/collection-installation.html).
 
 ## Lab Topology Overview
 
@@ -74,8 +73,6 @@ Our lab L2LS topology contains two sites, `Site 1` and `Site 2`. We need to crea
 
 ![Ansible Groups](assets/images/ansible_groups_site1.svg)
 
-> insert Ansible Groups graphic here
-
 We have created two separate directories for each sites under the `sites` sub-directory in our repo.
 
 ``` text
@@ -84,10 +81,8 @@ We have created two separate directories for each sites under the `sites` sub-di
   ├── site_2/
 ```
 
-
 ## AVD Fabric Variables
 
 ## The Playbooks
 
 ## EOS Intended Configurations
-
