@@ -240,17 +240,112 @@ In a multi-site environment, some variables need to be applied to all sites. The
 
 ## Data Models
 
-AVD provides a network-wide data model and is typically broken into multiple group_vars file to simplify and categorize variables with their respective functions. We break the data model into three categories: fabric, services, and ports.
+AVD provides a network-wide data model and is typically broken into multiple group_vars file to simplify and categorize variables with their respective functions. We break the data model into three categories: topology, services, and ports.
 
 ### Fabric Topology
 
 The physical fabric topology is defined be providing interface links between the spine and leaf nodes. The `group_vars/SITE1_FABRIC.yml` defines this portion of the data model. In our lab, the spines provide layer 3 routing of SVIs and P2P links by using a node type called `l3spines`. The leaf nodes are purely layer and use node type `leaf`. An AVD L2LS design type provides three node type keys: l3 spine, spine, and leaf. AVD Node Type documentation can be found [here](https://avd.sh/en/stable/roles/eos_designs/doc/node-types.html). Default node_type_keys for all design types are located [here](https://github.com/aristanetworks/ansible-avd/blob/devel/ansible_collections/arista/avd/roles/eos_designs/defaults/main/default-node-type-keys.yml).
 
-#### Spine to Leaf
+#### Spine and Leaf Nodes
+
+The spine and leaf nodes for each site is defined by the example data model below. Refer to the inline comments for variable definitions. Under each node_key_type you have key/value pairs for: defaults, node_groups, and nodes. Note that key/value pairs may be overwritten with the following descending order of precedence.  The key/value closet to the node will be used.
+
+<node_key_type>
+
+1. defaults
+2. node_groups
+3. nodes
+
+``` yaml
+################################
+# Spine Switches
+################################
+
+# node_type_key for providing L3 services
+l3spine:
+  # default key/values for all l3spine nodes
+  defaults:
+    # Platform dependent default settings for mlag timers, tcam profiles, LANZ, management interface
+    platform: cEOS
+    # Spanning Tree
+    spanning_tree_mode: mstp
+    spanning_tree_priority: 4096
+    # Loopback0 pool, used in conjunction with value of `id:` under each node
+    loopback_ipv4_pool: 10.1.252.0/24
+    # IP Pool for MLAG peer link
+    mlag_peer_ipv4_pool: 10.1.253.0/24
+    # IP Pool for L3 peering over the MLAG peer link
+    mlag_peer_l3_ipv4_pool: 10.1.254.0/24
+    # Virtual MAC address used in vARP
+    virtual_router_mac_address: 00:1c:73:00:dc:01
+    # Default MLAG interfaces between spine nodes
+    mlag_interfaces: [ Ethernet1, Ethernet6 ]
+  # keyword for node groups, 2 nodes within a node group will form an MLAG pair
+  node_groups:
+    # User-defined node group name
+    SPINES:
+      # key word for nodes
+      nodes:
+        s1-spine1:
+          # unique identifier used for IP address calculations
+          id: 1
+          # Management address assign to the defined management interface
+          mgmt_ip: 192.168.0.10/24
+        s1-spine2:
+          id: 2
+          mgmt_ip: 192.168.0.11/24
+
+################################
+# Leaf Switches
+################################
+leaf:
+  defaults:
+    platform: cEOS
+    mlag_peer_ipv4_pool: 10.1.253.0/24
+    spanning_tree_mode: mstp
+    spanning_tree_priority: 16384
+    # Default uplink switches from leaf perspective
+    uplink_switches: [ s1-spine1, s1-spine2 ]
+    # Default uplink interfaces on leaf nodes connecting to the spines
+    uplink_interfaces: [ Ethernet2, Ethernet3 ]
+    # Default leaf MLAG interfaces
+    mlag_interfaces: [ Ethernet1, Ethernet6 ]
+  node_groups:
+    # User-defined node group name
+    RACK1:
+      # Filter which Vlans will be applied to the node_group, comma separated tags supported
+      # Tags for each Vlan are defined in the SITE1_FABRIC_SERVICES.yml
+      filter:
+        tags: [ "10" ]
+      nodes:
+        s1-leaf1:
+          id: 3
+          mgmt_ip: 192.168.0.12/24
+          # Define which interface is configured on the uplink switch
+          # In this example s1-leaf1 connects to [ s1-spine1, s1-spine2 ]
+          # on the following ports.  This will be unique to each leaf
+          uplink_switch_interfaces: [ Ethernet2, Ethernet2 ]
+        s1-leaf2:
+          id: 4
+          mgmt_ip: 192.168.0.13/24
+          uplink_switch_interfaces: [ Ethernet3, Ethernet3 ]
+    RACK2:
+      filter:
+        tags: [ "20" ]
+      nodes:
+        s1-leaf3:
+          id: 5
+          mgmt_ip: 192.168.0.14/24
+          uplink_switch_interfaces: [ Ethernet4, Ethernet4 ]
+        s1-leaf4:
+          id: 6
+          mgmt_ip: 192.168.0.15/24
+          uplink_switch_interfaces: [ Ethernet5, Ethernet5 ]
+```
 
 #### Core Interfaces
 
-Each site is linked to the Core IP Network using point-to-point L3 links on the spine nodes. In our example, OSPF will be used to share routes between sites across the IP Network. The `core_interfaces` data model for `Site 1` looks like the following.
+Inside the same group_vars file, we define how each site is linked to the Core IP Network using point-to-point L3 links on the spine nodes. In our example, OSPF will be used to share routes between sites across the IP Network. The `core_interfaces` data model for `Site 1` follows.
 
 ``` yaml
 core_interfaces:
