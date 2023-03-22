@@ -96,7 +96,7 @@ To apply AVD variables to the nodes in the fabric, we make use of Ansible group_
 Each group_vars file is listed in the following tabs.
 
 === "SITE1_FABRIC"
-    At the Fabric level (SITE1_FABRIC), the following variables are defined in **group_vars/SITE1_FABRIC.yml**. The fabric name, design type (l2ls), l3spine and leaf node type defaults, interface links, and core interface P2P links are defined at this level. Other variables you must supply include:
+    At the Fabric level (SITE1_FABRIC), the following variables are defined in **group_vars/SITE1_FABRIC.yml**. The fabric name, design type (l2ls), node type defaults, interface links, and core interface P2P links are defined at this level. Other variables you must supply include:
 
     - spanning_tree_mode
     - spanning_tree_priority
@@ -156,7 +156,7 @@ Each group_vars file is listed in the following tabs.
 
 ## Global Variables
 
-In a multi-site environment, some variables need to be applied to all sites.  The include: AAA, Local Users, NTP, Syslog, DNS, and TerminAttr. Instead of updating these same variables in multiple inventory group_vars, we can use a single global variable file and import the variables at playbook runtime. This allows us to make a single change that is applied to all sites. In our lab we use a global variable file `global_vars/global_dc-vars.yml`. In our playbooks we have a task that imports global variables before running other tasks.
+In a multi-site environment, some variables need to be applied to all sites. The include: AAA, Local Users, NTP, Syslog, DNS, and TerminAttr. Instead of updating these same variables in multiple inventory group_vars, we can use a single global variable file and import the variables at playbook runtime. This allows us to make a single change that is applied to all sites. In our lab we use a global variable file `global_vars/global_dc-vars.yml`. In our playbooks we have a task that imports global variables before running other tasks.
 
 ### Task to import variables from a file
 

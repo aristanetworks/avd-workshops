@@ -27,6 +27,7 @@ netcommon
 repo
 ssl
 subnet
+syslog
 toolchain
 uncomment
 untracked
