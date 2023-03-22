@@ -244,7 +244,7 @@ AVD provides a network-wide data model and is typically broken into multiple gro
 
 ### Fabric Topology
 
-The physical fabric topology is defined be providing interface links between the spine and leaf nodes. The `group_vars/SITE1_FABRIC.yml` defines this portion of the data model. In our lab, the spines provide layer 3 routing of SVIs and P2P links by using a node type called `l3spines`. The leaf nodes are purely layer and use node type `leaf`. An AVD L2LS design type provides three node type keys: l3spine, spine, and leaf. AVD Node Type documentation can be found [here](https://avd.sh/en/stable/roles/eos_designs/doc/node-types.html). Default Node Type Keys for all design types are located [here](https://github.com/aristanetworks/ansible-avd/blob/devel/ansible_collections/arista/avd/roles/eos_designs/defaults/main/default-node-type-keys.yml).
+The physical fabric topology is defined be providing interface links between the spine and leaf nodes. The `group_vars/SITE1_FABRIC.yml` defines this portion of the data model. In our lab, the spines provide layer 3 routing of SVIs and P2P links by using a node type called `l3spines`. The leaf nodes are purely layer and use node type `leaf`. An AVD L2LS design type provides three node type keys: l3 spine, spine, and leaf. AVD Node Type documentation can be found [here](https://avd.sh/en/stable/roles/eos_designs/doc/node-types.html). Default node_type_keys for all design types are located [here](https://github.com/aristanetworks/ansible-avd/blob/devel/ansible_collections/arista/avd/roles/eos_designs/defaults/main/default-node-type-keys.yml).
 
 #### Spine to Leaf
 

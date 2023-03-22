@@ -24,6 +24,7 @@ mkdocs
 mlag
 mlagpeer
 netcommon
+node_type_keys
 (?i)reachability
 repo
 ssl
