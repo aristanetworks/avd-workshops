@@ -5,6 +5,7 @@ boolean\w*\b
 cmd
 Colvin
 config
+core_interfaces
 cowsay
 ctrl
 datacenter
@@ -23,10 +24,14 @@ mkdocs
 mlag
 mlagpeer
 netcommon
+node_group\w*
+node_type_key\w*
+port_profile\w*
 (?i)reachability
 repo
 ssl
 subnet
+svis
 syslog
 toolchain
 uncomment

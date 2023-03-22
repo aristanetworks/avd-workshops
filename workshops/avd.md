@@ -238,6 +238,244 @@ In a multi-site environment, some variables need to be applied to all sites. The
 
     ```
 
+## Data Models
+
+AVD provides a network-wide data model and is typically broken into multiple group_vars file to simplify and categorize variables with their respective functions. We break the data model into three categories: topology, services, and ports.
+
+### Fabric Topology
+
+The physical fabric topology is defined be providing interface links between the spine and leaf nodes. The `group_vars/SITE1_FABRIC.yml` defines this portion of the data model. In our lab, the spines provide layer 3 routing of SVIs and P2P links by using a node type called `l3spines`. The leaf nodes are purely layer and use node type `leaf`. An AVD L2LS design type provides three node type keys: l3 spine, spine, and leaf. AVD Node Type documentation can be found [here](https://avd.sh/en/stable/roles/eos_designs/doc/node-types.html). Default node_type_keys for all design types are located [here](https://github.com/aristanetworks/ansible-avd/blob/devel/ansible_collections/arista/avd/roles/eos_designs/defaults/main/default-node-type-keys.yml).
+
+#### Spine and Leaf Nodes
+
+The spine and leaf nodes for each site is defined by the example data model below. Refer to the inline comments for variable definitions. Under each node_type_key you have key/value pairs for: defaults, node_groups, and nodes. Note that key/value pairs may be overwritten with the following descending order of precedence. The key/value closet to the node will be used.
+
+<node_type_key>
+
+1. defaults
+2. node_groups
+3. nodes
+
+``` yaml
+################################
+# Spine Switches
+################################
+
+# node_type_key for providing L3 services
+l3spine:
+  # default key/values for all l3spine nodes
+  defaults:
+    # Platform dependent default settings for mlag timers, tcam profiles, LANZ, management interface
+    platform: cEOS
+    # Spanning Tree
+    spanning_tree_mode: mstp
+    spanning_tree_priority: 4096
+    # Loopback0 pool, used in conjunction with value of `id:` under each node
+    loopback_ipv4_pool: 10.1.252.0/24
+    # IP Pool for MLAG peer link
+    mlag_peer_ipv4_pool: 10.1.253.0/24
+    # IP Pool for L3 peering over the MLAG peer link
+    mlag_peer_l3_ipv4_pool: 10.1.254.0/24
+    # Virtual MAC address used in vARP
+    virtual_router_mac_address: 00:1c:73:00:dc:01
+    # Default MLAG interfaces between spine nodes
+    mlag_interfaces: [ Ethernet1, Ethernet6 ]
+  # keyword for node groups, 2 nodes within a node group will form an MLAG pair
+  node_groups:
+    # User-defined node group name
+    SPINES:
+      # key word for nodes
+      nodes:
+        s1-spine1:
+          # unique identifier used for IP address calculations
+          id: 1
+          # Management address assign to the defined management interface
+          mgmt_ip: 192.168.0.10/24
+        s1-spine2:
+          id: 2
+          mgmt_ip: 192.168.0.11/24
+
+################################
+# Leaf Switches
+################################
+leaf:
+  defaults:
+    platform: cEOS
+    mlag_peer_ipv4_pool: 10.1.253.0/24
+    spanning_tree_mode: mstp
+    spanning_tree_priority: 16384
+    # Default uplink switches from leaf perspective
+    uplink_switches: [ s1-spine1, s1-spine2 ]
+    # Default uplink interfaces on leaf nodes connecting to the spines
+    uplink_interfaces: [ Ethernet2, Ethernet3 ]
+    # Default leaf MLAG interfaces
+    mlag_interfaces: [ Ethernet1, Ethernet6 ]
+  node_groups:
+    # User-defined node group name
+    RACK1:
+      # Filter which Vlans will be applied to the node_group, comma separated tags supported
+      # Tags for each Vlan are defined in the SITE1_FABRIC_SERVICES.yml
+      filter:
+        tags: [ "10" ]
+      nodes:
+        s1-leaf1:
+          id: 3
+          mgmt_ip: 192.168.0.12/24
+          # Define which interface is configured on the uplink switch
+          # In this example s1-leaf1 connects to [ s1-spine1, s1-spine2 ]
+          # on the following ports.  This will be unique to each leaf
+          uplink_switch_interfaces: [ Ethernet2, Ethernet2 ]
+        s1-leaf2:
+          id: 4
+          mgmt_ip: 192.168.0.13/24
+          uplink_switch_interfaces: [ Ethernet3, Ethernet3 ]
+    RACK2:
+      filter:
+        tags: [ "20" ]
+      nodes:
+        s1-leaf3:
+          id: 5
+          mgmt_ip: 192.168.0.14/24
+          uplink_switch_interfaces: [ Ethernet4, Ethernet4 ]
+        s1-leaf4:
+          id: 6
+          mgmt_ip: 192.168.0.15/24
+          uplink_switch_interfaces: [ Ethernet5, Ethernet5 ]
+```
+
+#### Core Interfaces
+
+Inside the same group_vars file, we define how each site is linked to the Core IP Network using point-to-point L3 links on the spine nodes. In our example, OSPF will be used to share routes between sites across the IP Network. The `core_interfaces` data model for `Site 1` follows.
+
+``` yaml
+core_interfaces:
+  p2p_links:
+    # s1-spine1 Ethernet7 to WANCORE
+    - ip: [ 10.0.0.29/31, 10.0.0.28/31 ]
+      nodes: [ s1-spine1, WANCORE ]
+      interfaces: [ Ethernet7, Ethernet2 ]
+      include_in_underlay_protocol: true
+
+    # s1-spine1 Ethernet8 to WANCORE
+    - ip: [ 10.0.0.33/31, 10.0.0.32/31 ]
+      nodes: [ s1-spine1, WANCORE ]
+      interfaces: [ Ethernet8, Ethernet2 ]
+      include_in_underlay_protocol: true
+
+    # s1-spine2 Ethernet7 to WANCORE
+    - ip: [ 10.0.0.31/31, 10.0.0.30/31 ]
+      nodes: [ s1-spine2, WANCORE ]
+      interfaces: [ Ethernet7, Ethernet2 ]
+      include_in_underlay_protocol: true
+
+    # s1-spine2 Ethernet8 to WANCORE
+    - ip: [ 10.0.0.35/31, 10.0.0.34/31 ]
+      nodes: [ s1-spine2, WANCORE ]
+      interfaces: [ Ethernet8, Ethernet2 ]
+      include_in_underlay_protocol: true
+```
+
+The following diagram shows the P2P links from all four spine nodes to the IP Network. In our lab, the WAN IP Network are pre-configured with /31's running OSPF in area 0.0.0.0. We ran a playbook (`make preplab`) earlier to deploy these configurations. The core_interfaces for the spines in `Site 1` and `Site 2` are configured and deployed with AVD.
+
+![Core Interfaces](assets/images/avd-core-interfaces.svg)
+
+### Fabric Services
+
+Fabric Services, such as Vlans, SVIs and VRFs are defined in this section. The following Site 1 example defines Vlans and SVIs for vlan `10` and `20` in the default VRF. Additional VRF definitions can also be applied.
+
+``` yaml
+---
+tenants:
+  # User-defined Tenant/Fabric name
+  MY_FABRIC:
+    # key-word
+    vrfs:
+      # Default VRF
+      default:
+        # key-word
+        svis:
+          # Vlan ID
+          10:
+            # Vlan Name
+            name: 'Ten'
+            # Tag assigned to Vlan. Used as a filter by each node_group
+            tags: [ "10" ]
+            enabled: true
+            # SVI Virtual ARP address, used along with pre-defined virtual_router_mac_address
+            ip_virtual_router_addresses:
+              - 10.10.10.1
+            # Which nodes to apply physical SVI address
+            nodes:
+              s1-spine1:
+                ip_address: 10.10.10.2/24
+              s1-spine2:
+                ip_address: 10.10.10.3/24
+          20:
+            name: 'Twenty'
+            tags: [ "20" ]
+            enabled: true
+            ip_virtual_router_addresses:
+              - 10.20.20.1
+            nodes:
+              s1-spine1:
+                ip_address: 10.20.20.2/24
+              s1-spine2:
+                ip_address: 10.20.20.3/24
+```
+
+### Fabric Ports
+
+The Fabric needs to define ports for south bound interfaces toward connected endpoints such as: servers, appliances, firewalls, and other networking devices in the data center. This section makes use of port profiles and connected endpoints called `servers`. Documentation for [port_profiles](https://avd.sh/en/stable/roles/eos_designs/doc/connected-endpoints.html#port-profiles) and [connected endpoints](https://avd.sh/en/stable/roles/eos_designs/doc/connected-endpoints.html) are available to see all the options available.
+
+The following data model defined two port profiles: PP-VLAN10 and PP-VLAN20. They define an access port profile for vlan `10` and `20`, respectively. In addition, two server endpoints (s1-host1 and s1-host2) are created to use these port profiles. There are optional and required fields. The optional fields are used for port descriptions in the EOS intended configurations.
+
+``` yaml
+port_profiles:
+
+  PP-VLAN10:
+    mode: "access"
+    vlans: "10"
+    spanning_tree_portfast: edge
+  PP-VLAN20:
+    mode: "access"
+    vlans: "20"
+    spanning_tree_portfast: edge
+
+###########################################################
+# ---------------- Endpoint Connectivity ---------------- #
+###########################################################
+
+servers:
+
+# --------------------------------------------------------#
+# Site1 RACK1 Endpoints
+# --------------------------------------------------------#
+
+  s1-host1:                                             # Server name
+    rack: RACK1                                         # Informational RACK (optional)
+    adapters:
+      - endpoint_ports: [ eth1, eth2 ]                  # Server port to connect (optional)
+        switch_ports: [ Ethernet4, Ethernet4 ]          # Switch port to connect server (required)
+        switches: [ s1-leaf1, s1-leaf2 ]                # Switch to connect server (required)
+        profile: PP-VLAN10                              # Port profile to apply (required)
+        port_channel:
+          mode: active
+
+# --------------------------------------------------------#
+# Site1 RACK2 Endpoints
+# --------------------------------------------------------#
+
+  s1-host2:                                             # Server name
+    rack: RACK2                                         # Informational RACK (optional)
+    adapters:
+      - endpoint_ports: [ eth1, eth2 ]                  # Server port to connect (optional)
+        switch_ports: [ Ethernet4, Ethernet4 ]          # Switch port to connect server (required)
+        switches: [ s1-leaf3, s1-leaf4 ]                # Switch to connect server (required)
+        profile: PP-VLAN20                              # Port profile to apply (required)
+        port_channel:
+          mode: active
+```
+
 ## The Playbooks
 
 There are exactly 2 playbooks used to build and deploy configurations in our Lab. We use a Makefile to create aliases to run the playbooks and provide the needed options. This is much easier than typing in long commands.
@@ -287,5 +525,3 @@ make deploy-site-1
 # Deploy configs for Site 2
 make deploy-site-2
 ```
-
-## EOS Intended Configurations
