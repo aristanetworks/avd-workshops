@@ -248,9 +248,9 @@ The physical fabric topology is defined be providing interface links between the
 
 #### Spine and Leaf Nodes
 
-The spine and leaf nodes for each site is defined by the example data model below. Refer to the inline comments for variable definitions. Under each node_key_type you have key/value pairs for: defaults, node_groups, and nodes. Note that key/value pairs may be overwritten with the following descending order of precedence.  The key/value closet to the node will be used.
+The spine and leaf nodes for each site is defined by the example data model below. Refer to the inline comments for variable definitions. Under each node_type_key you have key/value pairs for: defaults, node_groups, and nodes. Note that key/value pairs may be overwritten with the following descending order of precedence. The key/value closet to the node will be used.
 
-<node_key_type>
+<node_type_key>
 
 1. defaults
 2. node_groups
@@ -381,7 +381,100 @@ The following diagram shows the P2P links from all four spine nodes to the IP Ne
 
 ### Fabric Services
 
+Fabric Services, such as Vlans, SVIs and VRFs are defined in this section. The following Site 1 example defines Vlans and SVIs for vlan `10` and `20` in the default VRF. Additional VRF definitions can also be applied.
+
+``` yaml
+---
+tenants:
+  # User-defined Tenant/Fabric name
+  MY_FABRIC:
+    # key-word
+    vrfs:
+      # Default VRF
+      default:
+        # key-word
+        svis:
+          # Vlan ID
+          10:
+            # Vlan Name
+            name: 'Ten'
+            # Tag assigned to Vlan. Used as a filter by each node_group
+            tags: [ "10" ]
+            enabled: true
+            # SVI Virtual ARP address, used along with pre-defined virtual_router_mac_address
+            ip_virtual_router_addresses:
+              - 10.10.10.1
+            # Which nodes to apply physical SVI address
+            nodes:
+              s1-spine1:
+                ip_address: 10.10.10.2/24
+              s1-spine2:
+                ip_address: 10.10.10.3/24
+          20:
+            name: 'Twenty'
+            tags: [ "20" ]
+            enabled: true
+            ip_virtual_router_addresses:
+              - 10.20.20.1
+            nodes:
+              s1-spine1:
+                ip_address: 10.20.20.2/24
+              s1-spine2:
+                ip_address: 10.20.20.3/24
+```
+
 ### Fabric Ports
+
+The Fabric needs to define ports for south bound interfaces toward connected endpoints such as: servers, appliances, firewalls, and other networking devices in the data center. This section makes use of port profiles and connected endpoints called `servers`. Documentation for [port_profiles](https://avd.sh/en/stable/roles/eos_designs/doc/connected-endpoints.html#port-profiles) and [connected endpoints](https://avd.sh/en/stable/roles/eos_designs/doc/connected-endpoints.html) are available to see all the options available.
+
+The following data model defined two port profiles: PP-VLAN10 and PP-VLAN20. They define an access port profile for vlan `10` and `20`, respectively. In addition, two server endpoints (s1-host1 and s1-host2) are created to use these port profiles. There are optional and required fields. The optional fields are used for port descriptions in the EOS intended configurations.
+
+``` yaml
+port_profiles:
+
+  PP-VLAN10:
+    mode: "access"
+    vlans: "10"
+    spanning_tree_portfast: edge
+  PP-VLAN20:
+    mode: "access"
+    vlans: "20"
+    spanning_tree_portfast: edge
+
+###########################################################
+# ---------------- Endpoint Connectivity ---------------- #
+###########################################################
+
+servers:
+
+# --------------------------------------------------------#
+# Site1 RACK1 Endpoints
+# --------------------------------------------------------#
+
+  s1-host1:                                             # Server name
+    rack: RACK1                                         # Informational RACK (optional)
+    adapters:
+      - endpoint_ports: [ eth1, eth2 ]                  # Server port to connect (optional)
+        switch_ports: [ Ethernet4, Ethernet4 ]          # Switch port to connect server (required)
+        switches: [ s1-leaf1, s1-leaf2 ]                # Switch to connect server (required)
+        profile: PP-VLAN10                              # Port profile to apply (required)
+        port_channel:
+          mode: active
+
+# --------------------------------------------------------#
+# Site1 RACK2 Endpoints
+# --------------------------------------------------------#
+
+  s1-host2:                                             # Server name
+    rack: RACK2                                         # Informational RACK (optional)
+    adapters:
+      - endpoint_ports: [ eth1, eth2 ]                  # Server port to connect (optional)
+        switch_ports: [ Ethernet4, Ethernet4 ]          # Switch port to connect server (required)
+        switches: [ s1-leaf3, s1-leaf4 ]                # Switch to connect server (required)
+        profile: PP-VLAN20                              # Port profile to apply (required)
+        port_channel:
+          mode: active
+```
 
 ## The Playbooks
 
@@ -432,5 +525,3 @@ make deploy-site-1
 # Deploy configs for Site 2
 make deploy-site-2
 ```
-
-## EOS Intended Configurations
