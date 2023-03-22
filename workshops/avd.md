@@ -238,6 +238,56 @@ In a multi-site environment, some variables need to be applied to all sites. The
 
     ```
 
+## Data Models
+
+AVD provides a network-wide data model and is typically broken into multiple group_vars file to simplify and categorize variables with their respective functions. We break the data model into three categories: fabric, services, and ports.
+
+### Fabric Topology
+
+The physical fabric topology is defined be providing interface links between the spine and leaf nodes. The `group_vars/SITE1_FABRIC.yml` defines this portion of the data model. In our lab, the spines provide layer 3 routing of SVIs and P2P links by using a node type called `l3spines`. The leaf nodes are purely layer and use node type `leaf`. An AVD L2LS design type provides three node type keys: l3spine, spine, and leaf. AVD Node Type documentation can be found [here](https://avd.sh/en/stable/roles/eos_designs/doc/node-types.html). Default Node Type Keys for all design types are located [here](https://github.com/aristanetworks/ansible-avd/blob/devel/ansible_collections/arista/avd/roles/eos_designs/defaults/main/default-node-type-keys.yml).
+
+#### Spine to Leaf
+
+#### Core Interfaces
+
+Each site is linked to the Core IP Network using point-to-point L3 links on the spine nodes. In our example, OSPF will be used to share routes between sites across the IP Network. The `core_interfaces` data model for `Site 1` looks like the following.
+
+``` yaml
+core_interfaces:
+  p2p_links:
+    # s1-spine1 Ethernet7 to WANCORE
+    - ip: [ 10.0.0.29/31, 10.0.0.28/31 ]
+      nodes: [ s1-spine1, WANCORE ]
+      interfaces: [ Ethernet7, Ethernet2 ]
+      include_in_underlay_protocol: true
+
+    # s1-spine1 Ethernet8 to WANCORE
+    - ip: [ 10.0.0.33/31, 10.0.0.32/31 ]
+      nodes: [ s1-spine1, WANCORE ]
+      interfaces: [ Ethernet8, Ethernet2 ]
+      include_in_underlay_protocol: true
+
+    # s1-spine2 Ethernet7 to WANCORE
+    - ip: [ 10.0.0.31/31, 10.0.0.30/31 ]
+      nodes: [ s1-spine2, WANCORE ]
+      interfaces: [ Ethernet7, Ethernet2 ]
+      include_in_underlay_protocol: true
+
+    # s1-spine2 Ethernet8 to WANCORE
+    - ip: [ 10.0.0.35/31, 10.0.0.34/31 ]
+      nodes: [ s1-spine2, WANCORE ]
+      interfaces: [ Ethernet8, Ethernet2 ]
+      include_in_underlay_protocol: true
+```
+
+The following diagram shows the P2P links from all four spine nodes to the IP Network. In our lab, the WAN IP Network are pre-configured with /31's running OSPF in area 0.0.0.0. We ran a playbook (`make preplab`) earlier to deploy these configurations. The core_interfaces for the spines in `Site 1` and `Site 2` are configured and deployed with AVD.
+
+![Core Interfaces](assets/images/avd-core-interfaces.svg)
+
+### Fabric Services
+
+### Fabric Ports
+
 ## The Playbooks
 
 There are exactly 2 playbooks used to build and deploy configurations in our Lab. We use a Makefile to create aliases to run the playbooks and provide the needed options. This is much easier than typing in long commands.

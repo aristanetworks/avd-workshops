@@ -5,6 +5,7 @@ boolean\w*\b
 cmd
 Colvin
 config
+core_interfaces
 cowsay
 ctrl
 datacenter
@@ -27,6 +28,7 @@ netcommon
 repo
 ssl
 subnet
+svis
 syslog
 toolchain
 uncomment
