@@ -83,7 +83,7 @@ The following is a graphical representation of the Ansible inventory groups and 
 
 ## AVD Fabric Variables
 
-To apply AVD variables to the nodes in the fabric, we make use of Ansible group_vars. How and where you define the variables is your choice. The group_vars table below is one example of AVD fabric variables.
+To apply AVD variables to the nodes in the fabric, we make use of Ansible group_vars. How and where you define the variables is your choice. The group_vars table below is one example of AVD fabric variables for `Site 1`.
 
 | group_vars/                | Description                                   |
 | -------------------------- | --------------------------------------------- |
@@ -93,12 +93,10 @@ To apply AVD variables to the nodes in the fabric, we make use of Ansible group_
 | SITE1_NETWORK_SERVICES.yml | VLANs                                         |
 | SITE1_NETWORK_PORTS.yml    | Port Profiles and Connected Endpoint settings |
 
-???+ Note
-
-    Global Variables (AAA, SNMP, Local Users, etc...) that apply to both `Site 1` and `Site 2` are defined in another file called `global_vars/global_dc_vars.yml`.  These variables are imported dynamically at playbook run time. This will be discussed in `The Playbooks` section below.
+Each group_vars file is listed in the following tabs.
 
 === "SITE1_FABRIC"
-    At the Fabric level (SITE1_FABRIC), the following variables are defined in **group_vars/SITE1_FABRIC.yml**. The fabric name, design type (l2ls), l3spine and leaf node type defaults, interface links, and core interface P2P links are defined at this level. Other variables you must supply include:
+    At the Fabric level (SITE1_FABRIC), the following variables are defined in **group_vars/SITE1_FABRIC.yml**. The fabric name, design type (l2ls), node type defaults, interface links, and core interface P2P links are defined at this level. Other variables you must supply include:
 
     - spanning_tree_mode
     - spanning_tree_priority
@@ -154,6 +152,90 @@ To apply AVD variables to the nodes in the fabric, we make use of Ansible group_
     --8<--
     workshops/assets/examples/avd/site_1/group_vars/SITE1_FABRIC_PORTS.yml
     --8<--
+    ```
+
+## Global Variables
+
+In a multi-site environment, some variables need to be applied to all sites. The include: AAA, Local Users, NTP, Syslog, DNS, and TerminAttr. Instead of updating these same variables in multiple inventory group_vars, we can use a single global variable file and import the variables at playbook runtime. This allows us to make a single change that is applied to all sites. In our lab we use a global variable file `global_vars/global_dc-vars.yml`. In our playbooks we have a task that imports global variables before running other tasks.
+
+### Task to import variables from a file
+
+``` yaml
+- name: Import Global Vars
+    include_vars: "{{ item }}"
+    with_items:
+    - "../global_vars/global_dc_vars.yml"
+```
+
+???+ info
+
+    The above task allows multiple files to be imported, using the `with_items` list.
+
+### Example Global Vars File
+
+??? eos-config annotate "global_vars/global_dc_vars.yml"
+    ``` yaml
+    ---
+    # Credentials for CVP and EOS Switches
+    ansible_user: arista
+    ansible_password: "{{ lookup('env', 'LABPASSPHRASE') }}"
+    ansible_network_os: arista.eos.eos
+    # Configure privilege escalation
+    ansible_become: true
+    ansible_become_method: enable
+    # HTTPAPI configuration
+    ansible_connection: httpapi
+    ansible_httpapi_port: 443
+    ansible_httpapi_use_ssl: true
+    ansible_httpapi_validate_certs: false
+    ansible_python_interpreter: $(which python3)
+
+    # Local Users
+    local_users:
+    arista:
+        privilege: 15
+        role: network-admin
+        sha512_password: "{{ ansible_password | password_hash('sha512',  '65534') }}"
+
+    # AAA
+    aaa_authorization:
+    exec:
+        default: local
+
+    # OOB Management network default gateway.
+    mgmt_gateway: 192.168.0.1
+    mgmt_interface: Management0
+    mgmt_interface_vrf: default
+
+    # NTP Servers IP or DNS name, first NTP server will be prefered, and sourced from Managment VRF
+    ntp:
+    servers:
+        - name: 192.168.0.1
+        iburst: true
+        local_interface: Management0
+
+    # Domain/DNS
+    dns_domain: atd.lab
+
+    # TerminAttr
+    daemon_terminattr:
+    # Address of the gRPC server on CloudVision
+    # TCP 9910 is used on on-prem
+    # TCP 443 is used on CV as a Service
+    cvaddrs: # For single cluster
+        - 192.168.0.5:9910
+    # Authentication scheme used to connect to CloudVision
+    cvauth:
+        method: token
+        token_file: "/tmp/token"
+    # Exclude paths from Sysdb on the ingest side
+    ingestexclude: /Sysdb/cell/1/agent,/Sysdb/cell/2/agent
+    # Exclude paths from the shared memory table
+    smashexcludes: ale,flexCounter,hardware,kni,pulse,strata
+
+    # Point to Point Links MTU Override for Lab
+    p2p_uplinks_mtu: 1500
+
     ```
 
 ## The Playbooks
