@@ -1,6 +1,6 @@
 # AVD Lab Guide
 
-AVD and Lab Overview
+## AVD and Lab Overview
 
 - Discuss Lab Topology
 - Overview of AVD - Slides
@@ -10,7 +10,9 @@ AVD and Lab Overview
     - Services
     - Ports
 
-Lab Follow Along Steps
+![Dual DC Topology](assets/images/dual-dc-topo.svg)
+
+## Lab Follow Along Steps
 
 - Access the ATD Lab
 - Fork and Clone branch to ATD Lab
