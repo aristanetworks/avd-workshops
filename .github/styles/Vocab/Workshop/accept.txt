@@ -2,6 +2,7 @@ agentless
 Arista
 ansible
 boolean\w*\b
+cli
 cmd
 Colvin
 config
