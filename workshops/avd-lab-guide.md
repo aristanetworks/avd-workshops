@@ -162,3 +162,7 @@ ping 10.30.30.100
 # s2-host2
 ping 10.40.40.100
 ```
+
+## **Congratulations!**
+
+You have just built a multi-site L2LS network without touching the Cli on a single switch.
