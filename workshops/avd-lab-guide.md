@@ -17,8 +17,8 @@
 - Access the ATD Lab
 - Fork and Clone branch to ATD Lab
 - Update AVD
-- Set `LABPASSPHRASE` env variable
-- Preplab WAN/Hosts - `make preplab` playbook
+- Set `LABPASSPHRASE` environment variable
+- Prepare WAN/Hosts - `make preplab` playbook
 - Lab Workflow - SITE 1
   - Run & Deploy initial Build of Fabric (most features will be commented out)
     - Basic configs will be created
