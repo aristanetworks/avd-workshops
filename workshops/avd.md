@@ -525,3 +525,7 @@ make deploy-site-1
 # Deploy configs for Site 2
 make deploy-site-2
 ```
+
+## Next Steps
+
+Continue on to the hand-ons lab. The lab guide is located [here](avd-lab-guide.md).

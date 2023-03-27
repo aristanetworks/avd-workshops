@@ -1,8 +1,9 @@
 # AVD Lab Guide
 
-## AVD and Lab Overview
+## AVD Lab Guide Overview
 
-- Discuss Lab Topology
+The AVD Lab Guide is meant to be a follow along guide to deploy a dual data center L2LS fabric design. The data model details can be found [here](avd.md).
+
 - Overview of AVD - Slides
 - Ansible Inventories for Site 1 and Site 2
   - Data Models
