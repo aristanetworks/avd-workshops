@@ -12,7 +12,7 @@ nav:
     - Jinja/YAML: jinja-yaml.md
     - Ansible: ansible.md
   - Arista CI:
-    - AVD: 
+    - AVD:
         - Overview: avd.md
         - Lab Guide: avd-lab-guide.md
     - CI/CD Basics: cicd-basics.md
