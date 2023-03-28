@@ -75,6 +75,16 @@ make preplab
 
 ## SITE 1 - Build and Deploy
 
+This section will be devoted to reviewing and updating the existing L2LS data model.  We will add features to enable Vlans, SVIs, connected endpoints, and P2P links to the WAN IP Network. At the completion of the lab, you will have enabled an L2LS dual data center network through automation with AVD. YAML data models and ansible playbooks will be used to generate EOS Cli configurations and deploy them to each site. We will start by focusing efforts on building out Site 1 and then repeat similar steps for Site 2. Finally we will enable connectivity to the WAN IP Network to to allow traffic to pass between sites.
+
+### Summary
+
+1. Build Site 1
+2. Build Site 2
+3. Connect Sites to WAN IP Network
+4. Verify routing
+5. Test traffic
+
 ### **STEP #1** - Build and Deploy Initial Fabric
 
 Run & Deploy initial Build of Fabric (most features will be commented out)
