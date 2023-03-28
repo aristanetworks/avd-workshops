@@ -196,6 +196,19 @@ make deploy-site-1
 make deploy-site-2
 ```
 
+### Check routes on spine nodes
+
+From the spines, verify that they can see routes to following networks where the hosts reside.
+
+- 10.10.10.0/24
+- 10.20.20.0/24
+- 10.30.30.0/24
+- 10.40.40.0/24
+
+``` bash
+show ip route
+```
+
 ### Test traffic between sites
 
 From `s1-host1` ping both `s2-host1` & `s1-host2`
