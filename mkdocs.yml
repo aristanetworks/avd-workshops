@@ -12,7 +12,9 @@ nav:
     - Jinja/YAML: jinja-yaml.md
     - Ansible: ansible.md
   - Arista CI:
-    - AVD: avd.md
+    - AVD:
+        - Overview: avd.md
+        - Lab Guide: avd-lab-guide.md
     - CI/CD Basics: cicd-basics.md
 
 copyright: Copyright &copy; 2023 Arista Networks
@@ -87,13 +89,14 @@ theme:
     - content.code.copy
     - content.tooltips
     - header.autohide
-    - navigation.sections
-    - navigation.tabs
-    - navigation.tabs.sticky
+    # - navigation.sections
+    # - navigation.tabs
+    # - navigation.expand
+    # - navigation.tabs.sticky
     - navigation.top
     - navigation.tracking
-    - toc.follow
-    - toc.integrate
+    # - toc.follow
+    # - toc.integrate
 
   favicon: assets/images/logo.png
 
