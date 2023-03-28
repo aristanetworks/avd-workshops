@@ -6,27 +6,72 @@ The AVD Lab Guide is meant to be a follow along set of instructions to deploy a 
 
 ![Dual DC Topology](assets/images/dual-dc-topo.svg)
 
+### Host Addresses
+
+| Host     |  IP Adress   |
+|:--------:|:------------:|
+| s1-host1 | 10.10.10.100 |
+| s1-host2 | 10.20.20.100 |
+| s2-host1 | 10.30.30.100 |
+| s2-host2 | 10.40.40.100 |
+
 ## Prepare Lab Environment
 
 ### **STEP #1** - Access the ATD Lab
 
-Access the ATD Lab
+Connect to your ATD Lab and start the Programmability IDE. Next start a new Terminal.
 
 ### **STEP #2** - Fork and Clone branch to ATD Lab
 
-Fork and Clone branch to ATD Lab
+An ATD Dual Data Center L2LS data model is posted on GitHub here: [https://github.com/PacketAnglers/workshops-avd](https://github.com/PacketAnglers/workshops-avd)
+
+- Fork this [repository](https://github.com/PacketAnglers/workshops-avd) to your own GitHub account.
+- Next, clone your forked repo to you ATD lab instance.
+
+``` bash
+cd /home/coder/project/labfiles
+git clone <your copied URL>
+cd workshops-avd
+```
 
 ### **STEP #3** - Update AVD to latest version
 
-Update AVD
+AVD has been pre-installed in your lab environment, however it is on an older version. The following steps will update AVD and modules to the latest versions.
+
+``` bash
+ansible-galaxy collection install arista.avd arista.cvp --force
+export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml | head -1 | cut -d: -f1)
+pip3 config set global.disable-pip-version-check true
+pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
+```
+
+???+ Note
+
+    IMPORTANT: The above steps must be ran each time you start your lab.
 
 ### **STEP #4** - Setup Lab Password Environment Variable
 
-- Set `LABPASSPHRASE` environment variable
+Each lab comes with a unique password. With the following command we set an environment variable called `LABPASSPHRASE`. The variable is later used to generate local user passwords and connect to our switches to push configs.
+
+``` bash
+export LABPASSPHRASE=`cat /home/coder/.config/code-server/config.yaml| grep "password:" | awk '{print $2}'`
+```
+
+You can view the password is set. This is the same password that is displayed when you click the link to access your lab.
+
+``` bash
+echo $LABPASSPHRASE
+```
 
 ### **STEP #5** - Prepare WAN IP Network and Test Hosts
 
-- Prepare WAN/Hosts - `make preplab` playbook
+The last step in preparing your lab is to push pre-defined configurations to the WAN IP Network (cloud) and the four hosts used to test traffic. The spines from each site will connect to the WAN IP Network with P2P links. The hosts (two per site) have port-channels to the leaf pairs and are pre-configured with an IP address and route to reach the other hosts.
+
+Run the following to push the configs.
+
+``` bash
+make preplab
+```
 
 ## SITE 1 - Build and Deploy
 
