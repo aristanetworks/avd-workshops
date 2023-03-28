@@ -8,7 +8,7 @@ The AVD Lab Guide is meant to be a follow along set of instructions to deploy a 
 
 ### Host Addresses
 
-| Host     |  IP Adress   |
+| Host     |  IP Address  |
 |:--------:|:------------:|
 | s1-host1 | 10.10.10.100 |
 | s1-host2 | 10.20.20.100 |
