@@ -1,6 +1,6 @@
 # CI/CD
 
-This section walks you through an example CI/CD pipeline leveraging GitHub Actions, Arista Validated Designs (AVD), and Arista CloudVision Platform (CVP). The lab leverages the Arista Test Drive (ATD) solution to give you a pre-built environment to get started quickly.
+This section walks you through an example CI/CD pipeline leveraging GitHub Actions, Arista Validated Designs (AVD), and the Arista CloudVision Platform (CVP). The lab leverages the Arista Test Drive (ATD) solution to give you a pre-built environment to get started quickly. This section assumes readers have completed the [AVD workshop](avd-lab-guide.md) within their ATD environment.
 
 Readers should be familiar with the following concepts.
 
@@ -11,9 +11,9 @@ Readers should be familiar with the following concepts.
 
 ## The topology
 
-The dual data center ATD is deployed by default with many devices. The topology allows users to run examples like data center interconnect. In our case, we only require a subset of nodes. Devices from site 1 (s1) will act as our development infrastructure, and devices in site 2 (s2) will be our production infrastructure. The diagram below exemplifies what we hope to accomplish at the end of this workflow.
+Throughout this section we will make use of the following dual datacenter topology. Click on the image to zoom in for details.
 
-![Topology](assets/diagrams/topo.svg)
+![Dual DC Topology](assets/images/dual-dc-topo.svg)
 
 ## Getting started
 
@@ -50,7 +50,7 @@ pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
 
 ## Fork repository
 
-You will be creating your own CI/CD pipeline in this workflow. Log in to your GitHub account and [fork this repository](https://github.com/arista-netdevops-community/atd-cicd) to get started.
+You will be creating your own CI/CD pipeline in this workflow. Log in to your GitHub account and [fork this repository](https://github.com/PacketAnglers/workshops-avd) to get started.
 
 ![Create fork](assets/images/create-fork.png)
 
@@ -76,7 +76,7 @@ You will need to set one secret in your newly forked GitHub repository.
 
 5. Enter the secret as follows
 
-   - Name: PASS
+   - Name: LABPASSPHRASE
    - Secret: Listed in ATD lab topology
 
     ![Lab credentials](assets/images/lab-creds.png)
@@ -87,17 +87,11 @@ You will need to set one secret in your newly forked GitHub repository.
 !!! note
     Our workflow uses this secret to authenticate with our CVP instance.
 
-## Clone forked repository to ATD IDE
+## Configure global Git settings
 
-1. Click `Code`
-2. Copy the HTTPS link
-![Copy code](assets/images/copy-code.png)
-3. From the IDE terminal, run the following
+1. From the IDE terminal, run the following
 
     ```shell
-    cd labfiles
-    git clone <your copied URL>
-    cd atd-cicd
     git config --global user.name "FirstName LastName"
     git config --global user.email "name@example.com"
     ```
@@ -105,52 +99,45 @@ You will need to set one secret in your newly forked GitHub repository.
 !!! note
     If the Git `user.name` and `user.email` are set, they may be skipped. You can check this by running the `git config --list` command.
 
-## Environment variables
-
-This repository relies on one environment variable to be set, our login credentials. From the ATD IDE, run the following command.
-
-```shell
-export PASS=<some password in local ATD>
-```
-
-!!! note
-    The value of `PASS` is the same secret used earlier. For example, `export PASS=arista1234`.
-
 ## Create new branch
 
-In a moment, we will be deploying changes to our environments. In reality, updates to a code repository would be done from a development or feature branch. We will follow this same workflow.
+In a moment, we will be deploying changes to our environment. In reality, updates to a code repository would be done from a development or feature branch. We will follow this same workflow.
 
 !!! note
-    This example will use the branch name of `new-dc`, if you use your own naming scheme, make sure to make the appropriate updates.
+    This example will use the branch name of `dc-updates`, if you use your own naming scheme, make sure to make the appropriate updates.
 
 ```shell
-git checkout -b new-dc
+git checkout -b dc-updates
 ```
 
 ## Update local CVP variables
 
 Every user will get a unique CVP instance deployed. There are two updates required.
 
-1. Update the `ansible_host` variable under `cv_atd1` in the `atd-inventory/dev/hosts.yml` file
+1. Add the `ansible_host` variable under the `cvp` host in the `/home/coder/project/labfiles/workshops-avd/sites/site_1/invnetory.yml` file.
 
     ```yaml
-    ...
-        cv_atd1:
-          ansible_host: <atd-topo12345.topo.testdrive.arista.com>
-          cv_collection: v3
-          execute_tasks: true
-    ...
+    ---
+    SITE1:
+      children:
+        CVP:
+          hosts:
+              cvp:
+                ansible_host: <atd-topo12345.topo.testdrive.arista.com>
+       ...
     ```
 
-2. Update the `ansible_host` variable under `cv_atd1` in the `atd-inventory/prod/hosts.yml` file
+2. Add the `ansible_host` variable under the `cvp` host in the `/home/coder/project/labfiles/workshops-avd/sites/site_2/invnetory.yml` file.
 
     ```yaml
-    ...
-        cv_atd1:
-          ansible_host: <atd-topo12345.topo.testdrive.arista.com>
-          cv_collection: v3
-          execute_tasks: true
-    ...
+    ---
+    SITE2:
+      children:
+        CVP:
+          hosts:
+              cvp:
+                ansible_host: <atd-topo12345.topo.testdrive.arista.com>
+       ...
     ```
 
 !!! note
@@ -163,7 +150,7 @@ We have two changes in our `hosts.yml` files for production and development envi
 ```shell
 git add .
 git commit -m "Updating host variables"
-git push --set-upstream origin new-dc
+git push --set-upstream origin dc-updates
 ```
 
 !!! note
@@ -227,38 +214,20 @@ This workflow is relatively short but represents some interesting options. For s
 
 ### The steps
 
-The initial `checkout` step makes the repository available to our workflow. We then use Docker Compose to stand up two containers. One to run the Batfish service and a small container with all pre-installed requirements. The second container interacts with the running Batfish service and our CVP instance. If we did not have the second container available, we would have to run through the exact steps you ran to prepare your environment in this workflow. The second container allows us to speed up our workflow. Below is an example of the `docker-compose.yml` file.
+The initial `checkout` step makes the repository available to our workflow. We then use Docker Compose to stand up an AVD runner container. This container has every requirement preinstalled. If we did not have this container available, we would have to run through the exact same steps you ran to prepare your environment in this workflow. The `atd-cicd` container allows us to speed up our workflow. Below is an example of the `docker-compose.yml` file.
 
 ```yaml
 ---
 version: '3.3'
 services:
-  batfish:
-    container_name: batfish
-    volumes:
-      - '.:/data'
-    ports:
-      - '9997:9997'
-      - '9996:9996'
-    image: batfish/batfish
-
   atd-cicd:
     container_name: atd-cicd
     volumes:
       - '.:/app'
     image: juliopdx/atd-cicd
     environment:
-      - PASS=$PASS
-      - net=$net
+      - LABPASSPHRASE=$LABPASSPHRASE
 ```
-
-### A note on Batfish
-
-In case you need to become more familiar with Batfish. It's an open-source tool from [Intentionet](https://www.intentionet.com/). The idea is operators can create their configurations in whatever workflows fit their environment. The configurations can then be sent to the Batfish service for analysis. The checks are all performed offline without connecting to our network devices. For example, we could check things like compatible BGP and OSPF neighbors. The checks are far more extensive than these, and we encourage you to check out their documentation. The diagram below helps illustrate this idea.
-
-![Batfish example](assets/diagrams/batfish.svg)
-
-In the Docker Compose file mentioned earlier, we use this Batfish service in our workflow. We then use the `pybatfish` Python package as our connector into this service to run any checks or ask the service questions about the network. Once these checks pass, we configure the infrastructure using the `eos_config_deploy_cvp` role within the AVD collection.
 
 ## Migrate from OSPF to BGP underlay
 
@@ -343,89 +312,7 @@ At this point, this will kick off our second workflow against the main branch. T
 
 ## Summary and bonus
 
-Congratulations, you have successfully deployed a development and production instance. Feel free to make additional changes or extend the testing pieces.
+Congratulations, you have successfully deployed a CI/CD pipeline with GitHub Actions. Feel free to make additional changes or extend the testing pieces.
 
 !!! note
     If your topology shut down or time elapsed, you must run through the requirement installations and GitHub authentication on the next `git push`.
-
-### Simple test with hosts (optional)
-
-In reality, AVD does not manage hosts. In this topology, hosts are just cEOS nodes. We have a playbook that will configure host1 from each environment. Again, to cut down on the number of devices for this example, the two hosts will be configured with two VRFs to send traffic across the network. An example of the configuration and execution command is below.
-
-<!-- TODO add mermaid diagram with s1-host1 and two VRFs -->
-
-```text
-vrf instance BLUE
-!
-vrf instance RED
-!
-no ip routing vrf BLUE
-no ip routing vrf RED
-!
-interface Ethernet1
-   no switchport
-   vrf BLUE
-   ip address 10.10.10.1/24
-!
-interface Ethernet2
-   no switchport
-   vrf RED
-   ip address 10.10.10.2/24
-!
-```
-
-From the ATD IDE, execute the following playbook.
-
-```shell
-ansible-playbook playbooks/atd-host-provision.yml
-```
-
-Once these tasks complete in CVP, you can connect to either `s1-host1` or `s2-host1` and test reachability.
-
-```text
-s1-host1# ping vrf BLUE 10.10.10.2
-PING 10.10.10.2 (10.10.10.2) 72(100) bytes of data.
-80 bytes from 10.10.10.2: icmp_seq=1 ttl=64 time=31.0 ms
-80 bytes from 10.10.10.2: icmp_seq=2 ttl=64 time=26.6 ms
-80 bytes from 10.10.10.2: icmp_seq=3 ttl=64 time=18.8 ms
-80 bytes from 10.10.10.2: icmp_seq=4 ttl=64 time=11.1 ms
-80 bytes from 10.10.10.2: icmp_seq=5 ttl=64 time=10.8 ms
-
---- 10.10.10.2 ping statistics ---
-5 packets transmitted, 5 received, 0% packet loss, time 57ms
-rtt min/avg/max/mdev = 10.898/19.729/31.089/8.114 ms, pipe 4, ipg/ewma 14.488/24.842 ms
-s1-host1#
-```
-
-```text
-s1-host1#show interfaces | include Ethernet|Hardware
-Ethernet1 is up, line protocol is up (connected)
-  Hardware is Ethernet, address is 02d2.56bf.117c (bia 02d2.56bf.117c)
-Ethernet2 is up, line protocol is up (connected)
-  Hardware is Ethernet, address is 9e60.6f70.7324 (bia 9e60.6f70.7324)
-```
-
-In this case, we can see Ethernet1 has a MAC address that ends with `117c`, and Ethernet2 has a MAC address that ends with `7324`. We can check where those MAC addresses were seen from the perspective of `s1-leaf1`.
-
-```text
-s1-leaf1#show mac address-table
-          Mac Address Table
-------------------------------------------------------------------
-
-Vlan    Mac Address       Type        Ports      Moves   Last Move
-----    -----------       ----        -----      -----   ---------
- 110    02d2.56bf.117c    DYNAMIC     Et4        1       0:07:02 ago
- 110    9e60.6f70.7324    DYNAMIC     Vx1        1       0:07:02 ago
-1199    001c.73c0.c613    DYNAMIC     Vx1        1       0:56:15 ago
-Total Mac Addresses for this criterion: 3
-
-          Multicast Mac Address Table
-------------------------------------------------------------------
-
-Vlan    Mac Address       Type        Ports
-----    -----------       ----        -----
-Total Mac Addresses for this criterion: 0
-s1-leaf1#
-```
-
-We can see the MAC ending in `117c` is connected to Ethernet 4 and the MAC ending in `7324` was seen on the VXLAN interface. We have successfully communicated through the fabric. Thank you for following along with this example. If you have any feedback or would like to report an issue/error, please open an issue on the main GitHub repository.
