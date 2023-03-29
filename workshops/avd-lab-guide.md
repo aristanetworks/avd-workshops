@@ -214,25 +214,23 @@ Repeat the previous three steps for Site 2.
 - Build and Deploy Configs
 - Verify ping traffic between hosts `s2-host1` and `s2-host2`
 
-At the end of this step, you should be able to ping between hosts within a site but not between sites. For this, we need to be build site connectivity to the `WAN IP Network`. This is covered in the next section.
+At this point, you should be able to ping between hosts within a site but not between sites. For this, we need to be build connectivity to the `WAN IP Network`. This is covered in the next section.
 
 ## **Connect Sites to WAN IP Network**
 
-The WAN IP Network can be defined with the`core_interfaces` data model. Full data model documentation is located [here](https://avd.sh/en/stable/roles/eos_designs/doc/core-interfaces-BETA.html).
+The WAN IP Network is defined by the `core_interfaces` data model. Full data model documentation is located [here](https://avd.sh/en/stable/roles/eos_designs/doc/core-interfaces-BETA.html).
 
-### Steps to be followed for Site 1 and 2
-
-- Update data models for core_interfaces (Site 1 & 2)
-  - Add `core_interfaces:` to the `SITE1_FABRIC.yml` and `SITE2_FABRIC.yml`
-- Build & Deploy
-- Validate Routing in Spines
-- Test Traffic between hosts across sites
+The data model defines P2P links (/31s) on the spines with a stanza per link. See details in the graphic below. Each spine has two links to the WAN IP Network configured on ports `Ethernet7` and `Ethernet8`. OSPF is added to these links as well.
 
 ![Core Interfaces](assets/images/avd-core-interfaces.svg)
 
-### Site #1
+### **Add P2P Links to WAN IP Network for Site 1 and 2**
 
-Add the following YAML code block to the bottom of `sites/site_1/group_vars/SITE1_FABRIC.yml`.
+Add each site's `core_interfaces` dictionary (shown below) to the bottom of the following files `SITE1_FABRIC.yml` and `SITE2_FABRIC.yml`
+
+### **Site #1**
+
+Add the following code block to the bottom of `sites/site_1/group_vars/SITE1_FABRIC.yml`.
 
 ``` yaml
 ##################################################################
@@ -263,9 +261,9 @@ core_interfaces:
       include_in_underlay_protocol: true
 ```
 
-### Site #2
+### **Site #2**
 
-Add the following YAML code block to the bottom of `sites/site_1/group_vars/SITE2_FABRIC.yml`.
+Add the following code block to the bottom of `sites/site_1/group_vars/SITE2_FABRIC.yml`.
 
 ``` yaml
 ##################################################################
@@ -296,7 +294,7 @@ core_interfaces:
       include_in_underlay_protocol: true
 ```
 
-### Build and Deploy WAN IP Network connectivity
+### **Build and Deploy WAN IP Network connectivity**
 
 ``` bash
 make build-site-1
@@ -305,7 +303,7 @@ make deploy-site-1
 make deploy-site-2
 ```
 
-### Check routes on spine nodes
+### **Check routes on spine nodes**
 
 From the spines, verify that they can see routes to following networks where the hosts reside.
 
@@ -318,7 +316,7 @@ From the spines, verify that they can see routes to following networks where the
 show ip route
 ```
 
-### Test traffic between sites
+### **Test traffic between sites**
 
 From `s1-host1` ping both `s2-host1` & `s1-host2`
 
