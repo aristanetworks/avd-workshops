@@ -15,13 +15,13 @@ The AVD Lab Guide is meant to be a follow along set of instructions to deploy a 
 | s2-host1 | 10.30.30.100 |
 | s2-host2 | 10.40.40.100 |
 
-## Prepare Lab Environment
+## **Prepare Lab Environment**
 
-### **STEP #1** - Access the ATD Lab
+### STEP #1 - Access the ATD Lab
 
 Connect to your ATD Lab and start the Programmability IDE. Next start a new Terminal.
 
-### **STEP #2** - Fork and Clone branch to ATD Lab
+### STEP #2 - Fork and Clone branch to ATD Lab
 
 An ATD Dual Data Center L2LS data model is posted on GitHub here: [https://github.com/PacketAnglers/workshops-avd](https://github.com/PacketAnglers/workshops-avd)
 
@@ -34,7 +34,7 @@ git clone <your copied URL>
 cd workshops-avd
 ```
 
-### **STEP #3** - Update AVD to latest version
+### STEP #3 - Update AVD to latest version
 
 AVD has been pre-installed in your lab environment, however it is on an older version. The following steps will update AVD and modules to the latest versions.
 
@@ -49,7 +49,7 @@ pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
 
     IMPORTANT: The above steps must be ran each time you start your lab.
 
-### **STEP #4** - Setup Lab Password Environment Variable
+### STEP #4 - Setup Lab Password Environment Variable
 
 Each lab comes with a unique password. With the following command we set an environment variable called `LABPASSPHRASE`. The variable is later used to generate local user passwords and connect to our switches to push configs.
 
@@ -63,7 +63,7 @@ You can view the password is set. This is the same password that is displayed wh
 echo $LABPASSPHRASE
 ```
 
-### **STEP #5** - Prepare WAN IP Network and Test Hosts
+### STEP #5 - Prepare WAN IP Network and Test Hosts
 
 The last step in preparing your lab is to push pre-defined configurations to the WAN IP Network (cloud) and the four hosts used to test traffic. The spines from each site will connect to the WAN IP Network with P2P links. The hosts (two per site) have port-channels to the leaf pairs and are pre-configured with an IP address and route to reach the other hosts.
 
@@ -73,59 +73,150 @@ Run the following to push the configs.
 make preplab
 ```
 
-## SITE 1 - Build and Deploy
+## **Build and Deploy Dual Data Center L2LS Network**
 
 This section will be devoted to reviewing and updating the existing L2LS data model.  We will add features to enable Vlans, SVIs, connected endpoints, and P2P links to the WAN IP Network. At the completion of the lab, you will have enabled an L2LS dual data center network through automation with AVD. YAML data models and ansible playbooks will be used to generate EOS Cli configurations and deploy them to each site. We will start by focusing efforts on building out Site 1 and then repeat similar steps for Site 2. Finally we will enable connectivity to the WAN IP Network to to allow traffic to pass between sites.
 
-### Summary
+### **Summary of Steps**
 
-1. Build Site 1
-2. Build Site 2
-3. Connect Sites to WAN IP Network
+1. Build and Deploy `Site 1`
+2. Build and Deploy `Site 2`
+3. Connect sites to WAN IP Network
 4. Verify routing
 5. Test traffic
 
-### **STEP #1** - Build and Deploy Initial Fabric
+## **Site 1**
 
-Run & Deploy initial Build of Fabric (most features will be commented out)
+### STEP #1 - Build and Deploy Initial Fabric
 
-- Basic configs will be created
-- show configs and docs
-- Deploy configs
-- COMMIT  files changes before moving on
+The initial fabric data model key/value pairs have been pre-populated in the following group_vars files located in the following directory `sites/site_1/group_vars/`.
 
-### **STEP #2** - Add Services to the Fabric
+- SITE1_FABRIC_PORTS.yml
+- SITE1_FABRIC_SERVICES.yml
+- SITE1_FABRIC.yml
+- SITE1_LEAFS.yml
+- SITE1_SPINES.yml
 
-Add Services (vlan and svis)
+Review these files to understand how they relate to the topology above.
 
-- Uncomment services key/value pairs
-- Run build & deploy
-- Check file diffs
-- Verify configs active on Site 1 devices (watch show mlag)
-- COMMIT changes
+At this point, we can build and deploy our initial configurations to the topology.
 
-### **STEP #3** - Add Ports for Hosts
+``` bash
+make build-site-1
+```
 
-Add Ports for Hosts
+Review the configurations and documentation that was just created in the `intended` and `documentation` folders.
 
-- Uncomment services key/value pairs
-- Run build & deploy
-- Check file diffs
-- Verify configs active on Site 1 devices (watch show mlag)
-- Verify pings are working between hosts within Site 1
-- COMMIT changes
+Now, deploy the configurations to Site 1 switches.
 
-## SITE 2 - Build and Deploy
+``` bash
+make deploy-site-1
+```
 
-Repeat the previous steps for Site 2.
+Login to your switches to verify the current configs match the ones created in `intended/configs` folder.
+
+You can also check a few of the following commands:
+
+``` bash
+show vlan brief
+show ip interface brief
+show port-channel
+```
+
+The basic fabric with mlag peers and port-channels between leaf and spines are now created.  Next up, we will add Vlan and SVI services to the fabric.
+
+### STEP #2 - Add Services to the Fabric
+
+The next step is to add Vlans and SVIs to the fabric. The services data model file `SITE1_FABRIC_SERVICES.yml` is pre-populated with Vlans and SVIs `10` and `20` in the default vrf.
+
+Open `SITE1_FABRIC_SERVICES.yml` and uncomment lines 1-28 and then run the build & deploy process again.
+
+``` bash
+make build-site-1
+make deploy-site-1
+```
+
+Log into `s1-spine1` and `s1-spine2` and verify the SVIs `10` and `20` exist.
+
+``` bash
+show ip interface brief
+```
+
+It should look similar to:
+
+``` text
+                                           Address
+Interface         IP Address            Status       Protocol            MTU    Owner
+----------------- --------------------- ------------ -------------- ----------- -------
+Loopback0         10.1.252.1/32         up           up                65535
+Management0       192.168.0.10/24       up           up                 1500
+Vlan10            10.10.10.2/24         up           up                 1500
+Vlan20            10.20.20.2/24         up           up                 1500
+Vlan4093          10.1.254.0/31         up           up                 1500
+Vlan4094          10.1.253.0/31         up           up                 1500
+```
+
+You can verify the recent configuration session was created.
+
+``` bash
+show clock
+show configuration sessions detail
+```
+
+List the recent checkpoints.
+
+``` bash
+show config checkpoints
+```
+
+View the contents of the lastest checkpoint file.
+
+``` bash
+more checkpoint:< filename >
+```
+
+### STEP #3 - Add Ports for Hosts
+
+Now, let's configure port-channels to our hosts (`s1-host1` and `s1-host2`).
+
+Open `SITE1_FABRIC_PORTS.yml` and uncomment lines 16-44 and then run the build & deploy process again.
+
+``` bash
+make build-site-1
+make deploy-site-1
+```
+
+At this point, hosts should be able to ping each other across the fabric.
+
+From `s1-host1`, run a ping to `s1-host2`
+
+``` bash
+ping 10.20.20.100
+```
+
+``` text
+PING 10.20.20.100 (10.20.20.100) 72(100) bytes of data.
+80 bytes from 10.20.20.100: icmp_seq=1 ttl=63 time=30.2 ms
+80 bytes from 10.20.20.100: icmp_seq=2 ttl=63 time=29.5 ms
+80 bytes from 10.20.20.100: icmp_seq=3 ttl=63 time=28.8 ms
+80 bytes from 10.20.20.100: icmp_seq=4 ttl=63 time=24.8 ms
+80 bytes from 10.20.20.100: icmp_seq=5 ttl=63 time=26.2 ms
+```
+
+Site 1 fabric is now complete.
+
+## **SITE 2**
+
+Repeat the previous three steps for Site 2.
 
 - Add Services
 - Add Ports
 - Build and Deploy Configs
+- Verify ping traffic between hosts `s2-host1` and `s2-host2`
 
-At the end of this step, you should be able to ping between hosts within a site but not between sites. We will build connectivity to the `WAN IP Network` in the next section.
+At the end of this step, you should be able to ping between hosts within a site but not between sites. For this, we need to be build site connectivity to the `WAN IP Network`. This is covered in the next section.
 
-## Connect Sites to WAN IP Network
+## **Connect Sites to WAN IP Network**
 
 The WAN IP Network can be defined with the`core_interfaces` data model. Full data model documentation is located [here](https://avd.sh/en/stable/roles/eos_designs/doc/core-interfaces-BETA.html).
 
@@ -144,6 +235,10 @@ The WAN IP Network can be defined with the`core_interfaces` data model. Full dat
 Add the following YAML code block to the bottom of `sites/site_1/group_vars/SITE1_FABRIC.yml`.
 
 ``` yaml
+##################################################################
+# WAN/Core Edge Links
+##################################################################
+
 core_interfaces:
   p2p_links:
 
@@ -173,6 +268,10 @@ core_interfaces:
 Add the following YAML code block to the bottom of `sites/site_1/group_vars/SITE2_FABRIC.yml`.
 
 ``` yaml
+##################################################################
+# WAN/Core Edge Links
+##################################################################
+
 core_interfaces:
   p2p_links:
 
