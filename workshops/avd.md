@@ -1,6 +1,6 @@
 # Arista CI Workshop
 
-This section we will leverage open source tools to build a network CI pipeline for configuration development, deployment, documentation and validation. Enabling us to manage our network environment as code.
+In this workshop, we will leverage open source tools to build a network CI pipeline for configuration development, deployment, documentation and validation. This will enable us to manage our network environment as code.
 
 This section will cover:
 
@@ -478,33 +478,52 @@ servers:
 
 ## The Playbooks
 
-There are exactly 2 playbooks used to build and deploy configurations in our Lab. We use a Makefile to create aliases to run the playbooks and provide the needed options. This is much easier than typing in long commands.
+There are two playbooks `build.yml` and `deploy.yml` used in our Lab. Expand the tabs below to reveal the content.
 
-=== "build.yml"
-
+??? eos-config annotate "build.yml Playbook"
     ``` yaml
     --8<--
     workshops/assets/examples/avd/playbooks/build.yml
     --8<--
     ```
 
-=== "deploy.yml"
-
+??? eos-config annotate "deploy.yml Playbook"
     ``` yaml
     --8<--
     workshops/assets/examples/avd/playbooks/deploy.yml
     --8<--
     ```
 
-=== "Makefile"
+To make our lives easier, we use a `Makefile` to create aliases to run the playbooks and provide the needed options. This eliminates mistakes and typing long commands.
 
+??? eos-config annotate "Makefile"
     ``` yaml
     --8<--
     workshops/assets/examples/avd/Makefile
     --8<--
     ```
 
-Use the following `make` command to:
+For example, if we wanted to run a playbook to build configs for Site 1, we could enter the following command.
+
+``` bash
+ansible-playbook playbooks/build.yml -i sites/site_1/inventory.yml -e "target_hosts=SITE1_FABRIC"
+```
+
+Thankfully, there is a convenient way to simplify the above command with a Makefile entry like below.
+
+``` bash
+.PHONY: build-site-1
+build-site-1: ## Build Configs
+	ansible-playbook playbooks/build.yml -i sites/site_1/inventory.yml -e "target_hosts=SITE1_FABRIC"
+```
+
+Now, you can type the following to issue the same ansible-playbook command.
+
+``` bash
+make build-site-1
+```
+
+We will be using the following `make` commands several times in the upcoming lab. Review the above `Makefile` to see what each entry does. Try building some of your own entries.
 
 Build configurations
 
@@ -528,4 +547,6 @@ make deploy-site-2
 
 ## Next Steps
 
-Continue on to the hand-ons lab. The lab guide is located [here](avd-lab-guide.md).
+Continue on to the hand-ons lab. The lab guide is located **[here](avd-lab-guide.md)**.
+
+[Continue to Lab Guide](avd-lab-guide.md){ .md-button .md-button--primary }

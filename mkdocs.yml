@@ -89,14 +89,9 @@ theme:
     - content.code.copy
     - content.tooltips
     - header.autohide
-    # - navigation.sections
-    # - navigation.tabs
-    # - navigation.expand
-    # - navigation.tabs.sticky
     - navigation.top
     - navigation.tracking
-    # - toc.follow
-    # - toc.integrate
+    - toc.integrate
 
   favicon: assets/images/logo.png
 
