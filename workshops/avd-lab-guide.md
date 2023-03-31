@@ -47,9 +47,9 @@ pip3 config set global.disable-pip-version-check true
 pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
 ```
 
-???+ Note
+???+ Warning "IMPORTANT"
 
-    IMPORTANT: The above steps must be ran each time you start your lab.
+    The above steps must be ran each time you start your lab.
 
 ### STEP #4 - Setup Lab Password Environment Variable
 
@@ -64,6 +64,10 @@ You can view the password is set. This is the same password that is displayed wh
 ``` bash
 echo $LABPASSPHRASE
 ```
+
+???+ Warning "IMPORTANT"
+
+    This step must be ran each time you start your lab or start a new shell (terminal).
 
 ### STEP #5 - Prepare WAN IP Network and Test Hosts
 
@@ -107,7 +111,9 @@ At this point, we can build and deploy our initial configurations to the topolog
 make build-site-1
 ```
 
-Review the configurations and documentation that was just created in the `intended` and `documentation` folders.
+AVD creates a separate markdown and EOS configuration file per switch. You can review the files in the `documentation` and `intended` folders per site.
+
+![Docs and Configs](assets/images/docs-configs.png){: style="width:300px"}
 
 Now, deploy the configurations to Site 1 switches.
 
@@ -115,11 +121,12 @@ Now, deploy the configurations to Site 1 switches.
 make deploy-site-1
 ```
 
-Login to your switches to verify the current configs match the ones created in `intended/configs` folder.
+Login to your switches to verify the current configs (`show run`) match the ones created in `intended/configs` folder.
 
-You can also check a few of the following commands:
+You can also check the current state for mlag, vlans, ip interface, and port-channels.
 
 ``` bash
+show mlag
 show vlan brief
 show ip interface brief
 show port-channel
@@ -207,7 +214,7 @@ PING 10.20.20.100 (10.20.20.100) 72(100) bytes of data.
 
 Site 1 fabric is now complete.
 
-## **SITE 2**
+## **Site 2**
 
 Repeat the previous three steps for Site 2.
 
