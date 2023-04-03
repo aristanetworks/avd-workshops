@@ -237,9 +237,14 @@ repos:
     rev: v4.4.0
     hooks:
       - id: trailing-whitespace
+        files: sites/site_1/group_vars/ sites/site_2/group_vars/
+
       - id: end-of-file-fixer
         exclude_types: [svg, json]
+        files: sites/site_1/group_vars/ sites/site_2/group_vars/
+
       - id: check-yaml
+        files: sites/site_1/group_vars/ sites/site_2/group_vars/
 ```
 
 In pre-commit we define our jobs under a `repos` key. This first repo step points to the built-in hooks provided by the pre-commit team. Please note, you can use hooks from other organizations. In our case, our checks are fairly simplistic. The first hook checks to make sure our files don't have any trailing whitespace. The next hook, `end-of-file-fixer`,ensures every file is empty or ends with one newline. The check YAML hook validates any YAML file in our repository can be loaded as valid YAML syntax. Below is our workflow example leveraging the pre-commit action. This action will read the `.pre-commit-config.yaml` file in the root of our repository. The setup Python action above the pre-commit step is only used to make sure we have a stable Python environment in this workflow.
