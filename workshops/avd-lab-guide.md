@@ -127,8 +127,17 @@ You can also check the current state for mlag, vlans, ip interface, and port-cha
 
 ``` bash
 show mlag
+```
+
+``` bash
 show vlan brief
+```
+
+``` bash
 show ip interface brief
+```
+
+``` bash
 show port-channel
 ```
 
@@ -140,8 +149,14 @@ The next step is to add Vlans and SVIs to the fabric. The services data model fi
 
 Open `SITE1_FABRIC_SERVICES.yml` and uncomment lines 1-28 and then run the build & deploy process again.
 
+???+ tip
+    :writing_hand: In VS Code, you can toggle comments on/off by selecting the text and pressing ***windows*** ++ctrl++ + ++slash++ or ***mac*** ++cmd++ + ++slash++.
+
 ``` bash
 make build-site-1
+```
+
+``` bash
 make deploy-site-1
 ```
 
@@ -169,6 +184,9 @@ You can verify the recent configuration session was created.
 
 ``` bash
 show clock
+```
+
+``` bash
 show configuration sessions detail
 ```
 
@@ -192,6 +210,9 @@ Open `SITE1_FABRIC_PORTS.yml` and uncomment lines 16-44 and then run the build &
 
 ``` bash
 make build-site-1
+```
+
+``` bash
 make deploy-site-1
 ```
 
@@ -307,8 +328,17 @@ core_interfaces:
 
 ``` bash
 make build-site-1
+```
+
+``` bash
 make build-site-2
+```
+
+``` bash
 make deploy-site-1
+```
+
+``` bash
 make deploy-site-2
 ```
 
@@ -332,7 +362,9 @@ From `s1-host1` ping both `s2-host1` & `s1-host2`
 ``` bash
 # s2-host1
 ping 10.30.30.100
+```
 
+``` bash
 # s2-host2
 ping 10.40.40.100
 ```
