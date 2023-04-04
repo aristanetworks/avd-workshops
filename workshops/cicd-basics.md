@@ -90,13 +90,16 @@ You will need to set one secret in your newly forked GitHub repository.
 !!! note
     Our workflow uses this secret to authenticate with our CVP instance.
 
-## Configure global Git settings
+## Configure global Git settings and sync
 
-1. From the IDE terminal, run the following
+1. From the IDE terminal, run the following:
 
     ```shell
     git config --global user.name "FirstName LastName"
     git config --global user.email "name@example.com"
+    git add .
+    git commit -m "Syncing with remote"
+    git push
     ```
 
 !!! note
@@ -237,17 +240,17 @@ repos:
     rev: v4.4.0
     hooks:
       - id: trailing-whitespace
-        files: sites/site_1/group_vars/ sites/site_2/group_vars/
+        files: sites/site_1/group_vars/|sites/site_2/group_vars/
 
       - id: end-of-file-fixer
         exclude_types: [svg, json]
-        files: sites/site_1/group_vars/ sites/site_2/group_vars/
+        files: sites/site_1/group_vars/|sites/site_2/group_vars/
 
       - id: check-yaml
-        files: sites/site_1/group_vars/ sites/site_2/group_vars/
+        files: sites/site_1/group_vars/|sites/site_2/group_vars/
 ```
 
-In pre-commit we define our jobs under a `repos` key. This first repo step points to the built-in hooks provided by the pre-commit team. Please note, you can use hooks from other organizations. In our case, our checks are fairly simplistic. The first hook checks to make sure our files don't have any trailing whitespace. The next hook, `end-of-file-fixer`,ensures every file is empty or ends with one newline. The check YAML hook validates any YAML file in our repository can be loaded as valid YAML syntax. Below is our workflow example leveraging the pre-commit action. This action will read the `.pre-commit-config.yaml` file in the root of our repository. The setup Python action above the pre-commit step is only used to make sure we have a stable Python environment in this workflow.
+In pre-commit we define our jobs under a `repos` key. This first repo step points to the built-in hooks provided by the pre-commit team. Please note, you can use hooks from other organizations. In our case, the checks are fairly simplistic. The first hook checks to make sure our files don't have any trailing whitespace. The next hook, `end-of-file-fixer`, ensures every file is empty or ends with one newline. The check YAML hook validates any YAML file in our repository can be loaded as valid YAML syntax. Below is our workflow example leveraging the pre-commit action. This action will read the `.pre-commit-config.yaml` file in the root of our repository. The `files` key is used to only check files within specific directories. The setup Python action above the pre-commit step is only used to make sure we have a stable Python environment in this workflow.
 
 ```yaml hl_lines="9-13"
 ...
@@ -266,9 +269,114 @@ In pre-commit we define our jobs under a `repos` key. This first repo step point
 ...
 ```
 
+##### pre-commit example
+
+We can take a look at the benefits of pre-commit by introducing three errors in a group_vars file. This example will use the `sites/site_1/group_vars/SITE1_FABRIC_SERVICES.yml` file. Under VLAN 20, we can add extra whitespace after any entry, extra newlines, and move the `s1-spine2` key under the `s1-spine1` key.
+
+```yaml
+          20:
+            name: 'Twenty'
+            tags: [ "20" ]
+            enabled: true
+            ip_virtual_router_addresses:
+              - 10.20.20.1
+            nodes:
+              s1-spine1:
+                ip_address: 10.20.20.2/24
+                s1-spine2: # <- Should not be nested under s1-spine1
+                ip_address: 10.20.20.3/24 # <- extra whitespace
+# <- Newline
+# <- Newline
+```
+
+We can run pre-commit manually by running the `pre-commit run -a` command.
+
+```shell
+➜  workshops-avd git:(main) ✗ pre-commit run -a
+trim trailing whitespace.................................................Failed
+- hook id: trailing-whitespace
+- exit code: 1
+- files were modified by this hook
+
+Fixing sites/site_1/group_vars/SITE1_FABRIC_SERVICES.yml
+
+fix end of files.........................................................Failed
+- hook id: end-of-file-fixer
+- exit code: 1
+- files were modified by this hook
+
+Fixing sites/site_1/group_vars/SITE1_FABRIC_SERVICES.yml
+
+check yaml...............................................................Failed
+- hook id: check-yaml
+- exit code: 1
+
+while constructing a mapping
+  in "sites/site_1/group_vars/SITE1_FABRIC_SERVICES.yml", line 26, column 17
+found duplicate key "ip_address" with value "10.20.20.3/24" (original value: "10.20.20.2/24")
+  in "sites/site_1/group_vars/SITE1_FABRIC_SERVICES.yml", line 28, column 17
+
+To suppress this check see:
+    http://yaml.readthedocs.io/en/latest/api.html#duplicate-keys
+
+➜  workshops-avd git:(main) ✗
+```
+
+We can see all three failures, please note that pre-commit hooks will try and fix errors if possible. pre-commit does not assume what our intent is with the YAML file, that fix is up to us. if you correct the indentation in the file and run pre-commit again, you will see all passes.
+
+```yaml
+          20:
+            name: 'Twenty'
+            tags: [ "20" ]
+            enabled: true
+            ip_virtual_router_addresses:
+              - 10.20.20.1
+            nodes:
+              s1-spine1:
+                ip_address: 10.20.20.2/24
+              s1-spine2: # <- Indentation fixed
+                ip_address: 10.20.20.3/24 # <- No extra space
+# <- One newline
+```
+
+```shell
+➜  workshops-avd git:(main) ✗ pre-commit run -a
+trim trailing whitespace.................................................Passed
+fix end of files.........................................................Passed
+check yaml...............................................................Passed
+➜  workshops-avd git:(main)
+```
+
+#### Check file changes to speed up the pipeline
+
+At the moment, our workflow will build and deploy configurations for both sites. This is true even if we only have changes relevant to one site. We can use a path filter to check if changes within specific directories have been modified -signaling to us that a new build and deployment is required. Please take note of the `id` key, this will be referenced in our upcoming workflow steps leveraging Docker Compose.
+
+```yaml
+...
+      - name: Run pre-commit on files
+        uses: pre-commit/action@v3.0.0
+
+      - name: Check paths for sites/site_1
+        uses: dorny/paths-filter@v2
+        id: filter-site1
+        with:
+          filters: |
+            workflows:
+              - 'sites/site_1/**'
+
+      - name: Check paths for sites/site_2
+        uses: dorny/paths-filter@v2
+        id: filter-site2
+        with:
+          filters: |
+            workflows:
+              - 'sites/site_2/**'
+...
+```
+
 #### Containers and Docker Compose
 
-The final steps in our workflow leverages containers and Docker Compose. Containers are a great way to create environments that can be shared across team members or in our case the CI/CD workflow. The container is already created and hosted on Docker Hub. You can think of this container as the runner for our AVD workflows. If this container was not leveraged in the workflow, we would have to install all requirements during each run of the pipeline, possibly increasing the amount of time the pipeline takes to complete.
+The final steps in our workflow leverages containers and Docker Compose. Containers are a great way to create environments that can be shared across team members or in our case, the CI/CD workflow. The container is already created and hosted on Docker Hub. You can think of this container as the runner for our AVD workflows. If this container was not leveraged in the workflow, we would have to install all requirements during each run of the pipeline, possibly increasing the amount of time the pipeline takes to complete.
 
 ```docker
 # Dockerfile
@@ -294,7 +402,7 @@ services:
     container_name: atd-cicd
     volumes:
       - '.:/app'
-    image: juliopdx/atd-cicd
+    image: juliopdx/atd-cicd:l2ls
     environment:
       - LABPASSPHRASE=$LABPASSPHRASE
 ```
@@ -303,45 +411,184 @@ The `version` key is used to associate this Docker Compose file with a specific 
 
 ```yaml
 ...
-      - name: Run pre-commit on files
-        uses: pre-commit/action@v3.0.0
-
       - name: Start containers
         run: docker-compose -f "docker-compose.yml" up -d --build
 
-      - name: Test configuration build
-        run: docker-compose run atd-cicd make build-site-1 build-site-2
+      - name: Test configuration for site1
+        run: docker-compose run atd-cicd make build-site-1
+        if: steps.filter-site1.outputs.workflows == 'true'
+
+      - name: Test configuration for site2
+        run: docker-compose run atd-cicd make build-site-2
+        if: steps.filter-site2.outputs.workflows == 'true'
 
       - name: Stop containers
         if: always()
         run: docker-compose -f "docker-compose.yml" down
 ```
 
-## Day-2 operations - New VLAN
+The test configuration steps have the conditional key of `if`. This maps to each paths filter check step we used earlier. For example, the first path check has an `id` of `filter-site1`. We can reference the `id` in our workflow as `steps.filter-site1.outputs.workflows`. If this is set to `true`, a change was registered in our check and the test build step for site 1 will run.
 
-At the moment, this example deployment is using OSPF for the underlay. We want to migrate from OSPF to BGP. We have to make two minor updates to our group variables for development and production. In the `atd-inventory/dev/group_vars/ATD_FABRIC_DEV.yml` file, we have the variable `underlay_routing_protocol` set to OSPF. We can ***comment*** this out and leverage the default underlay of BGP used in AVD DC deployments.
+At this point, make sure the both workflows within the `.github/workflows` directory are not commented out. Example of the `dev.yml` file is below.
 
-```yaml
-# underlay_routing_protocol: OSPF
-```
+??? ".github/workflows/dev.yml"
+    ```yaml
+    name: Test the upcoming changes
 
-Perform the same for the `atd-inventory/prod/group_vars/ATD_FABRIC_PROD.yml` file.
+    on:
+      push:
+        branches-ignore:
+          - main
 
-At this point, we can build the intended configurations for both environments. The first command defaults to the `dev` inventory, and the second has to be specified on the command line.
+    jobs:
+      dev:
+        env:
+          LABPASSPHRASE: ${{ secrets.LABPASSPHRASE }}
+        timeout-minutes: 15
+        runs-on: ubuntu-latest
+        steps:
+          - name: Hi
+            run: echo "Hello World!"
+
+          - name: Checkout
+            uses: actions/checkout@v3
+
+          - name: Setup Python
+            uses: actions/setup-python@v3
+
+          - name: Run pre-commit on files
+            uses: pre-commit/action@v3.0.0
+
+          - name: Check paths for sites/site_1
+            uses: dorny/paths-filter@v2
+            id: filter-site1
+            with:
+              filters: |
+                workflows:
+                  - 'sites/site_1/**'
+
+          - name: Check paths for sites/site_2
+            uses: dorny/paths-filter@v2
+            id: filter-site2
+            with:
+              filters: |
+                workflows:
+                  - 'sites/site_2/**'
+
+          - name: Start containers
+            run: docker-compose -f "docker-compose.yml" up -d
+
+          - name: Test configuration for site1
+            run: docker-compose run atd-cicd make build-site-1
+            if: steps.filter-site1.outputs.workflows == 'true'
+
+          - name: Test configuration for site2
+            run: docker-compose run atd-cicd make build-site-2
+            if: steps.filter-site2.outputs.workflows == 'true'
+
+          - name: Stop containers
+            if: always()
+            run: docker-compose -f "docker-compose.yml" down
+    ```
+
+## Day-2 ops - New service (VLAN)
+
+This example workflow will add two new VLANs to our sites. One for site 1 and 2. Site 1 will add VLAN 30 and site 2 will add VLAN 50. Example of the updated group_vars is below. The previous workshop modified the configuration of our devices directly through eAPI. This example will leverage GitHub actions with CloudVision to update our nodes. The provisioning with CVP will also create a new container topology and configlet assignment per device.
+
+??? "sites/site_1/group_vars/SITE1_FABRIC_SERVICES.yml"
+    ```yaml
+    ---
+    tenants:
+      MY_FABRIC:
+        vrfs:
+          default:
+            svis:
+              10:
+                name: 'Ten'
+                tags: [ "10" ]
+                enabled: true
+                ip_virtual_router_addresses:
+                  - 10.10.10.1
+                nodes:
+                  s1-spine1:
+                    ip_address: 10.10.10.2/24
+                  s1-spine2:
+                    ip_address: 10.10.10.3/24
+              20:
+                name: 'Twenty'
+                tags: [ "20" ]
+                enabled: true
+                ip_virtual_router_addresses:
+                  - 10.20.20.1
+                nodes:
+                  s1-spine1:
+                    ip_address: 10.20.20.2/24
+                  s1-spine2:
+                    ip_address: 10.20.20.3/24
+              30:
+                name: 'Thirty'
+                tags: [ "30" ]
+                enabled: true
+                ip_virtual_router_addresses:
+                  - 10.30.30.1
+                nodes:
+                  s1-spine1:
+                    ip_address: 10.30.30.2/24
+                  s1-spine2:
+                    ip_address: 10.30.30.3/24
+
+    ```
+
+??? "sites/site_2/group_vars/SITE2_FABRIC_SERVICES.yml"
+    ```yaml
+    ---
+    tenants:
+      MY_FABRIC:
+        vrfs:
+          default:
+            svis:
+              30:
+                name: 'Thirty'
+                tags: [ "30" ]
+                enabled: true
+                ip_virtual_router_addresses:
+                  - 10.30.30.1
+                nodes:
+                  s2-spine1:
+                    ip_address: 10.30.30.2/24
+                  s2-spine2:
+                    ip_address: 10.30.30.3/24
+              40:
+                name: 'Forty'
+                tags: [ "40" ]
+                enabled: true
+                ip_virtual_router_addresses:
+                  - 10.40.40.1
+                nodes:
+                  s2-spine1:
+                    ip_address: 10.40.40.2/24
+                  s2-spine2:
+                    ip_address: 10.40.40.3/24
+              50:
+                name: 'Fifty'
+                tags: [ "50" ]
+                enabled: true
+                ip_virtual_router_addresses:
+                  - 10.50.50.1
+                nodes:
+                  s2-spine1:
+                    ip_address: 10.50.50.2/24
+                  s2-spine2:
+                    ip_address: 10.50.50.3/24
+
+    ```
+
+### Build the updates locally (optional)
+
+The pipeline will run the build and deploy steps for us with these relevant changes. We can also run the build steps locally to see all our pending updates.
 
 ```shell
-# Dev
-ansible-playbook playbooks/atd-fabric-build.yml
-# Prod
-ansible-playbook playbooks/atd-fabric-build.yml -i atd-inventory/prod/hosts.yml
-```
-
-!!! note
-    You don't have to specify the inventory when interacting with the development environment because this is the default inventory in our `ansible.cfg` file.
-
-```apache
-[defaults]
-inventory =./atd-inventory/dev/hosts.yml
+make build-site-1 build-site-2
 ```
 
 Feel free to check out the changes made to your local files. Please make sure the GitHub workflows are uncommented. We can now push all of our changes and submit a pull request.
