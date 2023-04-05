@@ -12,6 +12,7 @@ ctrl
 datacenter
 dev
 devcontainer
+Dockerfile
 eos
 group_vars
 host_vars

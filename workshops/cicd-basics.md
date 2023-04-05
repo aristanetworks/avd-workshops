@@ -1,6 +1,6 @@
 # CI/CD
 
-This section walks you through an example CI/CD pipeline leveraging GitHub Actions, Arista Validated Designs (AVD), and Arista CloudVision Platform (CVP). The lab leverages the Arista Test Drive (ATD) solution to give you a pre-built environment to get started quickly.
+This section walks you through an example CI/CD pipeline leveraging GitHub Actions, Arista Validated Designs (AVD), and the Arista CloudVision Platform (CVP). In addition, the lab leverages the Arista Test Drive (ATD) solution to give you a pre-built environment to get started quickly. This section assumes readers have completed the [AVD workshop](avd-lab-guide.md) within their ATD environment.
 
 Readers should be familiar with the following concepts.
 
@@ -11,17 +11,17 @@ Readers should be familiar with the following concepts.
 
 ## The topology
 
-The dual data center ATD is deployed by default with many devices. The topology allows users to run examples like data center interconnect. In our case, we only require a subset of nodes. Devices from site 1 (s1) will act as our development infrastructure, and devices in site 2 (s2) will be our production infrastructure. The diagram below exemplifies what we hope to accomplish at the end of this workflow.
+Throughout this section, we will use the following dual data center topology. Click on the image to zoom in for details.
 
-![Topology](assets/diagrams/topo.svg)
+![Dual DC Topology](assets/images/dual-dc-topo.svg)
 
 ## Getting started
 
-This repository leverages the dual data center (DC) ATD. If you are not leveraging the ATD, you may still leverage this repository for a similar deployment. Please note some updates may have to be made for the reachability of nodes and CloudVision (CVP) instances. This example was created with Ansible [AVD](https://avd.sh/en/stable/) version `3.8.1`.
+This repository leverages the dual data center (DC) ATD. If you are not leveraging the ATD, you may still leverage this repository for a similar deployment. Please note that some updates may have to be made for the reachability of nodes and CloudVision (CVP) instances. This example was created with Ansible [AVD](https://avd.sh/en/stable/) version `3.8.1`.
 
 ### Local installation
 
-You must install the base requirements if running outside of the ATD interactive developer environment (IDE).
+If running outside of the ATD interactive developer environment (IDE), you must install the base requirements.
 
 ```shell
 python3 -m venv venv
@@ -50,7 +50,10 @@ pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
 
 ## Fork repository
 
-You will be creating your own CI/CD pipeline in this workflow. Log in to your GitHub account and [fork this repository](https://github.com/arista-netdevops-community/atd-cicd) to get started.
+You will be creating your own CI/CD pipeline in this workflow. Log in to your GitHub account and [fork this repository](https://github.com/PacketAnglers/workshops-avd) to get started.
+
+!!! note
+    If the repository was forked during the AVD workshop, you can skip this step.
 
 ![Create fork](assets/images/create-fork.png)
 
@@ -76,7 +79,7 @@ You will need to set one secret in your newly forked GitHub repository.
 
 5. Enter the secret as follows
 
-   - Name: PASS
+   - Name: LABPASSPHRASE
    - Secret: Listed in ATD lab topology
 
     ![Lab credentials](assets/images/lab-creds.png)
@@ -87,70 +90,60 @@ You will need to set one secret in your newly forked GitHub repository.
 !!! note
     Our workflow uses this secret to authenticate with our CVP instance.
 
-## Clone forked repository to ATD IDE
+## Configure global Git settings and sync
 
-1. Click `Code`
-2. Copy the HTTPS link
-![Copy code](assets/images/copy-code.png)
-3. From the IDE terminal, run the following
+1. From the IDE terminal, run the following:
 
     ```shell
-    cd labfiles
-    git clone <your copied URL>
-    cd atd-cicd
     git config --global user.name "FirstName LastName"
     git config --global user.email "name@example.com"
+    git add .
+    git commit -m "Syncing with remote"
+    git push
     ```
 
 !!! note
     If the Git `user.name` and `user.email` are set, they may be skipped. You can check this by running the `git config --list` command.
 
-## Environment variables
+## Create a new branch
 
-This repository relies on one environment variable to be set, our login credentials. From the ATD IDE, run the following command.
-
-```shell
-export PASS=<some password in local ATD>
-```
+In a moment, we will be deploying changes to our environment. In reality, updates to a code repository would be done from a development or feature branch. We will follow this same workflow.
 
 !!! note
-    The value of `PASS` is the same secret used earlier. For example, `export PASS=arista1234`.
-
-## Create new branch
-
-In a moment, we will be deploying changes to our environments. In reality, updates to a code repository would be done from a development or feature branch. We will follow this same workflow.
-
-!!! note
-    This example will use the branch name of `new-dc`, if you use your own naming scheme, make sure to make the appropriate updates.
+    This example will use the branch name `dc-updates`. If you use a different branch name, update the upcoming examples appropriately.
 
 ```shell
-git checkout -b new-dc
+git checkout -b dc-updates
 ```
 
 ## Update local CVP variables
 
 Every user will get a unique CVP instance deployed. There are two updates required.
 
-1. Update the `ansible_host` variable under `cv_atd1` in the `atd-inventory/dev/hosts.yml` file
+1. Add the `ansible_host` variable under the `cvp` host in the `/home/coder/project/labfiles/workshops-avd/sites/site_1/inventory.yml` file.
 
     ```yaml
-    ...
-        cv_atd1:
-          ansible_host: <atd-topo12345.topo.testdrive.arista.com>
-          cv_collection: v3
-          execute_tasks: true
-    ...
+    ---
+    SITE1:
+      children:
+        CVP:
+          hosts:
+              cvp:
+                ansible_host: <atd-topo12345.topo.testdrive.arista.com>
+       ...
     ```
 
-2. Update the `ansible_host` variable under `cv_atd1` in the `atd-inventory/prod/hosts.yml` file
+2. Add the `ansible_host` variable under the `cvp` host in the `/home/coder/project/labfiles/workshops-avd/sites/site_2/inventory.yml` file.
 
     ```yaml
-    ...
-        cv_atd1:
-          ansible_host: <atd-topo12345.topo.testdrive.arista.com>
-          cv_collection: v3
-          execute_tasks: true
-    ...
+    ---
+    SITE2:
+      children:
+        CVP:
+          hosts:
+              cvp:
+                ansible_host: <atd-topo12345.topo.testdrive.arista.com>
+       ...
     ```
 
 !!! note
@@ -158,42 +151,62 @@ Every user will get a unique CVP instance deployed. There are two updates requir
 
 ## Commit changes and link ATD IDE to GitHub
 
-We have two changes in our `hosts.yml` files for production and development environments. The following can be executed from the terminal or GUI interface.
+You can run the following commands from the terminal or VS Code interface.
 
 ```shell
 git add .
 git commit -m "Updating host variables"
-git push --set-upstream origin new-dc
+git push --set-upstream origin dc-updates
 ```
 
 !!! note
     You will get a notification to sign in to GitHub. Follow these prompts.
 
-## Enable GitHub actions workflows
+## GitHub Actions
 
-GitHub actions allow us to automate almost every element of our repository. We can use them to check syntax, linting, unit testing, etc. In our case, we want to use GitHub actions to test new changes to our infrastructure and then deploy those changes. In this example, we simulate that Network Admins cannot manually change the nodes. Admins must execute changes from the pipeline.
+GitHub Actions is a CI/CD platform within GitHub. We can leverage GitHub Actions to create automated workflows within our repository. These workflows can be as simple as notifying appropriate reviewers of a change and automating the entire release of an application or network infrastructure.
 
-In this repository, we have two workflow files located in our `.github/workflows` directory. Both workflows are identical but differ slightly in whether changes will be deployed in our development or production environment. Below is an example of the development workflow.
+### Workflow file
 
-1. In your IDE, ***uncomment*** both workflows. A shortcut is to highlight the workflow and type `Ctrl + /` or `Cmd + /` on Mac.
-2. The files are located in the following locations.
-
-- `atd-cicd/.github/workflows/dev_test.yml`
-- `atd-cicd/.github/workflows/prod_test.yml`
+GitHub actions are defined within our code repository's `.github/workflows` directory.
 
 ```yaml
-name: Test the dev network
+# dev.yml
+name: Test the upcoming changes
 
+on:
+  push:
+    branches-ignore:
+      - main
+...
+```
+
+At the highest level of our workflow file, we set the `name` of the workflow. This version of our workflow file represents any pushes that do not go to the main branch. For example, we would like our test or development workflow to start whenever we push or change any branches ***not*** named main. We can control this by setting the `on.push.branches-ignore` variable to main.
+
+```yaml hl_lines="7-12"
+...
 on:
   push:
     branches-ignore:
       - main
 
 jobs:
-  test-deploy-dev:
+  dev:
     env:
-      net: dev
-      PASS: ${{ secrets.PASS }}
+      LABPASSPHRASE: ${{ secrets.LABPASSPHRASE }}
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+...
+```
+
+In the next portion of the workflow file, we define a dictionary of `jobs`. For this example, we will only use one job with multiple steps. We set the ATD credential as an environment variable that will be available for our future steps. The `timeout-minutes` variable is optional and only included to ensure we remove any long-running workflows. This workflow should come nowhere near the 15-minute mark. Any more than that, and it should signal to us that there is a problem in the workflow. We can see the `runs-on` key at the end of this code block. This workflow uses the `ubuntu-latest` flavor, but other options are available. For example, we can use a Windows, Ubuntu, or macOS runner.
+
+```yaml hl_lines="8-13"
+...
+jobs:
+  dev:
+    env:
+      LABPASSPHRASE: ${{ secrets.LABPASSPHRASE }}
     timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
@@ -202,89 +215,336 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v3
+...
+```
 
-      - name: yaml-lint
-        uses: ibiqlik/action-yamllint@v3
+Now that we have defined our `dev` job, we must define what `steps` will run within this workflow. For this portion, we have the first and second steps in the workflow. he initial step, "Hi" is only used to validate an operational workflow and is not required. Next, the `actions/checkout` action will check out your repository to make the repository accessible in the workflow. Future workflow steps will then be able to use the relevant repository information to run tasks like building a new application or deploying the latest state of a network.
+
+#### pre-commit
+
+To get started with pre-commit, run the following commands in your ATD IDE terminal.
+
+```shell
+pip3 install pre-commit
+pre-commit install
+```
+
+We will leverage pre-commit in our local development workflow and within the pipeline. pre-commit works by running automated checks on Git repositories manually or whenever a git commit is run. For example, if we wanted all of our YAML files to have a similar structure or follow specific guidelines, we could use a pre-commit "check-yaml" hook. Please note this is just a sample of what pre-commit can do. For a list of hooks, check out their official [list](https://pre-commit.com/hooks.html). The code block below references the pre-commit configuration file used in our repository.
+
+```yaml
+# .pre-commit-config.yaml
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: trailing-whitespace
+        files: sites/site_1/group_vars/|sites/site_2/group_vars/
+
+      - id: end-of-file-fixer
+        exclude_types: [svg, json]
+        files: sites/site_1/group_vars/|sites/site_2/group_vars/
+
+      - id: check-yaml
+        files: sites/site_1/group_vars/|sites/site_2/group_vars/
+```
+
+In pre-commit, we define our jobs under a `repos` key. This first repo step points to the built-in hooks provided by the pre-commit team. Please note, you can use hooks from other organizations. In our case, the checks are fairly simplistic. The first hook checks to ensure our files have no trailing whitespace. The next hook, `end-of-file-fixer`, ensures every file is empty or ends with one newline. Next, the check YAML hook validates any YAML file in our repository can be loaded as valid YAML syntax. Below is our workflow example leveraging the pre-commit action. This action will read the `.pre-commit-config.yaml` file in the root of our repository. The `files` key is used to only check files within specific directories. Finally, the setup Python action above the pre-commit step installs Python dependencies in this workflow.
+
+```yaml hl_lines="9-13"
+...
+    steps:
+      - name: Hi
+        run: echo "Hello World!"
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v3
+
+      - name: Run pre-commit on files
+        uses: pre-commit/action@v3.0.0
+...
+```
+
+##### pre-commit example
+
+We can look at the benefits of pre-commit by introducing three errors in a group_vars file. This example will use the `sites/site_1/group_vars/SITE1_FABRIC_SERVICES.yml` file. Under VLAN 20, we can add extra whitespace after any entry, extra newlines, and move the `s1-spine2` key under the `s1-spine1` key.
+
+```yaml
+          20:
+            name: 'Twenty'
+            tags: [ "20" ]
+            enabled: true
+            ip_virtual_router_addresses:
+              - 10.20.20.1
+            nodes:
+              s1-spine1:
+                ip_address: 10.20.20.2/24
+                s1-spine2: # <- Should not be nested under s1-spine1
+                ip_address: 10.20.20.3/24 # <- extra whitespace
+# <- Newline
+# <- Newline
+```
+
+We can run pre-commit manually by running the `pre-commit run -a` command.
+
+```shell
+➜  workshops-avd git:(main) ✗ pre-commit run -a
+trim trailing whitespace.................................................Failed
+- hook id: trailing-whitespace
+- exit code: 1
+- files were modified by this hook
+
+Fixing sites/site_1/group_vars/SITE1_FABRIC_SERVICES.yml
+
+fix end of files.........................................................Failed
+- hook id: end-of-file-fixer
+- exit code: 1
+- files were modified by this hook
+
+Fixing sites/site_1/group_vars/SITE1_FABRIC_SERVICES.yml
+
+check yaml...............................................................Failed
+- hook id: check-yaml
+- exit code: 1
+
+while constructing a mapping
+  in "sites/site_1/group_vars/SITE1_FABRIC_SERVICES.yml", line 26, column 17
+found duplicate key "ip_address" with value "10.20.20.3/24" (original value: "10.20.20.2/24")
+  in "sites/site_1/group_vars/SITE1_FABRIC_SERVICES.yml", line 28, column 17
+
+To suppress this check see:
+    http://yaml.readthedocs.io/en/latest/api.html#duplicate-keys
+
+➜  workshops-avd git:(main) ✗
+```
+
+We can see all three failures. pre-commit hooks will try and fix errors if possible. However, pre-commit does not assume what our intent is with the YAML file, that fix is up to us. If you correct the indentation in the file and rerun pre-commit, you will see all passes.
+
+```yaml
+          20:
+            name: 'Twenty'
+            tags: [ "20" ]
+            enabled: true
+            ip_virtual_router_addresses:
+              - 10.20.20.1
+            nodes:
+              s1-spine1:
+                ip_address: 10.20.20.2/24
+              s1-spine2: # <- Indentation fixed
+                ip_address: 10.20.20.3/24 # <- No extra space
+# <- One newline
+```
+
+```shell
+➜  workshops-avd git:(main) ✗ pre-commit run -a
+trim trailing whitespace.................................................Passed
+fix end of files.........................................................Passed
+check yaml...............................................................Passed
+➜  workshops-avd git:(main)
+```
+
+#### Check file changes to speed up the pipeline
+
+Currently, our workflow will build and deploy configurations for both sites. This is true even if we only have changes relevant to one site. We can use a path filter to check if changes within specific directories have been modified, signaling that a new build and deployment are required. Please take note of the `id` key. This will be referenced in our upcoming workflow steps leveraging Docker Compose.
+
+```yaml
+...
+      - name: Run pre-commit on files
+        uses: pre-commit/action@v3.0.0
+
+      - name: Check paths for sites/site_1
+        uses: dorny/paths-filter@v2
+        id: filter-site1
         with:
-          file_or_dir: atd-inventory/dev/group_vars/ atd-inventory/dev/host_vars/
-          config_file: .yamllint.yml
+          filters: |
+            workflows:
+              - 'sites/site_1/**'
 
+      - name: Check paths for sites/site_2
+        uses: dorny/paths-filter@v2
+        id: filter-site2
+        with:
+          filters: |
+            workflows:
+              - 'sites/site_2/**'
+...
+```
+
+#### Containers and Docker Compose
+
+The final steps in our workflow leverage containers and Docker Compose. Containers are a great way to create environments that can be shared across team members or, in our case, the CI/CD workflow. The container is already made and hosted on Docker Hub. You can think of this container as the runner for our AVD workflows. If this container was not leveraged in the workflow, we would have to install all requirements during each pipeline run, possibly increasing the pipeline's completion time.
+
+```docker
+# Dockerfile
+FROM python:3.9.16-slim
+
+# Install dependencies:
+COPY requirements.txt .
+RUN pip3 install -r requirements.txt
+RUN ansible-galaxy collection install arista.avd arista.cvp community.general --force
+WORKDIR /app
+```
+
+The code block above is the Dockerfile used to build the runner in this workflow. We start with a base container of `python:3.9.16-slim`. We then copy any additional Python requirements. The last few steps install the requirements with pip and Ansible Galaxy.
+
+Docker compose defines the deployment of our AVD runner in the `docker-compose.yml` file at the root of our repository. This is optional but allows for a cleaner container definition instead of using a long-winded `docker run` command.
+
+```yaml
+# docker-compose.yml
+---
+version: '3.3'
+services:
+  atd-cicd:
+    container_name: atd-cicd
+    volumes:
+      - '.:/app'
+    image: juliopdx/atd-cicd:l2ls
+    environment:
+      - LABPASSPHRASE=$LABPASSPHRASE
+```
+
+The `version` key associates this Docker Compose file with a specific version of the Docker API. We then define a list of `services` (containers). Within the `atd-cicd` object, we define the container name and volume (files) to pass along to the container. The `image` key points to the public location of the container. Docker Compose will look at Docker Hub first by default for a particular container image. The last key of `environment` passes an environment variable in our workflow to the container. This is the secrets variable we set within our actions and in the GitHub Actions file. The code block below lists the final steps in our workflow with Docker Compose and our container. The commands in our steps should be familiar with the make commands we used in the AVD workshop.
+
+```yaml
+...
       - name: Start containers
         run: docker-compose -f "docker-compose.yml" up -d --build
 
-      - name: Test with Batfish
-        run: docker-compose run atd-cicd python3 batfish-test.py
+      - name: Test configuration for site1
+        run: docker-compose run atd-cicd make build-site-1
+        if: steps.filter-site1.outputs.workflows == 'true'
 
-      - name: Push configurations to dev
-        run: docker-compose run atd-cicd ansible-playbook playbooks/atd-fabric-provision.yml
+      - name: Test configuration for site2
+        run: docker-compose run atd-cicd make build-site-2
+        if: steps.filter-site2.outputs.workflows == 'true'
 
       - name: Stop containers
         if: always()
         run: docker-compose -f "docker-compose.yml" down
 ```
 
-This workflow is relatively short but represents some interesting options. For starters, we set `branches-ignore` to `main`. Since we are testing our feature or development branches, we don't want this to run on `main`, representing our production environment. We set two environment variables, one to specify if this is `dev` or `prod`. We then pass along our `PASS` variable, which represents the credentials to connect to our CVP instance.
+The test configuration steps have the conditional key of `if`. This maps to each path filter check step we used earlier. For example, the first path check has an `id` of `filter-site1`. We can reference the `id` in our workflow as `steps.filter-site1.outputs.workflows`. If this is set to `true`, a change was registered in our check and the test build step for site 1 will run.
 
-### The steps
+At this point, make sure both workflows within the `.github/workflows` directory are ***not*** commented out. An example of the `dev.yml` file is below.
 
-The initial `checkout` step makes the repository available to our workflow. We then use Docker Compose to stand up two containers. One to run the Batfish service and a small container with all pre-installed requirements. The second container interacts with the running Batfish service and our CVP instance. If we did not have the second container available, we would have to run through the exact steps you ran to prepare your environment in this workflow. The second container allows us to speed up our workflow. Below is an example of the `docker-compose.yml` file.
+??? ".github/workflows/dev.yml"
+    ```yaml
+    name: Test the upcoming changes
 
-```yaml
----
-version: '3.3'
-services:
-  batfish:
-    container_name: batfish
-    volumes:
-      - '.:/data'
-    ports:
-      - '9997:9997'
-      - '9996:9996'
-    image: batfish/batfish
+    on:
+      push:
+        branches-ignore:
+          - main
 
-  atd-cicd:
-    container_name: atd-cicd
-    volumes:
-      - '.:/app'
-    image: juliopdx/atd-cicd
-    environment:
-      - PASS=$PASS
-      - net=$net
-```
+    jobs:
+      dev:
+        env:
+          LABPASSPHRASE: ${{ secrets.LABPASSPHRASE }}
+        timeout-minutes: 15
+        runs-on: ubuntu-latest
+        steps:
+          - name: Hi
+            run: echo "Hello World!"
 
-### A note on Batfish
+          - name: Checkout
+            uses: actions/checkout@v3
 
-In case you need to become more familiar with Batfish. It's an open-source tool from [Intentionet](https://www.intentionet.com/). The idea is operators can create their configurations in whatever workflows fit their environment. The configurations can then be sent to the Batfish service for analysis. The checks are all performed offline without connecting to our network devices. For example, we could check things like compatible BGP and OSPF neighbors. The checks are far more extensive than these, and we encourage you to check out their documentation. The diagram below helps illustrate this idea.
+          - name: Setup Python
+            uses: actions/setup-python@v3
 
-![Batfish example](assets/diagrams/batfish.svg)
+          - name: Run pre-commit on files
+            uses: pre-commit/action@v3.0.0
 
-In the Docker Compose file mentioned earlier, we use this Batfish service in our workflow. We then use the `pybatfish` Python package as our connector into this service to run any checks or ask the service questions about the network. Once these checks pass, we configure the infrastructure using the `eos_config_deploy_cvp` role within the AVD collection.
+          - name: Check paths for sites/site_1
+            uses: dorny/paths-filter@v2
+            id: filter-site1
+            with:
+              filters: |
+                workflows:
+                  - 'sites/site_1/**'
 
-## Migrate from OSPF to BGP underlay
+          - name: Check paths for sites/site_2
+            uses: dorny/paths-filter@v2
+            id: filter-site2
+            with:
+              filters: |
+                workflows:
+                  - 'sites/site_2/**'
 
-At the moment, this example deployment is using OSPF for the underlay. We want to migrate from OSPF to BGP. We have to make two minor updates to our group variables for development and production. In the `atd-inventory/dev/group_vars/ATD_FABRIC_DEV.yml` file, we have the variable `underlay_routing_protocol` set to OSPF. We can ***comment*** this out and leverage the default underlay of BGP used in AVD DC deployments.
+          - name: Start containers
+            run: docker-compose -f "docker-compose.yml" up -d
 
-```yaml
-# underlay_routing_protocol: OSPF
-```
+          - name: Test configuration for site1
+            run: docker-compose run atd-cicd make build-site-1
+            if: steps.filter-site1.outputs.workflows == 'true'
 
-Perform the same for the `atd-inventory/prod/group_vars/ATD_FABRIC_PROD.yml` file.
+          - name: Test configuration for site2
+            run: docker-compose run atd-cicd make build-site-2
+            if: steps.filter-site2.outputs.workflows == 'true'
 
-At this point, we can build the intended configurations for both environments. The first command defaults to the `dev` inventory, and the second has to be specified on the command line.
+          - name: Stop containers
+            if: always()
+            run: docker-compose -f "docker-compose.yml" down
+    ```
+
+## Day-2 ops - New service (VLAN)
+
+This example workflow will add two new VLANs to our sites—one for sites 1 and 2. Site 1 will add VLAN 25, and site 2 will add VLAN 45. An example of the updated group_vars is below. The previous workshop modified the configuration of our devices directly through eAPI. This example will leverage GitHub actions with CloudVision to update our nodes. The provisioning with CVP will also create a new container topology and configlet assignment per device. For starters, we can update site 1.
+
+??? "sites/site_1/group_vars/SITE1_FABRIC_SERVICES.yml"
+    ```yaml
+    ---
+    tenants:
+      MY_FABRIC:
+        vrfs:
+          default:
+            svis:
+              10:
+                name: 'Ten'
+                tags: [ "10" ]
+                enabled: true
+                ip_virtual_router_addresses:
+                  - 10.10.10.1
+                nodes:
+                  s1-spine1:
+                    ip_address: 10.10.10.2/24
+                  s1-spine2:
+                    ip_address: 10.10.10.3/24
+              20:
+                name: 'Twenty'
+                tags: [ "20" ]
+                enabled: true
+                ip_virtual_router_addresses:
+                  - 10.20.20.1
+                nodes:
+                  s1-spine1:
+                    ip_address: 10.20.20.2/24
+                  s1-spine2:
+                    ip_address: 10.20.20.3/24
+              25:
+                name: 'Twenty-five'
+                tags: [ "25" ]
+                enabled: true
+                ip_virtual_router_addresses:
+                  - 10.25.25.1
+                nodes:
+                  s1-spine1:
+                    ip_address: 10.25.25.2/24
+                  s1-spine2:
+                    ip_address: 10.25.25.3/24
+
+    ```
+
+### Build the updates locally (optional)
+
+The pipeline will run the build and deploy steps for us with these relevant changes. We can also run the build steps locally to see all our pending updates.
 
 ```shell
-# Dev
-ansible-playbook playbooks/atd-fabric-build.yml
-# Prod
-ansible-playbook playbooks/atd-fabric-build.yml -i atd-inventory/prod/hosts.yml
-```
-
-!!! note
-    You don't have to specify the inventory when interacting with the development environment because this is the default inventory in our `ansible.cfg` file.
-
-```apache
-[defaults]
-inventory =./atd-inventory/dev/hosts.yml
+make build-site-1
 ```
 
 Feel free to check out the changes made to your local files. Please make sure the GitHub workflows are uncommented. We can now push all of our changes and submit a pull request.
@@ -294,31 +554,86 @@ Feel free to check out the changes made to your local files. Please make sure th
 
 ```shell
 git add .
-git commit -m "Migrating from OSPF to BGP underlay"
+git commit -m "updating VLANs for site 1"
 git push
 ```
 
-## Viewing actions
+### Viewing actions
 
 If you navigate back to your GitHub repository, you should see an action executing.
 
 1. Click `Actions`
 2. Click on the latest action
 
-As this is executing, on your CVP instance, you should see new containers and tasks that will be executed.
+![Actions](assets/images/actions-dev.png)
 
-![CVP task run](assets/images/cvp-task-run.png)
+Since this is a development branch, we are only testing for valid variable files so that AVD can successfully build our configurations. We can run one more example before deploying to production. You may notice the test configuration step was only initiated for site 1 and was skipped for site 2 (no changes). You can finish this example by updating the site 2 fabric services file.
 
-## Creating a pull request to deploy main (production)
+??? "sites/site_2/group_vars/SITE2_FABRIC_SERVICES.yml"
+    ```yaml
+    ---
+    tenants:
+      MY_FABRIC:
+        vrfs:
+          default:
+            svis:
+              30:
+                name: 'Thirty'
+                tags: [ "30" ]
+                enabled: true
+                ip_virtual_router_addresses:
+                  - 10.30.30.1
+                nodes:
+                  s2-spine1:
+                    ip_address: 10.30.30.2/24
+                  s2-spine2:
+                    ip_address: 10.30.30.3/24
+              40:
+                name: 'Forty'
+                tags: [ "40" ]
+                enabled: true
+                ip_virtual_router_addresses:
+                  - 10.40.40.1
+                nodes:
+                  s2-spine1:
+                    ip_address: 10.40.40.2/24
+                  s2-spine2:
+                    ip_address: 10.40.40.3/24
+              45:
+                name: 'Forty-five'
+                tags: [ "45" ]
+                enabled: true
+                ip_virtual_router_addresses:
+                  - 10.45.45.1
+                nodes:
+                  s2-spine1:
+                    ip_address: 10.45.45.2/24
+                  s2-spine2:
+                    ip_address: 10.45.45.3/24
 
-We have activated our GitHub workflows, tested our configurations in our development environment, and pushed those changes to our nodes. We are now ready to create a pull request.
+    ```
+
+```shell
+make build-site-2
+git add .
+git commit -m "updating VLANs for site 2"
+git push
+```
+
+Once complete, the GitHub actions will show changes on sites 1 and 2.
+
+![Actions](assets/images/actions-both.png)
+
+## Creating a pull request to deploy updates (main branch)
+
+We have activated our GitHub workflows and tested our configurations. We are now ready to create a pull request.
 
 In your GitHub repository, you should see a tab for Pull requests.
 
 1. Click on `Pull requests`
 2. Click on `New pull request`
 3. Change the base repository to be your fork
-4. Change the compare repository to `new-dc`
+4. Change the compare repository to `dc-updates`
 5. Click `Create pull request`
 
 ![New PR](assets/images/new-pr-local.png)
@@ -331,101 +646,45 @@ Add a title and enough of a summary to get the point across to other team member
 
 ![Create PR](assets/images/create-pr.png)
 
-Once this is complete, click `Create pull request`. Since all checks have passed, we can merge our new pull request.
+Once this is complete, click `Create pull request`. Since all checks have passed, we can merge our new pull request. If you have multiple options on the type of merge, select `squash and merge`.
 
 ![Merge PR 1](assets/images/merge-pr-1.png)
 
 ![Merge PR 2](assets/images/merge-pr-2.png)
 
-At this point, this will kick off our second workflow against the main branch. This is our production instance. If you go back to `Actions`, you can see this executing. Alternatively, you can see the updates running on CVP.
+At this point, this will kick off our second workflow against the main branch. This workflow will build and deploy our updates with CVP. If you go to the "Provisioning" tab of CVP, you should be able to see tasks and pending changes. This workflow will automatically run any pending tasks for us. We can optionally connect to one of the spines at either site to see the new VLANs.
 
 ![Deploy production](assets/images/deploy-prod.png)
 
-## Summary and bonus
+```text
+s1-spine1#show vlan
+VLAN  Name                             Status    Ports
+----- -------------------------------- --------- -------------------------------
+1     default                          active
+10    Ten                              active    Cpu, Po1, Po2
+20    Twenty                           active    Cpu, Po1, Po4
+25    Twenty-five                      active    Cpu, Po1
+4093  LEAF_PEER_L3                     active    Cpu, Po1
+4094  MLAG_PEER                        active    Cpu, Po1
 
-Congratulations, you have successfully deployed a development and production instance. Feel free to make additional changes or extend the testing pieces.
+s1-spine1#
+################################################################################
+s2-spine1#show vlan
+VLAN  Name                             Status    Ports
+----- -------------------------------- --------- -------------------------------
+1     default                          active
+30    Thirty                           active    Cpu, Po1, Po2
+40    Forty                            active    Cpu, Po1, Po4
+45    Forty-five                       active    Cpu, Po1
+4093  LEAF_PEER_L3                     active    Cpu, Po1
+4094  MLAG_PEER                        active    Cpu, Po1
+
+s2-spine1#
+```
+
+## Summary
+
+At this point, this will kick off our second workflow against the main branch. This workflow will build and deploy our updates with CVP. If you go to the "Provisioning" tab of CVP, you should be able to see tasks and pending changes. This workflow will automatically run any pending tasks for us. We can optionally connect to one of the spines at either site to see the new VLANs.
 
 !!! note
-    If your topology shut down or time elapsed, you must run through the requirement installations and GitHub authentication on the next `git push`.
-
-### Simple test with hosts (optional)
-
-In reality, AVD does not manage hosts. In this topology, hosts are just cEOS nodes. We have a playbook that will configure host1 from each environment. Again, to cut down on the number of devices for this example, the two hosts will be configured with two VRFs to send traffic across the network. An example of the configuration and execution command is below.
-
-<!-- TODO add mermaid diagram with s1-host1 and two VRFs -->
-
-```text
-vrf instance BLUE
-!
-vrf instance RED
-!
-no ip routing vrf BLUE
-no ip routing vrf RED
-!
-interface Ethernet1
-   no switchport
-   vrf BLUE
-   ip address 10.10.10.1/24
-!
-interface Ethernet2
-   no switchport
-   vrf RED
-   ip address 10.10.10.2/24
-!
-```
-
-From the ATD IDE, execute the following playbook.
-
-```shell
-ansible-playbook playbooks/atd-host-provision.yml
-```
-
-Once these tasks complete in CVP, you can connect to either `s1-host1` or `s2-host1` and test reachability.
-
-```text
-s1-host1# ping vrf BLUE 10.10.10.2
-PING 10.10.10.2 (10.10.10.2) 72(100) bytes of data.
-80 bytes from 10.10.10.2: icmp_seq=1 ttl=64 time=31.0 ms
-80 bytes from 10.10.10.2: icmp_seq=2 ttl=64 time=26.6 ms
-80 bytes from 10.10.10.2: icmp_seq=3 ttl=64 time=18.8 ms
-80 bytes from 10.10.10.2: icmp_seq=4 ttl=64 time=11.1 ms
-80 bytes from 10.10.10.2: icmp_seq=5 ttl=64 time=10.8 ms
-
---- 10.10.10.2 ping statistics ---
-5 packets transmitted, 5 received, 0% packet loss, time 57ms
-rtt min/avg/max/mdev = 10.898/19.729/31.089/8.114 ms, pipe 4, ipg/ewma 14.488/24.842 ms
-s1-host1#
-```
-
-```text
-s1-host1#show interfaces | include Ethernet|Hardware
-Ethernet1 is up, line protocol is up (connected)
-  Hardware is Ethernet, address is 02d2.56bf.117c (bia 02d2.56bf.117c)
-Ethernet2 is up, line protocol is up (connected)
-  Hardware is Ethernet, address is 9e60.6f70.7324 (bia 9e60.6f70.7324)
-```
-
-In this case, we can see Ethernet1 has a MAC address that ends with `117c`, and Ethernet2 has a MAC address that ends with `7324`. We can check where those MAC addresses were seen from the perspective of `s1-leaf1`.
-
-```text
-s1-leaf1#show mac address-table
-          Mac Address Table
-------------------------------------------------------------------
-
-Vlan    Mac Address       Type        Ports      Moves   Last Move
-----    -----------       ----        -----      -----   ---------
- 110    02d2.56bf.117c    DYNAMIC     Et4        1       0:07:02 ago
- 110    9e60.6f70.7324    DYNAMIC     Vx1        1       0:07:02 ago
-1199    001c.73c0.c613    DYNAMIC     Vx1        1       0:56:15 ago
-Total Mac Addresses for this criterion: 3
-
-          Multicast Mac Address Table
-------------------------------------------------------------------
-
-Vlan    Mac Address       Type        Ports
-----    -----------       ----        -----
-Total Mac Addresses for this criterion: 0
-s1-leaf1#
-```
-
-We can see the MAC ending in `117c` is connected to Ethernet 4 and the MAC ending in `7324` was seen on the VXLAN interface. We have successfully communicated through the fabric. Thank you for following along with this example. If you have any feedback or would like to report an issue/error, please open an issue on the main GitHub repository.
+    If your topology shuts down or time elapses, you must install the requirements, git configuration, and GitHub authentication.
