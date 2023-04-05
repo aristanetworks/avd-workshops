@@ -1,8 +1,8 @@
 # Arista CI Workshop
 
-In this workshop, we will leverage open source tools to build a network CI pipeline for configuration development, deployment, documentation and validation. This will enable us to manage our network environment as code.
+This workshop will leverage open-source tools to build a network CI pipeline for configuration development, deployment, documentation, and validation. In addition, the open-source tooling enables us to manage our network environment as code.
 
-This section will cover:
+This section will cover the following:
 
 - Arista Validated Designs (AVD) Ansible Collection
 - Network Data Models
@@ -11,9 +11,9 @@ This section will cover:
 - Validation and Troubleshooting
 - Enhancing our CI/CD Pipelines with GitHub Actions
 
-Each attendee will receive their own dedicated virtual lab environment with Git, VS Code and Ansible already installed and ready to use.
+Each attendee will receive a dedicated virtual lab environment with Git, VS Code, and Ansible installed and ready to use.
 
-Attendees will need:
+Attendees will need the following:
 
 - A laptop
 - An account on [GitHub](https://github.com/)
@@ -23,7 +23,7 @@ Attendees will need:
 
 ### ATD Environment
 
-The Lab ATD environment has been pre-installed with Ansible and Git. We still must update AVD and the required modules to the latest version. The following commands will install AVD and needed modules.
+The ATD lab environment was provisioned with Ansible and Git. First, however, we must update AVD and the required modules to the latest version. The following commands will install AVD and the needed modules.
 
 ``` bash
 ansible-galaxy collection install arista.avd arista.cvp --force
@@ -34,7 +34,7 @@ pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
 
 ???+ Note
 
-    IMPORTANT: The above steps must be ran each time you start your lab.
+    IMPORTANT: The above steps must be run each time you start your lab.
 
 ### Other Environments
 
@@ -42,7 +42,7 @@ Install AVD and required modules - Installation guide found [here](https://avd.s
 
 ## Lab Topology Overview
 
-Throughout this section we will make use of the following dual datacenter topology. Click on the image to zoom in for details.
+Throughout this section, we will use the following dual data center topology. Click on the image to zoom in for details.
 
 ![Dual DC Topology](assets/images/dual-dc-topo.svg)
 
@@ -57,7 +57,7 @@ Basic connectivity between the Ansible controller host and the switches must be 
 
 ???+ info
 
-    In the ATD environment, vEOS/cEOS virtual switches use `Management0` in the default VRF. When using actual hardware switches, `Management1` is used. The included basic switch configurations may need to be adjusted for your environment.
+    In the ATD environment, cEOS virtual switches use `Management0` in the default VRF. When using actual hardware or vEOS switches, `Management1` is used. The included basic switch configurations may need to be adjusted for your environment.
 
 Below is an example basic configuration file for s1-spine1:
 
@@ -102,13 +102,13 @@ Each group_vars file is listed in the following tabs.
     - spanning_tree_priority
     - mlag_peer_ipv4_pool
 
-    The l3spine node will need these additonal variables set.
+    The l3spine node will need these additional variables set.
 
     - loopback_ipv4_pool
     - mlag_peer_l3_ipv4_pool
     - virtual_router_mac_address
 
-    Variables applied under the node key type (l3spine/leaf) defaults section are inherited to nodes under each type. These variables may be overwritten under the node itself.
+    Variables applied under the node key type (l3spine/leaf) defaults section are inherited by nodes under each type. These variables may be overwritten under the node itself.
 
     The spine interface used by a particular leaf is defined from the leaf's perspective with a variable called `uplink_switch_interfaces`. For example, s1-leaf1 has a unique variable `uplink_switch_interfaces: [Ethernet2, Ethernet2]` defined. This means that s1-leaf1 is connected to `s1-spine1` Ethernet2 and `s1-spine2` Ethernet2, respectively.
 
@@ -119,7 +119,7 @@ Each group_vars file is listed in the following tabs.
     ```
 
 === "SITE1_SPINES"
-    In an L2LS design, there are two types of spine nodes: `spine` and `l3spine`. In AVD. the node type defines the functionality and the EOS CLI configuration to be generated. For our L2LS topology, we will use node type `l3spine` to include SVI functionality.
+    In an L2LS design, there are two types of spine nodes: `spine` and `l3spine`. In AVD, the node type defines the functionality and the EOS CLI configuration to be generated. For our L2LS topology, we will use node type `l3spine` to include SVI functionality.
 
     ``` yaml
     --8<--
@@ -146,7 +146,7 @@ Each group_vars file is listed in the following tabs.
     ```
 
 === "SITE1_NETWORK_PORTS"
-    Our fabric would not be complete without connecting some devices to it. We define connected endpoints and port profiles in **group_vars/SITE1_NETWORKS_PORTS.yml**. Each endpoint adapter defines which switch port and port profile to use. In our lab, we have two hosts connected to the `site 1` fabric. The connected endpoints keys are used for logical separation and apply to interface descriptions. These variables are applied to spine and leaf nodes since they are a part of this nested inventory group.
+    Our fabric would only be complete by connecting some devices to it. We define connected endpoints and port profiles in **group_vars/SITE1_NETWORKS_PORTS.yml**. Each endpoint adapter defines which switch port and port profile to use. Our lab has two hosts connected to the `site 1` fabric. The connected endpoints keys are used for logical separation and apply to interface descriptions. These variables are applied to the spine and leaf nodes since they are a part of this nested inventory group.
 
     ``` yaml
     --8<--
@@ -156,7 +156,7 @@ Each group_vars file is listed in the following tabs.
 
 ## Global Variables
 
-In a multi-site environment, some variables need to be applied to all sites. The include: AAA, Local Users, NTP, Syslog, DNS, and TerminAttr. Instead of updating these same variables in multiple inventory group_vars, we can use a single global variable file and import the variables at playbook runtime. This allows us to make a single change that is applied to all sites. In our lab we use a global variable file `global_vars/global_dc-vars.yml`. In our playbooks we have a task that imports global variables before running other tasks.
+In a multi-site environment, some variables must be applied to all sites. They include AAA, Local Users, NTP, Syslog, DNS, and TerminAttr. Instead of updating these same variables in multiple inventory group_vars, we can use a single global variable file and import the variables at playbook runtime. This allows us to make a single change applied to all sites. For example, in our lab, we use a global variable file `global_vars/global_dc-vars.yml`. In our playbooks, we have a task that imports global variables before running other tasks.
 
 ### Task to import variables from a file
 
@@ -169,7 +169,7 @@ In a multi-site environment, some variables need to be applied to all sites. The
 
 ???+ info
 
-    The above task allows multiple files to be imported, using the `with_items` list.
+    The above task allows multiple files to be imported using the `with_items` list.
 
 ### Example Global Vars File
 
@@ -195,7 +195,7 @@ In a multi-site environment, some variables need to be applied to all sites. The
     arista:
         privilege: 15
         role: network-admin
-        sha512_password: "{{ ansible_password | password_hash('sha512',  '65534') }}"
+        sha512_password: "{{ ansible_password | password_hash }}"
 
     # AAA
     aaa_authorization:
@@ -236,19 +236,23 @@ In a multi-site environment, some variables need to be applied to all sites. The
     # Point to Point Links MTU Override for Lab
     p2p_uplinks_mtu: 1500
 
+    # CVP node variables
+    cv_collection: v3
+    execute_tasks: true
+
     ```
 
 ## Data Models
 
-AVD provides a network-wide data model and is typically broken into multiple group_vars file to simplify and categorize variables with their respective functions. We break the data model into three categories: topology, services, and ports.
+AVD provides a network-wide data model and is typically broken into multiple group_vars files to simplify and categorize variables with their respective functions. We break the data model into three categories: topology, services, and ports.
 
 ### Fabric Topology
 
-The physical fabric topology is defined be providing interface links between the spine and leaf nodes. The `group_vars/SITE1_FABRIC.yml` defines this portion of the data model. In our lab, the spines provide layer 3 routing of SVIs and P2P links by using a node type called `l3spines`. The leaf nodes are purely layer and use node type `leaf`. An AVD L2LS design type provides three node type keys: l3 spine, spine, and leaf. AVD Node Type documentation can be found [here](https://avd.sh/en/stable/roles/eos_designs/doc/node-types.html). Default node_type_keys for all design types are located [here](https://github.com/aristanetworks/ansible-avd/blob/devel/ansible_collections/arista/avd/roles/eos_designs/defaults/main/default-node-type-keys.yml).
+The physical fabric topology is defined by providing interface links between the spine and leaf nodes. The `group_vars/SITE1_FABRIC.yml` file defines this portion of the data model. In our lab, the spines provide layer 3 routing of SVIs and P2P links using a node type called `l3spines`. The leaf nodes are purely layer 2 and use node type `leaf`. An AVD L2LS design type provides three node type keys: l3 spine, spine, and leaf. AVD Node Type documentation can be found [here](https://avd.sh/en/stable/roles/eos_designs/doc/node-types.html). Default node_type_keys for all design types are located [here](https://github.com/aristanetworks/ansible-avd/blob/devel/ansible_collections/arista/avd/roles/eos_designs/defaults/main/default-node-type-keys.yml).
 
 #### Spine and Leaf Nodes
 
-The spine and leaf nodes for each site is defined by the example data model below. Refer to the inline comments for variable definitions. Under each node_type_key you have key/value pairs for: defaults, node_groups, and nodes. Note that key/value pairs may be overwritten with the following descending order of precedence. The key/value closet to the node will be used.
+The example data model below defines each site's spine and leaf nodes for each site. Refer to the inline comments for variable definitions. Under each node_type_key you have key/value pairs for defaults, node_groups, and nodes. Note that key/value pairs may be overwritten with the following descending order of precedence. The key/value closest to the node will be used.
 
 <node_type_key>
 
@@ -280,7 +284,7 @@ l3spine:
     virtual_router_mac_address: 00:1c:73:00:dc:01
     # Default MLAG interfaces between spine nodes
     mlag_interfaces: [ Ethernet1, Ethernet6 ]
-  # keyword for node groups, 2 nodes within a node group will form an MLAG pair
+  # keyword for node groups, two nodes within a node group will form an MLAG pair
   node_groups:
     # User-defined node group name
     SPINES:
@@ -289,7 +293,7 @@ l3spine:
         s1-spine1:
           # unique identifier used for IP address calculations
           id: 1
-          # Management address assign to the defined management interface
+          # Management address assigned to the defined management interface
           mgmt_ip: 192.168.0.10/24
         s1-spine2:
           id: 2
@@ -313,7 +317,7 @@ leaf:
   node_groups:
     # User-defined node group name
     RACK1:
-      # Filter which Vlans will be applied to the node_group, comma separated tags supported
+      # Filter which Vlans will be applied to the node_group, comma-separated tags supported
       # Tags for each Vlan are defined in the SITE1_FABRIC_SERVICES.yml
       filter:
         tags: [ "10" ]
@@ -323,7 +327,7 @@ leaf:
           mgmt_ip: 192.168.0.12/24
           # Define which interface is configured on the uplink switch
           # In this example s1-leaf1 connects to [ s1-spine1, s1-spine2 ]
-          # on the following ports.  This will be unique to each leaf
+          # on the following ports. This will be unique to each leaf
           uplink_switch_interfaces: [ Ethernet2, Ethernet2 ]
         s1-leaf2:
           id: 4
@@ -375,13 +379,13 @@ core_interfaces:
       include_in_underlay_protocol: true
 ```
 
-The following diagram shows the P2P links from all four spine nodes to the IP Network. In our lab, the WAN IP Network are pre-configured with /31's running OSPF in area 0.0.0.0. We ran a playbook (`make preplab`) earlier to deploy these configurations. The core_interfaces for the spines in `Site 1` and `Site 2` are configured and deployed with AVD.
+The following diagram shows the P2P links to the IP Network from all four spine nodes. The WAN IP Network is pre-configured in our lab with /31's running OSPF in area 0.0.0.0. The core_interfaces for the spines in `Site 1` and `Site 2` are configured and deployed with AVD.
 
 ![Core Interfaces](assets/images/avd-core-interfaces.svg)
 
 ### Fabric Services
 
-Fabric Services, such as Vlans, SVIs and VRFs are defined in this section. The following Site 1 example defines Vlans and SVIs for vlan `10` and `20` in the default VRF. Additional VRF definitions can also be applied.
+Fabric Services, such as VLANs, SVIs, and VRFs, are defined in this section. The following Site 1 example defines VLANSs and SVIs for VLANs `10` and `20` in the default VRF. Additional VRF definitions can also be applied.
 
 ``` yaml
 ---
@@ -425,9 +429,9 @@ tenants:
 
 ### Fabric Ports
 
-The Fabric needs to define ports for south bound interfaces toward connected endpoints such as: servers, appliances, firewalls, and other networking devices in the data center. This section makes use of port profiles and connected endpoints called `servers`. Documentation for [port_profiles](https://avd.sh/en/stable/roles/eos_designs/doc/connected-endpoints.html#port-profiles) and [connected endpoints](https://avd.sh/en/stable/roles/eos_designs/doc/connected-endpoints.html) are available to see all the options available.
+The Fabric must define ports for southbound interfaces toward connected endpoints such as servers, appliances, firewalls, and other networking devices in the data center. This section uses port profiles and connected endpoints called `servers`. Documentation for [port_profiles](https://avd.sh/en/stable/roles/eos_designs/doc/connected-endpoints.html#port-profiles) and [connected endpoints](https://avd.sh/en/stable/roles/eos_designs/doc/connected-endpoints.html) are available to see all the options available.
 
-The following data model defined two port profiles: PP-VLAN10 and PP-VLAN20. They define an access port profile for vlan `10` and `20`, respectively. In addition, two server endpoints (s1-host1 and s1-host2) are created to use these port profiles. There are optional and required fields. The optional fields are used for port descriptions in the EOS intended configurations.
+The following data model defined two port profiles: PP-VLAN10 and PP-VLAN20. They define an access port profile for VLAN `10` and `20`, respectively. In addition, two server endpoints (s1-host1 and s1-host2) are created to use these port profiles. There are optional and required fields. The optional fields are used for port descriptions in the EOS intended configurations.
 
 ``` yaml
 port_profiles:
@@ -478,7 +482,7 @@ servers:
 
 ## The Playbooks
 
-There are two playbooks `build.yml` and `deploy.yml` used in our Lab. Expand the tabs below to reveal the content.
+Two playbooks, `build.yml` and `deploy.yml` are used in our lab. Expand the tabs below to reveal the content.
 
 ??? eos-config annotate "build.yml Playbook"
     ``` yaml
@@ -509,7 +513,7 @@ For example, if we wanted to run a playbook to build configs for Site 1, we coul
 ansible-playbook playbooks/build.yml -i sites/site_1/inventory.yml -e "target_hosts=SITE1_FABRIC"
 ```
 
-Thankfully, there is a convenient way to simplify the above command with a Makefile entry like below.
+Thankfully, a convenient way to simplify the above command is with a Makefile entry like the one below.
 
 ``` bash
 .PHONY: build-site-1
@@ -523,7 +527,7 @@ Now, you can type the following to issue the same ansible-playbook command.
 make build-site-1
 ```
 
-We will be using the following `make` commands several times in the upcoming lab. Review the above `Makefile` to see what each entry does. Try building some of your own entries.
+In the upcoming lab, we will use the following `make` commands several times. First, review the above `Makefile` to see what each entry does. Then, try building some custom entries.
 
 Build configurations
 
@@ -547,6 +551,6 @@ make deploy-site-2
 
 ## Next Steps
 
-Continue on to the hand-ons lab. The lab guide is located **[here](avd-lab-guide.md)**.
+Continue to the hands-on lab. The lab guide is located **[here](avd-lab-guide.md)**.
 
 [Continue to Lab Guide](avd-lab-guide.md){ .md-button .md-button--primary }
