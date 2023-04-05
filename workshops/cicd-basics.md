@@ -429,7 +429,7 @@ The `version` key is used to associate this Docker Compose file with a specific 
 
 The test configuration steps have the conditional key of `if`. This maps to each paths filter check step we used earlier. For example, the first path check has an `id` of `filter-site1`. We can reference the `id` in our workflow as `steps.filter-site1.outputs.workflows`. If this is set to `true`, a change was registered in our check and the test build step for site 1 will run.
 
-At this point, make sure the both workflows within the `.github/workflows` directory are not commented out. Example of the `dev.yml` file is below.
+At this point, make sure the both workflows within the `.github/workflows` directory are ***not*** commented out. Example of the `dev.yml` file is below.
 
 ??? ".github/workflows/dev.yml"
     ```yaml
@@ -493,7 +493,7 @@ At this point, make sure the both workflows within the `.github/workflows` direc
 
 ## Day-2 ops - New service (VLAN)
 
-This example workflow will add two new VLANs to our sites. One for site 1 and 2. Site 1 will add VLAN 30 and site 2 will add VLAN 50. Example of the updated group_vars is below. The previous workshop modified the configuration of our devices directly through eAPI. This example will leverage GitHub actions with CloudVision to update our nodes. The provisioning with CVP will also create a new container topology and configlet assignment per device.
+This example workflow will add two new VLANs to our sites. One for site 1 and 2. Site 1 will add VLAN 30 and site 2 will add VLAN 50. Example of the updated group_vars is below. The previous workshop modified the configuration of our devices directly through eAPI. This example will leverage GitHub actions with CloudVision to update our nodes. The provisioning with CVP will also create a new container topology and configlet assignment per device. For starters, we can update site 1.
 
 ??? "sites/site_1/group_vars/SITE1_FABRIC_SERVICES.yml"
     ```yaml
@@ -525,19 +525,49 @@ This example workflow will add two new VLANs to our sites. One for site 1 and 2.
                     ip_address: 10.20.20.2/24
                   s1-spine2:
                     ip_address: 10.20.20.3/24
-              30:
-                name: 'Thirty'
-                tags: [ "30" ]
+              25:
+                name: 'Twenty-five'
+                tags: [ "25" ]
                 enabled: true
                 ip_virtual_router_addresses:
-                  - 10.30.30.1
+                  - 10.25.25.1
                 nodes:
                   s1-spine1:
-                    ip_address: 10.30.30.2/24
+                    ip_address: 10.25.25.2/24
                   s1-spine2:
-                    ip_address: 10.30.30.3/24
+                    ip_address: 10.25.25.3/24
 
     ```
+
+### Build the updates locally (optional)
+
+The pipeline will run the build and deploy steps for us with these relevant changes. We can also run the build steps locally to see all our pending updates.
+
+```shell
+make build-site-1
+```
+
+Feel free to check out the changes made to your local files. Please make sure the GitHub workflows are uncommented. We can now push all of our changes and submit a pull request.
+
+!!! note
+    The GitHub workflows are located in the `atd-cicd/.github/workflows` directory.
+
+```shell
+git add .
+git commit -m "updating VLANs for site 1"
+git push
+```
+
+### Viewing actions
+
+If you navigate back to your GitHub repository, you should see an action executing.
+
+1. Click `Actions`
+2. Click on the latest action
+
+![Actions](assets/images/actions-dev.png)
+
+Since this is a development branch we are only testing for valid variable files and that AVD can successfully build our configurations. We can run one more example before deploying to production. You may notice the test configuration only initiated for site 1 and was skipped for site 2 (no changes). You can finish this example by updating the site 2 fabric services file.
 
 ??? "sites/site_2/group_vars/SITE2_FABRIC_SERVICES.yml"
     ```yaml
@@ -569,60 +599,41 @@ This example workflow will add two new VLANs to our sites. One for site 1 and 2.
                     ip_address: 10.40.40.2/24
                   s2-spine2:
                     ip_address: 10.40.40.3/24
-              50:
-                name: 'Fifty'
-                tags: [ "50" ]
+              45:
+                name: 'Forty-five'
+                tags: [ "45" ]
                 enabled: true
                 ip_virtual_router_addresses:
-                  - 10.50.50.1
+                  - 10.45.45.1
                 nodes:
                   s2-spine1:
-                    ip_address: 10.50.50.2/24
+                    ip_address: 10.45.45.2/24
                   s2-spine2:
-                    ip_address: 10.50.50.3/24
+                    ip_address: 10.45.45.3/24
 
     ```
 
-### Build the updates locally (optional)
-
-The pipeline will run the build and deploy steps for us with these relevant changes. We can also run the build steps locally to see all our pending updates.
-
 ```shell
-make build-site-1 build-site-2
-```
-
-Feel free to check out the changes made to your local files. Please make sure the GitHub workflows are uncommented. We can now push all of our changes and submit a pull request.
-
-!!! note
-    The GitHub workflows are located in the `atd-cicd/.github/workflows` directory.
-
-```shell
+make build-site-2
 git add .
-git commit -m "Migrating from OSPF to BGP underlay"
+git commit -m "updating VLANs for site 2"
 git push
 ```
 
-## Viewing actions
+Once this is complete, the GitHub actions will show changes on both site 1 and 2.
 
-If you navigate back to your GitHub repository, you should see an action executing.
+![Actions](assets/images/actions-both.png)
 
-1. Click `Actions`
-2. Click on the latest action
+## Creating a pull request to deploy updates (main branch)
 
-As this is executing, on your CVP instance, you should see new containers and tasks that will be executed.
-
-![CVP task run](assets/images/cvp-task-run.png)
-
-## Creating a pull request to deploy to production(main branch)
-
-We have activated our GitHub workflows, tested our configurations in our development environment, and pushed those changes to our nodes. We are now ready to create a pull request.
+We have activated our GitHub workflows and tested our configurations. We are now ready to create a pull request.
 
 In your GitHub repository, you should see a tab for Pull requests.
 
 1. Click on `Pull requests`
 2. Click on `New pull request`
 3. Change the base repository to be your fork
-4. Change the compare repository to `new-dc`
+4. Change the compare repository to `dc-updates`
 5. Click `Create pull request`
 
 ![New PR](assets/images/new-pr-local.png)
@@ -635,19 +646,45 @@ Add a title and enough of a summary to get the point across to other team member
 
 ![Create PR](assets/images/create-pr.png)
 
-Once this is complete, click `Create pull request`. Since all checks have passed, we can merge our new pull request.
+Once this is complete, click `Create pull request`. Since all checks have passed, we can merge our new pull request. If you have multiple options on the type of merge, select `squash and merge`.
 
 ![Merge PR 1](assets/images/merge-pr-1.png)
 
 ![Merge PR 2](assets/images/merge-pr-2.png)
 
-At this point, this will kick off our second workflow against the main branch. This is our production instance. If you go back to `Actions`, you can see this executing. Alternatively, you can see the updates running on CVP.
+At this point, this will kick off our second workflow against the main branch. This workflow will build and deploy our updates with CVP. If you go to the "Provisioning" tab of CVP, you should be able to see tasks and pending changes. This workflow will automatically run any pending tasks for us. We can optionally connect to one of the spines at either site to see the new VLANs.
 
 ![Deploy production](assets/images/deploy-prod.png)
 
-## Summary and bonus
+```text
+s1-spine1#show vlan
+VLAN  Name                             Status    Ports
+----- -------------------------------- --------- -------------------------------
+1     default                          active
+10    Ten                              active    Cpu, Po1, Po2
+20    Twenty                           active    Cpu, Po1, Po4
+25    Twenty-five                      active    Cpu, Po1
+4093  LEAF_PEER_L3                     active    Cpu, Po1
+4094  MLAG_PEER                        active    Cpu, Po1
 
-Congratulations, you have successfully deployed a CI/CD pipeline with GitHub Actions. Feel free to make additional changes or extend the testing pieces.
+s1-spine1#
+################################################################################
+s2-spine1#show vlan
+VLAN  Name                             Status    Ports
+----- -------------------------------- --------- -------------------------------
+1     default                          active
+30    Thirty                           active    Cpu, Po1, Po2
+40    Forty                            active    Cpu, Po1, Po4
+45    Forty-five                       active    Cpu, Po1
+4093  LEAF_PEER_L3                     active    Cpu, Po1
+4094  MLAG_PEER                        active    Cpu, Po1
+
+s2-spine1#
+```
+
+## Summary
+
+Congratulations, you have successfully deployed a CI/CD pipeline with GitHub Actions. Feel free to make additional changes to the sites or extend the testing pieces.
 
 !!! note
-    If your topology shut down or time elapsed, you must run through the requirement installations and GitHub authentication on the next `git push`.
+    If your topology shuts down or time elapsed, you must install the requirements, git configuration, and GitHub authentication.
