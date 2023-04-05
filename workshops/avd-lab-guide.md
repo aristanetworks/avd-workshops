@@ -2,7 +2,7 @@
 
 ## AVD Lab Guide Overview
 
-The AVD Lab Guide is meant to be a follow along set of instructions to deploy a dual data center L2LS fabric design. The data model overview and details can be found [here](avd.md). In the following steps we will explore updating the data models to add services, ports and WAN links to our fabrics and test traffic between sites.
+The AVD Lab Guide is a follow-along set of instructions to deploy a dual data center L2LS fabric design. The data model overview and details can be found [here](avd.md). In the following steps, we will explore updating the data models to add services, ports, and WAN links to our fabrics and test traffic between sites.
 
 In this example, the ATD lab is used to create the L2LS Dual Data Center topology below. The IP Network cloud (orange area) is pre-provisioned and is comprised of the border and core nodes in the ATD topology. Our focus will be creating the L2LS AVD data models to build and deploy configurations for Site 1 and Site 2 (blue areas) and connect them to the IP Network.
 
@@ -21,14 +21,14 @@ In this example, the ATD lab is used to create the L2LS Dual Data Center topolog
 
 ### STEP #1 - Access the ATD Lab
 
-Connect to your ATD Lab and start the Programmability IDE. Next start a new Terminal.
+Connect to your ATD Lab and start the Programmability IDE. Next, create a new Terminal.
 
 ### STEP #2 - Fork and Clone branch to ATD Lab
 
 An ATD Dual Data Center L2LS data model is posted on GitHub here: [https://github.com/PacketAnglers/workshops-avd](https://github.com/PacketAnglers/workshops-avd)
 
 - Fork this [repository](https://github.com/PacketAnglers/workshops-avd) to your own GitHub account.
-- Next, clone your forked repo to you ATD lab instance.
+- Next, clone your forked repo to your ATD lab instance.
 
 ``` bash
 cd /home/coder/project/labfiles
@@ -36,9 +36,9 @@ git clone <your copied URL>
 cd workshops-avd
 ```
 
-### STEP #3 - Update AVD to latest version
+### STEP #3 - Update AVD to the latest version
 
-AVD has been pre-installed in your lab environment, however it is on an older version. The following steps will update AVD and modules to the latest versions.
+AVD has been pre-installed in your lab environment. However, it is on an older version. The following steps will update AVD and modules to the latest versions.
 
 ``` bash
 ansible-galaxy collection install arista.avd arista.cvp --force
@@ -49,17 +49,17 @@ pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
 
 ???+ Warning "IMPORTANT"
 
-    The above steps must be ran each time you start your lab.
+    You must run these commands when you start your lab or a new shell (terminal).
 
 ### STEP #4 - Setup Lab Password Environment Variable
 
-Each lab comes with a unique password. With the following command we set an environment variable called `LABPASSPHRASE`. The variable is later used to generate local user passwords and connect to our switches to push configs.
+Each lab comes with a unique password. We set an environment variable called `LABPASSPHRASE` with the following command. The variable is later used to generate local user passwords and connect to our switches to push configs.
 
 ``` bash
 export LABPASSPHRASE=`cat /home/coder/.config/code-server/config.yaml| grep "password:" | awk '{print $2}'`
 ```
 
-You can view the password is set. This is the same password that is displayed when you click the link to access your lab.
+You can view the password is set. This is the same password displayed when you click the link to access your lab.
 
 ``` bash
 echo $LABPASSPHRASE
@@ -67,7 +67,7 @@ echo $LABPASSPHRASE
 
 ???+ Warning "IMPORTANT"
 
-    This step must be ran each time you start your lab or start a new shell (terminal).
+    You must run this step when you start your lab or a new shell (terminal).
 
 ### STEP #5 - Prepare WAN IP Network and Test Hosts
 
@@ -81,7 +81,7 @@ make preplab
 
 ## **Build and Deploy Dual Data Center L2LS Network**
 
-This section will be devoted to reviewing and updating the existing L2LS data model. We will add features to enable Vlans, SVIs, connected endpoints, and P2P links to the WAN IP Network. At the completion of the lab, you will have enabled an L2LS dual data center network through automation with AVD. YAML data models and ansible playbooks will be used to generate EOS Cli configurations and deploy them to each site. We will start by focusing efforts on building out Site 1 and then repeat similar steps for Site 2. Finally we will enable connectivity to the WAN IP Network to allow traffic to pass between sites.
+This section will review and update the existing L2LS data model. We will add features to enable VLANs, SVIs, connected endpoints, and P2P links to the WAN IP Network. After the lab, you will have enabled an L2LS dual data center network through automation with AVD. YAML data models and Ansible playbooks will be used to generate EOS CLI configurations and deploy them to each site. We will start by focusing on building out Site 1 and then repeat similar steps for Site 2. Finally, we will enable connectivity to the WAN IP Network to allow traffic to pass between sites.
 
 ### **Summary of Steps**
 
@@ -95,7 +95,7 @@ This section will be devoted to reviewing and updating the existing L2LS data mo
 
 ### STEP #1 - Build and Deploy Initial Fabric
 
-The initial fabric data model key/value pairs have been pre-populated in the following group_vars files located in the following directory `sites/site_1/group_vars/`.
+The initial fabric data model key/value pairs have been pre-populated in the following group_vars files in the `sites/site_1/group_vars/` directory.
 
 - SITE1_FABRIC_PORTS.yml
 - SITE1_FABRIC_SERVICES.yml
@@ -111,7 +111,7 @@ At this point, we can build and deploy our initial configurations to the topolog
 make build-site-1
 ```
 
-AVD creates a separate markdown and EOS configuration file per switch. You can review the files in the `documentation` and `intended` folders per site.
+AVD creates a separate markdown and EOS configuration file per switch. In addition, you can review the files in the `documentation` and `intended` folders per site.
 
 ![Docs and Configs](assets/images/docs-configs.png){: style="width:300px"}
 
@@ -123,7 +123,7 @@ make deploy-site-1
 
 Login to your switches to verify the current configs (`show run`) match the ones created in `intended/configs` folder.
 
-You can also check the current state for mlag, vlans, ip interface, and port-channels.
+You can also check the current state for MLAG, VLANs, interface, and port-channels.
 
 ``` bash
 show mlag
@@ -141,13 +141,13 @@ show ip interface brief
 show port-channel
 ```
 
-The basic fabric with mlag peers and port-channels between leaf and spines are now created. Next up, we will add Vlan and SVI services to the fabric.
+The basic fabric with MLAG peers and port-channels between leaf and spines are now created. Next up, we will add VLAN and SVI services to the fabric.
 
 ### STEP #2 - Add Services to the Fabric
 
-The next step is to add Vlans and SVIs to the fabric. The services data model file `SITE1_FABRIC_SERVICES.yml` is pre-populated with Vlans and SVIs `10` and `20` in the default vrf.
+The next step is to add Vlans and SVIs to the fabric. The services data model file `SITE1_FABRIC_SERVICES.yml` is pre-populated with Vlans and SVIs `10` and `20` in the default VRF.
 
-Open `SITE1_FABRIC_SERVICES.yml` and uncomment lines 1-28 and then run the build & deploy process again.
+Open `SITE1_FABRIC_SERVICES.yml` and uncomment lines 1-28, then run the build & deploy process again.
 
 ???+ tip
     :writing_hand: In VS Code, you can toggle comments on/off by selecting the text and pressing ***windows*** ++ctrl++ + ++slash++ or ***mac*** ++cmd++ + ++slash++.
@@ -166,7 +166,7 @@ Log into `s1-spine1` and `s1-spine2` and verify the SVIs `10` and `20` exist.
 show ip interface brief
 ```
 
-It should look similar to:
+It should look similar to the following:
 
 ``` text
                                            Address
@@ -204,9 +204,9 @@ more checkpoint:< filename >
 
 ### STEP #3 - Add Ports for Hosts
 
-Now, let's configure port-channels to our hosts (`s1-host1` and `s1-host2`).
+Let's configure port-channels to our hosts (`s1-host1` and `s1-host2`).
 
-Open `SITE1_FABRIC_PORTS.yml` and uncomment lines 16-44 and then run the build & deploy process again.
+Open `SITE1_FABRIC_PORTS.yml` and uncomment lines 16-44, then run the build & deploy process again.
 
 ``` bash
 make build-site-1
@@ -218,7 +218,7 @@ make deploy-site-1
 
 At this point, hosts should be able to ping each other across the fabric.
 
-From `s1-host1`, run a ping to `s1-host2`
+From `s1-host1`, run a ping to `s1-host2`.
 
 ``` bash
 ping 10.20.20.100
@@ -244,7 +244,7 @@ Repeat the previous three steps for Site 2.
 - Build and Deploy Configs
 - Verify ping traffic between hosts `s2-host1` and `s2-host2`
 
-At this point, you should be able to ping between hosts within a site but not between sites. For this, we need to be build connectivity to the `WAN IP Network`. This is covered in the next section.
+At this point, you should be able to ping between hosts within a site but not between sites. For this, we need to build connectivity to the `WAN IP Network`. This is covered in the next section.
 
 ## **Connect Sites to WAN IP Network**
 
@@ -344,7 +344,7 @@ make deploy-site-2
 
 ### **Check routes on spine nodes**
 
-From the spines, verify that they can see routes to following networks where the hosts reside.
+From the spines, verify that they can see routes to the following networks where the hosts reside.
 
 - 10.10.10.0/24
 - 10.20.20.0/24
@@ -371,4 +371,4 @@ ping 10.40.40.100
 
 ## **Congratulations!**
 
-You have just built a multi-site L2LS network without touching the Cli on a single switch.
+You have built a multi-site L2LS network without touching the CLI on a single switch.
