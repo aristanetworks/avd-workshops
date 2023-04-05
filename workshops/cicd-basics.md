@@ -1,6 +1,6 @@
 # CI/CD
 
-This section walks you through an example CI/CD pipeline leveraging GitHub Actions, Arista Validated Designs (AVD), and the Arista CloudVision Platform (CVP). The lab leverages the Arista Test Drive (ATD) solution to give you a pre-built environment to get started quickly. This section assumes readers have completed the [AVD workshop](avd-lab-guide.md) within their ATD environment.
+This section walks you through an example CI/CD pipeline leveraging GitHub Actions, Arista Validated Designs (AVD), and the Arista CloudVision Platform (CVP). In addition, the lab leverages the Arista Test Drive (ATD) solution to give you a pre-built environment to get started quickly. This section assumes readers have completed the [AVD workshop](avd-lab-guide.md) within their ATD environment.
 
 Readers should be familiar with the following concepts.
 
@@ -11,7 +11,7 @@ Readers should be familiar with the following concepts.
 
 ## The topology
 
-Throughout this section we will make use of the following dual datacenter topology. Click on the image to zoom in for details.
+Throughout this section, we will use the following dual data center topology. Click on the image to zoom in for details.
 
 ![Dual DC Topology](assets/images/dual-dc-topo.svg)
 
@@ -21,7 +21,7 @@ This repository leverages the dual data center (DC) ATD. If you are not leveragi
 
 ### Local installation
 
-You must install the base requirements if running outside of the ATD interactive developer environment (IDE).
+If running outside of the ATD interactive developer environment (IDE), you must install the base requirements.
 
 ```shell
 python3 -m venv venv
@@ -53,7 +53,7 @@ pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
 You will be creating your own CI/CD pipeline in this workflow. Log in to your GitHub account and [fork this repository](https://github.com/PacketAnglers/workshops-avd) to get started.
 
 !!! note
-    You may skip this step if the repository was forked during the AVD workshop.
+    If the repository was forked during the AVD workshop, you can skip this step.
 
 ![Create fork](assets/images/create-fork.png)
 
@@ -105,12 +105,12 @@ You will need to set one secret in your newly forked GitHub repository.
 !!! note
     If the Git `user.name` and `user.email` are set, they may be skipped. You can check this by running the `git config --list` command.
 
-## Create new branch
+## Create a new branch
 
 In a moment, we will be deploying changes to our environment. In reality, updates to a code repository would be done from a development or feature branch. We will follow this same workflow.
 
 !!! note
-    This example will use the branch name of `dc-updates`, if you use your own naming scheme, make sure to make the appropriate updates.
+    This example will use the branch name `dc-updates`. If you use a different branch name, update the upcoming examples appropriately.
 
 ```shell
 git checkout -b dc-updates
@@ -151,7 +151,7 @@ Every user will get a unique CVP instance deployed. There are two updates requir
 
 ## Commit changes and link ATD IDE to GitHub
 
-We have two changes in our `hosts.yml` files for production and development environments. The following can be executed from the terminal or GUI interface.
+You can run the following commands from the terminal or VS Code interface.
 
 ```shell
 git add .
@@ -168,7 +168,7 @@ GitHub Actions is a CI/CD platform within GitHub. We can leverage GitHub Actions
 
 ### Workflow file
 
-GitHub actions are defined within the `.github/workflows` directory of our code repository.
+GitHub actions are defined within our code repository's `.github/workflows` directory.
 
 ```yaml
 # dev.yml
@@ -181,7 +181,7 @@ on:
 ...
 ```
 
-At the highest level of our workflow file, we set the `name` of the workflow. This version of our workflow file represents any pushes that do not go to the main branch. We would like our test or development workflow to start whenever we make any pushes or changes to any branches ***not*** named main. We can control this by setting the `on.push.branches-ignore` variable to main.
+At the highest level of our workflow file, we set the `name` of the workflow. This version of our workflow file represents any pushes that do not go to the main branch. For example, we would like our test or development workflow to start whenever we push or change any branches ***not*** named main. We can control this by setting the `on.push.branches-ignore` variable to main.
 
 ```yaml hl_lines="7-12"
 ...
@@ -199,7 +199,7 @@ jobs:
 ...
 ```
 
-In the next portion of the workflow file we define a dictionary of `jobs`. For this example we will only use one job with multiple steps. We set the ATD credential as an environment variable that will be available for our future steps. The `timeout-minutes` variable is optional and is only included to make sure we remove and long-running workflows. In reality, this workflow should come nowhere near the 15 minute mark. Any more than that and it should signal to us that there is a problem in the workflow. At the end of this code block we can see the `runs-on` key. This workflow uses the `ubuntu-latest` flavor but other options are available. For example, we can use a Windows, Ubuntu, or macOS runner.
+In the next portion of the workflow file, we define a dictionary of `jobs`. For this example, we will only use one job with multiple steps. We set the ATD credential as an environment variable that will be available for our future steps. The `timeout-minutes` variable is optional and only included to ensure we remove any long-running workflows. This workflow should come nowhere near the 15-minute mark. Any more than that, and it should signal to us that there is a problem in the workflow. We can see the `runs-on` key at the end of this code block. This workflow uses the `ubuntu-latest` flavor, but other options are available. For example, we can use a Windows, Ubuntu, or macOS runner.
 
 ```yaml hl_lines="8-13"
 ...
@@ -218,7 +218,7 @@ jobs:
 ...
 ```
 
-Now that we have defined our `dev` job, we need to define what `steps` will run within this workflow. For this portion we have the first and second step in the workflow. The initial step named "Hi" is only used to validate a working workflow and is not required. The `actions/checkout` action will check-out your repository to make the repository accessible in the workflow. Future workflow steps will then be able to use the relevant repository information to run tasks like building a new application or deploying the new state of a network.
+Now that we have defined our `dev` job, we must define what `steps` will run within this workflow. For this portion, we have the first and second steps in the workflow. he initial step, "Hi" is only used to validate an operational workflow and is not required. Next, the `actions/checkout` action will check out your repository to make the repository accessible in the workflow. Future workflow steps will then be able to use the relevant repository information to run tasks like building a new application or deploying the latest state of a network.
 
 #### pre-commit
 
@@ -229,7 +229,7 @@ pip3 install pre-commit
 pre-commit install
 ```
 
-We will leverage pre-commit in our local development workflow and within the pipeline. pre-commit works by running automated checks on Git repositories manually or whenever a git commit is ran. For example, if we wanted all of our YAML files to have a similar structure or follow certain guidelines, we could use a pre-commit "check-yaml" hook. Please note, this is just a sample of what pre-commit can do. For a list of hooks, check out their official [list](https://pre-commit.com/hooks.html). The code block below is a reference of the pre-commit configuration file used in our repository.
+We will leverage pre-commit in our local development workflow and within the pipeline. pre-commit works by running automated checks on Git repositories manually or whenever a git commit is run. For example, if we wanted all of our YAML files to have a similar structure or follow specific guidelines, we could use a pre-commit "check-yaml" hook. Please note this is just a sample of what pre-commit can do. For a list of hooks, check out their official [list](https://pre-commit.com/hooks.html). The code block below references the pre-commit configuration file used in our repository.
 
 ```yaml
 # .pre-commit-config.yaml
@@ -250,7 +250,7 @@ repos:
         files: sites/site_1/group_vars/|sites/site_2/group_vars/
 ```
 
-In pre-commit we define our jobs under a `repos` key. This first repo step points to the built-in hooks provided by the pre-commit team. Please note, you can use hooks from other organizations. In our case, the checks are fairly simplistic. The first hook checks to make sure our files don't have any trailing whitespace. The next hook, `end-of-file-fixer`, ensures every file is empty or ends with one newline. The check YAML hook validates any YAML file in our repository can be loaded as valid YAML syntax. Below is our workflow example leveraging the pre-commit action. This action will read the `.pre-commit-config.yaml` file in the root of our repository. The `files` key is used to only check files within specific directories. The setup Python action above the pre-commit step is only used to make sure we have a stable Python environment in this workflow.
+In pre-commit, we define our jobs under a `repos` key. This first repo step points to the built-in hooks provided by the pre-commit team. Please note, you can use hooks from other organizations. In our case, the checks are fairly simplistic. The first hook checks to ensure our files have no trailing whitespace. The next hook, `end-of-file-fixer`, ensures every file is empty or ends with one newline. Next, the check YAML hook validates any YAML file in our repository can be loaded as valid YAML syntax. Below is our workflow example leveraging the pre-commit action. This action will read the `.pre-commit-config.yaml` file in the root of our repository. The `files` key is used to only check files within specific directories. Finally, the setup Python action above the pre-commit step installs Python dependencies in this workflow.
 
 ```yaml hl_lines="9-13"
 ...
@@ -271,7 +271,7 @@ In pre-commit we define our jobs under a `repos` key. This first repo step point
 
 ##### pre-commit example
 
-We can take a look at the benefits of pre-commit by introducing three errors in a group_vars file. This example will use the `sites/site_1/group_vars/SITE1_FABRIC_SERVICES.yml` file. Under VLAN 20, we can add extra whitespace after any entry, extra newlines, and move the `s1-spine2` key under the `s1-spine1` key.
+We can look at the benefits of pre-commit by introducing three errors in a group_vars file. This example will use the `sites/site_1/group_vars/SITE1_FABRIC_SERVICES.yml` file. Under VLAN 20, we can add extra whitespace after any entry, extra newlines, and move the `s1-spine2` key under the `s1-spine1` key.
 
 ```yaml
           20:
@@ -322,7 +322,7 @@ To suppress this check see:
 ➜  workshops-avd git:(main) ✗
 ```
 
-We can see all three failures, please note that pre-commit hooks will try and fix errors if possible. pre-commit does not assume what our intent is with the YAML file, that fix is up to us. if you correct the indentation in the file and run pre-commit again, you will see all passes.
+We can see all three failures. pre-commit hooks will try and fix errors if possible. However, pre-commit does not assume what our intent is with the YAML file, that fix is up to us. If you correct the indentation in the file and rerun pre-commit, you will see all passes.
 
 ```yaml
           20:
@@ -349,7 +349,7 @@ check yaml...............................................................Passed
 
 #### Check file changes to speed up the pipeline
 
-At the moment, our workflow will build and deploy configurations for both sites. This is true even if we only have changes relevant to one site. We can use a path filter to check if changes within specific directories have been modified -signaling to us that a new build and deployment is required. Please take note of the `id` key, this will be referenced in our upcoming workflow steps leveraging Docker Compose.
+Currently, our workflow will build and deploy configurations for both sites. This is true even if we only have changes relevant to one site. We can use a path filter to check if changes within specific directories have been modified, signaling that a new build and deployment are required. Please take note of the `id` key. This will be referenced in our upcoming workflow steps leveraging Docker Compose.
 
 ```yaml
 ...
@@ -376,7 +376,7 @@ At the moment, our workflow will build and deploy configurations for both sites.
 
 #### Containers and Docker Compose
 
-The final steps in our workflow leverages containers and Docker Compose. Containers are a great way to create environments that can be shared across team members or in our case, the CI/CD workflow. The container is already created and hosted on Docker Hub. You can think of this container as the runner for our AVD workflows. If this container was not leveraged in the workflow, we would have to install all requirements during each run of the pipeline, possibly increasing the amount of time the pipeline takes to complete.
+The final steps in our workflow leverage containers and Docker Compose. Containers are a great way to create environments that can be shared across team members or, in our case, the CI/CD workflow. The container is already made and hosted on Docker Hub. You can think of this container as the runner for our AVD workflows. If this container was not leveraged in the workflow, we would have to install all requirements during each pipeline run, possibly increasing the pipeline's completion time.
 
 ```docker
 # Dockerfile
@@ -389,9 +389,9 @@ RUN ansible-galaxy collection install arista.avd arista.cvp community.general --
 WORKDIR /app
 ```
 
-The code block above is the Dockerfile that was used to build the runner in this workflow. We start with a base container of `python:3.9.16-slim`, we then copy any additional python requirements. The last few steps install the requirements with pip and Ansible Galaxy.
+The code block above is the Dockerfile used to build the runner in this workflow. We start with a base container of `python:3.9.16-slim`. We then copy any additional Python requirements. The last few steps install the requirements with pip and Ansible Galaxy.
 
-Docker compose is used to define the deployment of our AVD runner in the `docker-compose.yml` file at the root of our repository. This is optional but allows for a cleaner definition of our container instead of using a long winded `docker run` command.
+Docker compose defines the deployment of our AVD runner in the `docker-compose.yml` file at the root of our repository. This is optional but allows for a cleaner container definition instead of using a long-winded `docker run` command.
 
 ```yaml
 # docker-compose.yml
@@ -407,7 +407,7 @@ services:
       - LABPASSPHRASE=$LABPASSPHRASE
 ```
 
-The `version` key is used to associate this Docker Compose file with a specific version of the Docker API. We then define a list of `services` (containers). Within the `atd-cicd` object, we define the container name and a volume or files to pass along to the container. The `image` key points to the public location of the container. Docker Compose will look at Docker Hub first by default for a particular container image. The last key of `environment` passes an environment variable in our workflow to the container. You may recall this is the secrets variable we set within our actions and in the GitHub Actions file. The code block below lists the final steps in our workflow with Docker Compose and our container. The commands in our steps should be familiar with the make commands we used in the AVD workshop.
+The `version` key associates this Docker Compose file with a specific version of the Docker API. We then define a list of `services` (containers). Within the `atd-cicd` object, we define the container name and volume (files) to pass along to the container. The `image` key points to the public location of the container. Docker Compose will look at Docker Hub first by default for a particular container image. The last key of `environment` passes an environment variable in our workflow to the container. This is the secrets variable we set within our actions and in the GitHub Actions file. The code block below lists the final steps in our workflow with Docker Compose and our container. The commands in our steps should be familiar with the make commands we used in the AVD workshop.
 
 ```yaml
 ...
@@ -427,9 +427,9 @@ The `version` key is used to associate this Docker Compose file with a specific 
         run: docker-compose -f "docker-compose.yml" down
 ```
 
-The test configuration steps have the conditional key of `if`. This maps to each paths filter check step we used earlier. For example, the first path check has an `id` of `filter-site1`. We can reference the `id` in our workflow as `steps.filter-site1.outputs.workflows`. If this is set to `true`, a change was registered in our check and the test build step for site 1 will run.
+The test configuration steps have the conditional key of `if`. This maps to each path filter check step we used earlier. For example, the first path check has an `id` of `filter-site1`. We can reference the `id` in our workflow as `steps.filter-site1.outputs.workflows`. If this is set to `true`, a change was registered in our check and the test build step for site 1 will run.
 
-At this point, make sure the both workflows within the `.github/workflows` directory are ***not*** commented out. Example of the `dev.yml` file is below.
+At this point, make sure both workflows within the `.github/workflows` directory are ***not*** commented out. An example of the `dev.yml` file is below.
 
 ??? ".github/workflows/dev.yml"
     ```yaml
@@ -493,7 +493,7 @@ At this point, make sure the both workflows within the `.github/workflows` direc
 
 ## Day-2 ops - New service (VLAN)
 
-This example workflow will add two new VLANs to our sites. One for site 1 and 2. Site 1 will add VLAN 30 and site 2 will add VLAN 50. Example of the updated group_vars is below. The previous workshop modified the configuration of our devices directly through eAPI. This example will leverage GitHub actions with CloudVision to update our nodes. The provisioning with CVP will also create a new container topology and configlet assignment per device. For starters, we can update site 1.
+This example workflow will add two new VLANs to our sites—one for sites 1 and 2. Site 1 will add VLAN 25, and site 2 will add VLAN 45. An example of the updated group_vars is below. The previous workshop modified the configuration of our devices directly through eAPI. This example will leverage GitHub actions with CloudVision to update our nodes. The provisioning with CVP will also create a new container topology and configlet assignment per device. For starters, we can update site 1.
 
 ??? "sites/site_1/group_vars/SITE1_FABRIC_SERVICES.yml"
     ```yaml
@@ -567,7 +567,7 @@ If you navigate back to your GitHub repository, you should see an action executi
 
 ![Actions](assets/images/actions-dev.png)
 
-Since this is a development branch we are only testing for valid variable files and that AVD can successfully build our configurations. We can run one more example before deploying to production. You may notice the test configuration only initiated for site 1 and was skipped for site 2 (no changes). You can finish this example by updating the site 2 fabric services file.
+Since this is a development branch, we are only testing for valid variable files so that AVD can successfully build our configurations. We can run one more example before deploying to production. You may notice the test configuration step was only initiated for site 1 and was skipped for site 2 (no changes). You can finish this example by updating the site 2 fabric services file.
 
 ??? "sites/site_2/group_vars/SITE2_FABRIC_SERVICES.yml"
     ```yaml
@@ -620,7 +620,7 @@ git commit -m "updating VLANs for site 2"
 git push
 ```
 
-Once this is complete, the GitHub actions will show changes on both site 1 and 2.
+Once complete, the GitHub actions will show changes on sites 1 and 2.
 
 ![Actions](assets/images/actions-both.png)
 
@@ -684,7 +684,7 @@ s2-spine1#
 
 ## Summary
 
-Congratulations, you have successfully deployed a CI/CD pipeline with GitHub Actions. Feel free to make additional changes to the sites or extend the testing pieces.
+At this point, this will kick off our second workflow against the main branch. This workflow will build and deploy our updates with CVP. If you go to the "Provisioning" tab of CVP, you should be able to see tasks and pending changes. This workflow will automatically run any pending tasks for us. We can optionally connect to one of the spines at either site to see the new VLANs.
 
 !!! note
-    If your topology shuts down or time elapsed, you must install the requirements, git configuration, and GitHub authentication.
+    If your topology shuts down or time elapses, you must install the requirements, git configuration, and GitHub authentication.
