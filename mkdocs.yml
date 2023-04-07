@@ -7,15 +7,15 @@ edit_uri: blob/main/workshops
 nav:
   - Home: index.md
   - Fundamentals:
-    - Git: git.md
-    - VS Code: vscode.md
-    - Jinja/YAML: jinja-yaml.md
-    - Ansible: ansible.md
+      - Git: git.md
+      - VS Code: vscode.md
+      - Jinja/YAML: jinja-yaml.md
+      - Ansible: ansible.md
   - Arista CI:
-    - AVD:
-        - Overview: avd.md
-        - Lab Guide: avd-lab-guide.md
-    - CI/CD Basics: cicd-basics.md
+      - AVD:
+          - Overview: avd.md
+          - Lab Guide: avd-lab-guide.md
+      - CI/CD Basics: cicd-basics.md
 
 copyright: Copyright &copy; 2023 Arista Networks
 
@@ -82,7 +82,6 @@ plugins:
 repo_name: Workshops on GitHub
 
 theme:
-
   features:
     - content.action.edit
     - content.code.annotate
@@ -91,7 +90,7 @@ theme:
     - header.autohide
     - navigation.top
     - navigation.tracking
-    - toc.integrate
+    # - toc.integrate
 
   favicon: assets/images/logo.png
 
