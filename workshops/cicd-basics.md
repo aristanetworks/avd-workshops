@@ -391,11 +391,11 @@ The Ansible collection install and test configuration steps have the conditional
         if: steps.filter-site1.outputs.workflows == 'true' || steps.filter-site2.outputs.workflows == 'true'
 
       - name: Test configuration for site1
-        run: docker-compose run atd-cicd make build-site-1
+        run: make build-site-1
         if: steps.filter-site1.outputs.workflows == 'true'
 
       - name: Test configuration for site2
-        run: docker-compose run atd-cicd make build-site-2
+        run: make build-site-2
         if: steps.filter-site2.outputs.workflows == 'true'
 
 ```
