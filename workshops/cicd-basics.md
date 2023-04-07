@@ -253,9 +253,9 @@ repos:
         files: sites/site_1/group_vars/|sites/site_2/group_vars/
 ```
 
-Finally, the setup Python action above the pre-commit step installs Python dependencies in this workflow.
+Finally, the setup Python and install requirements action above the pre-commit step installs Python dependencies in this workflow.
 
-```yaml hl_lines="9-13"
+```yaml hl_lines="9-16"
 ...
     steps:
       - name: Hi
@@ -266,6 +266,9 @@ Finally, the setup Python action above the pre-commit step installs Python depen
 
       - name: Setup Python
         uses: actions/setup-python@v3
+
+      - name: Install Python requirements
+        run: pip3 install requirements.txt
 
       - name: Run pre-commit on files
         uses: pre-commit/action@v3.0.0
@@ -352,7 +355,7 @@ check yaml...............................................................Passed
 
 #### Filter changes to the Pipeline
 
-Currently, our workflow will build and deploy configurations for both sites. This is true even if we only have changes relevant to one site. We can use a path filter to check if changes within specific directories have been modified, signaling that a new build and deployment are required. Please take note of the `id` key. This will be referenced in our upcoming workflow steps leveraging Docker Compose.
+Currently, our workflow will build and deploy configurations for both sites. This is true even if we only have changes relevant to one site. We can use a path filter to check if changes within specific directories have been modified, signaling that a new build and deployment are required. Please take note of the `id` key. This will be referenced in our upcoming workflow steps.
 
 ```yaml
 ...
@@ -377,47 +380,15 @@ Currently, our workflow will build and deploy configurations for both sites. Thi
 ...
 ```
 
-#### Containers and Docker Compose
+#### Conditionals to control flow
 
-The final steps in our workflow leverage containers and Docker Compose. Containers are a great way to create environments that can be shared across team members or, in our case, the CI/CD workflow. We will make use of a pre-built container hosted on Docker Hub. The container is used as our runner and performs all AVD-specific workflows. If this container was not leveraged in the workflow, we would have to install all requirements during each pipeline run, possibly increasing the pipeline's completion time.
-
-```docker
-# Dockerfile
-FROM python:3.9.16-slim
-
-# Install dependencies:
-COPY requirements.txt .
-RUN pip3 install -r requirements.txt
-RUN ansible-galaxy collection install arista.avd arista.cvp community.general --force
-WORKDIR /app
-```
-
-The code block above is the Dockerfile used to build the runner in this workflow. We start with a base container of `python:3.9.16-slim`. We then copy any additional Python requirements. The last few steps install the requirements with pip and Ansible Galaxy.
-
-Docker compose defines the deployment of our AVD runner in the `docker-compose.yml` file at the root of our repository. This is optional but allows for a cleaner container definition instead of using a long-winded `docker run` command.
-
-The `version` key associates this Docker Compose file with a specific version of the Docker API. We then define a list of `services` (containers). Within the `atd-cicd` object, we define the container name and volume (files) to pass along to the container. The `image` key points to the public location of the container. Docker Compose will look at Docker Hub first by default for a particular container image. The last key of `environment` passes an environment variable in our workflow to the container. This is the secrets variable we set within our actions and in the GitHub Actions file. The code block below lists the final steps in our workflow with Docker Compose and our container. The commands in our steps should be familiar with the make commands we used in the AVD workshop.
-
-```yaml
-# docker-compose.yml
----
-version: '3.3'
-services:
-  atd-cicd:
-    container_name: atd-cicd
-    volumes:
-      - '.:/app'
-    image: juliopdx/atd-cicd:l2ls
-    environment:
-      - LABPASSPHRASE=$LABPASSPHRASE
-```
-
-The test configuration steps have the conditional key of `if`. This maps to each path filter check step we used earlier. For example, the first path check has an `id` of `filter-site1`. We can reference the `id` in our workflow as `steps.filter-site1.outputs.workflows`. If this is set to `true`, a change was registered in our check and the test build step for site 1 will run.
+The Ansible collection install and test configuration steps have the conditional key of `if`. This maps to each path filter check step we used earlier. For example, the first path check has an `id` of `filter-site1`. We can reference the `id` in our workflow as `steps.filter-site1.outputs.workflows`. If this is set to `true`, a change will register in our check, and the test build step for site 1 will run. One difference is the Ansible collection install uses the `||` (or) operator. The "or" operator allows us to control when Ansible collections are installed. The collections will be installed if a change is registered in either `filter-site1` or `filter-site2`.
 
 ```yaml
 ...
-      - name: Start containers
-        run: docker-compose -f "docker-compose.yml" up -d
+      - name: Install collections
+        run: ansible-galaxy collection install -r requirements.yml
+        if: steps.filter-site1.outputs.workflows == 'true' || steps.filter-site2.outputs.workflows == 'true'
 
       - name: Test configuration for site1
         run: docker-compose run atd-cicd make build-site-1
@@ -427,9 +398,6 @@ The test configuration steps have the conditional key of `if`. This maps to each
         run: docker-compose run atd-cicd make build-site-2
         if: steps.filter-site2.outputs.workflows == 'true'
 
-      - name: Stop containers
-        if: always()
-        run: docker-compose -f "docker-compose.yml" down
 ```
 
 At this point, make sure both workflow files (`dev.yml` and `prod.yml`) within the `.github/workflows` directory are ***not*** commented out. An example of the `dev.yml` file is below.
@@ -459,6 +427,9 @@ At this point, make sure both workflow files (`dev.yml` and `prod.yml`) within t
           - name: Setup Python
             uses: actions/setup-python@v3
 
+          - name: Install Python requirements
+            run: pip3 install -r requirements.txt
+
           - name: Run pre-commit on files
             uses: pre-commit/action@v3.0.0
 
@@ -478,20 +449,17 @@ At this point, make sure both workflow files (`dev.yml` and `prod.yml`) within t
                 workflows:
                   - 'sites/site_2/**'
 
-          - name: Start containers
-            run: docker-compose -f "docker-compose.yml" up -d
+          - name: Install collections
+            run: ansible-galaxy collection install -r requirements.yml
+            if: steps.filter-site1.outputs.workflows == 'true' || steps.filter-site2.outputs.workflows == 'true'
 
           - name: Test configuration for site1
-            run: docker-compose run atd-cicd make build-site-1
+            run: make build-site-1
             if: steps.filter-site1.outputs.workflows == 'true'
 
           - name: Test configuration for site2
-            run: docker-compose run atd-cicd make build-site-2
+            run: make build-site-2
             if: steps.filter-site2.outputs.workflows == 'true'
-
-          - name: Stop containers
-            if: always()
-            run: docker-compose -f "docker-compose.yml" down
     ```
 
 ## Day-2 ops - New service (VLAN)
