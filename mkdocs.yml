@@ -90,7 +90,6 @@ theme:
     - header.autohide
     - navigation.top
     - navigation.tracking
-    # - toc.integrate
 
   favicon: assets/images/logo.png
 
