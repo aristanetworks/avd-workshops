@@ -182,6 +182,10 @@ Vlan4094          10.1.253.0/31         up           up                 1500
 
 You can verify the recent configuration session was created.
 
+???+ info
+    When configuration is applied via a configuration session, EOS will create a "checkpoint" of the configuration. This checkpoint is a snapshot
+    of the configuration as it was **prior** to the configuration session being committed.
+
 ``` bash
 show clock
 ```
@@ -200,6 +204,16 @@ View the contents of the latest checkpoint file.
 
 ``` bash
 more checkpoint:< filename >
+```
+
+See the difference between the running config and the latest checkpoint file.
+
+???+ tip
+    This will show the differences between the current device configuration
+    and what the configuration was before we did our `make deploy` command.
+
+``` bash
+diff checkpoint:< filename > running-config
 ```
 
 ### STEP #3 - Add Ports for Hosts
@@ -327,20 +341,11 @@ core_interfaces:
 ### **Build and Deploy WAN IP Network connectivity**
 
 ``` bash
-make build-site-1
+make build-site-1 build-site-2 deploy-site-1 deploy-site-2
 ```
 
-``` bash
-make build-site-2
-```
-
-``` bash
-make deploy-site-1
-```
-
-``` bash
-make deploy-site-2
-```
+???+ tip
+    Daisy chaining "Makesies" is a great way to run a series of tasks with a single CLI command :grinning:
 
 ### **Check routes on spine nodes**
 

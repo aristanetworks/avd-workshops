@@ -90,7 +90,7 @@ To apply AVD variables to the nodes in the fabric, we make use of Ansible group_
 | SITE1_FABRIC.yml           | Fabric, Topology, and Device settings         |
 | SITE1_SPINES.yml           | Device type for Spines                        |
 | SITE1_LEAFS.yml            | Device type for Leafs                         |
-| SITE1_NETWORK_SERVICES.yml | VLANs                                         |
+| SITE1_NETWORK_SERVICES.yml | VLANs, VRFs, SVIs                             |
 | SITE1_NETWORK_PORTS.yml    | Port Profiles and Connected Endpoint settings |
 
 Each group_vars file is listed in the following tabs.
