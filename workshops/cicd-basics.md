@@ -39,6 +39,22 @@ You can ensure the appropriate AVD version is installed by running the following
 ansible-galaxy collection list
 ```
 
+```shell hl_lines="9"
+➜  workshops-avd git:(main) ansible-galaxy collection list
+
+# /home/coder/.ansible/collections/ansible_collections
+Collection        Version
+----------------- -------
+ansible.netcommon 4.1.0
+ansible.posix     1.4.0
+ansible.utils     2.8.0
+arista.avd        3.8.4
+arista.cvp        3.6.1
+arista.eos        6.0.0
+community.general 6.2.0
+➜  workshops-avd git:(main)
+```
+
 If AVD version `3.8.1` or greater is not present, please upgrade to the latest stable version.
 
 ```shell
@@ -90,32 +106,6 @@ You will need to set one secret in your newly forked GitHub repository.
 !!! note
     Our workflow uses this secret to authenticate with our CVP instance.
 
-## Configure global Git settings and sync
-
-1. From the IDE terminal, run the following:
-
-    ```shell
-    git config --global user.name "FirstName LastName"
-    git config --global user.email "name@example.com"
-    git add .
-    git commit -m "Syncing with remote"
-    git push
-    ```
-
-!!! note
-    If the Git `user.name` and `user.email` are set, they may be skipped. You can check this by running the `git config --list` command.
-
-## Create a new branch
-
-In a moment, we will be deploying changes to our environment. In reality, updates to a code repository would be done from a development or feature branch. We will follow this same workflow.
-
-!!! note
-    This example will use the branch name `dc-updates`. If you use a different branch name, update the upcoming examples appropriately.
-
-```shell
-git checkout -b dc-updates
-```
-
 ## Update local CVP variables
 
 Every user will get a unique CVP instance deployed. There are two updates required.
@@ -149,18 +139,32 @@ Every user will get a unique CVP instance deployed. There are two updates requir
 !!! note
     These will be the same value. Make sure to remove any prefix like `https://` or anything after `.com`
 
-## Commit changes and link ATD IDE to GitHub
+## Configure global Git settings and sync
 
-You can run the following commands from the terminal or VS Code interface. These commands will stage all changes in your repository and publish the branch on the remote repository.
+1. From the IDE terminal, run the following:
 
-```shell
-git add .
-git commit -m "Updating host variables"
-git push --set-upstream origin dc-updates
-```
+    ```shell
+    cd /home/coder/project/labfiles/workshops-avd
+    git config --global user.name "FirstName LastName"
+    git config --global user.email "name@example.com"
+    git add .
+    git commit -m "Syncing with remote"
+    git push
+    ```
 
 !!! note
-    You will get a notification to sign in to GitHub. Follow the prompts.
+    If the Git `user.name` and `user.email` are set, they may be skipped. You can check this by running the `git config --list` command. You will get a notification to sign in to GitHub. Follow the prompts.
+
+## Create a new branch
+
+In a moment, we will be deploying changes to our environment. In reality, updates to a code repository would be done from a development or feature branch. We will follow this same workflow.
+
+!!! note
+    This example will use the branch name `dc-updates`. If you use a different branch name, update the upcoming examples appropriately.
+
+```shell
+git checkout -b dc-updates
+```
 
 ## GitHub Actions
 
@@ -462,7 +466,7 @@ At this point, make sure both workflow files (`dev.yml` and `prod.yml`) within t
             if: steps.filter-site2.outputs.workflows == 'true'
     ```
 
-## Day-2 ops - New service (VLAN)
+## Day-2 Operations - New service (VLAN)
 
 This example workflow will add two new VLANs to our sites. Site 1 will add VLAN 25, and site 2 will add VLAN 45. An example of the updated group_vars is below. The previous workshop modified the configuration of our devices directly through eAPI. This example will leverage GitHub actions with CloudVision to update our nodes. The provisioning with CVP will also create a new container topology and configlet assignment per device. For starters, we can update site 1.
 
@@ -525,8 +529,8 @@ Feel free to check out the changes made to your local files. Please make sure th
 
 ```shell
 git add .
-git commit -m "updating VLANs for site 1"
-git push
+git commit -m "updating VLANs"
+git push --set-upstream origin dc-updates
 ```
 
 ### Viewing actions
@@ -659,3 +663,9 @@ Congratulations, you have successfully deployed a CI/CD pipeline with GitHub Act
 
 !!! note
     If your topology shuts down or time elapses, you must install the requirements, git configuration, and GitHub authentication.
+
+    You must also to set the `LABPASSPHRASE` environment variable in the IDE terminal.
+
+    ```shell
+    export LABPASSPHRASE=`cat /home/coder/.config/code-server/config.yaml| grep "password:" | awk '{print $2}'`
+    ```
