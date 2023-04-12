@@ -36,6 +36,13 @@ git clone <your copied URL>
 cd workshops-avd
 ```
 
+Configure your global Git settings.
+
+``` bash
+git config --global user.name "FirstName LastName"
+git config --global user.email "name@example.com"
+```
+
 ### STEP #3 - Update AVD to the latest version
 
 AVD has been pre-installed in your lab environment. However, it is on an older version. The following steps will update AVD and modules to the latest versions.
