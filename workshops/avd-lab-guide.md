@@ -19,9 +19,15 @@ In this example, the ATD lab is used to create the L2LS Dual Data Center topolog
 
 ## **Prepare Lab Environment**
 
-### STEP #1 - Access the ATD Lab
+### STEP #1 - Access the ATD Lab and config global Git settings
 
 Connect to your ATD Lab and start the Programmability IDE. Next, create a new Terminal.
+
+``` bash
+cd /home/coder/project/labfiles/workshops-avd
+git config --global user.name "FirstName LastName"
+git config --global user.email "name@example.com"
+```
 
 ### STEP #2 - Fork and Clone branch to ATD Lab
 
