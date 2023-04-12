@@ -9,6 +9,7 @@ config
 core_interfaces
 cowsay
 ctrl
+cvp
 datacenter
 dev
 devcontainer
@@ -20,6 +21,7 @@ hostname\w*\b
 httpapi
 Intentionet
 ip
+is_deployed
 labfiles
 makefile
 mkdocs

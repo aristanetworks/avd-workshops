@@ -191,7 +191,7 @@ You can verify the recent configuration session was created.
 
 ???+ info
     When configuration is applied via a configuration session, EOS will create a "checkpoint" of the configuration. This checkpoint is a snapshot
-    of the configuration as it was **prior** to the configuration session being committed.
+    of the device's running configuration as it was **prior** to the configuration session being committed.
 
 ``` bash
 show clock
@@ -384,3 +384,365 @@ ping 10.40.40.100
 ## **Congratulations!**
 
 You have built a multi-site L2LS network without touching the CLI on a single switch.
+
+## **Day 2 Operations**
+
+???+ tip
+    Before beginning this next section, make sure you have a clean repo! Commit or discard any pending
+    changes you may have.
+
+Our multi-site L2LS network is working great. But, before too long, it will be time to make some changes
+to our configurations. Lucky for us, that time is today!
+
+### **Branching Out**
+
+Before we start jumping in and modifying our files, we'll create a branch named **banner-syslog** in our
+forked repository to work on our changes. There are multiple ways we can create our branch, but we'll use
+the `git switch` command with the `-c` parameter to create our new branch.
+
+```bash
+git switch -c banner-syslog
+```
+
+After entering this command, we should see our new branch name reflected in the terminal. It will also be
+reflected in the status bar in the lower lefthand corner of our VS Code window.
+
+Now we're ready to start working on our changes :sunglasses:
+
+### **Login Banner**
+
+When we initially deployed our multi-site topology, we forgot to include a login banner on all of our switches.
+Let's take a look at the [AVD documentation site](https://avd.sh/en/stable/roles/eos_cli_config_gen/index.html?h=login+banner#banners) to see what the
+data model is for this configuration.
+
+The banner on all of our switches will be the same, and after reviewing the AVD documentation, we know we can accomplish this by defining the `banners` input variable
+in our `global_vars/global_dc_vars.yml` file.
+
+Add the code block below to `global_vars/global_dc_vars.yml`
+
+```yaml
+# Login Banner
+banners:
+  motd: |
+    You shall not pass. Unless you are authorized. Then you shall pass.
+    EOF
+```
+
+Next, let's build and review our changes
+
+```bash
+make build-site-1 build-site-2
+```
+
+So far, so good! Before we create a Pull Request though, we have some more work to do...
+
+### **Syslog Server**
+
+Our next Day 2 change is to add a syslog server configuration to all of our switches. Once again, we'll take
+a look at the [AVD documentation site](https://avd.sh/en/stable/roles/eos_cli_config_gen/README_v4.0.html?h=logging#logging) to see the
+data model associated with the `logging` input variable.
+
+Just like with our banner, the syslog server configuration will be consistent on all of our switches. Because of this, we can also put this into
+our `global_vars/global_dc_vars.yml` file.
+
+Add the code block below to `global_vars/global_dc_vars.yml`
+
+```yaml
+# Syslog
+logging:
+  vrfs:
+    default:
+      source_interface: Management0
+      hosts:
+        10.200.0.108:
+        10.200.1.108:
+```
+
+Finally, let's build out our configurations
+
+```bash
+make build-site-1 build-site-2
+```
+
+Take a minute, using the source control feature in VS Code, to review what has changed as a result
+of our work.
+
+At this point, we have our Banner and Syslog configurations in place. The configurations look good,
+and we're ready to share this with our team for review. Let's create our Pull Request (PR)!
+
+On our forked repository, create the Pull Request, and take a minute to review the contents of the PR.
+Assuming all looks good, let's earn the "YOLO" GitHub badge by approving and merging your own PR!
+
+???+ tip
+    Don't forget to delete the **banner-syslog** branch after performing the merge - Keep that repo clean!
+
+Once merged, let's switch back to our `main` branch and pull down our now merged changes
+
+```bash
+git switch main
+git pull
+```
+
+Then, let's delete our now defunct **banner-syslog** branch
+
+```bash
+git branch -d banner-syslog
+```
+
+Finally, let's deploy our changes
+
+```bash
+make deploy-site-1 deploy-site-2
+```
+
+Once completed, when logging into any switch, we should now see our banner. The output of the `show logging` command
+should also have our newly defined syslog servers.
+
+### **Pre-Provisioning new Switches**
+
+It's time to add a new Leaf pair to Site 1. The switches have been ordered, but it'd be great to have them added
+into our automation pipeline before they even hit the loading dock; With their configurations already rendered and
+ready to go. So, let's do just that!
+
+#### **Branch Time**
+
+Before we jump in, let's get a new branch created for our work. We'll call this branch **add-leafs**
+
+```bash
+git switch -c add-leafs
+```
+
+Now that we have our branch created, let's get to work!
+
+#### **Inventory Update**
+
+First, we'll want to add our new switches, named **s1-leaf5** and **s1-leaf6**, into our inventory file. We'll add them
+as members of the `SITE1_LEAFS` group. We will also set `is_deployed` to `false` for these switches, which will omit them
+from our deploy jobs.
+
+???+ tip
+    Setting `is_deployed` to `false` will allow us to add the new switches into our pipeline, and build their configurations,
+    without having them unintentionally included in any `deploy` jobs we may run.
+
+Add the following two lines under `s1-leaf4` in `sites/site_1/inventory.yml`
+
+```yaml
+s1-leaf5:
+  is_deployed: false
+s1-leaf6:
+  is_deployed: false
+```
+
+The `sites/site_1/inventory.yml` file should now look like the example below:
+
+??? eos-config annotate "sites/site_1/inventory.yml"
+    ``` yaml hl_lines="19-22"
+    ---
+    SITE1:
+      children:
+        CVP:
+          hosts:
+            cvp:
+        SITE1_FABRIC:
+          children:
+            SITE1_SPINES:
+              hosts:
+                s1-spine1:
+                s1-spine2:
+            SITE1_LEAFS:
+              hosts:
+                s1-leaf1:
+                s1-leaf2:
+                s1-leaf3:
+                s1-leaf4:
+                s1-leaf5:
+                  is_deployed: false
+                s1-leaf6:
+                  is_deployed: false
+        SITE1_FABRIC_SERVICES:
+          children:
+            SITE1_SPINES:
+            SITE1_LEAFS:
+        SITE1_FABRIC_PORTS:
+          children:
+            SITE1_SPINES:
+            SITE1_LEAFS:
+    ```
+
+Next, let's add our new Leaf switches into `sites/site_1/group_vars/SITE1_FABRIC.yml`
+
+These new switches will go into **RACK3**, leverage MLAG for multi-homing, and will have locally
+connected endpoints in VLANs `10` and `20`.
+
+Just like the other Leaf switches, interfaces `Ethernet2` and `Ethernet3` will be used to connect
+to the spines.
+
+On the spines, interface `Ethernet9` will be used to connect to s1-leaf5, while `Ethernet10`
+will be used to connect to s1-leaf6.
+
+Starting at line 64, add the following code block into `sites/site_1/group_vars/SITE1_FABRIC.yml`
+
+``` yaml
+RACK3:
+  nodes:
+    s1-leaf5:
+      id: 7
+      mgmt_ip: 192.168.0.28/24
+      uplink_switch_interfaces: [ Ethernet9, Ethernet9 ]
+    s1-leaf6:
+      id: 8
+      mgmt_ip: 192.168.0.29/24
+      uplink_switch_interfaces: [ Ethernet10, Ethernet10 ]
+```
+
+???+ warning
+    Make sure the indentation of `RACK3` is the same as `RACK2`, which can be found on line 52
+
+The `sites/site_1/group_vars/SITE1_FABRIC.yml` file should now look like the example below:
+
+??? eos-config annotate "sites/site_1/inventory.yml"
+    ``` yaml hl_lines="64-73"
+    ---
+    fabric_name: SITE1_FABRIC
+
+    # Set Design Type to L2ls
+    design:
+      type: l2ls
+
+    # Spine Switches
+    l3spine:
+      defaults:
+        platform: cEOS
+        spanning_tree_mode: mstp
+        spanning_tree_priority: 4096
+        loopback_ipv4_pool: 10.1.252.0/24
+        mlag_peer_ipv4_pool: 10.1.253.0/24
+        mlag_peer_l3_ipv4_pool: 10.1.254.0/24
+        virtual_router_mac_address: 00:1c:73:00:dc:01
+        mlag_interfaces: [ Ethernet1, Ethernet6 ]
+      node_groups:
+        SPINES:
+          nodes:
+            s1-spine1:
+              id: 1
+              mgmt_ip: 192.168.0.10/24
+            s1-spine2:
+              id: 2
+              mgmt_ip: 192.168.0.11/24
+
+    # Leaf Switches
+    leaf:
+      defaults:
+        platform: cEOS
+        mlag_peer_ipv4_pool: 10.1.253.0/24
+        spanning_tree_mode: mstp
+        spanning_tree_priority: 16384
+        uplink_switches: [ s1-spine1, s1-spine2 ]
+        uplink_interfaces: [ Ethernet2, Ethernet3 ]
+        mlag_interfaces: [ Ethernet1, Ethernet6 ]
+      node_groups:
+        RACK1:
+          filter:
+            tags: [ "10" ]
+          nodes:
+            s1-leaf1:
+              id: 3
+              mgmt_ip: 192.168.0.12/24
+              uplink_switch_interfaces: [ Ethernet2, Ethernet2 ]
+            s1-leaf2:
+              id: 4
+              mgmt_ip: 192.168.0.13/24
+              uplink_switch_interfaces: [ Ethernet3, Ethernet3 ]
+        RACK2:
+          filter:
+            tags: [ "20" ]
+          nodes:
+            s1-leaf3:
+              id: 5
+              mgmt_ip: 192.168.0.14/24
+              uplink_switch_interfaces: [ Ethernet4, Ethernet4 ]
+            s1-leaf4:
+              id: 6
+              mgmt_ip: 192.168.0.15/24
+              uplink_switch_interfaces: [ Ethernet5, Ethernet5 ]
+        RACK3:
+          nodes:
+            s1-leaf5:
+              id: 7
+              mgmt_ip: 192.168.0.28/24
+              uplink_switch_interfaces: [ Ethernet9, Ethernet9 ]
+            s1-leaf6:
+              id: 8
+              mgmt_ip: 192.168.0.29/24
+              uplink_switch_interfaces: [ Ethernet10, Ethernet10 ]
+
+
+    ##################################################################
+    # Underlay Routing Protocol - ran on Spines
+    ##################################################################
+
+    underlay_routing_protocol: OSPF
+
+    ##################################################################
+    # WAN/Core Edge Links
+    ##################################################################
+
+    core_interfaces:
+      p2p_links:
+
+        - ip: [ 10.0.0.29/31, 10.0.0.28/31 ]
+          nodes: [ s1-spine1, WANCORE ]
+          interfaces: [ Ethernet7, Ethernet2 ]
+          include_in_underlay_protocol: true
+
+        - ip: [ 10.0.0.33/31, 10.0.0.32/31 ]
+          nodes: [ s1-spine1, WANCORE ]
+          interfaces: [ Ethernet8, Ethernet2 ]
+          include_in_underlay_protocol: true
+
+        - ip: [ 10.0.0.31/31, 10.0.0.30/31 ]
+          nodes: [ s1-spine2, WANCORE ]
+          interfaces: [ Ethernet7, Ethernet2 ]
+          include_in_underlay_protocol: true
+
+        - ip: [ 10.0.0.35/31, 10.0.0.34/31 ]
+          nodes: [ s1-spine2, WANCORE ]
+          interfaces: [ Ethernet8, Ethernet2 ]
+          include_in_underlay_protocol: true
+
+    ```
+
+Notice how we did not specify a `filter` or `tags` under `RACK3`. Without the `filter`
+in place, all VLANs/SVIs/VRFs will be provisioned on the switch.
+
+In our case, this simply means that VLANs `10` and `20` will both be created on our new
+Leaf switches. However, since they are `leaf` node types, no SVIs will be created.
+
+Next - Let's build the configuration!
+
+```bash
+make build-site-1
+```
+
+???+ danger "Important"
+    Interfaces `Ethernet9` and `Ethernet10` do not actually exist on the Spines. Because of this, we
+    will **not** run a deploy command, since it would fail.
+
+Take a moment and review the results of our changes via the source control functionality in VS Code.
+
+Finally, we'll commit our changes and publish our branch via source control in VS Code.
+
+#### **Backing out changes**
+
+As it turns out, we should have added these leaf switches to an entirely new site. Oops! No worries, because
+we used our branch, we can simply switch back to our main branch and then delete our local copy of the **add-leafs**
+branch. No harm or confusion related to this change ever hit the main branch!
+
+```bash
+git switch main
+git branch -d add-leafs
+```
+
+If we had already published this branch to our forked repository, we can simply go out to GitHub and delete it.
+
+All set!
