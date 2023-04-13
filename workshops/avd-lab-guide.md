@@ -387,12 +387,52 @@ You have built a multi-site L2LS network without touching the CLI on a single sw
 
 ## **Day 2 Operations**
 
-???+ tip
-    Before beginning this next section, make sure you have a clean repo! Commit or discard any pending
-    changes you may have.
-
 Our multi-site L2LS network is working great. But, before too long, it will be time to make some changes
 to our configurations. Lucky for us, that time is today!
+
+### **Cleaning Up**
+
+Before going any further, let's make sure we have a clean repo by committing the changes we've made
+up to this point. The CLI commands below can accomplish this, but the VS Code Source Control GUI
+can be used as well.
+
+```bash
+git add .
+git commit -m 'Your message here'
+```
+
+Next, we'll want to push these changes to our forked repository out on GitHub
+
+```bash
+git push
+```
+
+If this is our first time pushing to our forked repository, then VS Code will provide us with the following
+sign-in prompt:
+
+![VS Code GitHub Sign in Prompt](assets/images/git_login_request.png){: style="width:400px"}
+
+Choose **Allow** and another prompt will come up, showing your unique login code:
+
+![VS Code GitHub Login Code Prompt](assets/images/git_login_code.png){: style="width:400px"}
+
+Choose **Copy & Continue to GitHub** and *another* prompt will come up asking if it's ok to open an external website (GitHub)
+
+![VS Code External Site Prompt](assets/images/git_login_external_site.png){: style="width:400px"}
+
+Choose **Open** and then an external site (GitHub) will open, asking for your login code
+
+![GitHub Login Code Entry](assets/images/git_login_code_entry.png){: style="width:400px"}
+
+Paste in your login code and choose **Continue**. You will then be prompted to Authorize VS Code
+
+![GitHub Authorize VS Code](assets/images/git_login_authorize_vscode.png){: style="width:400px"}
+
+Choose **Authorize Visual-Studio-Code** and you should be presented with the coveted Green Check Mark!
+
+![VS Code Git Login Complete](assets/images/git_login_complete.png){: style="width:400px"}
+
+Whew! Alright. Now that we have that complete, let's keep moving...
 
 ### **Branching Out**
 
@@ -405,7 +445,8 @@ git switch -c banner-syslog
 ```
 
 After entering this command, we should see our new branch name reflected in the terminal. It will also be
-reflected in the status bar in the lower lefthand corner of our VS Code window.
+reflected in the status bar in the lower left hand corner of our VS Code window (you may need to click the refresh icon
+before this is shown).
 
 Now we're ready to start working on our changes :sunglasses:
 
@@ -428,13 +469,26 @@ banners:
     EOF
 ```
 
-Next, let's build and review our changes
+???+ danger "Yes, that "EOF" is important!"
+    Ensure that the entire code snippet above is copied; Including the `EOF`. This must be present in order for the configuration to be
+    considered valid
+
+Next, let's build out the configurations and documentation associated with this change
 
 ```bash
 make build-site-1 build-site-2
 ```
 
-So far, so good! Before we create a Pull Request though, we have some more work to do...
+Take a minute to review the results of our five lines of YAML. When finished reviewing the changes, lets commit them.
+
+As usual, there are a few ways of doing this, but the CLI commands below will get the job done:
+
+```bash
+git add .
+git commit -m 'add banner'
+```
+
+So far, so good! Before we publish our branch and create a Pull Request though, we have some more work to do...
 
 ### **Syslog Server**
 
@@ -468,10 +522,27 @@ Take a minute, using the source control feature in VS Code, to review what has c
 of our work.
 
 At this point, we have our Banner and Syslog configurations in place. The configurations look good,
-and we're ready to share this with our team for review. Let's create our Pull Request (PR)!
+and we're ready to share this with our team for review. In other words, **it's time to publish our branch
+to the remote origin** (our forked repo on GitHub) and create the Pull Request (PR)!
 
-On our forked repository, create the Pull Request, and take a minute to review the contents of the PR.
-Assuming all looks good, let's earn the "YOLO" GitHub badge by approving and merging your own PR!
+There are a few ways to publish the `banner-syslog` branch to our forked repository. The commands below will
+accomplish this via the CLI:
+
+```bash
+git add .
+git commit -m 'add syslog'
+git push --set-upstream origin banner-syslog
+```
+
+On our forked repository, let's create the Pull Request.
+
+When creating the PR, ensure that the `base repository` is the **main** branch of **your fork**. This can
+be selected via the dropdown as shown below:
+
+![PR Base Repository Selection](assets/images/pr_compare_selection.png){: style="width:800px"}
+
+Take a minute to review the contents of the PR. Assuming all looks good, let's earn the **YOLO** GitHub badge
+by approving and merging your own PR!
 
 ???+ tip
     Don't forget to delete the **banner-syslog** branch after performing the merge - Keep that repo clean!
@@ -486,7 +557,7 @@ git pull
 Then, let's delete our now defunct **banner-syslog** branch
 
 ```bash
-git branch -d banner-syslog
+git branch -D banner-syslog
 ```
 
 Finally, let's deploy our changes
@@ -498,11 +569,10 @@ make deploy-site-1 deploy-site-2
 Once completed, when logging into any switch, we should now see our banner. The output of the `show logging` command
 should also have our newly defined syslog servers.
 
-### **Pre-Provisioning new Switches**
+### **Provisioning new Switches**
 
-It's time to add a new Leaf pair to Site 1. The switches have been ordered, but it'd be great to have them added
-into our automation pipeline before they even hit the loading dock; With their configurations already rendered and
-ready to go. So, let's do just that!
+Our network is gaining popularity, and it's time to add a new Leaf pair into the environment! **s1-leaf5** and **s1-leaf6**
+are ready to be provisioned, so let's get to it.
 
 #### **Branch Time**
 
@@ -517,26 +587,19 @@ Now that we have our branch created, let's get to work!
 #### **Inventory Update**
 
 First, we'll want to add our new switches, named **s1-leaf5** and **s1-leaf6**, into our inventory file. We'll add them
-as members of the `SITE1_LEAFS` group. We will also set `is_deployed` to `false` for these switches, which will omit them
-from our deploy jobs.
-
-???+ tip
-    Setting `is_deployed` to `false` will allow us to add the new switches into our pipeline, and build their configurations,
-    without having them unintentionally included in any `deploy` jobs we may run.
+as members of the `SITE1_LEAFS` group.
 
 Add the following two lines under `s1-leaf4` in `sites/site_1/inventory.yml`
 
 ```yaml
 s1-leaf5:
-  is_deployed: false
 s1-leaf6:
-  is_deployed: false
 ```
 
 The `sites/site_1/inventory.yml` file should now look like the example below:
 
 ??? eos-config annotate "sites/site_1/inventory.yml"
-    ``` yaml hl_lines="19-22"
+    ``` yaml hl_lines="19-20"
     ---
     SITE1:
       children:
@@ -556,9 +619,7 @@ The `sites/site_1/inventory.yml` file should now look like the example below:
                 s1-leaf3:
                 s1-leaf4:
                 s1-leaf5:
-                  is_deployed: false
                 s1-leaf6:
-                  is_deployed: false
         SITE1_FABRIC_SERVICES:
           children:
             SITE1_SPINES:
@@ -600,7 +661,7 @@ RACK3:
 
 The `sites/site_1/group_vars/SITE1_FABRIC.yml` file should now look like the example below:
 
-??? eos-config annotate "sites/site_1/inventory.yml"
+??? eos-config annotate "sites/site_1/group_vars/SITE1_FABRIC.yml"
     ``` yaml hl_lines="64-73"
     ---
     fabric_name: SITE1_FABRIC
@@ -712,11 +773,11 @@ The `sites/site_1/group_vars/SITE1_FABRIC.yml` file should now look like the exa
 
     ```
 
-Notice how we did not specify a `filter` or `tags` under `RACK3`. Without the `filter`
-in place, all VLANs/SVIs/VRFs will be provisioned on the switch.
-
-In our case, this simply means that VLANs `10` and `20` will both be created on our new
-Leaf switches. However, since they are `leaf` node types, no SVIs will be created.
+???+ tip
+    Notice how we did not specify a `filter` or `tags` under `RACK3`. If the `filter`
+    parameter is not defined, all VLANs/SVIs/VRFs will be provisioned on the switch.
+    In our case, this simply means that VLANs `10` and `20` will both be created on our new
+    Leaf switches. However, since they are `leaf` node types, no SVIs will be created.
 
 Next - Let's build the configuration!
 
@@ -730,19 +791,26 @@ make build-site-1
 
 Take a moment and review the results of our changes via the source control functionality in VS Code.
 
-Finally, we'll commit our changes and publish our branch via source control in VS Code.
+Finally, we'll commit our changes and publish our branch. Again, we can use the VS Code Source Control GUI for this,
+or via the CLI using the commands below:
 
-#### **Backing out changes**
+```bash
+git add .
+git commit -m 'add leafs'
+git push --set-upstream origin add-leafs
+```
 
-As it turns out, we should have added these leaf switches to an entirely new site. Oops! No worries, because
-we used our branch, we can simply switch back to our main branch and then delete our local copy of the **add-leafs**
+## **Backing out changes**
+
+Ruh Roh. As it turns out, we should have added these leaf switches to an entirely new site. Oops! No worries, because
+we used our **add-leafs** branch, we can simply switch back to our main branch and then delete our local copy of the **add-leafs**
 branch. No harm or confusion related to this change ever hit the main branch!
 
 ```bash
 git switch main
-git branch -d add-leafs
+git branch -D add-leafs
 ```
 
-If we had already published this branch to our forked repository, we can simply go out to GitHub and delete it.
+Finally, we can go out to our forked copy of the repository and delete the **add-leafs** branch.
 
 All set!
