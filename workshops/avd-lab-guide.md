@@ -314,7 +314,7 @@ core_interfaces:
 
 ### **Site #2**
 
-Add the following code block to the bottom of `sites/site_1/group_vars/SITE2_FABRIC.yml`.
+Add the following code block to the bottom of `sites/site_2/group_vars/SITE2_FABRIC.yml`.
 
 ``` yaml
 ##################################################################
