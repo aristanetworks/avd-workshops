@@ -286,7 +286,7 @@ We can look at the benefits of pre-commit by introducing three errors in a group
 ```yaml
           20:
             name: 'Twenty'
-            tags: [ "20" ]
+            tags: [ "App" ]
             enabled: true
             ip_virtual_router_addresses:
               - 10.20.20.1
@@ -337,7 +337,7 @@ We can see all three failures. pre-commit hooks will try and fix errors if possi
 ```yaml
           20:
             name: 'Twenty'
-            tags: [ "20" ]
+            tags: [ "App" ]
             enabled: true
             ip_virtual_router_addresses:
               - 10.20.20.1
@@ -480,7 +480,7 @@ This example workflow will add two new VLANs to our sites. Site 1 will add VLAN 
             svis:
               10:
                 name: 'Ten'
-                tags: [ "10" ]
+                tags: [ "Web" ]
                 enabled: true
                 ip_virtual_router_addresses:
                   - 10.10.10.1
@@ -491,7 +491,7 @@ This example workflow will add two new VLANs to our sites. Site 1 will add VLAN 
                     ip_address: 10.10.10.3/24
               20:
                 name: 'Twenty'
-                tags: [ "20" ]
+                tags: [ "App" ]
                 enabled: true
                 ip_virtual_router_addresses:
                   - 10.20.20.1
@@ -502,7 +502,7 @@ This example workflow will add two new VLANs to our sites. Site 1 will add VLAN 
                     ip_address: 10.20.20.3/24
               25:
                 name: 'Twenty-five'
-                tags: [ "25" ]
+                tags: [ "Wifi" ]
                 enabled: true
                 ip_virtual_router_addresses:
                   - 10.25.25.1
@@ -554,7 +554,7 @@ Since this is a development branch, we are only testing for valid variable files
             svis:
               30:
                 name: 'Thirty'
-                tags: [ "30" ]
+                tags: [ "DB" ]
                 enabled: true
                 ip_virtual_router_addresses:
                   - 10.30.30.1
@@ -565,7 +565,7 @@ Since this is a development branch, we are only testing for valid variable files
                     ip_address: 10.30.30.3/24
               40:
                 name: 'Forty'
-                tags: [ "40" ]
+                tags: [ "DMZ" ]
                 enabled: true
                 ip_virtual_router_addresses:
                   - 10.40.40.1
@@ -576,7 +576,7 @@ Since this is a development branch, we are only testing for valid variable files
                     ip_address: 10.40.40.3/24
               45:
                 name: 'Forty-five'
-                tags: [ "45" ]
+                tags: [ "Guest" ]
                 enabled: true
                 ip_virtual_router_addresses:
                   - 10.45.45.1

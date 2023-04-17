@@ -40,7 +40,7 @@ leaf:
     RACK1:
       mlag: true
       filter:
-        tags: [ "10" ]
+        tags: [ "Web" ]
       nodes:
         s1-leaf1:
           id: 3
@@ -53,7 +53,7 @@ leaf:
     RACK2:
       mlag: true
       filter:
-        tags: [ "20" ]
+        tags: [ "App" ]
       nodes:
         s1-leaf3:
           id: 5

@@ -320,7 +320,7 @@ leaf:
       # Filter which Vlans will be applied to the node_group, comma-separated tags supported
       # Tags for each Vlan are defined in the SITE1_FABRIC_SERVICES.yml
       filter:
-        tags: [ "10" ]
+        tags: [ "Web" ]
       nodes:
         s1-leaf1:
           id: 3
@@ -335,7 +335,7 @@ leaf:
           uplink_switch_interfaces: [ Ethernet3, Ethernet3 ]
     RACK2:
       filter:
-        tags: [ "20" ]
+        tags: [ "App" ]
       nodes:
         s1-leaf3:
           id: 5
@@ -403,7 +403,7 @@ tenants:
             # Vlan Name
             name: 'Ten'
             # Tag assigned to Vlan. Used as a filter by each node_group
-            tags: [ "10" ]
+            tags: [ "Web" ]
             enabled: true
             # SVI Virtual ARP address, used along with pre-defined virtual_router_mac_address
             ip_virtual_router_addresses:
@@ -416,7 +416,7 @@ tenants:
                 ip_address: 10.10.10.3/24
           20:
             name: 'Twenty'
-            tags: [ "20" ]
+            tags: [ "App" ]
             enabled: true
             ip_virtual_router_addresses:
               - 10.20.20.1

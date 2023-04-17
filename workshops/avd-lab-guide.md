@@ -704,7 +704,7 @@ The `sites/site_1/group_vars/SITE1_FABRIC.yml` file should now look like the exa
       node_groups:
         RACK1:
           filter:
-            tags: [ "10" ]
+            tags: [ "Web" ]
           nodes:
             s1-leaf1:
               id: 3
@@ -716,7 +716,7 @@ The `sites/site_1/group_vars/SITE1_FABRIC.yml` file should now look like the exa
               uplink_switch_interfaces: [ Ethernet3, Ethernet3 ]
         RACK2:
           filter:
-            tags: [ "20" ]
+            tags: [ "App" ]
           nodes:
             s1-leaf3:
               id: 5
