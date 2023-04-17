@@ -263,7 +263,7 @@ ntp:
 svis:
   10:
     name: 'DATA'
-    tags: ['10']
+    tags: ['Web']
     enabled: true
     ip_virtual_router_addresses:
       - 10.10.10.1
