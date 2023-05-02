@@ -219,7 +219,11 @@ Switch to this new branch:
 git switch update-hostnames
 ```
 
-Using the IDE, open each switch config file and update the hostname. Changes are auto-saved. Let's verify the changes (diffs) we are about to commit to make sure they are correct.
+Using the IDE, open each switch config file and update the hostname by removing the prefix `s1-`. Changes are auto-saved.
+
+**Example: spine1.cfg** - change hostname from `s1-spine1` to `spine1`.
+
+Let's verify the changes (diffs) we are about to commit to make sure they are correct.
 
 ``` bash
 git diff
@@ -235,6 +239,8 @@ git commit -m "updated hostname on each switch"
 ### Merge branch
 
 Now that we are satisfied with our hostnames changes we can merge branch `update-hostnames` into `main`.
+
+![Merge](assets/images/git_branch_merge.png){: style="width:500px"}
 
 First, switch back to the `main` branch and notice the hostnames go back to the original name. Why did that happen? Remember we never modified the original copy `main` branch. This is a different version of the file. Once we merge the `update-hostnames` branch into `main`, then both copies will be the same.
 
