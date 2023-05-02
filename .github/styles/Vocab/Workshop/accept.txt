@@ -15,6 +15,7 @@ dev
 devcontainer
 Dockerfile
 eos
+github
 group_vars
 host_vars
 hostname\w*\b
