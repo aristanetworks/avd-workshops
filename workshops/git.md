@@ -41,7 +41,7 @@ Configuration - [https://git-scm.com/book/en/v2/Getting-Started-Installing-Git](
 
 When setting up Git for the first time you need to configure your Identity with a name and email address. This is used to add your signature to commits. Additionally, set the default branch name to `main`.
 
-From the Terminal in your ATD Lab Programmability IDE running the following commands.
+From the Terminal in your ATD Lab Programmability IDE run the following commands.
 
 ``` bash
 # Set your username:
@@ -349,17 +349,35 @@ origin  https://github.com/username/workshops.git (push)
 
 In the next step, let's add a new VLAN 40 to the `atd/vlans.yml` file. First, create a new branch called `add-vlan-40`.
 
-### **Create the branch**
+### **Create and switch to new branch**
 
 ``` bash
 git branch add-vlan-40
-
 git switch add-vlan-40
 ```
 
-Now update `avd/vlans.yml` with VLAN 40 information.
+Update `avd/vlans.yml` with VLAN 40 information.
 
-Additionally, stage and commit these changes to the new branch.
+??? eos-config annotate "Updated vlans.yml"
+    ``` yaml
+    ---
+    vlans:
+    - 10:
+        name: Ten
+    - 20:
+        name: Twenty
+    - 30:
+        name: Thirty
+    - 40:
+        name: Forty
+    ```
+
+Now, stage and commit these changes to the new branch.
+
+``` bash
+git add .
+git commit -m "added vlan 40"
+```
 
 ### **Push Changes to GitHub**
 
