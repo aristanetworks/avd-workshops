@@ -1098,20 +1098,20 @@ The Jinja template is as follows, which will use the above described filters to 
 Here is some information about some of Spine1's interfaces:
 
 Ethernet1
-    IP: {{ ipaddr[inventory_hostname]['interfaces']['Ethernet1']['ipv4'] | ipaddr('address')  }}
-    Subnet Mask:  {{ ipaddr[inventory_hostname]['interfaces']['Ethernet1']['ipv4'] | ipaddr('netmask')  }}
-    Network ID:  {{ ipaddr[inventory_hostname]['interfaces']['Ethernet1']['ipv4'] | ipaddr('network')  }}
-    Network Size:  {{ ipaddr[inventory_hostname]['interfaces']['Ethernet1']['ipv4'] | ipaddr('size')  }}
-    Usable Range:  {{ ipaddr[inventory_hostname]['interfaces']['Ethernet1']['ipv4'] | ipaddr('range_usable')  }}
-    Broadcast Address:  {{ ipaddr[inventory_hostname]['interfaces']['Ethernet1']['ipv4'] | ipaddr('broadcast')  }}
+    IP: {{ ip_filter[inventory_hostname]['interfaces']['Ethernet1']['ipv4'] | ipaddr('address')  }}
+    Subnet Mask:  {{ ip_filter[inventory_hostname]['interfaces']['Ethernet1']['ipv4'] | ipaddr('netmask')  }}
+    Network ID:  {{ ip_filter[inventory_hostname]['interfaces']['Ethernet1']['ipv4'] | ipaddr('network')  }}
+    Network Size:  {{ ip_filter[inventory_hostname]['interfaces']['Ethernet1']['ipv4'] | ipaddr('size')  }}
+    Usable Range:  {{ ip_filter[inventory_hostname]['interfaces']['Ethernet1']['ipv4'] | ipaddr('range_usable')  }}
+    Broadcast Address:  {{ ip_filter[inventory_hostname]['interfaces']['Ethernet1']['ipv4'] | ipaddr('broadcast')  }}
 
 Ethernet2
-    IP: {{ ipaddr[inventory_hostname]['interfaces']['Ethernet2']['ipv4'] | ipaddr('address')  }}
-    Subnet Mask:  {{ ipaddr[inventory_hostname]['interfaces']['Ethernet2']['ipv4'] | ipaddr('netmask')  }}
-    Network ID:  {{ ipaddr[inventory_hostname]['interfaces']['Ethernet2']['ipv4'] | ipaddr('network')  }}
-    Network Size:  {{ ipaddr[inventory_hostname]['interfaces']['Ethernet2']['ipv4'] | ipaddr('size')  }}
-    Usable Range:  {{ ipaddr[inventory_hostname]['interfaces']['Ethernet2']['ipv4'] | ipaddr('range_usable')  }}
-    Broadcast Address:  {{ ipaddr[inventory_hostname]['interfaces']['Ethernet2']['ipv4'] | ipaddr('broadcast')  }}
+    IP: {{ ip_filter[inventory_hostname]['interfaces']['Ethernet2']['ipv4'] | ipaddr('address')  }}
+    Subnet Mask:  {{ ip_filter[inventory_hostname]['interfaces']['Ethernet2']['ipv4'] | ipaddr('netmask')  }}
+    Network ID:  {{ ip_filter[inventory_hostname]['interfaces']['Ethernet2']['ipv4'] | ipaddr('network')  }}
+    Network Size:  {{ ip_filter[inventory_hostname]['interfaces']['Ethernet2']['ipv4'] | ipaddr('size')  }}
+    Usable Range:  {{ ip_filter[inventory_hostname]['interfaces']['Ethernet2']['ipv4'] | ipaddr('range_usable')  }}
+    Broadcast Address:  {{ ip_filter[inventory_hostname]['interfaces']['Ethernet2']['ipv4'] | ipaddr('broadcast')  }}
 ```
 
 Reviewing our template, we can see we are using the current inventory device we are running the playbook against, and keying in on the ipv4 address mapping. We are then using the filter command, `|`, and specifying the `address` keyword, meaning we only want the address part of the whole prefix.
