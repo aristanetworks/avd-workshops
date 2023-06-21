@@ -269,7 +269,7 @@ At this point, you should be able to ping between hosts within a site but not be
 
 ## **Connect Sites to WAN IP Network**
 
-The WAN IP Network is defined by the `core_interfaces` data model. Full data model documentation is located [here](https://avd.sh/en/stable/roles/eos_designs/doc/core-interfaces-BETA.html).
+The WAN IP Network is defined by the `core_interfaces` data model. Full data model documentation is located [here](https://avd.sh/en/v4.1.0/roles/eos_designs/docs/input-variables.html#core-interfaces-settings).
 
 The data model defines P2P links (`/31s`) on the spines with a stanza per link. See details in the graphic below. Each spine has two links to the WAN IP Network configured on ports `Ethernet7` and `Ethernet8`. OSPF is added to these links as well.
 
@@ -493,7 +493,7 @@ So far, so good! Before we publish our branch and create a Pull Request though, 
 ### **Syslog Server**
 
 Our next Day 2 change is to add a syslog server configuration to all of our switches. Once again, we'll take
-a look at the [AVD documentation site](https://avd.sh/en/stable/roles/eos_cli_config_gen/README_v4.0.html?h=logging#logging) to see the
+a look at the [AVD documentation site](https://avd.sh/en/v4.1.0/roles/eos_cli_config_gen/docs/input-variables.html#logging) to see the
 data model associated with the `logging` input variable.
 
 Just like with our banner, the syslog server configuration will be consistent on all of our switches. Because of this, we can also put this into
@@ -505,11 +505,11 @@ Add the code block below to `global_vars/global_dc_vars.yml`
 # Syslog
 logging:
   vrfs:
-    default:
+    - name: default
       source_interface: Management0
       hosts:
-        10.200.0.108:
-        10.200.1.108:
+        - name: 10.200.0.108
+        - name: 10.200.1.108
 ```
 
 Finally, let's build out our configurations
@@ -644,13 +644,13 @@ will be used to connect to s1-leaf6.
 Starting at line 64, add the following code block into `sites/site_1/group_vars/SITE1_FABRIC.yml`
 
 ``` yaml
-RACK3:
+- group: RACK3
   nodes:
-    s1-leaf5:
+    - name: s1-leaf5
       id: 7
       mgmt_ip: 192.168.0.28/24
       uplink_switch_interfaces: [ Ethernet9, Ethernet9 ]
-    s1-leaf6:
+    - name: s1-leaf6
       id: 8
       mgmt_ip: 192.168.0.29/24
       uplink_switch_interfaces: [ Ethernet10, Ethernet10 ]
@@ -682,12 +682,12 @@ The `sites/site_1/group_vars/SITE1_FABRIC.yml` file should now look like the exa
         virtual_router_mac_address: 00:1c:73:00:dc:01
         mlag_interfaces: [ Ethernet1, Ethernet6 ]
       node_groups:
-        SPINES:
+        - group: SPINES
           nodes:
-            s1-spine1:
+            - name: s1-spine1
               id: 1
               mgmt_ip: 192.168.0.10/24
-            s1-spine2:
+            - name: s1-spine2
               id: 2
               mgmt_ip: 192.168.0.11/24
 
@@ -702,37 +702,37 @@ The `sites/site_1/group_vars/SITE1_FABRIC.yml` file should now look like the exa
         uplink_interfaces: [ Ethernet2, Ethernet3 ]
         mlag_interfaces: [ Ethernet1, Ethernet6 ]
       node_groups:
-        RACK1:
+        - group: RACK1
           filter:
             tags: [ "Web" ]
           nodes:
-            s1-leaf1:
+            - name: s1-leaf1
               id: 3
               mgmt_ip: 192.168.0.12/24
               uplink_switch_interfaces: [ Ethernet2, Ethernet2 ]
-            s1-leaf2:
+            - name: s1-leaf2
               id: 4
               mgmt_ip: 192.168.0.13/24
               uplink_switch_interfaces: [ Ethernet3, Ethernet3 ]
-        RACK2:
+        - group: RACK2
           filter:
             tags: [ "App" ]
           nodes:
-            s1-leaf3:
+            - name: s1-leaf3
               id: 5
               mgmt_ip: 192.168.0.14/24
               uplink_switch_interfaces: [ Ethernet4, Ethernet4 ]
-            s1-leaf4:
+            - name: s1-leaf4
               id: 6
               mgmt_ip: 192.168.0.15/24
               uplink_switch_interfaces: [ Ethernet5, Ethernet5 ]
-        RACK3:
+        - group: RACK3
           nodes:
-            s1-leaf5:
+            - name: s1-leaf5
               id: 7
               mgmt_ip: 192.168.0.28/24
               uplink_switch_interfaces: [ Ethernet9, Ethernet9 ]
-            s1-leaf6:
+            - name: s1-leaf6
               id: 8
               mgmt_ip: 192.168.0.29/24
               uplink_switch_interfaces: [ Ethernet10, Ethernet10 ]

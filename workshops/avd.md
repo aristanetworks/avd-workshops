@@ -175,71 +175,9 @@ In a multi-site environment, some variables must be applied to all sites. They i
 
 ??? eos-config annotate "global_vars/global_dc_vars.yml"
     ``` yaml
-    ---
-    # Credentials for CVP and EOS Switches
-    ansible_user: arista
-    ansible_password: "{{ lookup('env', 'LABPASSPHRASE') }}"
-    ansible_network_os: arista.eos.eos
-    # Configure privilege escalation
-    ansible_become: true
-    ansible_become_method: enable
-    # HTTPAPI configuration
-    ansible_connection: httpapi
-    ansible_httpapi_port: 443
-    ansible_httpapi_use_ssl: true
-    ansible_httpapi_validate_certs: false
-    ansible_python_interpreter: $(which python3)
-
-    # Local Users
-    local_users:
-    arista:
-        privilege: 15
-        role: network-admin
-        sha512_password: "{{ ansible_password | password_hash }}"
-
-    # AAA
-    aaa_authorization:
-    exec:
-        default: local
-
-    # OOB Management network default gateway.
-    mgmt_gateway: 192.168.0.1
-    mgmt_interface: Management0
-    mgmt_interface_vrf: default
-
-    # NTP Servers IP or DNS name, first NTP server will be prefered, and sourced from Managment VRF
-    ntp:
-    servers:
-        - name: 192.168.0.1
-        iburst: true
-        local_interface: Management0
-
-    # Domain/DNS
-    dns_domain: atd.lab
-
-    # TerminAttr
-    daemon_terminattr:
-    # Address of the gRPC server on CloudVision
-    # TCP 9910 is used on on-prem
-    # TCP 443 is used on CV as a Service
-    cvaddrs: # For single cluster
-        - 192.168.0.5:9910
-    # Authentication scheme used to connect to CloudVision
-    cvauth:
-        method: token
-        token_file: "/tmp/token"
-    # Exclude paths from Sysdb on the ingest side
-    ingestexclude: /Sysdb/cell/1/agent,/Sysdb/cell/2/agent
-    # Exclude paths from the shared memory table
-    smashexcludes: ale,flexCounter,hardware,kni,pulse,strata
-
-    # Point to Point Links MTU Override for Lab
-    p2p_uplinks_mtu: 1500
-
-    # CVP node variables
-    cv_collection: v3
-    execute_tasks: true
-
+    --8<--
+    workshops/assets/examples/avd/global_dc_vars.yml
+    --8<--
     ```
 
 ## Data Models
@@ -248,7 +186,7 @@ AVD provides a network-wide data model and is typically broken into multiple gro
 
 ### Fabric Topology
 
-The physical fabric topology is defined by providing interface links between the spine and leaf nodes. The `group_vars/SITE1_FABRIC.yml` file defines this portion of the data model. In our lab, the spines provide layer 3 routing of SVIs and P2P links using a node type called `l3spines`. The leaf nodes are purely layer 2 and use node type `leaf`. An AVD L2LS design type provides three node type keys: l3 spine, spine, and leaf. AVD Node Type documentation can be found [here](https://avd.sh/en/stable/roles/eos_designs/doc/node-types.html). Default node_type_keys for all design types are located [here](https://github.com/aristanetworks/ansible-avd/blob/devel/ansible_collections/arista/avd/roles/eos_designs/defaults/main/default-node-type-keys.yml).
+The physical fabric topology is defined by providing interface links between the spine and leaf nodes. The `group_vars/SITE1_FABRIC.yml` file defines this portion of the data model. In our lab, the spines provide layer 3 routing of SVIs and P2P links using a node type called `l3spines`. The leaf nodes are purely layer 2 and use node type `leaf`. An AVD L2LS design type provides three node type keys: l3 spine, spine, and leaf. AVD Node Type documentation can be found [here](https://avd.sh/en/v4.1.0/roles/eos_designs/docs/input-variables.html#node-type-settings). Default node_type_keys for all design types are located [here](https://avd.sh/en/v4.1.0/roles/eos_designs/docs/input-variables.html#default-node-types-settings).
 
 #### Spine and Leaf Nodes
 
@@ -287,15 +225,15 @@ l3spine:
   # keyword for node groups, two nodes within a node group will form an MLAG pair
   node_groups:
     # User-defined node group name
-    SPINES:
+    - group: SPINES
       # key word for nodes
       nodes:
-        s1-spine1:
+        - name: s1-spine1
           # unique identifier used for IP address calculations
           id: 1
           # Management address assigned to the defined management interface
           mgmt_ip: 192.168.0.10/24
-        s1-spine2:
+        - name: s1-spine2
           id: 2
           mgmt_ip: 192.168.0.11/24
 
@@ -316,32 +254,32 @@ leaf:
     mlag_interfaces: [ Ethernet1, Ethernet6 ]
   node_groups:
     # User-defined node group name
-    RACK1:
+    - group: RACK1
       # Filter which Vlans will be applied to the node_group, comma-separated tags supported
       # Tags for each Vlan are defined in the SITE1_FABRIC_SERVICES.yml
       filter:
         tags: [ "Web" ]
       nodes:
-        s1-leaf1:
+        - name: s1-leaf1
           id: 3
           mgmt_ip: 192.168.0.12/24
           # Define which interface is configured on the uplink switch
           # In this example s1-leaf1 connects to [ s1-spine1, s1-spine2 ]
           # on the following ports. This will be unique to each leaf
           uplink_switch_interfaces: [ Ethernet2, Ethernet2 ]
-        s1-leaf2:
+        - name: s1-leaf2
           id: 4
           mgmt_ip: 192.168.0.13/24
           uplink_switch_interfaces: [ Ethernet3, Ethernet3 ]
-    RACK2:
+    - group: RACK2
       filter:
         tags: [ "App" ]
       nodes:
-        s1-leaf3:
+        - name: s1-leaf3
           id: 5
           mgmt_ip: 192.168.0.14/24
           uplink_switch_interfaces: [ Ethernet4, Ethernet4 ]
-        s1-leaf4:
+        - name: s1-leaf4
           id: 6
           mgmt_ip: 192.168.0.15/24
           uplink_switch_interfaces: [ Ethernet5, Ethernet5 ]
@@ -391,15 +329,15 @@ Fabric Services, such as VLANs, SVIs, and VRFs, are defined in this section. The
 ---
 tenants:
   # User-defined Tenant/Fabric name
-  MY_FABRIC:
+  - name: MY_FABRIC
     # key-word
     vrfs:
       # Default VRF
-      default:
+      - name: default
         # key-word
         svis:
           # Vlan ID
-          10:
+          - id: 10
             # Vlan Name
             name: 'Ten'
             # Tag assigned to Vlan. Used as a filter by each node_group
@@ -410,37 +348,38 @@ tenants:
               - 10.10.10.1
             # Which nodes to apply physical SVI address
             nodes:
-              s1-spine1:
+              - node: s1-spine1
                 ip_address: 10.10.10.2/24
-              s1-spine2:
+              - node: s1-spine2
                 ip_address: 10.10.10.3/24
-          20:
+          - id: 20
             name: 'Twenty'
             tags: [ "App" ]
             enabled: true
             ip_virtual_router_addresses:
               - 10.20.20.1
             nodes:
-              s1-spine1:
+              - node: s1-spine1
                 ip_address: 10.20.20.2/24
-              s1-spine2:
+              - node: s1-spine2
                 ip_address: 10.20.20.3/24
 ```
 
 ### Fabric Ports
 
-The Fabric must define ports for southbound interfaces toward connected endpoints such as servers, appliances, firewalls, and other networking devices in the data center. This section uses port profiles and connected endpoints called `servers`. Documentation for [port_profiles](https://avd.sh/en/stable/roles/eos_designs/doc/connected-endpoints.html#port-profiles) and [connected endpoints](https://avd.sh/en/stable/roles/eos_designs/doc/connected-endpoints.html) are available to see all the options available.
+The Fabric must define ports for southbound interfaces toward connected endpoints such as servers, appliances, firewalls, and other networking devices in the data center. This section uses port profiles and connected endpoints called `servers`. Documentation for [port_profiles](https://avd.sh/en/v4.1.0/roles/eos_designs/docs/input-variables.html#port-profiles-settings) and [connected endpoints](https://avd.sh/en/v4.1.0/roles/eos_designs/docs/input-variables.html#endpoint-connectivity) are available to see all the options available.
 
 The following data model defined two port profiles: PP-VLAN10 and PP-VLAN20. They define an access port profile for VLAN `10` and `20`, respectively. In addition, two server endpoints (s1-host1 and s1-host2) are created to use these port profiles. There are optional and required fields. The optional fields are used for port descriptions in the EOS intended configurations.
 
 ``` yaml
+---
 port_profiles:
 
-  PP-VLAN10:
+  - profile: PP-VLAN10
     mode: "access"
     vlans: "10"
     spanning_tree_portfast: edge
-  PP-VLAN20:
+  - profile: PP-VLAN20
     mode: "access"
     vlans: "20"
     spanning_tree_portfast: edge
@@ -455,7 +394,7 @@ servers:
 # Site1 RACK1 Endpoints
 # --------------------------------------------------------#
 
-  s1-host1:                                             # Server name
+  - name: s1-host1                                      # Server name
     rack: RACK1                                         # Informational RACK (optional)
     adapters:
       - endpoint_ports: [ eth1, eth2 ]                  # Server port to connect (optional)
@@ -469,7 +408,7 @@ servers:
 # Site1 RACK2 Endpoints
 # --------------------------------------------------------#
 
-  s1-host2:                                             # Server name
+  - name: s1-host2                                      # Server name
     rack: RACK2                                         # Informational RACK (optional)
     adapters:
       - endpoint_ports: [ eth1, eth2 ]                  # Server port to connect (optional)
@@ -550,7 +489,5 @@ make deploy-site-2
 ```
 
 ## Next Steps
-
-Continue to the hands-on lab. The lab guide is located **[here](avd-lab-guide.md)**.
 
 [Continue to Lab Guide](avd-lab-guide.md){ .md-button .md-button--primary }

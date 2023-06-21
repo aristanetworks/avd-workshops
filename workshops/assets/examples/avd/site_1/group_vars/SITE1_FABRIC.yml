@@ -17,16 +17,16 @@ l3spine:
     virtual_router_mac_address: 00:1c:73:00:dc:01
     mlag_interfaces: [ Ethernet1, Ethernet6 ]
   node_groups:
-    SPINES:
+    - group: SPINES
       nodes:
-        s1-spine1:
+        - name: s1-spine1
           id: 1
           mgmt_ip: 192.168.0.10/24
-        s1-spine2:
+        - name: s1-spine2
           id: 2
           mgmt_ip: 192.168.0.11/24
 
-# IDF - Leaf Switches
+# Leaf Switches
 leaf:
   defaults:
     platform: cEOS
@@ -37,29 +37,27 @@ leaf:
     uplink_interfaces: [ Ethernet2, Ethernet3 ]
     mlag_interfaces: [ Ethernet1, Ethernet6 ]
   node_groups:
-    RACK1:
-      mlag: true
+    - group: RACK1
       filter:
         tags: [ "Web" ]
       nodes:
-        s1-leaf1:
+        - name: s1-leaf1
           id: 3
           mgmt_ip: 192.168.0.12/24
           uplink_switch_interfaces: [ Ethernet2, Ethernet2 ]
-        s1-leaf2:
+        - name: s1-leaf2
           id: 4
           mgmt_ip: 192.168.0.13/24
           uplink_switch_interfaces: [ Ethernet3, Ethernet3 ]
-    RACK2:
-      mlag: true
+    - group: RACK2
       filter:
         tags: [ "App" ]
       nodes:
-        s1-leaf3:
+        - name: s1-leaf3
           id: 5
           mgmt_ip: 192.168.0.14/24
           uplink_switch_interfaces: [ Ethernet4, Ethernet4 ]
-        s1-leaf4:
+        - name: s1-leaf4
           id: 6
           mgmt_ip: 192.168.0.15/24
           uplink_switch_interfaces: [ Ethernet5, Ethernet5 ]

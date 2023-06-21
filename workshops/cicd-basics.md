@@ -48,14 +48,14 @@ Collection        Version
 ansible.netcommon 4.1.0
 ansible.posix     1.4.0
 ansible.utils     2.8.0
-arista.avd        3.8.4
+arista.avd        4.1.0
 arista.cvp        3.6.1
 arista.eos        6.0.0
 community.general 6.2.0
 ➜  workshops-avd git:(main)
 ```
 
-If AVD version `3.8.1` or greater is not present, please upgrade to the latest stable version.
+If AVD version `4.0.0` or greater is not present, please upgrade to the latest stable version.
 
 ```shell
 ansible-galaxy collection install arista.avd arista.cvp --force
@@ -69,7 +69,7 @@ pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
 You will be creating your own CI/CD pipeline in this workflow. Log in to your GitHub account and [fork this repository](https://github.com/PacketAnglers/workshops-avd) to get started.
 
 !!! note
-    If the repository was forked during the AVD workshop, you can skip this step.
+    You can skip this step if the repository was forked during the AVD workshop.
 
 ![Create fork](assets/images/create-fork.png)
 
@@ -172,7 +172,7 @@ GitHub Actions is a CI/CD platform within GitHub. We can leverage GitHub Actions
 
 ### Workflow files
 
-GitHub actions are defined by separate files (that is, `dev.yml` and `prod.yml`) within our code repository's `.github/workflows` directory.
+GitHub actions are defined by separate files (`dev.yml` and `prod.yml`) within our code repository's `.github/workflows` directory.
 
 At the highest level of our workflow file, we set the `name` of the workflow. This version of our workflow file represents any pushes that do not go to the main branch. For example, we would like our test or development workflow to start whenever we push or change any branches ***not*** named main. We can control this by setting the `on.push.branches-ignore` variable to main.
 
@@ -234,9 +234,9 @@ pip3 install pre-commit
 pre-commit install
 ```
 
-We will leverage pre-commit in our local development workflow and within the pipeline. pre-commit works by running automated checks on Git repositories manually or whenever a git commit is run. For example, if we wanted all of our YAML files to have a similar structure or follow specific guidelines, we could use a pre-commit "check-yaml" hook. Please note this is just a sample of what pre-commit can do. For a list of hooks, check out their official [list](https://pre-commit.com/hooks.html). The code block below references the pre-commit configuration file used in our repository.
+We will leverage pre-commit in our local development workflow and within the pipeline. pre-commit works by running automated checks on Git repositories manually or whenever a Git commit is run. For example, if we wanted all of our YAML files to have a similar structure or follow specific guidelines, we could use a pre-commit "check-yaml" hook. Please note this is just a sample of what pre-commit can do. For a list of hooks, check out their official [list](https://pre-commit.com/hooks.html). The code block below references the pre-commit configuration file used in our repository.
 
-In pre-commit, we define our jobs under a `repos` key. This first repo step points to the built-in hooks provided by the pre-commit team. Please note, you can use hooks from other organizations. In our case, the checks are fairly simplistic. The first hook checks to ensure our files have no trailing whitespace. The next hook, `end-of-file-fixer`, ensures every file is empty or ends with one newline. Next, the check YAML hook validates any YAML file in our repository can be loaded as valid YAML syntax. Below is our workflow example leveraging the pre-commit action. This action will read the `.pre-commit-config.yaml` file in the root of our repository. The `files` key is used to only check files within specific directories.
+In pre-commit, we define our jobs under a `repos` key. This first repo step points to the built-in hooks provided by the pre-commit team. Please note you can use hooks from other organizations. In our case, the checks are fairly simplistic. The first hook checks to ensure our files have no trailing whitespace. The next hook, `end-of-file-fixer`, ensures every file is empty or ends with one new line. Next, the check YAML hook validates any YAML file in our repository can be loaded as valid YAML syntax. Below is our workflow example leveraging the pre-commit action. This action will read the `.pre-commit-config.yaml` file in the root of our repository. The `files` key only checks files within specific directories.
 
 ```yaml
 # .pre-commit-config.yaml
@@ -284,17 +284,17 @@ Finally, the setup Python and install requirements action above the pre-commit s
 We can look at the benefits of pre-commit by introducing three errors in a group_vars file. This example will use the `sites/site_1/group_vars/SITE1_FABRIC_SERVICES.yml` file. Under VLAN 20, we can add extra whitespace after any entry, extra newlines, and move the `s1-spine2` key under the `s1-spine1` key.
 
 ```yaml
-          20:
+          - id: 20
             name: 'Twenty'
             tags: [ "App" ]
             enabled: true
             ip_virtual_router_addresses:
               - 10.20.20.1
             nodes:
-              s1-spine1:
+              - node: s1-spine1
                 ip_address: 10.20.20.2/24
-                s1-spine2: # <- Should not be nested under s1-spine1
-                ip_address: 10.20.20.3/24 # <- Extra whitespace
+                - node: s1-spine2 # <- Should not be nested under s1-spine1
+                  ip_address: 10.20.20.3/24
 # <- Newline
 # <- Newline
 ```
@@ -303,13 +303,7 @@ We can run pre-commit manually by running the `pre-commit run -a` command.
 
 ```shell
 ➜  workshops-avd git:(main) ✗ pre-commit run -a
-trim trailing whitespace.................................................Failed
-- hook id: trailing-whitespace
-- exit code: 1
-- files were modified by this hook
-
-Fixing sites/site_1/group_vars/SITE1_FABRIC_SERVICES.yml
-
+trim trailing whitespace.................................................Passed
 fix end of files.........................................................Failed
 - hook id: end-of-file-fixer
 - exit code: 1
@@ -321,31 +315,28 @@ check yaml...............................................................Failed
 - hook id: check-yaml
 - exit code: 1
 
-while constructing a mapping
-  in "sites/site_1/group_vars/SITE1_FABRIC_SERVICES.yml", line 26, column 17
-found duplicate key "ip_address" with value "10.20.20.3/24" (original value: "10.20.20.2/24")
-  in "sites/site_1/group_vars/SITE1_FABRIC_SERVICES.yml", line 28, column 17
-
-To suppress this check see:
-    http://yaml.readthedocs.io/en/latest/api.html#duplicate-keys
+while parsing a block mapping
+  in "sites/site_1/group_vars/SITE1_FABRIC_SERVICES.yml", line 25, column 17
+did not find expected key
+  in "sites/site_1/group_vars/SITE1_FABRIC_SERVICES.yml", line 27, column 17
 
 ➜  workshops-avd git:(main) ✗
 ```
 
-We can see all three failures. pre-commit hooks will try and fix errors if possible. However, pre-commit does not assume what our intent is with the YAML file, that fix is up to us. If you correct the indentation in the file and rerun pre-commit, you will see all passes.
+We can see the two failures. pre-commit hooks will try and fix errors. However, pre-commit does not assume our intent with the YAML file; that fix is up to us. If you correct the indentation in the file and rerun pre-commit, you will see all passes.
 
 ```yaml
-          20:
+          - id: 20
             name: 'Twenty'
             tags: [ "App" ]
             enabled: true
             ip_virtual_router_addresses:
               - 10.20.20.1
             nodes:
-              s1-spine1:
+              - node: s1-spine1
                 ip_address: 10.20.20.2/24
-              s1-spine2: # <- Indentation fixed
-                ip_address: 10.20.20.3/24 # <- No extra space
+              - node: s1-spine2 # <- Indentation fixed
+                ip_address: 10.20.20.3/24
 # <- One newline
 ```
 
@@ -474,42 +465,42 @@ This example workflow will add two new VLANs to our sites. Site 1 will add VLAN 
     ```yaml
     ---
     tenants:
-      MY_FABRIC:
+      - name: MY_FABRIC
         vrfs:
-          default:
+          - name: default
             svis:
-              10:
+              - id: 10
                 name: 'Ten'
                 tags: [ "Web" ]
                 enabled: true
                 ip_virtual_router_addresses:
                   - 10.10.10.1
                 nodes:
-                  s1-spine1:
+                  - node: s1-spine1
                     ip_address: 10.10.10.2/24
-                  s1-spine2:
+                  - node: s1-spine2
                     ip_address: 10.10.10.3/24
-              20:
+              - id: 20
                 name: 'Twenty'
                 tags: [ "App" ]
                 enabled: true
                 ip_virtual_router_addresses:
                   - 10.20.20.1
                 nodes:
-                  s1-spine1:
+                  - node: s1-spine1
                     ip_address: 10.20.20.2/24
-                  s1-spine2:
+                  - node: s1-spine2
                     ip_address: 10.20.20.3/24
-              25:
+              - id: 25
                 name: 'Twenty-five'
                 tags: [ "Wifi" ]
                 enabled: true
                 ip_virtual_router_addresses:
                   - 10.25.25.1
                 nodes:
-                  s1-spine1:
+                  - node: s1-spine1
                     ip_address: 10.25.25.2/24
-                  s1-spine2:
+                  - node: s1-spine2
                     ip_address: 10.25.25.3/24
 
     ```
@@ -548,42 +539,42 @@ Since this is a development branch, we are only testing for valid variable files
     ```yaml
     ---
     tenants:
-      MY_FABRIC:
+      - name: MY_FABRIC
         vrfs:
-          default:
+          - name: default
             svis:
-              30:
+              - id: 30
                 name: 'Thirty'
                 tags: [ "DB" ]
                 enabled: true
                 ip_virtual_router_addresses:
                   - 10.30.30.1
                 nodes:
-                  s2-spine1:
+                  - node: s2-spine1
                     ip_address: 10.30.30.2/24
-                  s2-spine2:
+                  - node: s2-spine2
                     ip_address: 10.30.30.3/24
-              40:
+              - id: 40
                 name: 'Forty'
                 tags: [ "DMZ" ]
                 enabled: true
                 ip_virtual_router_addresses:
                   - 10.40.40.1
                 nodes:
-                  s2-spine1:
+                  - node: s2-spine1
                     ip_address: 10.40.40.2/24
-                  s2-spine2:
+                  - node: s2-spine2
                     ip_address: 10.40.40.3/24
-              45:
+              - id: 45
                 name: 'Forty-five'
                 tags: [ "Guest" ]
                 enabled: true
                 ip_virtual_router_addresses:
                   - 10.45.45.1
                 nodes:
-                  s2-spine1:
+                  - node: s2-spine1
                     ip_address: 10.45.45.2/24
-                  s2-spine2:
+                  - node: s2-spine2
                     ip_address: 10.45.45.3/24
 
     ```
@@ -659,10 +650,10 @@ s2-spine1#
 
 ## Summary
 
-Congratulations, you have successfully deployed a CI/CD pipeline with GitHub Actions. Feel free to make additional changes to the sites or extend the testing pieces.
+Congratulations, you have successfully deployed a CI/CD pipeline with GitHub Actions. Feel free to make additional site changes or extend the testing pieces.
 
 !!! note
-    If your topology shuts down or time elapses, you must install the requirements, git configuration, and GitHub authentication.
+    If your topology shuts down or time elapses, you must install the requirements, Git configuration, and GitHub authentication.
 
     You must also to set the `LABPASSPHRASE` environment variable in the IDE terminal.
 

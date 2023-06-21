@@ -1,10 +1,11 @@
+---
 port_profiles:
 
-  PP-VLAN10:
+  - profile: PP-VLAN10
     mode: "access"
     vlans: "10"
     spanning_tree_portfast: edge
-  PP-VLAN20:
+  - profile: PP-VLAN20
     mode: "access"
     vlans: "20"
     spanning_tree_portfast: edge
@@ -19,7 +20,7 @@ servers:
 # Site1 RACK1 Endpoints
 # --------------------------------------------------------#
 
-  s1-host1:                                             # Server name
+  - name: s1-host1                                      # Server name
     rack: RACK1                                         # Informational RACK (optional)
     adapters:
       - endpoint_ports: [ eth1, eth2 ]                  # Server port to connect (optional)
@@ -33,7 +34,7 @@ servers:
 # Site1 RACK2 Endpoints
 # --------------------------------------------------------#
 
-  s1-host2:                                             # Server name
+  - name: s1-host2                                      # Server name
     rack: RACK2                                         # Informational RACK (optional)
     adapters:
       - endpoint_ports: [ eth1, eth2 ]                  # Server port to connect (optional)

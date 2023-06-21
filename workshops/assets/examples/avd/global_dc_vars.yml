@@ -1,0 +1,67 @@
+---
+
+# Credentials for CVP and EOS Switches
+ansible_user: arista
+ansible_password: "{{ lookup('env', 'LABPASSPHRASE') }}"
+ansible_network_os: arista.eos.eos
+# Configure privilege escalation
+ansible_become: true
+ansible_become_method: enable
+# HTTPAPI configuration
+ansible_connection: httpapi
+ansible_httpapi_port: 443
+ansible_httpapi_use_ssl: true
+ansible_httpapi_validate_certs: false
+ansible_python_interpreter: $(which python3)
+avd_data_conversion_mode: error
+avd_data_validation_mode: error
+
+# Local Users
+local_users:
+  - name: arista
+    privilege: 15
+    role: network-admin
+    sha512_password: "{{ ansible_password | password_hash(salt='workshop') }}"
+
+# AAA
+aaa_authorization:
+  exec:
+    default: local
+
+# OOB Management network default gateway.
+mgmt_gateway: 192.168.0.1
+mgmt_interface: Management0
+mgmt_interface_vrf: default
+
+# NTP Servers IP or DNS name, first NTP server will be preferred, and sourced from Management VRF
+ntp:
+  servers:
+    - name: 192.168.0.1
+      iburst: true
+      local_interface: Management0
+
+# Domain/DNS
+dns_domain: atd.lab
+
+# TerminAttr
+daemon_terminattr:
+  # Address of the gRPC server on CloudVision
+  # TCP 9910 is used on on-prem
+  # TCP 443 is used on CV as a Service
+  cvaddrs: # For single cluster
+    - 192.168.0.5:9910
+  # Authentication scheme used to connect to CloudVision
+  cvauth:
+    method: token
+    token_file: "/tmp/token"
+  # Exclude paths from Sysdb on the ingest side
+  ingestexclude: /Sysdb/cell/1/agent,/Sysdb/cell/2/agent
+  # Exclude paths from the shared memory table
+  smashexcludes: ale,flexCounter,hardware,kni,pulse,strata
+
+# Point to Point Links MTU Override for Lab
+p2p_uplinks_mtu: 1500
+
+# CVP node variables
+cv_collection: v3
+execute_tasks: true

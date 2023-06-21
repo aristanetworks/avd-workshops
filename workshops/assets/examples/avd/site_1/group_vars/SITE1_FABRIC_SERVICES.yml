@@ -1,28 +1,28 @@
 ---
 tenants:
-  MY_FABRIC:
+  - name: MY_FABRIC
     vrfs:
-      default:
+      - name: default
         svis:
-          10:
+          - id: 10
             name: 'Ten'
             tags: [ "Web" ]
             enabled: true
             ip_virtual_router_addresses:
               - 10.10.10.1
             nodes:
-              s1-spine1:
+              - node: s1-spine1
                 ip_address: 10.10.10.2/24
-              s1-spine2:
+              - node: s1-spine2
                 ip_address: 10.10.10.3/24
-          20:
+          - id: 20
             name: 'Twenty'
             tags: [ "App" ]
             enabled: true
             ip_virtual_router_addresses:
               - 10.20.20.1
             nodes:
-              s1-spine1:
+              - node: s1-spine1
                 ip_address: 10.20.20.2/24
-              s1-spine2:
+              - node: s1-spine2
                 ip_address: 10.20.20.3/24
