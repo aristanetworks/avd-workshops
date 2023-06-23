@@ -26,7 +26,7 @@ If running outside of the ATD interactive developer environment (IDE), you must 
 ```shell
 python3 -m venv venv
 source venv/bin/activate
-ansible-galaxy collection install arista.avd arista.cvp --force
+ansible-galaxy collection install -r requirements.yml
 export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml | head -1 | cut -d: -f1)
 pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
 ```
@@ -58,7 +58,7 @@ community.general 6.2.0
 If AVD version `4.0.0` or greater is not present, please upgrade to the latest stable version.
 
 ```shell
-ansible-galaxy collection install arista.avd arista.cvp --force
+ansible-galaxy collection install -r requirements.yml
 export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml | head -1 | cut -d: -f1)
 pip3 config set global.disable-pip-version-check true
 pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
