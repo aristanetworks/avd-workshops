@@ -227,7 +227,7 @@ diff checkpoint:< filename > running-config
 
 Let's configure port-channels to our hosts (`s1-host1` and `s1-host2`).
 
-Open `SITE1_FABRIC_PORTS.yml` and uncomment lines 16-44, then run the build & deploy process again.
+Open `SITE1_FABRIC_PORTS.yml` and uncomment lines 17-44, then run the build & deploy process again.
 
 ``` bash
 make build-site-1
@@ -369,7 +369,7 @@ show ip route
 
 ### **Test traffic between sites**
 
-From `s1-host1` ping both `s2-host1` & `s1-host2`
+From `s1-host1` ping both `s2-host1` & `s2-host2`
 
 ``` bash
 # s2-host1
