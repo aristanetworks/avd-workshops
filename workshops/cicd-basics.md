@@ -17,7 +17,7 @@ Throughout this section, we will use the following dual data center topology. Cl
 
 ## Getting started
 
-This repository leverages the dual data center (DC) ATD. If you are not leveraging the ATD, you may still leverage this repository for a similar deployment. Please note that some updates may have to be made for the reachability of nodes and CloudVision (CVP) instances. This example was created with Ansible [AVD](https://avd.sh/en/stable/) version `3.8.1`.
+This repository leverages the dual data center (DC) ATD. If you are not leveraging the ATD, you may still leverage this repository for a similar deployment. Please note that some updates may have to be made for the reachability of nodes and CloudVision (CVP) instances. This example was created with [Ansible AVD](https://avd.arista.com/4.1/index.html) version `4.1`.
 
 ### Local installation
 
@@ -40,7 +40,7 @@ ansible-galaxy collection list
 ```
 
 ```shell hl_lines="9"
-➜  workshops-avd git:(main) ansible-galaxy collection list
+➜  ci-workshops-avd git:(main) ansible-galaxy collection list
 
 # /home/coder/.ansible/collections/ansible_collections
 Collection        Version
@@ -52,7 +52,7 @@ arista.avd        4.1.0
 arista.cvp        3.6.1
 arista.eos        6.0.0
 community.general 6.2.0
-➜  workshops-avd git:(main)
+➜  ci-workshops-avd git:(main)
 ```
 
 If AVD version `4.0.0` or greater is not present, please upgrade to the latest stable version.
@@ -66,7 +66,7 @@ pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
 
 ## Fork repository
 
-You will be creating your own CI/CD pipeline in this workflow. Log in to your GitHub account and [fork this repository](https://github.com/PacketAnglers/workshops-avd) to get started.
+You will be creating your own CI/CD pipeline in this workflow. Log in to your GitHub account and fork the [`ci-workshops-avd`](https://github.com/aristanetworks/ci-workshops-avd/) repository to get started.
 
 !!! note
     You can skip this step if the repository was forked during the AVD workshop.
@@ -110,7 +110,7 @@ You will need to set one secret in your newly forked GitHub repository.
 
 Every user will get a unique CVP instance deployed. There are two updates required.
 
-1. Add the `ansible_host` variable under the `cvp` host in the `/home/coder/project/labfiles/workshops-avd/sites/site_1/inventory.yml` file. The domain name can be located at the top of your ATD lab environment.
+1. Add the `ansible_host` variable under the `cvp` host in the `/home/coder/project/labfiles/ci-workshops-avd/sites/site_1/inventory.yml` file. The domain name can be located at the top of your ATD lab environment.
 
     ```yaml
     ---
@@ -123,7 +123,7 @@ Every user will get a unique CVP instance deployed. There are two updates requir
        ...
     ```
 
-2. Add the `ansible_host` variable under the `cvp` host in the `/home/coder/project/labfiles/workshops-avd/sites/site_2/inventory.yml` file.
+2. Add the `ansible_host` variable under the `cvp` host in the `/home/coder/project/labfiles/ci-workshops-avd/sites/site_2/inventory.yml` file.
 
     ```yaml
     ---
@@ -144,7 +144,7 @@ Every user will get a unique CVP instance deployed. There are two updates requir
 1. From the IDE terminal, run the following:
 
     ```shell
-    cd /home/coder/project/labfiles/workshops-avd
+    cd /home/coder/project/labfiles/ci-workshops-avd
     git config --global user.name "FirstName LastName"
     git config --global user.email "name@example.com"
     git add .
@@ -302,7 +302,7 @@ We can look at the benefits of pre-commit by introducing three errors in a group
 We can run pre-commit manually by running the `pre-commit run -a` command.
 
 ```shell
-➜  workshops-avd git:(main) ✗ pre-commit run -a
+➜  ci-workshops-avd git:(main) ✗ pre-commit run -a
 trim trailing whitespace.................................................Passed
 fix end of files.........................................................Failed
 - hook id: end-of-file-fixer
@@ -320,7 +320,7 @@ while parsing a block mapping
 did not find expected key
   in "sites/site_1/group_vars/SITE1_FABRIC_SERVICES.yml", line 27, column 17
 
-➜  workshops-avd git:(main) ✗
+➜  ci-workshops-avd git:(main) ✗
 ```
 
 We can see the two failures. pre-commit hooks will try and fix errors. However, pre-commit does not assume our intent with the YAML file; that fix is up to us. If you correct the indentation in the file and rerun pre-commit, you will see all passes.
@@ -341,11 +341,11 @@ We can see the two failures. pre-commit hooks will try and fix errors. However, 
 ```
 
 ```shell
-➜  workshops-avd git:(main) ✗ pre-commit run -a
+➜  ci-workshops-avd git:(main) ✗ pre-commit run -a
 trim trailing whitespace.................................................Passed
 fix end of files.........................................................Passed
 check yaml...............................................................Passed
-➜  workshops-avd git:(main)
+➜  ci-workshops-avd git:(main)
 ```
 
 #### Filter changes to the Pipeline
@@ -655,7 +655,7 @@ Congratulations, you have successfully deployed a CI/CD pipeline with GitHub Act
 !!! note
     If your topology shuts down or time elapses, you must install the requirements, Git configuration, and GitHub authentication.
 
-    You must also to set the `LABPASSPHRASE` environment variable in the IDE terminal.
+    You must also set the `LABPASSPHRASE` environment variable in the IDE terminal.
 
     ```shell
     export LABPASSPHRASE=`cat /home/coder/.config/code-server/config.yaml| grep "password:" | awk '{print $2}'`
