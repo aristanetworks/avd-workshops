@@ -5,11 +5,11 @@
 
 ## **Introduction**
 
-In this section we will explore a brief introduction of Git. We will cover the installation and basic commands used with Git. Git is the most commonly used version control system. Git tracks changes to files allowing you to revert to specific versions. File changes are tracked by storing snapshots (commits) of the files over time. In the image below, the content of files A, B, and C change over time. Git allows you to roll back to any previous commit.
+In this section, we will explore a brief introduction of Git. We will cover the installation and basic commands used with Git. Git is the most commonly used version control system. Git tracks changes to files allowing you to revert to specific versions. File changes are tracked by storing snapshots (commits) of the files over time. In the image below, the content of files A, B, and C change over time. Git allows you to roll back to any previous commit.
 
 ![Git Snapshots](assets/images/git_snapshots.png){: style="width:800px"}
 
-Git makes collaboration effortless by allowing multiple people to merge their changes into one source. Regardless of whether you work solo or as part of a team, Git will be useful for you.
+Git makes collaboration effortless by allowing multiple people to merge their changes into one source. Whether you work solo or as part of a team, Git will be useful for you.
 
 Basic Git commands we will be working with:
 
@@ -39,9 +39,9 @@ Configuration - [https://git-scm.com/book/en/v2/Getting-Started-Installing-Git](
 
 ### **Setup**
 
-When setting up Git for the first time you need to configure your Identity with a name and email address. This is used to add your signature to commits. Additionally, set the default branch name to `main`.
+When setting up Git for the first time, you must configure your Identity with a name and email address. This is used to add your signature to commits. Additionally, set the default branch name to `main`.
 
-From the Terminal in your ATD Lab Programmability IDE run the following commands.
+Run the following commands from the Terminal in your ATD Lab Programmability IDE.
 
 ``` bash
 # Set your username:
@@ -66,10 +66,10 @@ git config --global --list
 
 ### **Download Sample Files**
 
-We have provided some sample configuration files to begin working with Git. From the Programmability IDE, run the following 2 commands to download sample files and change your working directory.
+We have provided some sample configuration files to begin working with Git. From the Programmability IDE, run the following two commands to download sample files and change your working directory.
 
 ``` bash
-bash -c "$(curl http://www.packetanglers.com/get-sample-files.sh)"
+bash -c "$(curl https://raw.githubusercontent.com/aristanetworks/ci-workshops-fundamentals/main/get-sample-files.sh)"
 cd /home/coder/project/labfiles/samplefiles
 ```
 
@@ -77,9 +77,9 @@ cd /home/coder/project/labfiles/samplefiles
 
 ### **Git - command line basics**
 
-#### Initialize directory as a Git repository
+#### Initialize the directory as a Git repository
 
-Next we initialize the current directory `/home/coder/project/labfiles/samplefiles/` as a repository (repo).
+Next, we initialize the current directory `/home/coder/project/labfiles/samplefiles/` as a repository (repo).
 
 ``` bash
 git init
@@ -87,7 +87,7 @@ git init
 
 Notice your CLI prompt changed.
 
-The directory is now initialized as a Git repository and the following hidden sub-directory `/home/coder/project/labfiles/samplefiles/.git/` was created. It holds version control information for your repository.
+The directory is now initialized as a Git repository, and the following hidden sub-directory `/home/coder/project/labfiles/samplefiles/.git/` was created. It holds version control information for your repository.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **Congratulations!!!** You have created your first repository.
 
@@ -99,7 +99,7 @@ Check the current status of your repo.
 git status
 ```
 
-Since this is a brand new repo you should see output similar to the following, indicating there are untracked files.
+Since this is a brand new repo, you should see output similar to the following, indicating there are untracked files.
 
 ``` bash
 On branch main
@@ -120,7 +120,7 @@ nothing added to commit but untracked files present (use "git add" to track)
 
 ### **Stage your changes**
 
-When you want to track files, you first need to stage them. The above output gives you a clue as to the command needed to stage the changes. You can specify individual files or add all files with a wildcard period `.`
+When you want to track files, you first need to stage them. The above output gives you a clue about the command needed to stage the changes. You can specify individual files or add all files with a wildcard period `.`
 
 To stage all file changes:
 
@@ -128,7 +128,7 @@ To stage all file changes:
 git add .
 ```
 
-Then check the status again to see what is staged and ready to be committed.
+Then recheck the status to see what is staged and ready to be committed.
 
 ``` bash
 git status
@@ -151,14 +151,14 @@ Changes to be committed:
         new file:   spine2.cfg
 ```
 
-Now all of the files are staged and ready to be committed to the `main` branch.
+All the files are staged and ready to be committed to the `main` branch.
 
 ### **Commit your changes**
 
 Now you can commit your staged changes with a comment:
 
 ???+ note
-    Use a comment that will reflect the changes made so you can reference back to this commit in the future. Commit messages will show up in the log.
+    Use a comment reflecting the changes made so you can reference this commit in the future. Commit messages will show up in the log.
 
 ``` bash
 git commit -m "Initial Commit"
@@ -179,21 +179,21 @@ Output:
 
 Now these files are committed to your local repository.
 
-Check status one more time.
+Check the status one more time.
 
 ``` bash
 On branch main
 nothing to commit, working tree clean
 ```
 
-You have successfully made your first historical marker in your repo. Check the log to see what is there.
+You have successfully stamped history in your repo. Check the log to see what is there.
 
 ``` bash
 git log
 ```
 
 ???+ note
-    Press `q` to quit from viewing the log.
+    Press `q` to quit viewing the log.
 
 ### **Create a branch**
 
@@ -223,13 +223,13 @@ Using the IDE, open each switch config file and update the hostname by removing 
 
 **Example: spine1.cfg** - change hostname from `s1-spine1` to `spine1`.
 
-Let's verify the changes (diffs) we are about to commit to make sure they are correct.
+Let's verify the changes (diffs) we are about to commit to ensure they are correct.
 
 ``` bash
 git diff
 ```
 
-Now, stage and commit the changes to the new branch `update-hostnames`.
+Stage and commit the changes to the new branch `update-hostnames`.
 
 ``` bash
 git add .
@@ -238,11 +238,11 @@ git commit -m "updated hostname on each switch"
 
 ### **Merge branch**
 
-Now that we are satisfied with our hostnames changes we can merge branch `update-hostnames` into `main`.
+Now that we are satisfied with our hostname changes, we can merge the `update-hostnames` branch into `main`.
 
 ![Merge](assets/images/git_branch_merge.png){: style="width:500px"}
 
-First, switch back to the `main` branch and notice the hostnames go back to the original name. Why did that happen? Remember we never modified the original copy `main` branch. This is a different version of the file. Once we merge the `update-hostnames` branch into `main`, then both copies will be the same.
+First, switch back to the `main` branch and notice the hostnames return to the original name. Why did that happen? Remember, we never modified the original copy `main` branch. This is a different version of the file. Once we merge the `update-hostnames` branch into `main`, both copies will be identical.
 
 ``` bash
 git switch main
@@ -267,23 +267,23 @@ git branch -d update-hostnames
 ![GitHub Logo Dark](assets/images/github_logo_dark.png#only-dark){: style="width:100px"}
 ![GitHub Logo Light](assets/images/github_logo_light.png#only-light){: style="width:100px"}
 
-Before proceeding further, make sure you are logged into your active GitHub account.
+Before proceeding further, make sure you are logged into your GitHub account.
 
 If you do not have a GitHub account, you can create one **[here](https://github.com/join)**.
 
 ???+ note
-    In the ATD Lab, you will authenticate to GitHub using an 8 digit access code. On other systems you will need a Personal Access Token. You may skip the next step if you are working in the ATD Lab IDE. Detailed instructions for creating a Personal Access Token can be found [here](https://docs.github.com/en/enterprise-server@3.4/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token).
+    In the ATD Lab, you will authenticate to GitHub using an eight-digit access code. On other systems, you will need a Personal Access Token. **You may skip the next step if you work in the Arista-provided ATD Lab IDE**. Detailed instructions for creating a Personal Access Token can be found [here](https://docs.github.com/en/enterprise-server@3.4/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token).
 
 ### **Create a GitHub personal access token**
 
-To push your local repo to GitHUb you will need a Personal Access Token. From your **GitHub** account, click through the following path to generate a new personal access token.  **Profile --> Settings --> Developer Settings --> Personal Access Tokens --> Tokens (classic) --> Generate new token (classic)**
+To push your local repo to GitHub, you will need a Personal Access Token. From your **GitHub** account, click through the following path to generate a new personal access token.  **Profile --> Settings --> Developer Settings --> Personal Access Tokens --> Tokens (classic) --> Generate new token (classic)**
 
 - Give the token a meaningful name by setting the **Note**: `MyNewToken`
 - Set the **Expiration**: 30 days (default)
 
 Select the scopes to grant to this token. To use your token to access repositories from the command line, select `repo`. A token with no assigned scopes can only access public information.
 
-The click `Generate token` at the bottom of the page.  **Copy and save the token in a secure place. YOU WILL NOT BE ABLE TO SEE THE TOKEN AGAIN**.
+Click `Generate token` at the bottom of the page.  **Copy and save the token in a secure place. YOU WILL NOT BE ABLE TO SEE THE TOKEN AGAIN**.
 
 ![Git Token Scopes](assets/images/git_token_scopes.png){: style="width:500px"}
 
@@ -291,11 +291,11 @@ The click `Generate token` at the bottom of the page.  **Copy and save the token
 
 A fork is a copy of another repository that you can manage. Forks let you make changes to a project without affecting the original repository. You can fetch updates from or submit changes to the original repository with a pull request.
 
-Fork the example **[repository](https://github.com/PacketAnglers/workshops)** to make your own copy.
+Fork the example **[Arista CI Fundamentals](https://github.com/aristanetworks/ci-workshops-fundamentals)** repository to make your copy.
 
 #### Steps to Fork the example repository
 
-1. From GitHub.com, navigate to the **[Packet Anglers workshop](https://github.com/PacketAnglers/workshops)** repository.
+1. From GitHub.com, navigate to the **[Arista CI Fundamentals](https://github.com/aristanetworks/ci-workshops-fundamentals)** repository.
 2. In the top-right corner of the page, click Fork.
 ![Fork](assets/images/git_fork.png){: style="width:800px"}
 3. Select an owner.
@@ -303,19 +303,19 @@ Fork the example **[repository](https://github.com/PacketAnglers/workshops)** to
 5. Optionally, add a description of your fork.
 6. Click `Create fork` button at the bottom
 
-You should now see your repository **`username/workshops forked from Packetanglers/workshops`**.
+You should now see your repository **`username/ci-workshops-fundamentals`** forked from **`aristanetworks/ci-workshops-fundamentals`**.
 
 **Next up...** Clone this forked repository to your local host machine.
 
 ### **Clone forked repo to local host**
 
-Cloning a repository allows us to make a local copy of a project that resides on GitHub. In the previous step, you forked a repository to your local GitHub account. Navigate to your forked repo in GitHub. From there, click on the green code button and copy the URL of the forked repository.
+Cloning a repository allows us to make a local copy of a project on GitHub. In the previous step, you forked a repository to your local GitHub account. Navigate to your forked repo in GitHub. From there, click on the green code button and copy the URL of the forked repository.
 
 ![Git Clone](assets/images/git_clone.png){: style="width:400px"}
 
 Clone this repository to your local machine.
 
-Change your current directory to `/home/coder/project/labfiles/` before cloning.
+Before cloning, change your current directory to `/home/coder/project/labfiles/`.
 
 ``` bash
 cd /home/coder/project/labfiles
@@ -325,38 +325,34 @@ Clone the repo.
 
 ``` bash
 # replace this URL with your forked repo
-git clone https://github.com/xxxxxxx/workshops.git
+git clone https://github.com/xxxxxxx/ci-workshops-fundamentals.git
 ```
 
 Now change into the new cloned directory.
 
 ``` bash
-cd workshops
+cd ci-workshops-fundamentals
 ```
 
-Verify the location of the remote copy. This should be your local github account.
+Verify the location of the remote copy. This should be your local GitHub account.
 
-``` bash
+``` bash hl_lines="3-4"
 git remote -v
+
+origin  https://github.com/xxxxxxx/ci-workshops-fundamentals.git (fetch)
+origin  https://github.com/xxxxxxx/ci-workshops-fundamentals.git (push)
 ```
 
-Example:
+In the next step, let's add VLAN 40 to the data model in `atd/vlans.yml`. First, create a new branch called `add-vlan-40`.
 
-``` text
-origin  https://github.com/username/workshops.git (fetch)
-origin  https://github.com/username/workshops.git (push)
-```
-
-In the next step, let's add a new VLAN 40 to the `atd/vlans.yml` file. First, create a new branch called `add-vlan-40`.
-
-### **Create and switch to new branch**
+### **Create and switch to a new branch**
 
 ``` bash
 git branch add-vlan-40
 git switch add-vlan-40
 ```
 
-Update `avd/vlans.yml` with VLAN 40 information.
+Using the Programmability IDE, update the file `avd/vlans.yml` with VLAN 40 information.
 
 ??? eos-config annotate "Updated vlans.yml"
     ``` yaml
@@ -389,25 +385,25 @@ git push --set-upstream origin add-vlan-40
 ```
 
 ???+ note
-    You will be prompted to authenticate to GitHub if this is the first time you are pushing from the Lab environment. Follow along the `Copy & Continue to GitHub` prompts by entering the 8 digit authentication code. Additional pushes to GitHub will cache your credentials.
+    If this is your first push from the Lab environment, you will be prompted to authenticate to GitHub. Follow the `Copy & Continue to GitHub` prompts by entering the eight-digit authentication code. Additional pushes to GitHub will cache your credentials.
 
-Once authenticated your new branch and updated file will exist on GitHub.
+Once authenticated, your new branch and updated file will exist on GitHub.
 
 Output:
 
-``` text
+``` text hl_lines="13-14"
 Enumerating objects: 7, done.
 Counting objects: 100% (7/7), done.
 Delta compression using up to 16 threads
 Compressing objects: 100% (3/3), done.
-Writing objects: 100% (4/4), 335 bytes | 335.00 KiB/s, done.
-Total 4 (delta 2), reused 0 (delta 0), pack-reused 0
-remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+Writing objects: 100% (4/4), 352 bytes | 352.00 KiB/s, done.
+Total 4 (delta 1), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
 remote:
 remote: Create a pull request for 'add-vlan-40' on GitHub by visiting:
-remote:      https://github.com/wildthing/workshops/pull/new/add-vlan-40
+remote:      https://github.com/xxxxxxxx/ci-workshops-fundamentals/pull/new/add-vlan-40
 remote:
-To https://github.com/wildthing/workshops.git
+To https://github.com/xxxxxxxx/ci-workshops-fundamentals.git
  * [new branch]      add-vlan-40 -> add-vlan-40
 Branch 'add-vlan-40' set up to track remote branch 'add-vlan-40' from 'origin'.
 ```
@@ -418,26 +414,26 @@ The next step is to merge the `add-vlan-40` branch into the `main` branch. A Pul
 
 ### **Pull request**
 
-A Pull Request in Git allows a contributor (you) to ask a maintainer (owner) of origin repository to review code changes you wish to merge into a project. Once a pull request is opened, you can discuss and review the potential changes with collaborators and add follow-up commits before your changes are merged into the `main` branch.
+A Pull Request in Git allows a contributor (you) to ask a maintainer (owner) of the origin repository to review code changes you wish to merge into a project. Once a pull request is opened, you can discuss and review the potential changes with collaborators and add follow-up commits before your changes are merged into the `main` branch.
 
 Once all changes have been agreed upon, the maintainer of the original repo will merge your changes. At this point, your code changes are visible in the origin project repo.
 
-#### Steps to initiate a Pull Request
+#### Steps to Initiate a Pull Request
 
-1. On GitHub.com, navigate to the main page of the repository.
+1. On GitHub.com, navigate to the main page of your forked repository.
 2. In the "Branch" menu, choose the branch that contains your commits.
 3. Above the list of files, click the Contribute drop-down and click Open pull request.
 ![PR](assets/images/git_pullrequest.png){: style="width:750px"}
-4. Verify the `base repository:` is set to **`PacketAnglers/workshops`**. Set the `compare:` branch to your `add-vlan-40` branch.
+4. Verify the `base repository:` is set to **`aristanetworks/ci-workshops-fundamentals`** and `base:` is set to **`main`**. Set the `head repository:` to your forked repo and `compare:` to the **`add-vlan-40`** branch.
 ![PR Info](assets/images/git_pullrequest_info.png){: style="width:750px"}
-5. Type a title and description for your pull request.
+5. Add a title and description for your pull request.
 6. Click Create pull request.
 
-This will generate a Pull Request on the main project repository **`PacketAnglers/workshops`**. The owner/maintainer can then merge the pull request once all changes are satisfied.
+This will generate a Pull Request on the main project repository **`aristanetworks/ci-workshops-fundamentals`**. The owner/maintainer can merge the pull request once all changes are satisfied.
 
 ### **Cleanup**
 
-After a Pull Request is merged, you may wish to cleanup your old branch.
+After merging a Pull Request, you may cleanup your old branch.
 
 1. Delete your branch on GitHub and your local host.
 2. Sync your Forked repo (below)
