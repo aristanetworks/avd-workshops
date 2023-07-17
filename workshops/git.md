@@ -336,18 +336,14 @@ cd ci-workshops-fundamentals
 
 Verify the location of the remote copy. This should be your local github account.
 
-``` bash
+``` bash hl_lines="3-4"
 git remote -v
-```
 
-Example:
-
-``` text
 origin  https://github.com/xxxxxxx/ci-workshops-fundamentals.git (fetch)
 origin  https://github.com/xxxxxxx/ci-workshops-fundamentals.git (push)
 ```
 
-In the next step, let's add a new VLAN 40 to the `atd/vlans.yml` file. First, create a new branch called `add-vlan-40`.
+In the next step, let's add VLAN 40 to the data model in `atd/vlans.yml`. First, create a new branch called `add-vlan-40`.
 
 ### **Create and switch to new branch**
 
@@ -395,7 +391,7 @@ Once authenticated your new branch and updated file will exist on GitHub.
 
 Output:
 
-``` text
+``` text hl_lines="13-14"
 Enumerating objects: 7, done.
 Counting objects: 100% (7/7), done.
 Delta compression using up to 16 threads
