@@ -69,7 +69,7 @@ git config --global --list
 We have provided some sample configuration files to begin working with Git. From the Programmability IDE, run the following 2 commands to download sample files and change your working directory.
 
 ``` bash
-bash -c "$(curl http://www.packetanglers.com/get-sample-files.sh)"
+bash -c "$(curl https://raw.githubusercontent.com/aristanetworks/ci-workshops-fundamentals/main/get-sample-files.sh)"
 cd /home/coder/project/labfiles/samplefiles
 ```
 
@@ -291,11 +291,11 @@ The click `Generate token` at the bottom of the page.  **Copy and save the token
 
 A fork is a copy of another repository that you can manage. Forks let you make changes to a project without affecting the original repository. You can fetch updates from or submit changes to the original repository with a pull request.
 
-Fork the example **[repository](https://github.com/PacketAnglers/workshops)** to make your own copy.
+Fork the example **[Arista CI Fundamentals](https://github.com/aristanetworks/ci-workshops-fundamentals)** repository to make your own copy.
 
 #### Steps to Fork the example repository
 
-1. From GitHub.com, navigate to the **[Packet Anglers workshop](https://github.com/PacketAnglers/workshops)** repository.
+1. From GitHub.com, navigate to the **[Arista CI Fundamentals](https://github.com/aristanetworks/ci-workshops-fundamentals)** repository.
 2. In the top-right corner of the page, click Fork.
 ![Fork](assets/images/git_fork.png){: style="width:800px"}
 3. Select an owner.
@@ -303,7 +303,7 @@ Fork the example **[repository](https://github.com/PacketAnglers/workshops)** to
 5. Optionally, add a description of your fork.
 6. Click `Create fork` button at the bottom
 
-You should now see your repository **`username/workshops forked from Packetanglers/workshops`**.
+You should now see your repository **`username/ci-workshops-fundamentals`** forked from **`aristanetworks/ci-workshops-fundamentals`**.
 
 **Next up...** Clone this forked repository to your local host machine.
 
@@ -428,12 +428,12 @@ Once all changes have been agreed upon, the maintainer of the original repo will
 2. In the "Branch" menu, choose the branch that contains your commits.
 3. Above the list of files, click the Contribute drop-down and click Open pull request.
 ![PR](assets/images/git_pullrequest.png){: style="width:750px"}
-4. Verify the `base repository:` is set to **`PacketAnglers/workshops`**. Set the `compare:` branch to your `add-vlan-40` branch.
+4. Verify the `base repository:` is set to **`aristanetworks/ci-workshops-fundamentals`**. Set the `compare:` branch to your `add-vlan-40` branch.
 ![PR Info](assets/images/git_pullrequest_info.png){: style="width:750px"}
 5. Type a title and description for your pull request.
 6. Click Create pull request.
 
-This will generate a Pull Request on the main project repository **`PacketAnglers/workshops`**. The owner/maintainer can then merge the pull request once all changes are satisfied.
+This will generate a Pull Request on the main project repository **`aristanetworks/ci-workshops-fundamentals`**. The owner/maintainer can then merge the pull request once all changes are satisfied.
 
 ### **Cleanup**
 
