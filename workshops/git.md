@@ -325,13 +325,13 @@ Clone the repo.
 
 ``` bash
 # replace this URL with your forked repo
-git clone https://github.com/xxxxxxx/workshops.git
+git clone https://github.com/xxxxxxx/ci-workshops-fundamentals.git
 ```
 
 Now change into the new cloned directory.
 
 ``` bash
-cd workshops
+cd ci-workshops-fundamentals
 ```
 
 Verify the location of the remote copy. This should be your local github account.
@@ -343,8 +343,8 @@ git remote -v
 Example:
 
 ``` text
-origin  https://github.com/username/workshops.git (fetch)
-origin  https://github.com/username/workshops.git (push)
+origin  https://github.com/xxxxxxx/ci-workshops-fundamentals.git (fetch)
+origin  https://github.com/xxxxxxx/ci-workshops-fundamentals.git (push)
 ```
 
 In the next step, let's add a new VLAN 40 to the `atd/vlans.yml` file. First, create a new branch called `add-vlan-40`.
@@ -356,7 +356,7 @@ git branch add-vlan-40
 git switch add-vlan-40
 ```
 
-Update `avd/vlans.yml` with VLAN 40 information.
+Using the Programmability IDE, update the file `avd/vlans.yml` with VLAN 40 information.
 
 ??? eos-config annotate "Updated vlans.yml"
     ``` yaml
@@ -400,14 +400,14 @@ Enumerating objects: 7, done.
 Counting objects: 100% (7/7), done.
 Delta compression using up to 16 threads
 Compressing objects: 100% (3/3), done.
-Writing objects: 100% (4/4), 335 bytes | 335.00 KiB/s, done.
-Total 4 (delta 2), reused 0 (delta 0), pack-reused 0
-remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+Writing objects: 100% (4/4), 352 bytes | 352.00 KiB/s, done.
+Total 4 (delta 1), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
 remote:
 remote: Create a pull request for 'add-vlan-40' on GitHub by visiting:
-remote:      https://github.com/wildthing/workshops/pull/new/add-vlan-40
+remote:      https://github.com/xxxxxxxx/ci-workshops-fundamentals/pull/new/add-vlan-40
 remote:
-To https://github.com/wildthing/workshops.git
+To https://github.com/xxxxxxxx/ci-workshops-fundamentals.git
  * [new branch]      add-vlan-40 -> add-vlan-40
 Branch 'add-vlan-40' set up to track remote branch 'add-vlan-40' from 'origin'.
 ```
@@ -424,13 +424,13 @@ Once all changes have been agreed upon, the maintainer of the original repo will
 
 #### Steps to initiate a Pull Request
 
-1. On GitHub.com, navigate to the main page of the repository.
+1. On GitHub.com, navigate to the main page of your forked repository.
 2. In the "Branch" menu, choose the branch that contains your commits.
 3. Above the list of files, click the Contribute drop-down and click Open pull request.
 ![PR](assets/images/git_pullrequest.png){: style="width:750px"}
-4. Verify the `base repository:` is set to **`aristanetworks/ci-workshops-fundamentals`**. Set the `compare:` branch to your `add-vlan-40` branch.
+4. Verify the `base repository:` is set to **`aristanetworks/ci-workshops-fundamentals`** and `base:` is set to **`main`**. Set the `head repository:` to your forked repo and `compare:` to the **`add-vlan-40`** branch.
 ![PR Info](assets/images/git_pullrequest_info.png){: style="width:750px"}
-5. Type a title and description for your pull request.
+5. Add a title and description for your pull request.
 6. Click Create pull request.
 
 This will generate a Pull Request on the main project repository **`aristanetworks/ci-workshops-fundamentals`**. The owner/maintainer can then merge the pull request once all changes are satisfied.
