@@ -25,15 +25,15 @@ Connect to your ATD Lab and start the Programmability IDE. Next, create a new Te
 
 ### STEP #2 - Fork and Clone branch to ATD Lab
 
-An ATD Dual Data Center L2LS data model is posted on GitHub here: [https://github.com/PacketAnglers/workshops-avd](https://github.com/PacketAnglers/workshops-avd)
+An ATD Dual Data Center L2LS data model is posted on [GitHub](https://github.com/aristanetworks/ci-workshops-avd).
 
-- Fork this [repository](https://github.com/PacketAnglers/workshops-avd) to your own GitHub account.
+- Fork this **[repository](https://github.com/aristanetworks/ci-workshops-avd)** to your own GitHub account.
 - Next, clone your forked repo to your ATD lab instance.
 
 ``` bash
 cd /home/coder/project/labfiles
 git clone <your copied URL>
-cd workshops-avd
+cd ci-workshops-avd
 ```
 
 Configure your global Git settings.
@@ -45,7 +45,7 @@ git config --global user.email "name@example.com"
 
 ### STEP #3 - Update AVD to the latest version
 
-AVD has been pre-installed in your lab environment. However, it is on an older version. The following steps will update AVD and modules to the latest versions.
+AVD has been pre-installed in your lab environment. However, it may be on an older version. The following steps will update AVD and modules to the latest versions.
 
 ``` bash
 ansible-galaxy collection install -r requirements.yml
@@ -54,7 +54,7 @@ pip3 config set global.disable-pip-version-check true
 pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
 ```
 
-???+ Warning "IMPORTANT"
+???+ Warning "Important"
 
     You must run these commands when you start your lab or a new shell (terminal).
 
@@ -130,7 +130,7 @@ make deploy-site-1
 
 Login to your switches to verify the current configs (`show run`) match the ones created in `intended/configs` folder.
 
-You can also check the current state for MLAG, VLANs, interface, and port-channels.
+You can also check the current state for MLAG, VLANs, interfaces, and port-channels.
 
 ``` bash
 show mlag
@@ -190,7 +190,7 @@ Vlan4094          10.1.253.0/31         up           up                 1500
 You can verify the recent configuration session was created.
 
 ???+ info
-    When configuration is applied via a configuration session, EOS will create a "checkpoint" of the configuration. This checkpoint is a snapshot
+    When the configuration is applied via a configuration session, EOS will create a "checkpoint" of the configuration. This checkpoint is a snapshot
     of the device's running configuration as it was **prior** to the configuration session being committed.
 
 ``` bash
@@ -217,7 +217,7 @@ See the difference between the running config and the latest checkpoint file.
 
 ???+ tip
     This will show the differences between the current device configuration
-    and what the configuration was before we did our `make deploy` command.
+    and the configuration before we did our `make deploy` command.
 
 ``` bash
 diff checkpoint:< filename > running-config
@@ -269,7 +269,7 @@ At this point, you should be able to ping between hosts within a site but not be
 
 ## **Connect Sites to WAN IP Network**
 
-The WAN IP Network is defined by the `core_interfaces` data model. Full data model documentation is located [here](https://avd.sh/en/v4.1.0/roles/eos_designs/docs/input-variables.html#core-interfaces-settings).
+The WAN IP Network is defined by the `core_interfaces` data model. Full data model documentation is located **[here](https://avd.arista.com/4.1/roles/eos_designs/docs/tables/core-interfaces.html?h=core+interfaces)**.
 
 The data model defines P2P links (`/31s`) on the spines with a stanza per link. See details in the graphic below. Each spine has two links to the WAN IP Network configured on ports `Ethernet7` and `Ethernet8`. OSPF is added to these links as well.
 
@@ -369,7 +369,7 @@ show ip route
 
 ### **Test traffic between sites**
 
-From `s1-host1` ping both `s2-host1` & `s2-host2`
+From `s1-host1` ping both `s2-host1` & `s2-host2`.
 
 ``` bash
 # s2-host1
@@ -387,12 +387,12 @@ You have built a multi-site L2LS network without touching the CLI on a single sw
 
 ## **Day 2 Operations**
 
-Our multi-site L2LS network is working great. But, before too long, it will be time to make some changes
-to our configurations. Lucky for us, that time is today!
+Our multi-site L2LS network is working great. But, before too long, it will be time to change
+our configurations. Lucky for us, that time is today!
 
 ### **Cleaning Up**
 
-Before going any further, let's make sure we have a clean repo by committing the changes we've made
+Before going any further, let's ensure we have a clean repo by committing the changes we've made
 up to this point. The CLI commands below can accomplish this, but the VS Code Source Control GUI
 can be used as well.
 
@@ -401,7 +401,7 @@ git add .
 git commit -m 'Your message here'
 ```
 
-Next, we'll want to push these changes to our forked repository out on GitHub
+Next, we'll want to push these changes to our forked repository on GitHub.
 
 ```bash
 git push
@@ -412,23 +412,23 @@ sign-in prompt:
 
 ![VS Code GitHub Sign in Prompt](assets/images/git_login_request.png){: style="width:400px"}
 
-Choose **Allow** and another prompt will come up, showing your unique login code:
+Choose **Allow**, and another prompt will come up, showing your unique login code:
 
 ![VS Code GitHub Login Code Prompt](assets/images/git_login_code.png){: style="width:400px"}
 
-Choose **Copy & Continue to GitHub** and *another* prompt will come up asking if it's ok to open an external website (GitHub)
+Choose **Copy & Continue to GitHub**, and *another* prompt will come up asking if it's ok to open an external website (GitHub).
 
 ![VS Code External Site Prompt](assets/images/git_login_external_site.png){: style="width:400px"}
 
-Choose **Open** and then an external site (GitHub) will open, asking for your login code
+Choose **Open** and then an external site (GitHub) will open, asking for your login code.
 
 ![GitHub Login Code Entry](assets/images/git_login_code_entry.png){: style="width:400px"}
 
-Paste in your login code and choose **Continue**. You will then be prompted to Authorize VS Code
+Paste in your login code and choose **Continue**. You will then be prompted to Authorize VS Code.
 
 ![GitHub Authorize VS Code](assets/images/git_login_authorize_vscode.png){: style="width:400px"}
 
-Choose **Authorize Visual-Studio-Code** and you should be presented with the coveted Green Check Mark!
+Choose **Authorize Visual-Studio-Code**, and you should be presented with the coveted Green Check Mark!
 
 ![VS Code Git Login Complete](assets/images/git_login_complete.png){: style="width:400px"}
 
@@ -436,8 +436,8 @@ Whew! Alright. Now that we have that complete, let's keep moving...
 
 ### **Branching Out**
 
-Before we start jumping in and modifying our files, we'll create a branch named **banner-syslog** in our
-forked repository to work on our changes. There are multiple ways we can create our branch, but we'll use
+Before jumping in and modifying our files, we'll create a branch named **banner-syslog** in our
+forked repository to work on our changes. We can create our branch in multiple ways, but we'll use
 the `git switch` command with the `-c` parameter to create our new branch.
 
 ```bash
@@ -445,21 +445,21 @@ git switch -c banner-syslog
 ```
 
 After entering this command, we should see our new branch name reflected in the terminal. It will also be
-reflected in the status bar in the lower left hand corner of our VS Code window (you may need to click the refresh icon
+reflected in the status bar in the lower left-hand corner of our VS Code window (you may need to click the refresh icon
 before this is shown).
 
-Now we're ready to start working on our changes :sunglasses:
+Now we're ready to start working on our changes :sunglasses:.
 
 ### **Login Banner**
 
-When we initially deployed our multi-site topology, we forgot to include a login banner on all of our switches.
-Let's take a look at the [AVD documentation site](https://avd.sh/en/stable/roles/eos_cli_config_gen/index.html?h=login+banner#banners) to see what the
+When we initially deployed our multi-site topology, we should have included a login banner on all our switches.
+Let's take a look at the **[AVD documentation site](https://avd.arista.com/4.1/roles/eos_cli_config_gen/docs/tables/banners.html?h=banners)** to see what the
 data model is for this configuration.
 
-The banner on all of our switches will be the same, and after reviewing the AVD documentation, we know we can accomplish this by defining the `banners` input variable
+The banner on all of our switches will be the same. After reviewing the AVD documentation, we know we can accomplish this by defining the `banners` input variable
 in our `global_vars/global_dc_vars.yml` file.
 
-Add the code block below to `global_vars/global_dc_vars.yml`
+Add the code block below to `global_vars/global_dc_vars.yml`.
 
 ```yaml
 # Login Banner
@@ -470,16 +470,16 @@ banners:
 ```
 
 ???+ danger "Yes, that "EOF" is important!"
-    Ensure that the entire code snippet above is copied; Including the `EOF`. This must be present in order for the configuration to be
+    Ensure the entire code snippet above is copied; including the `EOF`. This must be present for the configuration to be
     considered valid
 
-Next, let's build out the configurations and documentation associated with this change
+Next, let's build out the configurations and documentation associated with this change.
 
 ```bash
 make build-site-1 build-site-2
 ```
 
-Take a minute to review the results of our five lines of YAML. When finished reviewing the changes, lets commit them.
+Please take a minute to review the results of our five lines of YAML. When finished reviewing the changes, let's commit them.
 
 As usual, there are a few ways of doing this, but the CLI commands below will get the job done:
 
@@ -492,14 +492,14 @@ So far, so good! Before we publish our branch and create a Pull Request though, 
 
 ### **Syslog Server**
 
-Our next Day 2 change is to add a syslog server configuration to all of our switches. Once again, we'll take
-a look at the [AVD documentation site](https://avd.sh/en/v4.1.0/roles/eos_cli_config_gen/docs/input-variables.html#logging) to see the
+Our next Day 2 change is adding a syslog server configuration to all our switches. Once again, we'll take
+a look at the **[AVD documentation site](https://avd.arista.com/4.1/roles/eos_cli_config_gen/docs/tables/logging.html?h=logging)** to see the
 data model associated with the `logging` input variable.
 
-Just like with our banner, the syslog server configuration will be consistent on all of our switches. Because of this, we can also put this into
+Like our banner operation, the syslog server configuration will be consistent on all our switches. Because of this, we can also put this into
 our `global_vars/global_dc_vars.yml` file.
 
-Add the code block below to `global_vars/global_dc_vars.yml`
+Add the code block below to `global_vars/global_dc_vars.yml`.
 
 ```yaml
 # Syslog
@@ -512,7 +512,7 @@ logging:
         - name: 10.200.1.108
 ```
 
-Finally, let's build out our configurations
+Finally, let's build out our configurations.
 
 ```bash
 make build-site-1 build-site-2
@@ -539,34 +539,34 @@ On our forked repository, let's create the Pull Request.
 When creating the PR, ensure that the `base repository` is the **main** branch of **your fork**. This can
 be selected via the dropdown as shown below:
 
-![PR Base Repository Selection](assets/images/pr_compare_selection.png){: style="width:800px"}
+![PR Base Repository Selection](assets/images/pr_open_request.png){: style="width:800px"}
 
 Take a minute to review the contents of the PR. Assuming all looks good, let's earn the **YOLO** GitHub badge
-by approving and merging your own PR!
+by approving and merging your PR!
 
 ???+ tip
-    Don't forget to delete the **banner-syslog** branch after performing the merge - Keep that repo clean!
+    Remember to delete the **banner-syslog** branch after performing the merge - Keep that repo clean!
 
-Once merged, let's switch back to our `main` branch and pull down our now merged changes
+Once merged, let's switch back to our `main` branch and pull down our merged changes.
 
 ```bash
 git switch main
 git pull
 ```
 
-Then, let's delete our now defunct **banner-syslog** branch
+Then, let's delete our now defunct **banner-syslog** branch.
 
 ```bash
 git branch -D banner-syslog
 ```
 
-Finally, let's deploy our changes
+Finally, let's deploy our changes.
 
 ```bash
 make deploy-site-1 deploy-site-2
 ```
 
-Once completed, when logging into any switch, we should now see our banner. The output of the `show logging` command
+Once completed, we should see our banner when logging into any switch. The output of the `show logging` command
 should also have our newly defined syslog servers.
 
 ### **Provisioning new Switches**
@@ -576,20 +576,20 @@ are ready to be provisioned, so let's get to it.
 
 #### **Branch Time**
 
-Before we jump in, let's get a new branch created for our work. We'll call this branch **add-leafs**
+Before jumping in, let's create a new branch for our work. We'll call this branch **add-leafs**.
 
 ```bash
 git switch -c add-leafs
 ```
 
-Now that we have our branch created, let's get to work!
+Now that we have our branch created let's get to work!
 
 #### **Inventory Update**
 
 First, we'll want to add our new switches, named **s1-leaf5** and **s1-leaf6**, into our inventory file. We'll add them
 as members of the `SITE1_LEAFS` group.
 
-Add the following two lines under `s1-leaf4` in `sites/site_1/inventory.yml`
+Add the following two lines under `s1-leaf4` in `sites/site_1/inventory.yml`.
 
 ```yaml
 s1-leaf5:
@@ -630,7 +630,7 @@ The `sites/site_1/inventory.yml` file should now look like the example below:
             SITE1_LEAFS:
     ```
 
-Next, let's add our new Leaf switches into `sites/site_1/group_vars/SITE1_FABRIC.yml`
+Next, let's add our new Leaf switches into `sites/site_1/group_vars/SITE1_FABRIC.yml`.
 
 These new switches will go into **RACK3**, leverage MLAG for multi-homing, and will have locally
 connected endpoints in VLANs `10` and `20`.
@@ -641,7 +641,7 @@ to the spines.
 On the spines, interface `Ethernet9` will be used to connect to s1-leaf5, while `Ethernet10`
 will be used to connect to s1-leaf6.
 
-Starting at line 64, add the following code block into `sites/site_1/group_vars/SITE1_FABRIC.yml`
+Starting at line 64, add the following code block into `sites/site_1/group_vars/SITE1_FABRIC.yml`.
 
 ``` yaml
 - group: RACK3
@@ -776,7 +776,7 @@ The `sites/site_1/group_vars/SITE1_FABRIC.yml` file should now look like the exa
 ???+ tip
     Notice how we did not specify a `filter` or `tags` under `RACK3`. If the `filter`
     parameter is not defined, all VLANs/SVIs/VRFs will be provisioned on the switch.
-    In our case, this simply means that VLANs `10` and `20` will both be created on our new
+    In our case, this means that VLANs `10` and `20` will both be created on our new
     Leaf switches. However, since they are `leaf` node types, no SVIs will be created.
 
 Next - Let's build the configuration!
@@ -786,10 +786,10 @@ make build-site-1
 ```
 
 ???+ danger "Important"
-    Interfaces `Ethernet9` and `Ethernet10` do not actually exist on the Spines. Because of this, we
-    will **not** run a deploy command, since it would fail.
+    Interfaces `Ethernet9` and `Ethernet10` do not exist on the Spines. Because of this, we
+    will **not** run a deploy command since it would fail.
 
-Take a moment and review the results of our changes via the source control functionality in VS Code.
+Please take a moment and review the results of our changes via the source control functionality in VS Code.
 
 Finally, we'll commit our changes and publish our branch. Again, we can use the VS Code Source Control GUI for this,
 or via the CLI using the commands below:
@@ -803,7 +803,7 @@ git push --set-upstream origin add-leafs
 ## **Backing out changes**
 
 Ruh Roh. As it turns out, we should have added these leaf switches to an entirely new site. Oops! No worries, because
-we used our **add-leafs** branch, we can simply switch back to our main branch and then delete our local copy of the **add-leafs**
+we used our **add-leafs** branch, we can switch back to our main branch and then delete our local copy of the **add-leafs**
 branch. No harm or confusion related to this change ever hit the main branch!
 
 ```bash
