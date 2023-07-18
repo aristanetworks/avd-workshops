@@ -25,9 +25,9 @@ Connect to your ATD Lab and start the Programmability IDE. Next, create a new Te
 
 ### STEP #2 - Fork and Clone branch to ATD Lab
 
-An ATD Dual Data Center L2LS data model is posted on GitHub here: [https://github.com/PacketAnglers/workshops-avd](https://github.com/PacketAnglers/workshops-avd)
+An ATD Dual Data Center L2LS data model is posted on GitHub here: [https://github.com/aristanetworks/ci-workshops-avd](https://github.com/aristanetworks/ci-workshops-avd)
 
-- Fork this [repository](https://github.com/PacketAnglers/workshops-avd) to your own GitHub account.
+- Fork this **[repository](https://github.com/aristanetworks/ci-workshops-avd)** to your own GitHub account.
 - Next, clone your forked repo to your ATD lab instance.
 
 ``` bash
@@ -269,7 +269,7 @@ At this point, you should be able to ping between hosts within a site but not be
 
 ## **Connect Sites to WAN IP Network**
 
-The WAN IP Network is defined by the `core_interfaces` data model. Full data model documentation is located [here](https://avd.sh/en/v4.1.0/roles/eos_designs/docs/input-variables.html#core-interfaces-settings).
+The WAN IP Network is defined by the `core_interfaces` data model. Full data model documentation is located **[here](https://avd.arista.com/4.1/roles/eos_designs/docs/tables/core-interfaces.html?h=core+interfaces)**.
 
 The data model defines P2P links (`/31s`) on the spines with a stanza per link. See details in the graphic below. Each spine has two links to the WAN IP Network configured on ports `Ethernet7` and `Ethernet8`. OSPF is added to these links as well.
 
@@ -453,7 +453,7 @@ Now we're ready to start working on our changes :sunglasses:
 ### **Login Banner**
 
 When we initially deployed our multi-site topology, we forgot to include a login banner on all of our switches.
-Let's take a look at the [AVD documentation site](https://avd.sh/en/stable/roles/eos_cli_config_gen/index.html?h=login+banner#banners) to see what the
+Let's take a look at the **[AVD documentation site](https://avd.arista.com/4.1/roles/eos_cli_config_gen/docs/tables/banners.html?h=banners)** to see what the
 data model is for this configuration.
 
 The banner on all of our switches will be the same, and after reviewing the AVD documentation, we know we can accomplish this by defining the `banners` input variable
@@ -493,7 +493,7 @@ So far, so good! Before we publish our branch and create a Pull Request though, 
 ### **Syslog Server**
 
 Our next Day 2 change is to add a syslog server configuration to all of our switches. Once again, we'll take
-a look at the [AVD documentation site](https://avd.sh/en/v4.1.0/roles/eos_cli_config_gen/docs/input-variables.html#logging) to see the
+a look at the **[AVD documentation site](https://avd.arista.com/4.1/roles/eos_cli_config_gen/docs/tables/logging.html?h=logging)** to see the
 data model associated with the `logging` input variable.
 
 Just like with our banner, the syslog server configuration will be consistent on all of our switches. Because of this, we can also put this into
