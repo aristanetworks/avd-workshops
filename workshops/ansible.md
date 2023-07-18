@@ -23,7 +23,7 @@ Finally, all that is required to get started is a Linux host with Python install
 
 ???+ tip "Important Note Before Getting Started"
 
-    This section will make use of the fork of the [Workshops](https://github.com/PacketAnglers/workshops "Workshops Repo on GitHub") GitHub repository that was
+    This section will make use of the fork of the [Workshops](https://github.com/aristanetworks/ci-workshops-fundamentals.git "Fundamentals Workshop Repo on GitHub") GitHub repository that was
     created during the [Git](git.md) section. If you have not created a fork of this repository, and cloned it into the `/home/coder/project/labfiles/` directory of
     your lab environment's VS Code IDE, please do so before moving forward.
 
@@ -124,7 +124,7 @@ Once Ansible finds an `ansible.cfg` file, it will only use the configuration opt
     This feature is udderly ridiculous, and as much as I'd love to milk it for all the Dad jokes possible,
     I don't want to start any beef by delaying the workshop...Moo.
 
-Below is an example of the `ansible.cfg` located in our fork of the [Workshops](https://github.com/PacketAnglers/workshops "Workshops Repo on GitHub") repo:
+Below is an example of the `ansible.cfg` located in our fork of the [Workshops](https://github.com/aristanetworks/ci-workshops-fundamentals.git "Fundamentals Workshop Repo on GitHub") repo:
 
 ??? eos-config annotate "Example Ansible Configuration File (~/project/labfiles/workshops/ansible/ansible.cfg)"
     ```apache
@@ -502,7 +502,7 @@ Other items such as variables, conditionals, tags, comments, and more are all av
 
 To do this, we'll review a playbook together. Specifically, the **`~/project/labfiles/workshops/ansible/playbooks/deploy_banner.yml`** in our lab environment.
 
-![Ansible Playbook Anatomy](assets/images/ansible_playbook_anatomy.png)
+![Ansible Playbook Anatomy](assets/images/ansible_playbook_anatomy.svg)
 
 At the very start of our playbook, we have the ==Play==. This is the very root of the playbook. it is where we define the Managed Nodes we'd like to target with this play, as well as the list of tasks we'd like
 to run on these ==target hosts==.
