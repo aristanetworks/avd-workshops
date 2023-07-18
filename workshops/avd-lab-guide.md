@@ -539,7 +539,7 @@ On our forked repository, let's create the Pull Request.
 When creating the PR, ensure that the `base repository` is the **main** branch of **your fork**. This can
 be selected via the dropdown as shown below:
 
-![PR Base Repository Selection](assets/images/pr_compare_selection.png){: style="width:800px"}
+![PR Base Repository Selection](assets/images/pr_open_request.png){: style="width:800px"}
 
 Take a minute to review the contents of the PR. Assuming all looks good, let's earn the **YOLO** GitHub badge
 by approving and merging your own PR!
