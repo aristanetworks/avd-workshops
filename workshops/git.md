@@ -51,7 +51,7 @@ git config --global user.name "FirstName LastName"
 git config --global user.email "name@example.com"
 
 # Set default branch name to `main`
-git config --global init.defaultBranch main
+git config --global init.defaultbranch main
 ```
 
 #### Programmability IDE (VS Code)
@@ -352,19 +352,19 @@ git branch add-vlan-40
 git switch add-vlan-40
 ```
 
-Using the Programmability IDE, update the file `avd/vlans.yml` with VLAN 40 information.
+Using the Programmability IDE, update the file `ci-workshops-fundamentals/avd/vlans.yml` with VLAN 40 information.
 
 ??? eos-config annotate "Updated vlans.yml"
     ``` yaml
     ---
     vlans:
-    - 10:
+      - 10:
         name: Ten
-    - 20:
+      - 20:
         name: Twenty
-    - 30:
+      - 30:
         name: Thirty
-    - 40:
+      - 40:
         name: Forty
     ```
 
