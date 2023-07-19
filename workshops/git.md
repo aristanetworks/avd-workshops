@@ -358,14 +358,14 @@ Using the Programmability IDE, update the file `ci-workshops-fundamentals/avd/vl
     ``` yaml
     ---
     vlans:
-       - 10:
-           name: Ten
-       - 20:
-           name: Twenty
-       - 30:
-           name: Thirty
-       - 40:
-           name: Forty
+      - 10:
+        name: Ten
+      - 20:
+        name: Twenty
+      - 30:
+        name: Thirty
+      - 40:
+        name: Forty
     ```
 
 Now, stage and commit these changes to the new branch.
