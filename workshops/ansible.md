@@ -371,7 +371,7 @@ And there they are! All of the variables we had defined in `WORKSHOP_FABRIC.yml`
 If we run this same command, but specifying `s1-leaf3` we'll see some additional, and slightly different, variables:
 
 ```bash
-`ansible-inventory --host s1-leaf3 --yaml`
+ansible-inventory --host s1-leaf3 --yaml
 ```
 
 ??? eos-config annotate "Output of 'ansible-inventory --host s1-leaf3 --yaml'"
