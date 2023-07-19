@@ -49,17 +49,17 @@ pip3 install ansible-core
 
 It really is that easy to get started!
 
-Before running any commands, let's first ensure that we're in the `/home/coder/project/labfiles/workshops/ansible` directory
+Before running any commands, let's first ensure that we're in the `/home/coder/project/labfiles/ci-workshops-fundamentals/ansible` directory
 
 ```bash
-cd ~/project/labfiles/workshops/ansible
+cd ~/project/labfiles/ci-workshops-fundamentals/ansible
 ```
 
 Next, we'll confirm that Ansible is installed by running the `ansible --version` in the terminal. This should yield output similar to below:
 
 ```powershell
 ansible [core 2.12.10]
-  config file = /home/coder/project/labfiles/workshops/ansible/ansible.cfg
+  config file = /home/coder/project/labfiles/ci-workshops-fundamentals/ansible/ansible.cfg
   configured module search path = ['/home/coder/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
   ansible python module location = /home/coder/.local/lib/python3.9/site-packages/ansible
   ansible collection location = /home/coder/.ansible/collections
@@ -126,7 +126,7 @@ Once Ansible finds an `ansible.cfg` file, it will only use the configuration opt
 
 Below is an example of the `ansible.cfg` located in our fork of the [Workshops](https://github.com/aristanetworks/ci-workshops-fundamentals.git "Fundamentals Workshop Repo on GitHub") repo:
 
-??? eos-config annotate "Example Ansible Configuration File (~/project/labfiles/workshops/ansible/ansible.cfg)"
+??? eos-config annotate "Example Ansible Configuration File (~/project/labfiles/ci-workshops-fundamentals/ansible/ansible.cfg)"
     ```apache
 
     [defaults]
@@ -185,7 +185,7 @@ The inventory file is where we define our hosts, groups that we'll be targeting 
 
 An example of our inventory file can be seen below:
 
-??? eos-config annotate "Example Inventory File (~project/labfiles/workshops/ansible/inventory/inventory.yml)"
+??? eos-config annotate "Example Inventory File (~project/labfiles/ci-workshops-fundamentals/ansible/inventory/inventory.yml)"
     ```yaml
     WORKSHOP_FABRIC:
       children:
@@ -279,7 +279,7 @@ Notice the variables associated with `s1-leaf1`. Where did these come from? We'l
 Variables can be defined in many locations with Ansible. For example, explicitly defining a variable when running a playbook by using the `extra-vars` flag
 
 ??? warning "Reminder"
-    Ensure all commands are run from the `/home/coder/project/labfiles/workshops/ansible` directory in the terminal on the ATD VS Code IDE instance.
+    Ensure all commands are run from the `/home/coder/project/labfiles/ci-workshops-fundamentals/ansible` directory in the terminal on the ATD VS Code IDE instance.
 
 ```bash
 ansible-playbook playbooks/hello_world.yml -e 'name=Mitch'
@@ -288,7 +288,7 @@ ansible-playbook playbooks/hello_world.yml -e 'name=Mitch'
 The contents of the playbook we just ran can be seen below. We will look more into the anatomy of a playbook in our next section. For now, make note of the fact that the `name` variable is also set in the `hello-world.yml` playbook
 using the `vars` parameter. When we ran our playbook with `extra_vars`, this took precedence over the variable defined inside of the playbook.
 
-??? eos-config annotate "hello_world.yml Playbook (~/project/labfiles/workshops/ansible/playbooks/hello_world.yml)"
+??? eos-config annotate "hello_world.yml Playbook (~/project/labfiles/ci-workshops-fundamentals/ansible/playbooks/hello_world.yml)"
     ```yaml
 
     ---
@@ -313,15 +313,15 @@ Other valid locations for variables, and their respective precedence, are shown 
 
 As can be expected, there are a LOT of places where we can define variables. Each option has it's use case, but the general recommendation is to make use of ==host_vars== and ==group_vars== as much as possible.
 
-Inside of our `~/project/labfiles/workshops/ansible/inventory` directory, there is a `host_vars` and `group_vars` directory. These are special directories that Ansible will use to establish a hierarchy of variables
+Inside of our `~/project/labfiles/ci-workshops-fundamentals/ansible/inventory` directory, there is a `host_vars` and `group_vars` directory. These are special directories that Ansible will use to establish a hierarchy of variables
 that maps directly to our inventory hosts and groups structure. Each group can have a dedicated `yaml` file, as can each host. A visual representation of this can be seen below:
 
 ![Ansible Variable Visualization](assets/images/ansible_variables2.png)
 
-In the example above, if we were to define a variable in the `~/project/labfiles/workshops/ansible/inventory/group_vars/WORKSHOP_FABRIC.yml` file, then all Managed Nodes contained within that group in our inventory file would
+In the example above, if we were to define a variable in the `~/project/labfiles/ci-workshops-fundamentals/ansible/inventory/group_vars/WORKSHOP_FABRIC.yml` file, then all Managed Nodes contained within that group in our inventory file would
 inherit that variable. The contents of our `WORKSHOP_FABRIC.yml` file can be seen below:
 
-??? eos-config annotate "WORKSHOP_FABRIC.yml (~/project/labfiles/workshops/ansible/inventory/group_vars/WORKSHOP_FABRIC.yml)"
+??? eos-config annotate "WORKSHOP_FABRIC.yml (~/project/labfiles/ci-workshops-fundamentals/ansible/inventory/group_vars/WORKSHOP_FABRIC.yml)"
     ```yaml
 
     # eAPI connectivity via HTTPS (as opposed to CLI via SSH)
@@ -403,7 +403,7 @@ If we run this same command, but specifying `s1-leaf3` we'll see some additional
 Whoa! There is certainly more there...and looking at `banner_text`, we can see that it's different. With `group_vars`, the closer to the host we get, the higher the precedence of the variable. So, in the case of `banner_text`, it is defined
 in `WORKSHOP_FABRIC.yml` and `S1.yml`. Because the `S1` group is closer to the host (`s1-leaf3`) in this case, the `banner_text` variable defined in `S1.yml` take priority.
 
-??? eos-config annotate "S1.yml (~/project/labfiles/workshops/ansible/inventory/group_vars/S1.yml)"
+??? eos-config annotate "S1.yml (~/project/labfiles/ci-workshops-fundamentals/ansible/inventory/group_vars/S1.yml)"
     ```yaml
 
     mlag_config:
@@ -464,9 +464,9 @@ ansible-inventory --host s1-leaf1 --yaml
     ```
 
 Notice we have a few more variables now, namely the `mlag` dictionary. We also can see that the `banner_text` has changed yet again. This time due to the fact that this variable is defined in
-`~/project/labfiles/workshops/ansible/inventory/host_vars/s1-leaf1.yml`. This demonstrates that a variable defined in `host_vars` will take priority over the same variable defined in `group_vars`.
+`~/project/labfiles/ci-workshops-fundamentals/ansible/inventory/host_vars/s1-leaf1.yml`. This demonstrates that a variable defined in `host_vars` will take priority over the same variable defined in `group_vars`.
 
-??? eos-config annotate "s1-leaf1.yml (~/project/labfiles/workshops/ansible/inventory/host_vars/s1-leaf1.yml)"
+??? eos-config annotate "s1-leaf1.yml (~/project/labfiles/ci-workshops-fundamentals/ansible/inventory/host_vars/s1-leaf1.yml)"
     ```yaml
 
     mlag_config:
@@ -500,7 +500,7 @@ Ansible Playbooks are written in YAML, and typically consist of four main compon
 
 Other items such as variables, conditionals, tags, comments, and more are all available tools for us as well. But, for our discussion, we will focus on the aforementioned four main components.
 
-To do this, we'll review a playbook together. Specifically, the **`~/project/labfiles/workshops/ansible/playbooks/deploy_banner.yml`** in our lab environment.
+To do this, we'll review a playbook together. Specifically, the **`~/project/labfiles/ci-workshops-fundamentals/ansible/playbooks/deploy_banner.yml`** in our lab environment.
 
 ![Ansible Playbook Anatomy](assets/images/ansible_playbook_anatomy.svg)
 
