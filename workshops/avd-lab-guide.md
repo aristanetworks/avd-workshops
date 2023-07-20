@@ -40,6 +40,9 @@ Configure your global Git settings.
 
 ``` bash
 git config --global user.name "FirstName LastName"
+```
+
+```bash
 git config --global user.email "name@example.com"
 ```
 
