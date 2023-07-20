@@ -46,10 +46,14 @@ Run the following commands from the Terminal in your ATD Lab Programmability IDE
 ``` bash
 # Set your username:
 git config --global user.name "FirstName LastName"
+```
 
+```bash
 # Set your email address:
 git config --global user.email "name@example.com"
+```
 
+```bash
 # Set default branch name to `main`
 git config --global init.defaultbranch main
 ```
