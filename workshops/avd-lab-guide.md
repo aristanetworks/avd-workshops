@@ -32,7 +32,13 @@ An ATD Dual Data Center L2LS data model is posted on [GitHub](https://github.com
 
 ``` bash
 cd /home/coder/project/labfiles
+```
+
+``` bash
 git clone <your copied URL>
+```
+
+``` bash
 cd ci-workshops-avd
 ```
 
