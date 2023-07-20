@@ -32,7 +32,13 @@ An ATD Dual Data Center L2LS data model is posted on [GitHub](https://github.com
 
 ``` bash
 cd /home/coder/project/labfiles
+```
+
+``` bash
 git clone <your copied URL>
+```
+
+``` bash
 cd ci-workshops-avd
 ```
 
@@ -40,6 +46,9 @@ Configure your global Git settings.
 
 ``` bash
 git config --global user.name "FirstName LastName"
+```
+
+``` bash
 git config --global user.email "name@example.com"
 ```
 
