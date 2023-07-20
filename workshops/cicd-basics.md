@@ -145,8 +145,17 @@ Every user will get a unique CVP instance deployed. There are two updates requir
 
     ```shell
     cd /home/coder/project/labfiles/ci-workshops-avd
+    ```
+
+    ```shell
     git config --global user.name "FirstName LastName"
+    ```
+
+    ```shell
     git config --global user.email "name@example.com"
+    ```
+
+    ```shell
     git add .
     git commit -m "Syncing with remote"
     git push
