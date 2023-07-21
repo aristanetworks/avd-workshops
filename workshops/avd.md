@@ -38,7 +38,7 @@ pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
 
 ### Other Environments
 
-Install AVD and required modules - Installation guide found [here](https://avd.sh/en/stable/docs/installation/collection-installation.html).
+Install AVD and required modules - Installation guide found **[here](https://avd.arista.com/4.1/docs/installation/collection-installation.html)**.
 
 ## Lab Topology Overview
 
@@ -186,7 +186,7 @@ AVD provides a network-wide data model and is typically broken into multiple gro
 
 ### Fabric Topology
 
-The physical fabric topology is defined by providing interface links between the spine and leaf nodes. The `group_vars/SITE1_FABRIC.yml` file defines this portion of the data model. In our lab, the spines provide layer 3 routing of SVIs and P2P links using a node type called `l3spines`. The leaf nodes are purely layer 2 and use node type `leaf`. An AVD L2LS design type provides three node type keys: l3 spine, spine, and leaf. AVD Node Type documentation can be found [here](https://avd.sh/en/v4.1.0/roles/eos_designs/docs/input-variables.html#node-type-settings). Default node_type_keys for all design types are located [here](https://avd.sh/en/v4.1.0/roles/eos_designs/docs/input-variables.html#default-node-types-settings).
+The physical fabric topology is defined by providing interface links between the spine and leaf nodes. The `group_vars/SITE1_FABRIC.yml` file defines this portion of the data model. In our lab, the spines provide layer 3 routing of SVIs and P2P links using a node type called `l3spines`. The leaf nodes are purely layer 2 and use node type `leaf`. An AVD L2LS design type provides three node type keys: l3 spine, spine, and leaf. AVD Node Type documentation can be found **[here](https://avd.arista.com/4.1/roles/eos_designs/docs/input-variables.html#node-type-variables)**.
 
 #### Spine and Leaf Nodes
 
