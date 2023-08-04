@@ -347,7 +347,7 @@ origin  https://github.com/xxxxxxx/ci-workshops-fundamentals.git (fetch)
 origin  https://github.com/xxxxxxx/ci-workshops-fundamentals.git (push)
 ```
 
-In the next step, let's add VLAN 40 to the data model in `atd/vlans.yml`. First, create a new branch called `add-vlan-40`.
+In the next step, let's add VLAN 40 to the data model in `avd/vlans.yml`. First, create a new branch called `add-vlan-40`.
 
 ### **Create and switch to a new branch**
 
