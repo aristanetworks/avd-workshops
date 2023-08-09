@@ -435,9 +435,12 @@ Once all changes have been agreed upon, the maintainer of the original repo will
 
 This will generate a Pull Request on the main project repository **`aristanetworks/ci-workshops-fundamentals`**. The owner/maintainer can merge the pull request once all changes are satisfied.
 
-### **Cleanup**
+???+ note
+    During the workshop the PR is not normally merged to prevent having to reset the repo before the next workshop. The `Cleanup` section below is the normal course of action.
 
-After merging a Pull Request, you may cleanup your old branch.
+### **Cleanup** *(optional)*
+
+After your Pull Request is merged, you may cleanup your old branch and sync your fork.
 
 1. Delete your branch on GitHub and your local host.
 2. Sync your Forked repo (below)
