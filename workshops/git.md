@@ -438,7 +438,7 @@ This will generate a Pull Request on the main project repository **`aristanetwor
 ???+ note
     During the workshop the PR is not normally merged to prevent having to reset the repo before the next workshop. The `Cleanup` section below is the normal course of action.
 
-### **Cleanup** _(optional)_
+### **Cleanup** *(optional)*
 
 After your Pull Request is merged, you may cleanup your old branch and sync your fork.
 
