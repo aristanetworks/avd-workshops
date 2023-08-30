@@ -101,7 +101,7 @@ theme:
 
   logo: assets/images/logo.png
 
-  name: material
+  name: something123
 
   palette:
     - media: "(prefers-color-scheme: light)"
