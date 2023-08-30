@@ -164,7 +164,6 @@ AVD provides a [global_vars](https://avd.arista.com/4.3/plugins/index.html?h=#ar
 
 The global_vars plugin must be enabled in the `ansible.cfg` file as shown below:
 
-### Plugin activation and path definition to import variables from a file
 
 ``` yaml
 #enable global vars
