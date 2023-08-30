@@ -160,10 +160,9 @@ In a multi-site environment, some variables must be applied to all sites. They i
 
 For example, in our lab, we use a global variable file `global_vars/global_dc-vars.yml`.
 
-AVD provides a [global_vars](https://avd.arista.com/4.3/plugins/index.html?h=#aristaavdglobal_vars) plugin that enables the use of global variables.
+AVD provides a [`global_vars`](https://avd.arista.com/4.3/plugins/index.html?h=#aristaavdglobal_vars) plugin that enables the use of global variables.
 
-The global_vars plugin must be enabled in the `ansible.cfg` file as shown below:
-
+The `global_vars` plugin must be enabled in the `ansible.cfg` file as shown below:
 
 ``` yaml
 #enable global vars
