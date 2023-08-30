@@ -13,9 +13,6 @@ jobs:
   test_build:
     name: Build site with no warnings
     runs-on: ubuntu-latest
-    if: >
-      github.event.workflow_run.event == 'pull_request' &&
-      github.event.workflow_run.conclusion == 'success'
     steps:
       - uses: actions/checkout@v2
         with:
