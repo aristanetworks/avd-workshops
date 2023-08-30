@@ -1,4 +1,4 @@
-name: Site testing
+name: Testing
 
 on:
   push:
