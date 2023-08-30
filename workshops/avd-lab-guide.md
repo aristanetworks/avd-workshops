@@ -8,6 +8,9 @@ In this example, the ATD lab is used to create the L2LS Dual Data Center topolog
 
 ![Dual DC Topology](assets/images/topologies.svg)
 
+!!! note
+    Look at that sweet diagram!
+
 ### Host Addresses
 
 | Host     |  IP Address  |
