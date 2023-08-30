@@ -2,12 +2,7 @@ name: Testing
 
 on:
   # Run jobs on any Pull Request activity
-  pull_request_target:
-    types:
-      - opened
-      - edited
-      - synchronize
-      - ready_for_review
+  push:
 
 jobs:
   pre_commit:
