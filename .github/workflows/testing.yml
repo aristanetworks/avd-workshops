@@ -34,6 +34,7 @@ jobs:
 
   test_build:
     name: Build site with no warnings
+    needs: pre_commit
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
