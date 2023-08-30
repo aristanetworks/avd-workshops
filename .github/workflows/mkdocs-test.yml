@@ -4,7 +4,8 @@ name: Site build
 # access to secrets
 on:
   workflow_run:
-    workflows: [Testing]
+    workflows:
+      - Testing
     types:
       - completed
 
