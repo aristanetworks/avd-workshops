@@ -1,0 +1,29 @@
+name: Site build
+
+# read-write repo token
+# access to secrets
+on:
+  workflow_run:
+    workflows:
+      - Testing
+    types:
+      - completed
+
+jobs:
+
+  test_build:
+    name: Build site with no warnings
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+
+      ##### Install required Python Modules and build the website #####
+      - run: pip install -r requirements.txt
+      - run: pip install git+https://${{ secrets.MKDOCS_INSIDER_TOKEN }}@github.com/squidfunk/mkdocs-material-insiders.git@8.5.11-insiders-4.27.0
+      - run: mkdocs build --strict
