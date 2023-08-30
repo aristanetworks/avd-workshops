@@ -156,20 +156,22 @@ Each group_vars file is listed in the following tabs.
 
 ## Global Variables
 
-In a multi-site environment, some variables must be applied to all sites. They include AAA, Local Users, NTP, Syslog, DNS, and TerminAttr. Instead of updating these same variables in multiple inventory group_vars, we can use a single global variable file and import the variables at playbook runtime. This allows us to make a single change applied to all sites. For example, in our lab, we use a global variable file `global_vars/global_dc-vars.yml`. In our playbooks, we have a task that imports global variables before running other tasks.
+In a multi-site environment, some variables must be applied to all sites. They include AAA, Local Users, NTP, Syslog, DNS, and TerminAttr. Instead of updating these same variables in multiple inventory group_vars, we can use a single global variable file and import the variables at playbook runtime. This allows us to make a single change applied to all sites. For example, in our lab, we use a global variable file `global_vars/global_dc-vars.yml`. AVD has a plugin that allow the use of global variables. It needs to be enabled in the `ansible.cfg` file.
 
-### Task to import variables from a file
+### Plugin activation and path definition to import variables from a file
 
 ``` yaml
-- name: Import Global Vars
-    include_vars: "{{ item }}"
-    with_items:
-    - "../global_vars/global_dc_vars.yml"
+#enable global vars
+vars_plugins_enabled = arista.avd.global_vars, host_group_vars
+
+#define global vars path
+[vars_global_vars]
+paths = ../../global_vars
 ```
 
 ???+ info
 
-    The above task allows multiple files to be imported using the `with_items` list.
+    If a folder is used as in the example above, all files in the folder will be parsed in alphabetical order.
 
 ### Example Global Vars File
 
