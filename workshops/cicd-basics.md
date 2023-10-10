@@ -64,16 +64,51 @@ pip3 config set global.disable-pip-version-check true
 pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
 ```
 
-## Fork repository
+## Fork and clone the repository
 
 You will be creating your own CI/CD pipeline in this workflow. Log in to your GitHub account and fork the [`ci-workshops-avd`](https://github.com/aristanetworks/ci-workshops-avd/) repository to get started.
 
-!!! note
-    You can skip this step if the repository was forked during the AVD workshop.
+!!! warning
+    You can skip these steps if you are continuing from the AVD workshop.
 
 ![Create fork](assets/images/create-fork.png)
 
 ![Save fork](assets/images/save-fork.png)
+
+1. On the IDE terminal, run the following commands:
+
+   ```shell
+   cd /home/coder/project/labfiles
+   ```
+
+   ```shell
+   git clone <your copied URL>
+   ```
+
+   ```shell
+   cd ci-workshops-avd
+   ```
+
+2. Configure your global Git settings.
+
+   ```shell
+   git config --global user.name "FirstName LastName"
+   ```
+
+   ```shell
+   git config --global user.email "name@example.com"
+   ```
+
+## Fast-forward the main brach
+
+On the programmability IDE, merge the `cicd-ff` branch into the `main` branch.
+
+!!! warning
+    You can skip this step if you are continuing from the AVD workshop.
+
+```shell
+git merge origin/cicd-ff
+```
 
 ### Enable GitHub actions
 
@@ -139,21 +174,9 @@ Every user will get a unique CVP instance deployed. There are two updates requir
 !!! note
     These will be the same value. Make sure to remove any prefix like `https://` or anything after `.com`
 
-## Configure global Git settings and sync
+## Sync with remote repository
 
 1. From the IDE terminal, run the following:
-
-    ```shell
-    cd /home/coder/project/labfiles/ci-workshops-avd
-    ```
-
-    ```shell
-    git config --global user.name "FirstName LastName"
-    ```
-
-    ```shell
-    git config --global user.email "name@example.com"
-    ```
 
     ```shell
     git add .
