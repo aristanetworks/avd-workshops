@@ -99,7 +99,7 @@ You will be creating your own CI/CD pipeline in this workflow. Log in to your Gi
    git config --global user.email "name@example.com"
    ```
 
-## Fast-forward the main brach
+### Fast-forward the main brach
 
 On the programmability IDE, merge the `cicd-ff` branch into the `main` branch.
 
@@ -109,6 +109,27 @@ On the programmability IDE, merge the `cicd-ff` branch into the `main` branch.
 ```shell
 git merge origin/cicd-ff
 ```
+
+### Setup lab password environment variable
+
+Each lab comes with a unique password. We set an environment variable called `LABPASSPHRASE` with the following command. The variable is later used to generate local user passwords and connect to our switches to push configs.
+
+!!! warning
+    You can skip this step if you are continuing from the AVD workshop.
+
+```shell
+export LABPASSPHRASE=`cat /home/coder/.config/code-server/config.yaml| grep "password:" | awk '{print $2}'`
+```
+
+### Configure the IP Network
+
+The nodes that connect the two sites are out of scope for this workshop. We can get the hosts and EOS nodes in the IP network configured by running the `make preplab` command.
+
+```shell
+make preplab
+```
+
+The host and IP Network nodes will now be configured.
 
 ### Enable GitHub actions
 
