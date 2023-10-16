@@ -340,9 +340,13 @@ cd ci-workshops-fundamentals
 
 Verify the location of the remote copy. This should be your local GitHub account.
 
-``` bash hl_lines="3-4"
+``` bash
 git remote -v
+```
 
+Output:
+
+``` text
 origin  https://github.com/xxxxxxx/ci-workshops-fundamentals.git (fetch)
 origin  https://github.com/xxxxxxx/ci-workshops-fundamentals.git (push)
 ```
