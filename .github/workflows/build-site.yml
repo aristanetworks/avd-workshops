@@ -21,5 +21,5 @@ jobs:
 
       ##### Install required Python Modules and build the website #####
       - run: pip install -r requirements.txt
-      - run: pip install git+https://${{ secrets.MKDOCS_INSIDER_TOKEN }}@github.com/squidfunk/mkdocs-material-insiders.git@8.5.11-insiders-4.27.0
+      - run: pip install git+https://${{ secrets.MKDOCS_INSIDER_TOKEN }}@github.com/squidfunk/mkdocs-material-insiders.git
       - run: mkdocs gh-deploy --force
