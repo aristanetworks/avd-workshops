@@ -1,21 +1,15 @@
 name: Testing
 
 on:
-  # Run jobs on any Pull Request activity
-  pull_request_target:
-    types:
-      - opened
-      - edited
-      - synchronize
-      - ready_for_review
+  pull_request:
 
 jobs:
   pre_commit:
     name: Run pre-commit validation hooks
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-python@v3
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v4
     - uses: pre-commit/action@v3.0.0
 
   # vale:
@@ -37,15 +31,14 @@ jobs:
     needs: pre_commit
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           submodules: true
 
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v4
         with:
           python-version: 3.x
 
       ##### Install required Python Modules and build the website #####
       - run: pip install -r requirements.txt
-      - run: pip install git+https://${{ secrets.MKDOCS_INSIDER_TOKEN }}@github.com/squidfunk/mkdocs-material-insiders.git@8.5.11-insiders-4.27.0
       - run: mkdocs build --strict

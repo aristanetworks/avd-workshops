@@ -110,6 +110,9 @@ On the programmability IDE, merge the `cicd-ff` branch into the `main` branch.
 git merge origin/cicd-ff
 ```
 
+???+ note
+    You may get a note to edit the commit message, enter ***windows*** ++ctrl++ + X or ***mac*** ++cmd++ + X to save the message and exit out of the text editor.
+
 ### Setup lab password environment variable
 
 Each lab comes with a unique password. We set an environment variable called `LABPASSPHRASE` with the following command. The variable is later used to generate local user passwords and connect to our switches to push configs.

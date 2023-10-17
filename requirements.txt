@@ -3,6 +3,7 @@ material
 md-toc
 mdx_truly_sane_lists
 mkdocs
+mkdocs-material
 mkdocs-git-revision-date-plugin
 mkdocs-glightbox
 mkdocs-include-dir-to-nav

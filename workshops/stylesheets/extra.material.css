@@ -14,7 +14,7 @@
 
     /* Accent color shades */
     --md-accent-fg-color:                #27569B;
-    --md-accent-bg-color:                #8c8c8f;
+    --md-accent-bg-color:                #27569B;
     --md-accent-bg-color--light:         #27569B;
 
     /* Link color */
@@ -61,16 +61,27 @@
   /* Custom Admonition eos-config */
 
   [data-md-color-scheme="slate"] {
+    /* Primary color shades */
+    --md-primary-fg-color:               #27569B;
+    --md-primary-fg-color--light:        #FFFFFF;
+    --md-primary-fg-color--dark:         #27569B;
+    --md-primary-bg-color:               #FFFFFF;
+    --md-primary-bg-color--light:        #FFFFFF;
+
+    /* Accent color shades */
+    --md-accent-fg-color:                #27569B;
+    --md-accent-bg-color:                #27569B;
+    --md-accent-bg-color--light:         #27569B;
 
     /* Link color */
-    --md-typeset-a-color:                #75aaf8;
+    --md-typeset-a-color:                #4473a9;
     --md-typeset-a-color-fg:             #FFFFFF;
     --md-typeset-a-color-bg:             #27569B;
 
     /* Code block color shades */
-    /* --md-code-bg-color:                  #E6E6E6; */
-    /*--md-code-border-color:              #aec6db4f;*/
-    /* --block-code-bg-color:               #e4e4e4; */
+    /* --md-code-bg-color:                  #E6E6E6;
+    --md-code-border-color:              #aec6db4f;
+    --block-code-bg-color:               #e4e4e4; */
   }
 
   [data-md-color-scheme="default"] {
@@ -87,7 +98,7 @@
     --md-accent-bg-color--light:         #27569B;
 
     /* Link color */
-    --md-typeset-a-color:                #27569B;
+    --md-typeset-a-color:                #4473a9;
     --md-typeset-a-color-fg:             #FFFFFF;
     --md-typeset-a-color-bg:             #27569B;
 
@@ -185,15 +196,16 @@
       border: 2px solid var(--md-code-border-color);
     }
     .md-typeset .admonition, .md-typeset details {
-        margin: 1.5625em 0;
-        padding: 0 .6rem;
-        overflow: hidden;
-        font-size: .64rem;
-        page-break-inside: avoid;
-        border-left: .2rem solid var(--md-accent-bg-color);
-        border-left-color: var(--md-accent-bg-color);
-        border-radius: .1rem;
-        box-shadow: 0 .2rem .5rem rgba(0,0,0,.05),0 0 .05rem rgba(0,0,0,.1);
+      margin: 1.5625em 0;
+      padding: 0 .6rem;
+      overflow: visible;
+      font-size: .64rem;
+      page-break-inside: avoid;
+      border-left: .2rem solid var(--md-accent-bg-color);
+      border-left-color: var(--md-accent-bg-color);
+      border-radius: .1rem;
+      border-width: thin;
+      box-shadow: 0 .2rem .5rem rgba(0,0,0,.05),0 0 .05rem rgba(0,0,0,.1);
     }
     /* .md-typeset .note > .admonition-title, .md-typeset .note > summary {
       background-color: var(--md-accent-bg-color);

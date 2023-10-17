@@ -11,15 +11,15 @@ jobs:
     runs-on: ubuntu-latest
     name: Build and Deploy Job
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           submodules: true
 
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v4
         with:
           python-version: 3.x
 
       ##### Install required Python Modules and build the website #####
       - run: pip install -r requirements.txt
-      - run: pip install git+https://${{ secrets.MKDOCS_INSIDER_TOKEN }}@github.com/squidfunk/mkdocs-material-insiders.git@8.5.11-insiders-4.27.0
+      - run: pip install git+https://${{ secrets.MKDOCS_INSIDER_TOKEN }}@github.com/squidfunk/mkdocs-material-insiders.git
       - run: mkdocs gh-deploy --force
