@@ -1,13 +1,11 @@
 name: Testing
 
 on:
+  push:
+    branches-ignore:
+      - main
   # Run jobs on any Pull Request activity
   pull_request_target:
-    types:
-      - opened
-      - edited
-      - synchronize
-      - ready_for_review
 
 jobs:
   pre_commit:
