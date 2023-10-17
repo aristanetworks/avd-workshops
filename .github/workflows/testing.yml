@@ -5,7 +5,7 @@ on:
     branches-ignore:
       - main
   # Run jobs on any Pull Request activity
-  pull_request_target:
+  pull_request:
 
 jobs:
   pre_commit:
