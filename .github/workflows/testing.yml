@@ -6,6 +6,8 @@ on:
       - main
   # Run jobs on any Pull Request activity
   pull_request:
+    branches:
+      - main
 
 jobs:
   pre_commit:
