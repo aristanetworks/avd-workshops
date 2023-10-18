@@ -26,15 +26,16 @@ Attendees will need the following:
 The ATD lab environment was provisioned with Ansible and Git. First, however, we must update AVD and the required modules to the latest version. The following commands will install AVD and the needed modules.
 
 ``` bash
-ansible-galaxy collection install arista.avd arista.cvp --force
-export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml | head -1 | cut -d: -f1)
 pip3 config set global.disable-pip-version-check true
+pip3 install "ansible-core<2.15.0"
+ansible-galaxy collection install -r requirements.yml
+export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml | head -1 | cut -d: -f1)
 pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
 ```
 
 ???+ Note
 
-    IMPORTANT: The above steps must be run each time you start your lab.
+    IMPORTANT: The installation steps assume the [repository](https://github.com/aristanetworks/ci-workshops-avd) has already been forked and cloned to the IDE. The above steps must be run each time you start your lab.
 
 ### Other Environments
 
