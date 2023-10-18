@@ -52,14 +52,15 @@ git config --global user.name "FirstName LastName"
 git config --global user.email "name@example.com"
 ```
 
-### STEP #3 - Update AVD to the latest version
+### STEP #3 - Update AVD
 
-AVD has been pre-installed in your lab environment. However, it may be on an older version. The following steps will update AVD and modules to the latest versions.
+AVD has been pre-installed in your lab environment. However, it may be on an older version (in some cases a newer version). The following steps will update AVD and modules to the valid versions for the lab.
 
 ``` bash
+pip3 config set global.disable-pip-version-check true
+pip3 install "ansible-core<2.15.0"
 ansible-galaxy collection install -r requirements.yml
 export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml | head -1 | cut -d: -f1)
-pip3 config set global.disable-pip-version-check true
 pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
 ```
 

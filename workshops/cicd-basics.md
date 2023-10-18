@@ -31,39 +31,6 @@ export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml 
 pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
 ```
 
-### ATD programmability IDE installation
-
-You can ensure the appropriate AVD version is installed by running the following command.
-
-```shell
-ansible-galaxy collection list
-```
-
-```shell hl_lines="9"
-➜  ci-workshops-avd git:(main) ansible-galaxy collection list
-
-# /home/coder/.ansible/collections/ansible_collections
-Collection        Version
------------------ -------
-ansible.netcommon 4.1.0
-ansible.posix     1.4.0
-ansible.utils     2.8.0
-arista.avd        4.1.0
-arista.cvp        3.6.1
-arista.eos        6.0.0
-community.general 6.2.0
-➜  ci-workshops-avd git:(main)
-```
-
-If AVD version `4.0.0` or greater is not present, please upgrade to the latest stable version.
-
-```shell
-ansible-galaxy collection install -r requirements.yml
-export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml | head -1 | cut -d: -f1)
-pip3 config set global.disable-pip-version-check true
-pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
-```
-
 ## Fork and clone the repository
 
 You will be creating your own CI/CD pipeline in this workflow. Log in to your GitHub account and fork the [`ci-workshops-avd`](https://github.com/aristanetworks/ci-workshops-avd/) repository to get started.
@@ -98,6 +65,40 @@ You will be creating your own CI/CD pipeline in this workflow. Log in to your Gi
    ```shell
    git config --global user.email "name@example.com"
    ```
+
+### ATD programmability IDE installation
+
+You can check the current AVD version by running the following command:
+
+```shell
+ansible-galaxy collection list
+```
+
+```shell hl_lines="9"
+➜  ci-workshops-avd git:(main) ansible-galaxy collection list
+
+# /home/coder/.ansible/collections/ansible_collections
+Collection        Version
+----------------- -------
+ansible.netcommon 4.1.0
+ansible.posix     1.4.0
+ansible.utils     2.8.0
+arista.avd        4.1.0
+arista.cvp        3.6.1
+arista.eos        6.0.0
+community.general 6.2.0
+➜  ci-workshops-avd git:(main)
+```
+
+Run the following commands to install the required packages within the ATD environment.
+
+```shell
+pip3 config set global.disable-pip-version-check true
+pip3 install "ansible-core<2.15.0"
+ansible-galaxy collection install -r requirements.yml
+export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml | head -1 | cut -d: -f1)
+pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
+```
 
 ### Fast-forward the main brach
 
