@@ -19,11 +19,11 @@ In this example, the ATD lab is used to create the L2LS Dual Data Center topolog
 
 ## **Prepare Lab Environment**
 
-### STEP #1 - Access the ATD Lab
+### Access the ATD Lab
 
 Connect to your ATD Lab and start the Programmability IDE. Next, create a new Terminal.
 
-### STEP #2 - Fork and Clone branch to ATD Lab
+### Fork and Clone branch to ATD Lab
 
 An ATD Dual Data Center L2LS data model is posted on [GitHub](https://github.com/aristanetworks/ci-workshops-avd).
 
@@ -52,7 +52,7 @@ git config --global user.name "FirstName LastName"
 git config --global user.email "name@example.com"
 ```
 
-### STEP #3 - Update AVD
+### Update AVD
 
 AVD has been pre-installed in your lab environment. However, it may be on an older version (in some cases a newer version). The following steps will update AVD and modules to the valid versions for the lab.
 
@@ -68,7 +68,7 @@ pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
 
     You must run these commands when you start your lab or a new shell (terminal).
 
-### STEP #4 - Setup Lab Password Environment Variable
+### Setup Lab Password Environment Variable
 
 Each lab comes with a unique password. We set an environment variable called `LABPASSPHRASE` with the following command. The variable is later used to generate local user passwords and connect to our switches to push configs.
 
@@ -86,7 +86,7 @@ echo $LABPASSPHRASE
 
     You must run this step when you start your lab or a new shell (terminal).
 
-### STEP #5 - Prepare WAN IP Network and Test Hosts
+### Prepare WAN IP Network and Test Hosts
 
 The last step in preparing your lab is to push pre-defined configurations to the WAN IP Network (cloud) and the four hosts used to test traffic. The spines from each site will connect to the WAN IP Network with P2P links. The hosts (two per site) have port-channels to the leaf pairs and are pre-configured with an IP address and route to reach the other hosts.
 
@@ -110,7 +110,7 @@ This section will review and update the existing L2LS data model. We will add fe
 
 ## **Site 1**
 
-### STEP #1 - Build and Deploy Initial Fabric
+### Build and Deploy Initial Fabric
 
 The initial fabric data model key/value pairs have been pre-populated in the following group_vars files in the `sites/site_1/group_vars/` directory.
 
@@ -160,7 +160,7 @@ show port-channel
 
 The basic fabric with MLAG peers and port-channels between leaf and spines are now created. Next up, we will add VLAN and SVI services to the fabric.
 
-### STEP #2 - Add Services to the Fabric
+### Add Services to the Fabric
 
 The next step is to add Vlans and SVIs to the fabric. The services data model file `SITE1_FABRIC_SERVICES.yml` is pre-populated with Vlans and SVIs `10` and `20` in the default VRF.
 
@@ -233,7 +233,7 @@ See the difference between the running config and the latest checkpoint file.
 diff checkpoint:< filename > running-config
 ```
 
-### STEP #3 - Add Ports for Hosts
+### Add Ports for Hosts
 
 Let's configure port-channels to our hosts (`s1-host1` and `s1-host2`).
 

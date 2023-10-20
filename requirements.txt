@@ -2,10 +2,11 @@ MarkupSafe
 md-toc
 mdx_truly_sane_lists
 mkdocs
-mkdocs-material
+mkdocs-enumerate-headings-plugin
 mkdocs-git-revision-date-plugin
 mkdocs-glightbox
 mkdocs-include-dir-to-nav
+mkdocs-material
 mkdocs-material-extensions
 mkdocs-pymdownx-material-extras
 pre-commit
