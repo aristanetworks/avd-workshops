@@ -7,6 +7,5 @@ mkdocs-git-revision-date-plugin
 mkdocs-glightbox
 mkdocs-include-dir-to-nav
 mkdocs-material
-mkdocs-material-extensions
 mkdocs-pymdownx-material-extras
 pre-commit

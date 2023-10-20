@@ -31,7 +31,7 @@ export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml 
 pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
 ```
 
-## 1. Fork and clone the repository
+## Fork and clone the repository
 
 You will be creating your own CI/CD pipeline in this workflow. Log in to your GitHub account and fork the [`ci-workshops-avd`](https://github.com/aristanetworks/ci-workshops-avd/) repository to get started.
 
@@ -66,7 +66,7 @@ You will be creating your own CI/CD pipeline in this workflow. Log in to your Gi
    git config --global user.email "name@example.com"
    ```
 
-## 2. ATD programmability IDE installation
+## ATD programmability IDE installation
 
 You can check the current AVD version by running the following command:
 
@@ -100,7 +100,7 @@ export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml 
 pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
 ```
 
-## 3. Fast-forward the main brach
+## Fast-forward the main brach
 
 On the programmability IDE, merge the `cicd-ff` branch into the `main` branch.
 
@@ -122,7 +122,7 @@ git fetch upstream
 git merge upstream/cicd-ff
 ```
 
-## 4. Setup lab password environment variable
+## Setup lab password environment variable
 
 Each lab comes with a unique password. We set an environment variable called `LABPASSPHRASE` with the following command. The variable is later used to generate local user passwords and connect to our switches to push configs.
 
@@ -133,7 +133,7 @@ Each lab comes with a unique password. We set an environment variable called `LA
 export LABPASSPHRASE=`cat /home/coder/.config/code-server/config.yaml| grep "password:" | awk '{print $2}'`
 ```
 
-## 5. Configure the IP Network
+## Configure the IP Network
 
 The nodes that connect the two sites are out of scope for this workshop. We can get the hosts and EOS nodes in the IP network configured by running the `make preplab` command.
 
@@ -143,14 +143,14 @@ make preplab
 
 The host and IP Network nodes will now be configured.
 
-## 6. Enable GitHub actions
+## Enable GitHub actions
 
 1. Go to Actions
 2. Click `I understand my workflows, go ahead and enable them`
 
 ![Enable Actions](assets/images/enable-actions.png)
 
-### 6.1 Set GitHub secret
+### Set GitHub secret
 
 You will need to set one secret in your newly forked GitHub repository.
 
@@ -174,7 +174,7 @@ You will need to set one secret in your newly forked GitHub repository.
 !!! note
     Our workflow uses this secret to authenticate with our CVP instance.
 
-## 7. Update local CVP variables
+## Update local CVP variables
 
 Every user will get a unique CVP instance deployed. There are two updates required.
 
@@ -207,7 +207,7 @@ Every user will get a unique CVP instance deployed. There are two updates requir
 !!! note
     These will be the same value. Make sure to remove any prefix like `https://` or anything after `.com`
 
-## 8. Sync with remote repository
+## Sync with remote repository
 
 1. From the IDE terminal, run the following:
 
@@ -220,7 +220,7 @@ Every user will get a unique CVP instance deployed. There are two updates requir
 !!! note
     If the Git `user.name` and `user.email` are set, they may be skipped. You can check this by running the `git config --list` command. You will get a notification to sign in to GitHub. Follow the prompts.
 
-## 9. Create a new branch
+## Create a new branch
 
 In a moment, we will be deploying changes to our environment. In reality, updates to a code repository would be done from a development or feature branch. We will follow this same workflow.
 
@@ -231,11 +231,11 @@ In a moment, we will be deploying changes to our environment. In reality, update
 git checkout -b dc-updates
 ```
 
-## 10. GitHub Actions
+## GitHub Actions
 
 GitHub Actions is a CI/CD platform within GitHub. We can leverage GitHub Actions to create automated workflows within our repository. These workflows can be as simple as notifying appropriate reviewers of a change and automating the entire release of an application or network infrastructure.
 
-### 10.1 Workflow files
+### Workflow files
 
 GitHub actions are defined by separate files (`dev.yml` and `prod.yml`) within our code repository's `.github/workflows` directory.
 
@@ -290,7 +290,7 @@ jobs:
 ...
 ```
 
-### 10.2 pre-commit
+### pre-commit
 
 To get started with pre-commit, run the following commands in your ATD IDE terminal.
 
@@ -525,7 +525,7 @@ At this point, make sure both workflow files (`dev.yml` and `prod.yml`) within t
             if: steps.filter-site2.outputs.workflows == 'true'
     ```
 
-## 11. Day-2 Operations - New service (VLAN)
+## Day-2 Operations - New service (VLAN)
 
 This example workflow will add two new VLANs to our sites. Site 1 will add VLAN 25, and site 2 will add VLAN 45. An example of the updated group_vars is below. The previous workshop modified the configuration of our devices directly through eAPI. This example will leverage GitHub actions with CloudVision to update our nodes. The provisioning with CVP will also create a new container topology and configlet assignment per device. For starters, we can update site 1.
 
@@ -658,7 +658,7 @@ Once complete, the GitHub actions will show changes on sites 1 and 2.
 
 ![Actions](assets/images/actions-both.png)
 
-## 12. Creating a pull request to deploy updates (main branch)
+## Creating a pull request to deploy updates (main branch)
 
 We have activated our GitHub workflows and tested our configurations. We are now ready to create a pull request.
 
