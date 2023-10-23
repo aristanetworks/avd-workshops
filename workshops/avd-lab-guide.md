@@ -17,13 +17,13 @@ In this example, the ATD lab is used to create the L2LS Dual Data Center topolog
 | s2-host1 | 10.30.30.100 |
 | s2-host2 | 10.40.40.100 |
 
-## **Prepare Lab Environment**
+## **Step 1 - Prepare Lab Environment**
 
-### STEP #1 - Access the ATD Lab
+### Access the ATD Lab
 
 Connect to your ATD Lab and start the Programmability IDE. Next, create a new Terminal.
 
-### STEP #2 - Fork and Clone branch to ATD Lab
+### Fork and Clone branch to ATD Lab
 
 An ATD Dual Data Center L2LS data model is posted on [GitHub](https://github.com/aristanetworks/ci-workshops-avd).
 
@@ -52,7 +52,7 @@ git config --global user.name "FirstName LastName"
 git config --global user.email "name@example.com"
 ```
 
-### STEP #3 - Update AVD
+### Update AVD
 
 AVD has been pre-installed in your lab environment. However, it may be on an older version (in some cases a newer version). The following steps will update AVD and modules to the valid versions for the lab.
 
@@ -68,7 +68,7 @@ pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
 
     You must run these commands when you start your lab or a new shell (terminal).
 
-### STEP #4 - Setup Lab Password Environment Variable
+### Setup Lab Password Environment Variable
 
 Each lab comes with a unique password. We set an environment variable called `LABPASSPHRASE` with the following command. The variable is later used to generate local user passwords and connect to our switches to push configs.
 
@@ -86,7 +86,7 @@ echo $LABPASSPHRASE
 
     You must run this step when you start your lab or a new shell (terminal).
 
-### STEP #5 - Prepare WAN IP Network and Test Hosts
+### Prepare WAN IP Network and Test Hosts
 
 The last step in preparing your lab is to push pre-defined configurations to the WAN IP Network (cloud) and the four hosts used to test traffic. The spines from each site will connect to the WAN IP Network with P2P links. The hosts (two per site) have port-channels to the leaf pairs and are pre-configured with an IP address and route to reach the other hosts.
 
@@ -96,7 +96,7 @@ Run the following to push the configs.
 make preplab
 ```
 
-## **Build and Deploy Dual Data Center L2LS Network**
+## **Step 2 - Build and Deploy Dual Data Center L2LS Network**
 
 This section will review and update the existing L2LS data model. We will add features to enable VLANs, SVIs, connected endpoints, and P2P links to the WAN IP Network. After the lab, you will have enabled an L2LS dual data center network through automation with AVD. YAML data models and Ansible playbooks will be used to generate EOS CLI configurations and deploy them to each site. We will start by focusing on building out Site 1 and then repeat similar steps for Site 2. Finally, we will enable connectivity to the WAN IP Network to allow traffic to pass between sites.
 
@@ -108,9 +108,9 @@ This section will review and update the existing L2LS data model. We will add fe
 4. Verify routing
 5. Test traffic
 
-## **Site 1**
+## **Step 3 - Site 1**
 
-### STEP #1 - Build and Deploy Initial Fabric
+### Build and Deploy Initial Fabric
 
 The initial fabric data model key/value pairs have been pre-populated in the following group_vars files in the `sites/site_1/group_vars/` directory.
 
@@ -160,7 +160,7 @@ show port-channel
 
 The basic fabric with MLAG peers and port-channels between leaf and spines are now created. Next up, we will add VLAN and SVI services to the fabric.
 
-### STEP #2 - Add Services to the Fabric
+### Add Services to the Fabric
 
 The next step is to add Vlans and SVIs to the fabric. The services data model file `SITE1_FABRIC_SERVICES.yml` is pre-populated with Vlans and SVIs `10` and `20` in the default VRF.
 
@@ -233,7 +233,7 @@ See the difference between the running config and the latest checkpoint file.
 diff checkpoint:< filename > running-config
 ```
 
-### STEP #3 - Add Ports for Hosts
+### Add Ports for Hosts
 
 Let's configure port-channels to our hosts (`s1-host1` and `s1-host2`).
 
@@ -266,7 +266,7 @@ PING 10.20.20.100 (10.20.20.100) 72(100) bytes of data.
 
 Site 1 fabric is now complete.
 
-## **Site 2**
+## **Step 4 - Site 2**
 
 Repeat the previous three steps for Site 2.
 
@@ -277,7 +277,7 @@ Repeat the previous three steps for Site 2.
 
 At this point, you should be able to ping between hosts within a site but not between sites. For this, we need to build connectivity to the `WAN IP Network`. This is covered in the next section.
 
-## **Connect Sites to WAN IP Network**
+## **Step 5 - Connect Sites to WAN IP Network**
 
 The WAN IP Network is defined by the `core_interfaces` data model. Full data model documentation is located **[here](https://avd.arista.com/4.1/roles/eos_designs/docs/tables/core-interfaces.html?h=core+interfaces)**.
 
@@ -395,7 +395,7 @@ ping 10.40.40.100
 
 You have built a multi-site L2LS network without touching the CLI on a single switch.
 
-## **Day 2 Operations**
+## **Step 6 - Day 2 Operations**
 
 Our multi-site L2LS network is working great. But, before too long, it will be time to change
 our configurations. Lucky for us, that time is today!
@@ -810,7 +810,7 @@ git commit -m 'add leafs'
 git push --set-upstream origin add-leafs
 ```
 
-## **Backing out changes**
+## **Step 7 - Backing out changes**
 
 Ruh Roh. As it turns out, we should have added these leaf switches to an entirely new site. Oops! No worries, because
 we used our **add-leafs** branch, we can switch back to our main branch and then delete our local copy of the **add-leafs**

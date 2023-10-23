@@ -19,9 +19,10 @@ Throughout this section, we will use the following dual data center topology. Cl
 
 This repository leverages the dual data center (DC) ATD. If you are not leveraging the ATD, you may still leverage this repository for a similar deployment. Please note that some updates may have to be made for the reachability of nodes and CloudVision (CVP) instances. This example was created with [Ansible AVD](https://avd.arista.com/4.1/index.html) version `4.1`.
 
-### Local installation
+### Installation external to the ATD environment (optional)
 
-If running outside of the ATD interactive developer environment (IDE), you must install the base requirements.
+!!! note
+    If running outside of the ATD interactive developer environment (IDE), you must install the base requirements.
 
 ```shell
 python3 -m venv venv
@@ -31,7 +32,7 @@ export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml 
 pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
 ```
 
-## Fork and clone the repository
+## **Step 1 - Fork and clone the repository**
 
 You will be creating your own CI/CD pipeline in this workflow. Log in to your GitHub account and fork the [`ci-workshops-avd`](https://github.com/aristanetworks/ci-workshops-avd/) repository to get started.
 
@@ -66,7 +67,7 @@ You will be creating your own CI/CD pipeline in this workflow. Log in to your Gi
    git config --global user.email "name@example.com"
    ```
 
-### ATD programmability IDE installation
+## **Step 2 - ATD programmability IDE installation**
 
 You can check the current AVD version by running the following command:
 
@@ -100,7 +101,7 @@ export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml 
 pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
 ```
 
-### Fast-forward the main brach
+## **Step 3 - Fast-forward the main brach**
 
 On the programmability IDE, merge the `cicd-ff` branch into the `main` branch.
 
@@ -114,7 +115,15 @@ git merge origin/cicd-ff
 ???+ note
     You may get a note to edit the commit message, enter ***windows*** ++ctrl++ + X or ***mac*** ++cmd++ + X to save the message and exit out of the text editor.
 
-### Setup lab password environment variable
+If you got the dreaded `merge: origin/cicd-ff - not something we can merge` error, you may have missed unchecking the `Copy the main branch only` option when forking. You can continue by running the following commands within the workshops directory on the IDE terminal.
+
+```shell
+git remote add upstream https://github.com/aristanetworks/ci-workshops-avd.git
+git fetch upstream
+git merge upstream/cicd-ff
+```
+
+## **Step 4 - Setup lab password environment variable**
 
 Each lab comes with a unique password. We set an environment variable called `LABPASSPHRASE` with the following command. The variable is later used to generate local user passwords and connect to our switches to push configs.
 
@@ -125,7 +134,7 @@ Each lab comes with a unique password. We set an environment variable called `LA
 export LABPASSPHRASE=`cat /home/coder/.config/code-server/config.yaml| grep "password:" | awk '{print $2}'`
 ```
 
-### Configure the IP Network
+## **Step 5 - Configure the IP Network**
 
 The nodes that connect the two sites are out of scope for this workshop. We can get the hosts and EOS nodes in the IP network configured by running the `make preplab` command.
 
@@ -135,7 +144,7 @@ make preplab
 
 The host and IP Network nodes will now be configured.
 
-### Enable GitHub actions
+## **Step 6 - Enable GitHub actions**
 
 1. Go to Actions
 2. Click `I understand my workflows, go ahead and enable them`
@@ -155,7 +164,7 @@ You will need to set one secret in your newly forked GitHub repository.
 
 5. Enter the secret as follows
 
-   - Name: LABPASSPHRASE
+   - Name: `LABPASSPHRASE`
    - Secret: Listed in ATD lab topology
 
     ![Lab credentials](assets/images/lab-creds.png)
@@ -166,7 +175,7 @@ You will need to set one secret in your newly forked GitHub repository.
 !!! note
     Our workflow uses this secret to authenticate with our CVP instance.
 
-## Update local CVP variables
+## **Step 7 - Update local CVP variables**
 
 Every user will get a unique CVP instance deployed. There are two updates required.
 
@@ -199,7 +208,7 @@ Every user will get a unique CVP instance deployed. There are two updates requir
 !!! note
     These will be the same value. Make sure to remove any prefix like `https://` or anything after `.com`
 
-## Sync with remote repository
+## **Step 8 - Sync with remote repository**
 
 1. From the IDE terminal, run the following:
 
@@ -212,7 +221,7 @@ Every user will get a unique CVP instance deployed. There are two updates requir
 !!! note
     If the Git `user.name` and `user.email` are set, they may be skipped. You can check this by running the `git config --list` command. You will get a notification to sign in to GitHub. Follow the prompts.
 
-## Create a new branch
+## **Step 9 - Create a new branch**
 
 In a moment, we will be deploying changes to our environment. In reality, updates to a code repository would be done from a development or feature branch. We will follow this same workflow.
 
@@ -223,7 +232,7 @@ In a moment, we will be deploying changes to our environment. In reality, update
 git checkout -b dc-updates
 ```
 
-## GitHub Actions
+## **Step 10 - GitHub Actions**
 
 GitHub Actions is a CI/CD platform within GitHub. We can leverage GitHub Actions to create automated workflows within our repository. These workflows can be as simple as notifying appropriate reviewers of a change and automating the entire release of an application or network infrastructure.
 
@@ -282,7 +291,7 @@ jobs:
 ...
 ```
 
-#### pre-commit
+### pre-commit
 
 To get started with pre-commit, run the following commands in your ATD IDE terminal.
 
@@ -336,7 +345,7 @@ Finally, the setup Python and install requirements action above the pre-commit s
 ...
 ```
 
-##### pre-commit example
+#### pre-commit example
 
 We can look at the benefits of pre-commit by introducing three errors in a group_vars file. This example will use the `sites/site_1/group_vars/SITE1_FABRIC_SERVICES.yml` file. Under VLAN 20, we can add extra whitespace after any entry, extra newlines, and move the `s1-spine2` key under the `s1-spine1` key.
 
@@ -356,10 +365,13 @@ We can look at the benefits of pre-commit by introducing three errors in a group
 # <- Newline
 ```
 
-We can run pre-commit manually by running the `pre-commit run -a` command.
+We can run pre-commit manually by running the following command:
 
 ```shell
-➜  ci-workshops-avd git:(main) ✗ pre-commit run -a
+pre-commit run -a
+```
+
+```shell title='Output'
 trim trailing whitespace.................................................Passed
 fix end of files.........................................................Failed
 - hook id: end-of-file-fixer
@@ -405,7 +417,7 @@ check yaml...............................................................Passed
 ➜  ci-workshops-avd git:(main)
 ```
 
-#### Filter changes to the Pipeline
+### Filter changes to the Pipeline
 
 Currently, our workflow will build and deploy configurations for both sites. This is true even if we only have changes relevant to one site. We can use a path filter to check if changes within specific directories have been modified, signaling that a new build and deployment are required. Please take note of the `id` key. This will be referenced in our upcoming workflow steps.
 
@@ -432,7 +444,7 @@ Currently, our workflow will build and deploy configurations for both sites. Thi
 ...
 ```
 
-#### Conditionals to control flow
+### Conditionals to control flow
 
 The Ansible collection install and test configuration steps have the conditional key of `if`. This maps to each path filter check step we used earlier. For example, the first path check has an `id` of `filter-site1`. We can reference the `id` in our workflow as `steps.filter-site1.outputs.workflows`. If this is set to `true`, a change will register in our check, and the test build step for site 1 will run. One difference is the Ansible collection install uses the `||` (or) operator. The "or" operator allows us to control when Ansible collections are installed. The collections will be installed if a change is registered in either `filter-site1` or `filter-site2`.
 
@@ -514,7 +526,7 @@ At this point, make sure both workflow files (`dev.yml` and `prod.yml`) within t
             if: steps.filter-site2.outputs.workflows == 'true'
     ```
 
-## Day-2 Operations - New service (VLAN)
+## **Step 11 - Day-2 Operations - New service (VLAN)**
 
 This example workflow will add two new VLANs to our sites. Site 1 will add VLAN 25, and site 2 will add VLAN 45. An example of the updated group_vars is below. The previous workshop modified the configuration of our devices directly through eAPI. This example will leverage GitHub actions with CloudVision to update our nodes. The provisioning with CVP will also create a new container topology and configlet assignment per device. For starters, we can update site 1.
 
@@ -647,7 +659,7 @@ Once complete, the GitHub actions will show changes on sites 1 and 2.
 
 ![Actions](assets/images/actions-both.png)
 
-## Creating a pull request to deploy updates (main branch)
+## **Step 12 -  Creating a pull request to deploy updates (main branch)**
 
 We have activated our GitHub workflows and tested our configurations. We are now ready to create a pull request.
 
