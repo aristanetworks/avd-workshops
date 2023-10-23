@@ -74,12 +74,6 @@ markdown_extensions:
       toc_depth: 2
 
 plugins:
-  - enumerate-headings:
-      toc_depth: 2
-      increment_across_pages: false
-      include:
-        - "avd-lab-guide.md"
-        - "cicd-basics.md"
   - git-revision-date
   - glightbox
   - search:

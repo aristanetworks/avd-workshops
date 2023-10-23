@@ -2,7 +2,6 @@ MarkupSafe
 md-toc
 mdx_truly_sane_lists
 mkdocs
-mkdocs-enumerate-headings-plugin
 mkdocs-git-revision-date-plugin
 mkdocs-glightbox
 mkdocs-include-dir-to-nav

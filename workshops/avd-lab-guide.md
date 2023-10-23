@@ -17,7 +17,7 @@ In this example, the ATD lab is used to create the L2LS Dual Data Center topolog
 | s2-host1 | 10.30.30.100 |
 | s2-host2 | 10.40.40.100 |
 
-## **Prepare Lab Environment**
+## **Step 1 - Prepare Lab Environment**
 
 ### Access the ATD Lab
 
@@ -96,7 +96,7 @@ Run the following to push the configs.
 make preplab
 ```
 
-## **Build and Deploy Dual Data Center L2LS Network**
+## **Step 2 - Build and Deploy Dual Data Center L2LS Network**
 
 This section will review and update the existing L2LS data model. We will add features to enable VLANs, SVIs, connected endpoints, and P2P links to the WAN IP Network. After the lab, you will have enabled an L2LS dual data center network through automation with AVD. YAML data models and Ansible playbooks will be used to generate EOS CLI configurations and deploy them to each site. We will start by focusing on building out Site 1 and then repeat similar steps for Site 2. Finally, we will enable connectivity to the WAN IP Network to allow traffic to pass between sites.
 
@@ -108,7 +108,7 @@ This section will review and update the existing L2LS data model. We will add fe
 4. Verify routing
 5. Test traffic
 
-## **Site 1**
+## **Step 3 - Site 1**
 
 ### Build and Deploy Initial Fabric
 
@@ -266,7 +266,7 @@ PING 10.20.20.100 (10.20.20.100) 72(100) bytes of data.
 
 Site 1 fabric is now complete.
 
-## **Site 2**
+## **Step 4 - Site 2**
 
 Repeat the previous three steps for Site 2.
 
@@ -277,7 +277,7 @@ Repeat the previous three steps for Site 2.
 
 At this point, you should be able to ping between hosts within a site but not between sites. For this, we need to build connectivity to the `WAN IP Network`. This is covered in the next section.
 
-## **Connect Sites to WAN IP Network**
+## **Step 5 - Connect Sites to WAN IP Network**
 
 The WAN IP Network is defined by the `core_interfaces` data model. Full data model documentation is located **[here](https://avd.arista.com/4.1/roles/eos_designs/docs/tables/core-interfaces.html?h=core+interfaces)**.
 
@@ -395,7 +395,7 @@ ping 10.40.40.100
 
 You have built a multi-site L2LS network without touching the CLI on a single switch.
 
-## **Day 2 Operations**
+## **Step 6 - Day 2 Operations**
 
 Our multi-site L2LS network is working great. But, before too long, it will be time to change
 our configurations. Lucky for us, that time is today!
@@ -810,7 +810,7 @@ git commit -m 'add leafs'
 git push --set-upstream origin add-leafs
 ```
 
-## **Backing out changes**
+## **Step 7 - Backing out changes**
 
 Ruh Roh. As it turns out, we should have added these leaf switches to an entirely new site. Oops! No worries, because
 we used our **add-leafs** branch, we can switch back to our main branch and then delete our local copy of the **add-leafs**
