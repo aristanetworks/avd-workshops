@@ -17,7 +17,7 @@ Throughout this section, we will use the following dual data center topology. Cl
 
 ## Getting started
 
-This repository leverages the dual data center (DC) ATD. If you are not leveraging the ATD, you may still leverage this repository for a similar deployment. Please note that some updates may have to be made for the reachability of nodes and CloudVision (CVP) instances. This example was created with [Ansible AVD](https://avd.arista.com/4.4/index.html) version `4.4`.
+This repository leverages the dual data center (DC) ATD. If you are not leveraging the ATD, you may still leverage this repository for a similar deployment. Please note that some updates may have to be made for the reachability of nodes and CloudVision (CVP) instances. This example was created with [Ansible AVD](https://avd.arista.com/4.5/index.html) version `4.5`.
 
 ### Installation external to the ATD environment (optional)
 
