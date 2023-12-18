@@ -85,8 +85,8 @@ Collection        Version
 ansible.netcommon 4.1.0
 ansible.posix     1.4.0
 ansible.utils     2.8.0
-arista.avd        4.4.0
-arista.cvp        3.9.0
+arista.avd        4.5.0
+arista.cvp        3.10.1
 arista.eos        6.0.0
 community.general 6.2.0
 ➜  ci-workshops-avd git:(main)
