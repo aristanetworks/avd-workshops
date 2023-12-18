@@ -17,7 +17,7 @@ Throughout this section, we will use the following dual data center topology. Cl
 
 ## Getting started
 
-This repository leverages the dual data center (DC) ATD. If you are not leveraging the ATD, you may still leverage this repository for a similar deployment. Please note that some updates may have to be made for the reachability of nodes and CloudVision (CVP) instances. This example was created with [Ansible AVD](https://avd.arista.com/4.1/index.html) version `4.1`.
+This repository leverages the dual data center (DC) ATD. If you are not leveraging the ATD, you may still leverage this repository for a similar deployment. Please note that some updates may have to be made for the reachability of nodes and CloudVision (CVP) instances. This example was created with [Ansible AVD](https://avd.arista.com/4.5/index.html) version `4.5`.
 
 ### Installation external to the ATD environment (optional)
 
@@ -27,6 +27,7 @@ This repository leverages the dual data center (DC) ATD. If you are not leveragi
 ```shell
 python3 -m venv venv
 source venv/bin/activate
+pip3 install "ansible-core==2.15.5"
 ansible-galaxy collection install -r requirements.yml
 export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml | head -1 | cut -d: -f1)
 pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
@@ -84,8 +85,8 @@ Collection        Version
 ansible.netcommon 4.1.0
 ansible.posix     1.4.0
 ansible.utils     2.8.0
-arista.avd        4.1.0
-arista.cvp        3.6.1
+arista.avd        4.5.0
+arista.cvp        3.10.1
 arista.eos        6.0.0
 community.general 6.2.0
 ➜  ci-workshops-avd git:(main)
@@ -95,7 +96,7 @@ Run the following commands to install the required packages within the ATD envir
 
 ```shell
 pip3 config set global.disable-pip-version-check true
-pip3 install "ansible-core<2.15.0"
+pip3 install "ansible-core==2.15.5"
 ansible-galaxy collection install -r requirements.yml
 export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml | head -1 | cut -d: -f1)
 pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
