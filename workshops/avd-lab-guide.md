@@ -1002,7 +1002,7 @@ The `sites/site_1/group_vars/SITE1_FABRIC.yml` file should now look like the exa
 
     ```
 
-Next - Let's build the configuration!
+Next - Let's build the configurations!
 
 ```bash
 make build-site-1
@@ -1020,4 +1020,4 @@ Login to your switches to verify the current configs (`show run`) match the ones
 
 Also check out that the new inband management VLAN 3000 SVI exists on the spines and leafs with their auto-allocated IPs.
 
-**Great Work**
+**Great Work!**
