@@ -823,4 +823,180 @@ git branch -D add-leafs
 
 Finally, we can go out to our forked copy of the repository and delete the **add-leafs** branch.
 
-All set!
+Now that the work we did for nothing has been fully wiped out, we can move on to our last change.
+
+### Inband Management
+
+In the lab environment we are using for this class, all switches are accessible through the dedicated out-of-band management port.  Additionally, in production environments, dedicated out-of-band management fabrics are always the recommended way to segregate all management functionality and access to the devices.  However, what happens if you don't have a dedicated management fabric?  What if even though you do have that fabric, you would like some other type of non-console management access in the event the management fabric is unavailable.  Enter the widely used, inband management functionality.  
+
+As we have learned from working through the AVD labs, when building a Layer 2 Leaf/Spine fabric, all the VLAN SVIs are created and live solely on the spines switches.  This present a slight hurdle to us, because inband management uses a VLAN SVI, in the specified management network, on every switch, spines and leafs.  The spines still need to host the gateway for this inband management network, and a static route needs to be created on every leaf.  Trying to manipulate the data model in the network services vars file to accomplish inband management would not be clean or efficient, and it still would not get the management SVIs created on each leaf switch.
+
+Luckily, AVD has an inband management data model, which is very lean and easy to deploy.  The full data model can be reviewed right on the **[AVD documentation site](https://avd.arista.com/4.5/roles/eos_designs/docs/input-variables.html#node-type-inband-management)**.
+
+This data model is deployed in the **Fabric** vars file, either under the node type defaults, or under specific nodes.  While there are many options to configure, for this lab, we will just be focusing on the following:
+
+``` yaml
+<node_type_keys.key>:
+
+  # Define variables for all nodes of this type.
+  defaults:
+
+    # VLAN number used for inband management on L2 switches (switches using port-channel trunks as uplinks).
+    # When using 'inband_mgmt_subnet' the VLAN and SVIs will be created automatically on this switch as well as all 'uplink_switches'.
+    # When using 'inband_mgmt_ip' the VLAN and SVI will only be created on this device and added to uplink trunk. The VLAN and SVI on the parent switches must be created using network services data models.
+    inband_mgmt_vlan: <int; default=4092>
+
+    # Optional IP subnet assigned to inband management SVIs on L2 switches (switches using port-channels as uplinks).
+    # SVI IP address will be assigned as follows:
+    # virtual-router: <subnet> + 1
+    # l3leaf A      : <subnet> + 2 (same IP on all l3leaf A)
+    # l3leaf B      : <subnet> + 3 (same IP on all l3leaf B)
+    # l2leafs       : <subnet> + 3 + <l2leaf id>
+    # GW on l2leafs : <subnet> + 1
+    # Assign range larger than total l2leafs + 5
+
+    # This setting is applicable to L2 switches (switches using port-channel trunks as uplinks).
+    inband_mgmt_subnet: <str>
+```
+
+With just these two key value pairs, AVD will automatically create the inband management VLAN, its associated SVIs on the spines, the vARP virtual IP for the subnet gateway, the VLAN and its SVIs on the leafs, and the static route.
+
+Lets get to work creating our inband management network.
+
+#### **Branch Time**
+
+Following our development best practices, let's create a new branch for our work. We'll call this branch **inband-mgmt**.
+
+```bash
+git switch -c inband-mgmt
+```
+
+Now that we are on our new working branch, lets add our data model and render our configs.
+
+#### **Data Model Creation**
+
+Next, let's add our inband management data model into `sites/site_1/group_vars/SITE1_FABRIC.yml`.
+
+This will be the actual data model we will drop into our `SITE1_FABRIC` vars file:
+
+```yaml
+inband_mgmt_vlan: 3000
+inband_mgmt_subnet: 10.255.255.0/24
+```
+
+The data model should be nested in the vars file like this:
+
+```yaml
+# Leaf Switches
+leaf:
+  defaults:
+    platform: cEOS
+    < insert inband management keys here >
+    mlag_peer_ipv4_pool: 10.1.253.0/24
+```
+
+The `sites/site_1/group_vars/SITE1_FABRIC.yml` file should now look like the example below:
+
+??? eos-config annotate "sites/site_1/group_vars/SITE1_FABRIC.yml"
+    ``` yaml hl_lines="64-73"
+    ---
+    fabric_name: SITE1_FABRIC
+
+    # Set Design Type to L2ls
+    design:
+      type: l2ls
+
+    # Spine Switches
+    l3spine:
+      defaults:
+        platform: cEOS
+        spanning_tree_mode: mstp
+        spanning_tree_priority: 4096
+        loopback_ipv4_pool: 10.1.252.0/24
+        mlag_peer_ipv4_pool: 10.1.253.0/24
+        mlag_peer_l3_ipv4_pool: 10.1.254.0/24
+        virtual_router_mac_address: 00:1c:73:00:dc:01
+        mlag_interfaces: [ Ethernet1, Ethernet6 ]
+      node_groups:
+        - group: SPINES
+          nodes:
+            - name: s1-spine1
+              id: 1
+              mgmt_ip: 192.168.0.10/24
+            - name: s1-spine2
+              id: 2
+              mgmt_ip: 192.168.0.11/24
+
+    # Leaf Switches
+    leaf:
+      defaults:
+        platform: cEOS
+        inband_mgmt_vlan: 3000
+        inband_mgmt_subnet: 10.255.255.0/24
+        mlag_peer_ipv4_pool: 10.1.253.0/24
+        spanning_tree_mode: mstp
+        spanning_tree_priority: 16384
+        uplink_switches: [ s1-spine1, s1-spine2 ]
+        uplink_interfaces: [ Ethernet2, Ethernet3 ]
+        mlag_interfaces: [ Ethernet1, Ethernet6 ]
+      node_groups:
+        - group: RACK1
+          filter:
+            tags: [ "Web" ]
+          nodes:
+            - name: s1-leaf1
+              id: 3
+              mgmt_ip: 192.168.0.12/24
+              uplink_switch_interfaces: [ Ethernet2, Ethernet2 ]
+            - name: s1-leaf2
+              id: 4
+              mgmt_ip: 192.168.0.13/24
+              uplink_switch_interfaces: [ Ethernet3, Ethernet3 ]
+        - group: RACK2
+          filter:
+            tags: [ "App" ]
+          nodes:
+            - name: s1-leaf3
+              id: 5
+              mgmt_ip: 192.168.0.14/24
+              uplink_switch_interfaces: [ Ethernet4, Ethernet4 ]
+            - name: s1-leaf4
+              id: 6
+              mgmt_ip: 192.168.0.15/24
+              uplink_switch_interfaces: [ Ethernet5, Ethernet5 ]
+
+    ##################################################################
+    # Underlay Routing Protocol - ran on Spines
+    ##################################################################
+
+    underlay_routing_protocol: OSPF
+
+    ##################################################################
+    # WAN/Core Edge Links
+    ##################################################################
+
+    core_interfaces:
+      p2p_links:
+
+        - ip: [ 10.0.0.29/31, 10.0.0.28/31 ]
+          nodes: [ s1-spine1, WANCORE ]
+          interfaces: [ Ethernet7, Ethernet2 ]
+          include_in_underlay_protocol: true
+
+        - ip: [ 10.0.0.33/31, 10.0.0.32/31 ]
+          nodes: [ s1-spine1, WANCORE ]
+          interfaces: [ Ethernet8, Ethernet2 ]
+          include_in_underlay_protocol: true
+
+        - ip: [ 10.0.0.31/31, 10.0.0.30/31 ]
+          nodes: [ s1-spine2, WANCORE ]
+          interfaces: [ Ethernet7, Ethernet2 ]
+          include_in_underlay_protocol: true
+
+        - ip: [ 10.0.0.35/31, 10.0.0.34/31 ]
+          nodes: [ s1-spine2, WANCORE ]
+          interfaces: [ Ethernet8, Ethernet2 ]
+          include_in_underlay_protocol: true
+
+    ```
+
