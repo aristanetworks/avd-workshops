@@ -1008,7 +1008,7 @@ Next - Let's build the configuration!
 make build-site-1
 ```
 
-Go ahead and review the newly rendered configurations and documentation to see what config was rendered and applied on the spines and leafs.
+Go ahead and review the newly rendered configurations and documentation to see what config was rendered for the spines and leafs.
 
 Now, deploy the configurations to Site 1 switches.
 
