@@ -825,11 +825,13 @@ Finally, we can go out to our forked copy of the repository and delete the **add
 
 Now that the work we did for nothing has been fully wiped out, we can move on to our last change.
 
+## **Step 8 - Day 2 Operations Continued**
+
 ### Inband Management
 
 In the lab environment we are using for this class, all switches are accessible through the dedicated out-of-band management port.  Additionally, in production environments, dedicated out-of-band management fabrics are always the recommended way to segregate all management functionality and access to the devices.  However, what happens if you don't have a dedicated management fabric?  What if even though you do have that fabric, you would like some other type of non-console management access in the event the management fabric is unavailable.  Enter the widely used, inband management functionality.  
 
-As we have learned from working through the AVD labs, when building a Layer 2 Leaf/Spine fabric, all the VLAN SVIs are created and live solely on the spines switches.  This present a slight hurdle to us, because inband management uses a VLAN SVI, in the specified management network, on every switch, spines and leafs.  The spines still need to host the gateway for this inband management network, and a static route needs to be created on every leaf.  Trying to manipulate the data model in the network services vars file to accomplish inband management would not be clean or efficient, and it still would not get the management SVIs created on each leaf switch.
+As we have learned from working through the AVD labs, when building a Layer 2 Leaf/Spine fabric, all the VLAN SVIs are created and live solely on the spines switches.  This presents a slight hurdle to us, because inband management uses a VLAN SVI, in the specified management network, on every switch, spines and leafs.  The spines still need to host the gateway for this inband management network, and a static route needs to be created on every leaf.  Trying to manipulate the data model in the network services vars file to accomplish inband management would not be as clean or efficient, and it still would not get the management SVIs created on each leaf switch.
 
 Luckily, AVD has an inband management data model, which is very lean and easy to deploy.  The full data model can be reviewed right on the **[AVD documentation site](https://avd.arista.com/4.5/roles/eos_designs/docs/input-variables.html#node-type-inband-management)**.
 
