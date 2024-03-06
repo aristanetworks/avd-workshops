@@ -837,7 +837,7 @@ Lets analyze the sections of this template.
 
 `global`: This tells the template which YAML file to look at for the variable.
 
-Looking at the configuration line we are creating, we can see instead of walking through the dictionary via the dictionary key names, we are keying off the our variable which represents the items in our dictionary list. This can be seen with the `rsrv['hosts']` line. This means we are looking for the value of the **`host`** key for each server in our list that is currently assigned to the **`rsrv`** variable. The same holds true for the `rsrv['vrf']` and `rsrv['key']` lines.
+Looking at the configuration line we are creating, we can see instead of walking through the dictionary via the dictionary key names, we are keying off our variable which represents the items in our dictionary list. This can be seen with the `rsrv['hosts']` line. This means we are looking for the value of the **`host`** key for each server in our list that is currently assigned to the **`rsrv`** variable. The same holds true for the `rsrv['vrf']` and `rsrv['key']` lines.
 
 The for loop would run as many times as there are items in the list, which is just one, and the configuration file output would look as follows:
 
@@ -932,7 +932,7 @@ vxlan vlan {{ vlan }} vni {{ vlan_values['l2vni'] }}
 {% endfor %}
 ```
 
-Looking at this template, lets walk through whats happening. First, we have a for loop that is iterating through the top level dictionary keys in the YAMl file itself. Those keys would be `Red` and `Blue`. Looking at the actual for loop syntax itself, we have some new parameters to look at:
+Looking at this template, lets walk through whats happening. First, we have a for loop that is iterating through the top level dictionary keys in the YAML file itself. Those keys would be `Red` and `Blue`. Looking at the actual for loop syntax itself, we have some new parameters to look at:
 
 `vrf`:  This is a variable the keys in the dictionary list are assigned to.
 
