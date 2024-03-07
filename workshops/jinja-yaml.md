@@ -708,15 +708,10 @@ Another aspect of conditionals to match on is a boolean, whether something is tr
 
 ```jinja
 {% for item in interface[inventory_hostname]['interfaces'] %}
+interface {{ item }}
+description {{ interface[inventory_hostname]['interfaces'][item]['desc'] }}
 {% if interface[inventory_hostname]['interfaces'][item]['mlag_peerlink'] == true %}
-interface {{ item }}
-description {{ interface[inventory_hostname]['interfaces'][item]['desc'] }}
 channel-group 2000 mode active
-{% else %}
-
-interface {{ item }}
-description {{ interface[inventory_hostname]['interfaces'][item]['desc'] }}
-
 {% endif %}
 {% endfor %}
 ```
