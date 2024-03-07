@@ -574,7 +574,7 @@ aaa authentication login default {{ global['aaa_authentication']['login']['defau
 aaa authorization exec default {{ global['aaa_authorization']['exec']['default'] }}
 
 # Render clock timezone config line
-clock timezone {{ global['clock']['timezone']}}
+clock timezone {{ global['clock']['timezone'] }}
 ```
 
 As you can see, the variable has many parameters in them. Let's walk through these parameters using the `aaa authentication` config line.
@@ -922,7 +922,7 @@ vxlan udp-port 4789
 
 {% for vrf,vrf_values in vrf.items() %}
 
-vxlan vrf {{vrf}} vni {{ vrf_values['l3vni']}}
+vxlan vrf {{ vrf }} vni {{ vrf_values['l3vni'] }}
 
 {% for vlan,vlan_values in vrf_values['vlans'].items() %}
 
@@ -954,7 +954,7 @@ First we will look at the `vrf` variables, and we will do this by changing the t
 vxlan source-interface loopback1
 vxlan udp-port 4789 #}
 {% for vrf,vrf_values in vrf.items() %}
-{# vxlan vrf {{vrf}} vni {{ vrf_values['l3vni']}}  #}
+{# vxlan vrf {{ vrf }} vni {{ vrf_values['l3vni'] }}  #}
 {{ vrf }}
 
 {% for vlan,vlan_values in vrf_values['vlans'].items() %}
@@ -994,7 +994,7 @@ Now let's take a look at the `_params` variable. Changing the template to what f
 vxlan source-interface loopback1
 vxlan udp-port 4789 #}
 {% for vrf,vrf_values in vrf.items() %}
-{# vxlan vrf {{vrf}} vni {{ vrf_values['l3vni']}}  #}
+{# vxlan vrf {{ vrf }} vni {{ vrf_values['l3vni'] }}  #}
 {# {{ vrf }} #}
 {{ vrf_values }}
 
@@ -1034,7 +1034,7 @@ vxlan udp-port 4789
 
 {% for vrf,vrf_values in vrf.items() %}
 
-vxlan vrf {{vrf}} vni {{ vrf_values['l3vni']}}
+vxlan vrf {{ vrf }} vni {{ vrf_values['l3vni'] }}
 
 {% for vlan,vlan_values in vrf_values['vlans'].items() %}
 
@@ -1209,9 +1209,9 @@ The Jinja template would look as follows:
     ip radius vrf {{ radsrc['vrf'] }} source-interface {{ radsrc['name'] }}
     {% endfor %}
 
-    mac address-table aging-time {{ global['mac_address_table']['aging_time']}}
+    mac address-table aging-time {{ global['mac_address_table']['aging_time'] }}
 
-    arp aging timeout {{ global['arp']['aging']['timeout_default']}}
+    arp aging timeout {{ global['arp']['aging']['timeout_default'] }}
 
     {% for dns in global['name_servers'] %}
     ip name-server {{ dns }}
@@ -1224,7 +1224,7 @@ The Jinja template would look as follows:
     ntp server vrf {{ ntps['vrf'] }} {{ ntps['name'] }}
     {% endfor %}
 
-    clock timezone {{ global['clock']['timezone']}}
+    clock timezone {{ global['clock']['timezone'] }}
 
     vlan 4094
     name MLAG
