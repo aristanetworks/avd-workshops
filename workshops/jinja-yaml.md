@@ -89,7 +89,7 @@ Now that we know the idea of what YAML is and what it's used for, we can cover t
 
 ### Comments
 
-Comments are an important part of any documentation or configuration you are doing. When creating or modify any network configurations, while you don't realize it, you are commenting something that is important. When configuring an interface, you may add a description, such as the name of a downstream device or server it's connected to. Or if its a provider handoff you may add the NOC telephone number and the circuitID. If you are configuring BGP peers, you may add a description to each peer so it's clear what the neighbor is.
+Comments are an important part of any documentation or configuration you are doing. When creating or modifying any network configurations, while you don't realize it, you are commenting something that is important. When configuring an interface, you may add a description, such as the name of a downstream device or server it's connected to. Or if its a provider handoff you may add the NOC telephone number and the circuitID. If you are configuring BGP peers, you may add a description to each peer so it's clear what the neighbor is.
 
 In YAML, you can enter comments anywhere you'd like, and ideally, where it makes sense to help explain what your data model is representing. Comments in YAML are represented with the pound symbol, and shown below.
 
