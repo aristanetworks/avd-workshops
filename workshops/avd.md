@@ -330,7 +330,7 @@ The following diagram shows the P2P links to the IP Network from all four spine 
 
 ### Fabric Services
 
-Fabric Services, such as VLANs, SVIs, and VRFs, are defined in this section. The following Site 1 example defines VLANSs and SVIs for VLANs `10` and `20` in the default VRF. Additional VRF definitions can also be applied.
+Fabric Services, such as VLANs, SVIs, and VRFs, are defined in this section. The following Site 1 example defines VLANs and SVIs for VLANs `10` and `20` in the default VRF. Additional VRF definitions can also be applied.
 
 ``` yaml
 ---
