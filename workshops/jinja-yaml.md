@@ -936,7 +936,7 @@ Looking at this template, lets walk through whats happening. First, we have a fo
 
 `vrf`:  This is a variable the keys in the dictionary list are assigned to.
 
-`vrf_vales`:  This is another variable the corresponding values of those keys are assigned to.
+`vrf_values`:  This is another variable the corresponding values of those keys are assigned to.
 
 `vrf.items()`: This uses the built in .items function to determine which items in the dictionary we are looping through. It includes the top level keys.
 
