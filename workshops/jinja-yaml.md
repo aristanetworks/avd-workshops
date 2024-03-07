@@ -965,7 +965,7 @@ vxlan udp-port 4789 #}
 {% endfor %}
 ```
 
-Reviewing the above template, we will comment out everything except for our for loop and out initial key variables. The result of this template will run through the nested loops, and output the value of the variables called, `{{ vrf }}`, and `{{ vlan }}`.
+Reviewing the above template, we will comment out everything except our for loop and our initial key variables. The result of this template will run through the nested loops, and output the value of the variables called, `{{ vrf }}`, and `{{ vlan }}`.
 
 Viewing the output, we can see that these equal the top level keys of our data model:
 
