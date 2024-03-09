@@ -442,7 +442,7 @@ At a high level, Jinja is a templating engine used to create markup files such a
 
 ## What is Jinja Used For?
 
-As it may have become apparent from the YAML section, after creating our data model of the various configuration parameters we want to automate, we need to get that data model and all its variables into a format that can read and understood by our network devices. This is where Jinja comes in. The use of Jinja templates, along with some yet to be shown Ansible magic, allows us to render full or partial configuration files that can loaded onto network devices. The underlying purpose of this, as it relates to automation, is that with the use of various expressions and variables in the Jinja templates, we can use a single template, with single or multiple YAML variable files, and create configurations against a multitude of network devices. As far as the actual template file and its file extension, technically any file can be called as a template regardless of its extension as long as its formatted correctly, however, we typically use the `.j2` extension on all Jinja template files.
+As it may have become apparent from the YAML section, after creating our data model of the various configuration parameters we want to automate, we need to get that data model and all its variables into a format that can be read and understood by our network devices. This is where Jinja comes in. The use of Jinja templates, along with some yet to be shown Ansible magic, allows us to render full or partial configuration files that can loaded onto network devices. The underlying purpose of this, as it relates to automation, is that with the use of various expressions and variables in the Jinja templates, we can use a single template, with single or multiple YAML variable files, and create configurations against a multitude of network devices. As far as the actual template file and its file extension, technically any file can be called as a template regardless of its extension as long as its formatted correctly, however, we typically use the `.j2` extension on all Jinja template files.
 
 ## Jinja Syntax
 
@@ -515,7 +515,7 @@ fabric:
 
 As shown previously, we know expressions or variable substitution is performed with the double curly brackets, `{{ my_var }}`, but what does this look like in a Jinja template?
 
-For example, we may want to generate the hostname in our template for all the devices in our inventory file. In order to this we can use a standard Ansible variable called `inventory_hostname`, which substitutes in the current name of the inventory host the Ansible play is running against.
+For example, we may want to generate the hostname in our template for all the devices in our inventory file. In order to do this we can use a standard Ansible variable called `inventory_hostname`, which substitutes the name of the current inventory host the Ansible play is running against.
 
 ```jinja
 {# Create a file assigning the device hostname #}
@@ -606,7 +606,7 @@ Running the playbook generates the following configuration against all devices c
 
 #### Conditionals
 
-Conditionals, such as `{% if %}`, `{% elif %}`, and `{% else %}`, as well as `{% for %}` loops are extremely helpful for either or configurations that may apply to only a subset of devices you are generating configurations for. Additionally, for loops are a must for efficiently working through nested data structures like lists of lists or lists of dictionaries.
+Conditionals, such as `{% if %}`, `{% elif %}`, and `{% else %}`, as well as `{% for %}` loops are extremely helpful for either configurations that may apply to only a subset of devices you are generating configurations for. Additionally, for loops are a must to efficiently work through nested data structures like lists of lists or lists of dictionaries.
 
 Lets start our statements journey with conditionals, and where they can be helpful.
 
