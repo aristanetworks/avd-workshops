@@ -19,7 +19,7 @@ Aside from being "agentless", meaning that Ansible does not require any speciali
 
 There is an extensive and very active user and development community with Ansible. The project itself is open source, with the GitHub repository available [here](https://github.com/ansible/ansible "Ansible on GitHub"). The popularity of Ansible has led to broad vendor support, spanning multiple technology silos. Network, Compute, Storage, Cloud, Security, and more can all be automated via Ansible.
 
-Finally, all that is required to get started is a Linux host with Python installed. A single Ansible Control Node (ACN) can manage hundreds, or thousands, of endpoints.
+Finally, all that is required to get started is a Linux host with Python installed. A single Ansible Control Node (ACN) can manage hundreds or thousands of endpoints.
 
 ???+ tip "Important Note Before Getting Started"
 
