@@ -1114,7 +1114,7 @@ Ethernet2
     Broadcast Address:  {{ ip_filter[inventory_hostname]['interfaces']['Ethernet2']['ipv4'] | ipaddr('broadcast')  }}
 ```
 
-Reviewing our template, we can see we are using the current inventory device we are running the playbook against, and keying in on the ipv4 address mapping. We are then using the filter command, `|`, and specifying the `address` keyword, meaning we only want the address part of the whole prefix.
+Reviewing our template, we run the playbook against the current inventory device keying in on the ipv4 address mapping. We then use the filter command, `|`, and specify the `address` keyword, meaning we only want the address part of the whole prefix.
 
 Running the playbook results in the following output:
 
