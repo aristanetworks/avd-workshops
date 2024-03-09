@@ -837,7 +837,7 @@ Lets analyze the sections of this template.
 
 `global`: This tells the template which YAML file to look at for the variable.
 
-Looking at the configuration line we are creating, we can see instead of walking through the dictionary via the dictionary key names, we are keying off our variable which represents the items in our dictionary list. This can be seen with the `rsrv['hosts']` line. This means we are looking for the value of the **`host`** key for each server in our list that is currently assigned to the **`rsrv`** variable. The same holds true for the `rsrv['vrf']` and `rsrv['key']` lines.
+Looking at the configuration line we created, we see instead of walking through the dictionary via the dictionary key names, we key off our variable which represents the items in our dictionary. This can be seen with the `rsrv['hosts']` line. This means we are looking for the value of the **`host`** key for each server in our list that is currently assigned to the **`rsrv`** variable. The same holds true for the `rsrv['vrf']` and `rsrv['key']` lines.
 
 The for loop would run as many times as there are items in the list, which is just one, and the configuration file output would look as follows:
 
@@ -874,7 +874,7 @@ Lets analyze the sections of this template.
 
 `global`: This tells the template which YAML file to look at for the variable.
 
-Looking at the configuration line we are creating, we can see instead of walking through the dictionary via the dictionary key names, we are keying off the our variable which represents the items in our dictionary list. This can be seen with the `ntps['vrf']` line. This means we are looking for the value of the **`vrf`** key for each server in our list that is currently assigned to the **`ntps`** variable. The same holds true for the `ntps['name']` line.
+Looking at the configuration line we created, we see instead of walking through the dictionary via the dictionary key names, we key off our variable which represents the items in our dictionary. This can be seen with the `ntps['vrf']` line. This means we are looking for the value of the **`vrf`** key for each server in our list that is currently assigned to the **`ntps`** variable. The same holds true for the `ntps['name']` line.
 
 The for loop would run as many times as there are items in the list and the configuration file output would look as follows:
 
