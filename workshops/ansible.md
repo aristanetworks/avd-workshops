@@ -318,8 +318,7 @@ that maps directly to our inventory hosts and group structure. Each group can ha
 
 ![Ansible Variable Visualization](assets/images/ansible_variables2.png)
 
-In the example above, if we were to define a variable in the `~/project/labfiles/ci-workshops-fundamentals/ansible/inventory/group_vars/WORKSHOP_FABRIC.yml` file, then all Managed Nodes contained within that group in our inventory file would
-inherit that variable. The contents of our `WORKSHOP_FABRIC.yml` file can be seen below:
+In the example above, if we were to define a variable in the `~/project/labfiles/ci-workshops-fundamentals/ansible/inventory/group_vars/WORKSHOP_FABRIC.yml` file, then all Managed Nodes contained within that group in our inventory file would inherit that variable. The contents of our `WORKSHOP_FABRIC.yml` file can be seen below:
 
 ??? eos-config annotate "WORKSHOP_FABRIC.yml (~/project/labfiles/ci-workshops-fundamentals/ansible/inventory/group_vars/WORKSHOP_FABRIC.yml)"
     ```yaml
@@ -547,7 +546,7 @@ s1-spine1#
 s1-leaf1#
 ```
 
-As expected, each device used whichever `banner_text` variable was closest to it in the group hierarchy or, in the case of s1-leaf1, was applied via the `host_vars` file associated with the Node.
+As expected, each device used whichever `banner_text` variable was closest to it in the group hierarchy. Or in the case of s1-leaf1, `banner_text` was applied via its `host_vars` file.
 
 ### Modules
 
