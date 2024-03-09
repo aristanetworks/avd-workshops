@@ -1070,7 +1070,7 @@ The following are some of the functions available within the **ipaddr()** filter
 
 `network:` This filter will calculate the network ID of a given prefix.
 
-`netmask:` This filter will expand out the subnet mask from /yy notation.
+`netmask:` This filter will generate the subnet mask from /yy prefix/CIDR notation.
 
 `broadcast:` This filter will calculate the broadcast address of a given prefix.
 
