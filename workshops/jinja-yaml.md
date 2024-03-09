@@ -213,7 +213,7 @@ l3spine:
 
 ### Nested Data Structures
 
-One of the double edged parts of YAML is that it can be quite complex. This is good because it is very flexible for how we can build our data model, but it also means that model can get out of control. YAML syntax is hierarchical, and at the same time, just about every construct we covered previous to this can be nested within each other. Lets take a look at some nested data structures that illustrate this.
+One of the double-edged parts of YAML is that it can be quite complex. This is good because it is very flexible for how we can build our data model, but it also means that model can get out of control. YAML syntax is hierarchical, and at the same time, just about every construct we covered previous to this can be nested within each other. Lets take a look at some nested data structures that illustrate this.
 
 In this first example we will have a list of dictionaries:
 
