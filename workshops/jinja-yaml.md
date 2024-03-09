@@ -133,7 +133,7 @@ Sometimes, a scalar is referred to as only the initial part of the line of text 
 - Ophir Pass
 ```
 
-In normal day-to-day use, you will see scalars referred to as **key value pair mappings**, or just **mappings** for short. A mapping is the data label, followed by its value, separated by a **`:`** colon.
+In normal day-to-day use, you will see scalars referred to as **key-value pair mappings**, or just **mappings** for short. A mapping is the data label, followed by its value, separated by a **`:`** colon.
 
 Here are some network config specific mappings:
 
