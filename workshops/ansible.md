@@ -504,7 +504,7 @@ To do this, we'll review a playbook together. Specifically, the **`~/project/lab
 
 ![Ansible Playbook Anatomy](assets/images/ansible_playbook_anatomy.svg)
 
-At the start of our playbook, we have the ==Play==. This is the very root of the playbook. it is where we define the Managed Nodes we'd like to target with this play, as well as the list of tasks we'd like
+At the start of our playbook, we have the ==Play== which is the very root of the playbook. At the beginning of the play is where we define the Managed Nodes we'd like to target with this play, as well as the list of tasks we'd like
 to run on these ==target hosts==.
 
 Next, we have the ==task== itself, leveraging the **eos_facts** ==module== to gather information about the Managed Nodes (devices running Arista's EOS in our topology).
