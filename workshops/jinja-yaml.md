@@ -833,7 +833,7 @@ radius-server host {{ rsrv['host'] }} vrf {{ rsrv['vrf'] }} key {{ rsrv['key'] }
 
 Let's analyze the sections of this template.
 
-`rsrv`:  This is a variable we are setting that represents each item in the list of the dictionary **`radius_servers`**.
+`rsrv`:  This variable represents an item in the dictionary **`radius_servers`** as the dictionary is looped over.
 
 `global`: This tells the template which YAML file to look at for the variable.
 
@@ -870,7 +870,7 @@ ntp server vrf {{ ntps['vrf'] }} {{ ntps['name'] }}
 
 Let's analyze the sections of this template.
 
-`ntps`:  This is another variable we are setting that represents each item in the list of the dictionary **servers**.
+`ntps`:  This is another variable representing an item in the dictionary **servers** as the dictionary is looped over.
 
 `global`: This tells the template which YAML file to look at for the variable.
 
