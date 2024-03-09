@@ -910,7 +910,7 @@ Blue:
       anycast_gw: 10.20.20.1/24
 ```
 
-Reviewing this data model we can see we have two dictionaries that represent different VRFs, **`Red`** and **`Blue`**. Within each of those dictionaries we have another dictionary called **`vlans`**, which defines the interfaces in each of those VRFs. When performing the configuration of say the VXLAN interface where we would need to define both the l3vni, as well as each VLAN to VXLAN mapping, we would need to loop through each of the parent keys, then each of the items in **`vlans`** dictionary.
+Reviewing this data model we can see we have two dictionaries that represent different VRFs, **`Red`** and **`Blue`**. Within each of those dictionaries we have another dictionary called **`vlans`**, which defines the interfaces in each of those VRFs. When performing the configuration of a VXLAN interface we need to define both the l3vni, as well as each VLAN to VXLAN mapping. Then we need to loop through each of the parent keys followed by each of the items in **`vlans`** dictionary.
 
 The template to accomplish this would look like this:
 
