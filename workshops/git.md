@@ -279,8 +279,9 @@ If you do not have a GitHub account, you can create one **[here](https://github.
     In the ATD Lab, you will authenticate to GitHub using an eight-digit access code. On other systems, you will need a Personal Access Token. **You may skip the next step if you work in the Arista-provided ATD Lab IDE**. Detailed instructions for creating a Personal Access Token can be found [here](https://docs.github.com/en/enterprise-server@3.4/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token).
 
 ### **Create a GitHub personal access token**
-
-To push your local repo to GitHub, you will need a Personal Access Token. From your **GitHub** account, click through the following path to generate a new personal access token.  **Profile --> Settings --> Developer Settings --> Personal Access Tokens --> Tokens (classic) --> Generate new token (classic)**
+<details>
+    <summary>When not using the ATD lab IDE, generate a GitHub personal access token (click to expand)</summary>
+Under normal circumstances (does not apply to the ATD lab IDE) to push your local repo to GitHub, you will need a Personal Access Token. From your **GitHub** account, click through the following path to generate a new personal access token.  **Profile --> Settings --> Developer Settings --> Personal Access Tokens --> Tokens (classic) --> Generate new token (classic)**
 
 - Give the token a meaningful name by setting the **Note**: `MyNewToken`
 - Set the **Expiration**: 30 days (default)
@@ -290,6 +291,7 @@ Select the scopes to grant to this token. To use your token to access repositori
 Click `Generate token` at the bottom of the page.  **Copy and save the token in a secure place. YOU WILL NOT BE ABLE TO SEE THE TOKEN AGAIN**.
 
 ![Git Token Scopes](assets/images/git_token_scopes.png){: style="width:500px"}
+</details>
 
 ### **Fork a repository**
 
