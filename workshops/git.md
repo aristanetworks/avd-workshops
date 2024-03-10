@@ -355,6 +355,8 @@ In the next step, let's add VLAN 40 to the data model in `avd/vlans.yml`. First,
 
 ### **Create and switch to a new branch**
 
+???+ note Want to save some time and shortcut creating and switching to a branch? Try `git switch -c add-vlan-40` for those two steps.
+
 ``` bash
 git branch add-vlan-40
 git switch add-vlan-40
