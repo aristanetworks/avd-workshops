@@ -517,7 +517,7 @@ Finally, we have any ==parameters== associated with a module. Some of these para
 More on Ansible Galaxy in a bit...
 
 ???+ warning "Configure Your Lab Password"
-    Update `WORKSHOP_FABRIC.yml` with your specific lab password otherwise Ansible playbook runs will error out. (~/project/labfiles/ci-workshops-fundamentals/ansible/inventory/group_vars/WORKSHOP_FABRIC.yml)
+    Update `WORKSHOP_FABRIC.yml` at the line `ansible_ssh_pass` with your specific lab password otherwise Ansible playbook runs will error out. (~/project/labfiles/ci-workshops-fundamentals/ansible/inventory/group_vars/WORKSHOP_FABRIC.yml)
 
 Let's go ahead and run our playbook! Bonus points if cowsay is enabled.
 
