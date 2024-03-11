@@ -280,21 +280,18 @@ If you do not have a GitHub account, you can create one **[here](https://github.
 
 ### **Create a GitHub personal access token**
 
-<details>
-    <summary>When not using the ATD lab IDE, generate a GitHub personal access token (click to expand)</summary>
+??? info "When not using the ATD lab IDE, generate a GitHub personal access token"
 
-Under normal circumstances (does not apply to the ATD lab IDE) to push your local repo to GitHub, you will need a Personal Access Token. From your **GitHub** account, click through the following path to generate a new personal access token.  **Profile --> Settings --> Developer Settings --> Personal Access Tokens --> Tokens (classic) --> Generate new token (classic)**
+    Under normal circumstances (does not apply to the ATD lab IDE) to push your local repo to GitHub, you will need a Personal Access Token. From your **GitHub** account, click through the following path to generate a new personal access token.  **Profile --> Settings --> Developer Settings --> Personal Access Tokens --> Tokens (classic) --> Generate new token (classic)**
 
-- Give the token a meaningful name by setting the **Note**: `MyNewToken`
-- Set the **Expiration**: 30 days (default)
+    - Give the token a meaningful name by setting the **Note**: `MyNewToken`
+    - Set the **Expiration**: 30 days (default)
 
-Select the scopes to grant to this token. To use your token to access repositories from the command line, select `repo`. A token with no assigned scopes can only access public information.
+    Select the scopes to grant to this token. To use your token to access repositories from the command line, select `repo`. A token with no assigned scopes can only access public information.
 
-Click `Generate token` at the bottom of the page.  **Copy and save the token in a secure place. YOU WILL NOT BE ABLE TO SEE THE TOKEN AGAIN**.
+    Click `Generate token` at the bottom of the page.  **Copy and save the token in a secure place. YOU WILL NOT BE ABLE TO SEE THE TOKEN AGAIN**.
 
-![Git Token Scopes](assets/images/git_token_scopes.png){: style="width:500px"}
-
-</details>
+    ![Git Token Scopes](assets/images/git_token_scopes.png){: style="width:500px"}
 
 ### **Fork a repository**
 
