@@ -2,7 +2,7 @@
 
 ![Jinja YAML Banner](assets/images/jinja-yaml-banner.png)
 
-This section will cover both Jinja and YAML, which are two interdependent pieces of basic configuration automation framework. While both YAML and Jinja can get relatively complex with what they can accomplish and what can be done with them, we will only cover what is necessary to utilize these tools for network automation and DevOps. At the end of the YAML and JINJA section, we will tie everything together with a final output.
+This section will cover both Jinja and YAML, which are two interdependent pieces of basic configuration automation framework. While both YAML and Jinja can get relatively complex with what they can accomplish and what can be done with them, we will only cover what is necessary to utilize these tools for network automation and DevOps. At the end of the YAML and Jinja sections, we will tie everything together with a final output.
 
 ## What is YAML?
 
@@ -89,9 +89,9 @@ Now that we know the idea of what YAML is and what it's used for, we can cover t
 
 ### Comments
 
-Comments are an important part of any documentation or configuration you are doing. When creating or modify any network configurations, while you don't realize it, you are commenting something that is important. When configuring an interface, you may add a description, such as the name of a downstream device or server it's connected to. Or if its a provider handoff you may add the NOC telephone number and the circuitID. If you are configuring BGP peers, you may add a description to each peer so it's clear what the neighbor is.
+Comments are an important part of any documentation or configuration you are doing. When creating or modifying any network configurations, while you don't realize it, you are commenting something that is important. When configuring an interface, you may add a description, such as the name of a downstream device or server it's connected to. Or if it's a provider handoff you may add the NOC telephone number and the circuit ID. If you are configuring BGP peers, you may add a description to each peer so it's clear what the neighbor is.
 
-In YAML, you can enter comments anywhere you'd like, and ideally, where it makes sense to help explain what your data model is representing. Comments in YAML are represented with the pound symbol, and shown below.
+In YAML, you can enter comments anywhere you'd like, and ideally, where it makes sense to help explain what your data model is representing. Comments in YAML are represented with the pound symbol (as shown below).
 
 ```yaml
 ---
@@ -120,7 +120,7 @@ boolean: true
 string: "Welcome to the Automation Workshop"
 ```
 
-Sometimes, a scalar is referred to as only the initial part of the line of text such as a list of names or locations like such.
+Sometimes, a scalar is referred to as only the initial part of the line of text such as a list of names or locations (as shown below).
 
 ```yaml
 ---
@@ -133,7 +133,7 @@ Sometimes, a scalar is referred to as only the initial part of the line of text 
 - Ophir Pass
 ```
 
-In normal day to day use, you will see scalars referred to as **key value pair mappings**, or just **mappings** for short. A mapping is the data label, followed by its value, separated by a **`:`** colon.
+In normal day-to-day use, you will see scalars referred to as **key-value pair mappings**, or just **mappings** for short. A mapping is the data label (key), followed by its value, separated by a **`:`** colon.
 
 Here are some network config specific mappings:
 
@@ -213,7 +213,7 @@ l3spine:
 
 ### Nested Data Structures
 
-One of the double edged parts of YAML is that it can be quite complex. This is good because it is very flexible for how we can build our data model, but it also means that model can get out of control. YAML syntax is hierarchical, and at the same time, just about every construct we covered previous to this can be nested within each other. Lets take a look at some nested data structures that illustrate this.
+One of the double-edged parts of YAML is that it can be quite complex. This is good because it is very flexible for how we can build our data model, but it also means that model can get out of control. YAML syntax is hierarchical, and at the same time, just about every construct we covered previous to this can be nested within each other. Let's take a look at some nested data structures that illustrate this.
 
 In this first example we will have a list of dictionaries:
 
@@ -282,7 +282,7 @@ svis:
 
 ## YAML File Examples
 
-Now that we have gone through all the most common constructs within a YAML file used for variables for network device configs, lets see what some complete files would look like for a real world environment.
+Now that we have gone through all the most common constructs within a YAML file used for variables for network device configs, let's see what some complete files would look like for a real world environment.
 
 ### Network Config Example
 
@@ -438,11 +438,11 @@ leaf2:
 
 ## What is Jinja?
 
-At a high level, Jinja is a templating engine used to create markup files such as HTML or XML as well as custom text files, such as in our instance config files. Under the hood, Jinja is an open source python library that lets you create extensible templates. One of the major benefits of Jinja is that the template files you create allow you to define both static text, as well as variables. Some of the Jinja template syntax may look familiar because Jinja is not the first templating engine, and is actually inspired by Django.
+At a high level, Jinja is a templating engine used to create markup files such as HTML or XML as well as custom text files, such as in our instance config files. Under the hood, Jinja is an open source python library that let's you create extensible templates. One of the major benefits of Jinja is that the template files you create allow you to define both static text, as well as variables. Some of the Jinja template syntax may look familiar because Jinja is not the first templating engine, and is actually inspired by Django.
 
 ## What is Jinja Used For?
 
-As it may have become apparent from the YAML section, after creating our data model of the various configuration parameters we want to automate, we need to get that data model and all its variables into a format that can read and understood by our network devices. This is where Jinja comes in. The use of Jinja templates, along with some yet to be shown Ansible magic, allows us to render full or partial configuration files that can loaded onto network devices. The underlying purpose of this, as it relates to automation, is that with the use of various expressions and variables in the Jinja templates, we can use a single template, with single or multiple YAML variable files, and create configurations against a multitude of network devices. As far as the actual template file and its file extension, technically any file can be called as a template regardless of its extension as long as its formatted correctly, however, we typically use the `.j2` extension on all Jinja template files.
+As it may have become apparent from the YAML section, after creating our data model of the various configuration parameters we want to automate, we need to get that data model and all its variables into a format that can be read and understood by our network devices. This is where Jinja comes in. The use of Jinja templates, along with some yet to be shown Ansible magic, allows us to render full or partial configuration files that can loaded onto network devices. The underlying purpose of this, as it relates to automation, is that with the use of various expressions and variables in the Jinja templates, we can use a single template, with single or multiple YAML variable files, and create configurations against a multitude of network devices. As far as the actual template file and its file extension, technically any file can be called as a template regardless of its extension as long as its formatted correctly, however, we typically use the `.j2` extension on all Jinja template files.
 
 ## Jinja Syntax
 
@@ -515,7 +515,7 @@ fabric:
 
 As shown previously, we know expressions or variable substitution is performed with the double curly brackets, `{{ my_var }}`, but what does this look like in a Jinja template?
 
-For example, we may want to generate the hostname in our template for all the devices in our inventory file. In order to this we can use a standard Ansible variable called `inventory_hostname`, which substitutes in the current name of the inventory host the Ansible play is running against.
+For example, we may want to generate the hostname in our template for all the devices in our inventory file. In order to do this we can use a standard Ansible variable called `inventory_hostname`, which substitutes the name of the current inventory host the Ansible play is running against.
 
 ```jinja
 {# Create a file assigning the device hostname #}
@@ -577,7 +577,7 @@ aaa authorization exec default {{ global['aaa_authorization']['exec']['default']
 clock timezone {{ global['clock']['timezone']}}
 ```
 
-As you can see, the variable has many parameters in them. Lets walk through these parameters using the `aaa authentication` config line.
+As you can see, the variable has many parameters in them. Let's walk through these parameters using the `aaa authentication` config line.
 
 `global`:  Global is the name of the vars file when we registered it in our Ansible playbook. You can register this as anything you want.
 
@@ -606,9 +606,9 @@ Running the playbook generates the following configuration against all devices c
 
 #### Conditionals
 
-Conditionals, such as `{% if %}`, `{% elif %}`, and `{% else %}`, as well as `{% for %}` loops are extremely helpful for either or configurations that may apply to only a subset of devices you are generating configurations for. Additionally, for loops are a must for efficiently working through nested data structures like lists of lists or lists of dictionaries.
+Conditionals, such as `{% if %}`, `{% elif %}`, and `{% else %}`, as well as `{% for %}` loops are extremely helpful for either configurations that may apply to only a subset of devices you are generating configurations for. Additionally, for loops are a must to efficiently work through nested data structures like lists of lists or lists of dictionaries.
 
-Lets start our statements journey with conditionals, and where they can be helpful.
+Let's start our statements journey with conditionals, and where they can be helpful.
 
 In this first example we will look at the following portion of our `interfaces.yml` YAML vars file:
 
@@ -779,7 +779,7 @@ ip name-server {{ dns }}
 {% endfor %}
 ```
 
-Lets analyze the sections of this template.
+Let's analyze the sections of this template.
 
 `dns`:  DNS is a variable that we are using to represent each item in the list. This can be anything you wish.
 
@@ -813,7 +813,7 @@ ip name-server 4.4.4.4
 ip name-server 208.67.222.222
 ```
 
-Now lets take a look at a slightly more complex, nested data structure, such as a dictionary with a list item. We will use the following portion from our data model:
+Now let's take a look at a slightly more complex, nested data structure, such as a dictionary with a list item. We will use the following portion from our data model:
 
 ```yaml
 # radius servers
@@ -831,13 +831,13 @@ radius-server host {{ rsrv['host'] }} vrf {{ rsrv['vrf'] }} key {{ rsrv['key'] }
 {% endfor %}
 ```
 
-Lets analyze the sections of this template.
+Let's analyze the sections of this template.
 
-`rsrv`:  This is a variable we are setting that represents each item in the list of the dictionary **`radius_servers`**.
+`rsrv`:  This variable represents an item in the dictionary **`radius_servers`** as the dictionary is looped over.
 
 `global`: This tells the template which YAML file to look at for the variable.
 
-Looking at the configuration line we are creating, we can see instead of walking through the dictionary via the dictionary key names, we are keying off our variable which represents the items in our dictionary list. This can be seen with the `rsrv['hosts']` line. This means we are looking for the value of the **`host`** key for each server in our list that is currently assigned to the **`rsrv`** variable. The same holds true for the `rsrv['vrf']` and `rsrv['key']` lines.
+Looking at the configuration line we created, we see instead of walking through the dictionary via the dictionary key names, we key off our variable which represents the items in our dictionary. This can be seen with the `rsrv['hosts']` line. This means we are looking for the value of the **`host`** key for each server in our list that is currently assigned to the **`rsrv`** variable. The same holds true for the `rsrv['vrf']` and `rsrv['key']` lines.
 
 The for loop would run as many times as there are items in the list, which is just one, and the configuration file output would look as follows:
 
@@ -845,7 +845,7 @@ The for loop would run as many times as there are items in the list, which is ju
 radius-server host 192.168.1.10 vrf MGMT key radiusserverkey
 ```
 
-While that was simple, what if we have something more complex, like a dictionary with a list of dictionaries? Lets take a look at how this would be represented in Jinja using the following YAML data model from our `global.yml` file.
+While that was simple, what if we have something more complex, like a dictionary with a list of dictionaries? Let's take a look at how this would be represented in Jinja using the following YAML data model from our `global.yml` file.
 
 ```yaml
 ntp:
@@ -868,13 +868,13 @@ ntp server vrf {{ ntps['vrf'] }} {{ ntps['name'] }}
 {% endfor %}
 ```
 
-Lets analyze the sections of this template.
+Let's analyze the sections of this template.
 
-`ntps`:  This is another variable we are setting that represents each item in the list of the dictionary **servers**.
+`ntps`:  This is another variable representing an item in the dictionary **servers** as the dictionary is looped over.
 
 `global`: This tells the template which YAML file to look at for the variable.
 
-Looking at the configuration line we are creating, we can see instead of walking through the dictionary via the dictionary key names, we are keying off the our variable which represents the items in our dictionary list. This can be seen with the `ntps['vrf']` line. This means we are looking for the value of the **`vrf`** key for each server in our list that is currently assigned to the **`ntps`** variable. The same holds true for the `ntps['name']` line.
+Looking at the configuration line we created, we see instead of walking through the dictionary via the dictionary key names, we key off our variable which represents the items in our dictionary. This can be seen with the `ntps['vrf']` line. This means we are looking for the value of the **`vrf`** key for each server in our list that is currently assigned to the **`ntps`** variable. The same holds true for the `ntps['name']` line.
 
 The for loop would run as many times as there are items in the list and the configuration file output would look as follows:
 
@@ -910,7 +910,7 @@ Blue:
       anycast_gw: 10.20.20.1/24
 ```
 
-Reviewing this data model we can see we have two dictionaries that represent different VRFs, **`Red`** and **`Blue`**. Within each of those dictionaries we have another dictionary called **`vlans`**, which defines the interfaces in each of those VRFs. When performing the configuration of say the VXLAN interface where we would need to define both the l3vni, as well as each VLAN to VXLAN mapping, we would need to loop through each of the parent keys, then each of the items in **`vlans`** dictionary.
+Reviewing this data model we can see we have two dictionaries that represent different VRFs, **`Red`** and **`Blue`**. Within each of those dictionaries we have another dictionary called **`vlans`**, which defines the interfaces in each of those VRFs. When performing the configuration of a VXLAN interface we need to define both the l3vni, as well as each VLAN to VXLAN mapping. Then we need to loop through each of the parent keys followed by each of the items in **`vlans`** dictionary.
 
 The template to accomplish this would look like this:
 
@@ -932,11 +932,11 @@ vxlan vlan {{ vlan }} vni {{ vlan_values['l2vni'] }}
 {% endfor %}
 ```
 
-Looking at this template, lets walk through whats happening. First, we have a for loop that is iterating through the top level dictionary keys in the YAML file itself. Those keys would be `Red` and `Blue`. Looking at the actual for loop syntax itself, we have some new parameters to look at:
+Looking at this template, let's walk through what's happening. First, we have a for loop that is iterating through the top level dictionary keys in the YAML file itself. Those keys would be `Red` and `Blue`. Looking at the actual for loop syntax itself, we have some new parameters to look at:
 
 `vrf`:  This is a variable the keys in the dictionary list are assigned to.
 
-`vrf_vales`:  This is another variable the corresponding values of those keys are assigned to.
+`vrf_values`:  This is another variable the corresponding values of those keys are assigned to.
 
 `vrf.items()`: This uses the built in .items function to determine which items in the dictionary we are looping through. It includes the top level keys.
 
@@ -944,7 +944,7 @@ Using those parameters, we construct our configuration line, which includes the 
 
 After this we repeat the same loop logic, but for the nested dictionary. In this instance we create a new set of variables for the keys and values, only this time, those are assigned the values within the `vlans` dictionary, as called by the `vrf_values['vlans'].items()` parameter.
 
-Before we view the final output, lets look at what the variable output actually is. This will both make it clearer what they represent based on the data model, as well as show you a nice way to troubleshoot your template while you are working on it.
+Before we view the final output, let's look at what the variable output actually is. This will both make it clearer what they represent based on the data model, as well as show you a nice way to troubleshoot your template while you are working on it.
 
 First we will look at the `vrf` variables, and we will do this by changing the template to this:
 
@@ -965,7 +965,7 @@ vxlan udp-port 4789 #}
 {% endfor %}
 ```
 
-Reviewing the above template, we will comment out everything except for our for loop and out initial key variables. The result of this template will run through the nested loops, and output the value of the variables called, `{{ vrf }}`, and `{{ vlan }}`.
+Reviewing the above template, we will comment out everything except our for loop and our initial key variables. The result of this template will run through the nested loops, and output the value of the variables called, `{{ vrf }}`, and `{{ vlan }}`.
 
 Viewing the output, we can see that these equal the top level keys of our data model:
 
@@ -986,7 +986,7 @@ Blue
 
 The first for loop runs and you can see `vrf=Red`. Then the nested loop runs twice due to there being two VLANs, and we can see both VLAN values. This then repeats for the second top level key, `Blue`.
 
-Now lets take a look at the `_params` variable. Changing the template to what follows and commenting out our initial variable, and adding a substitution line for the `_params` variable:
+Now let's take a look at the `_params` variable. Changing the template to what follows and commenting out our initial variable, and adding a substitution line for the `_params` variable:
 
 ```jinja
 {# Leaf evpn config #}
@@ -1060,7 +1060,7 @@ vxlan vlan 202 vni 20002
 
 The final section we will cover will be filters. While there are an enormous amount of filters available, we will just cover a very common one, the `ipaddr` filter. In a simple explanation, the `ipaddr` filter takes a full IP address and subnet mask, and strips off just the mask, with the end result being only the address. This can be helpful in an instance where you are using a full prefix and mask in your data model and don't want to create a new, duplicate, key-value pair mapping to be called.
 
-#### IPADDR()
+#### IPADDR() Filter
 
 In a simple explanation, the `ipaddr` filter has various operations allowing you to manipulate a prefix or network and obtain certain information about it. This can be helpful in an instance where you are using a full prefix and mask in your data model and don't want to create a new, duplicate, key-value pair mapping to be called.
 
@@ -1070,7 +1070,7 @@ The following are some of the functions available within the **ipaddr()** filter
 
 `network:` This filter will calculate the network ID of a given prefix.
 
-`netmask:` This filter will expand out the subnet mask from /yy notation.
+`netmask:` This filter will generate the subnet mask from /yy prefix/CIDR notation.
 
 `broadcast:` This filter will calculate the broadcast address of a given prefix.
 
@@ -1114,7 +1114,7 @@ Ethernet2
     Broadcast Address:  {{ ip_filter[inventory_hostname]['interfaces']['Ethernet2']['ipv4'] | ipaddr('broadcast')  }}
 ```
 
-Reviewing our template, we can see we are using the current inventory device we are running the playbook against, and keying in on the ipv4 address mapping. We are then using the filter command, `|`, and specifying the `address` keyword, meaning we only want the address part of the whole prefix.
+Reviewing our template, we run the playbook against the current inventory device keying in on the ipv4 address mapping. We then use the filter command, `|`, and specify the `address` keyword, meaning we only want the address part of the whole prefix.
 
 Running the playbook results in the following output:
 
@@ -1138,9 +1138,9 @@ Ethernet2
     Broadcast Address:  2.255.255.255
 ```
 
-#### JOIN()
+#### JOIN() Filter
 
-When working with lists in YAML, it may be needed to have all items in a list concatenated into a single line of a configuration command, instead of looping through the list and creating a configuration command for each item. Some examples of this could be configuring a list of NTP or DNS servers in a single line, versus individual entries. This can be accomplished with the following filter:
+When working with lists in YAML, it may be necessary to concatenate list items into a single line configuration command, instead of looping through the list and creating a configuration command for each item. Some examples of this could be configuring a list of NTP or DNS servers in a single line, versus individual entries. This can be accomplished with the following filter:
 
 `join(" "):` This filter joins all the items in the list. Pay close attention to the space between the double quotes. This provides spacing between the items in a list. Without this space, all items in the list would be joined into one continuous string.
 
@@ -1178,7 +1178,7 @@ As has hopefully been explained well, the interdependent relationship between Ji
 
 ### Network Config Template Example
 
-Using all the above sections we have reviewed, lets put it all together into a template called `full_config.j2`, which renders an entire network config based on the `global.yml` and `interface.yml` YAML files.
+Using all the above sections we have reviewed, let's put it all together into a template called `full_config.j2`, which renders an entire device config based on the `global.yml` and `interface.yml` YAML files.
 
 The Jinja template would look as follows:
 
@@ -1276,7 +1276,7 @@ The Jinja template would look as follows:
 
 # Final Output - Tying It All Together
 
-Lets put our full YAML data models below, as well as the output that is generated for `spine1-2` and `leaf1-2`:
+Let's put our full YAML data models below, as well as the output that is generated for `spine1-2` and `leaf1-2`:
 
 ??? eos-config annotate "global.yml"
 
