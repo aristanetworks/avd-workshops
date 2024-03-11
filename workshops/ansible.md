@@ -19,7 +19,7 @@ Aside from being "agentless", meaning that Ansible does not require any speciali
 
 There is an extensive and very active user and development community with Ansible. The project itself is open source, with the GitHub repository available [here](https://github.com/ansible/ansible "Ansible on GitHub"). The popularity of Ansible has led to broad vendor support, spanning multiple technology silos. Network, Compute, Storage, Cloud, Security, and more can all be automated via Ansible.
 
-Finally, all that is required to get started is a Linux host with Python installed. A single Ansible Control Node (ACN) can manage hundreds, or thousands, of endpoints.
+Finally, all that is required to get started is a Linux host with Python installed. A single Ansible Control Node (ACN) can manage hundreds or thousands of endpoints.
 
 ???+ tip "Important Note Before Getting Started"
 
@@ -31,7 +31,7 @@ Finally, all that is required to get started is a Linux host with Python install
 
 There are multiple methods of installing Ansible on the Ansible Control Node. The most popular way is to leverage `pip`, and is covered in detail [here](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html "Ansible Installation Documentation").
 
-We will be using `ansible-core`, which is a lightweight minimalist installation of Ansible without any extra modules, plugins, etc. included. With this approach, we can use Ansible Galaxy (covered later in this section) to install collections containing the modules, plugins, and roles we need. For those familiar with Python, think of Ansible Galaxy as [pypi.org](https://pypi.org "Python Packge Index"), and Ansible Collections as Python modules.
+We will be using `ansible-core`, which is a lightweight minimalist installation of Ansible which does not include extra modules, plugins, etc. With this approach, we can use Ansible Galaxy (covered later in this section) to install collections containing the modules, plugins, and roles we need. For those familiar with Python, think of Ansible Galaxy as [pypi.org](https://pypi.org "Python Packge Index"), and Ansible Collections as Python modules.
 
 ???+ note
     Ansible is already installed in the Arista Test Drive lab topology, so we won't need to perform any installation-related tasks.
@@ -318,8 +318,7 @@ that maps directly to our inventory hosts and group structure. Each group can ha
 
 ![Ansible Variable Visualization](assets/images/ansible_variables2.png)
 
-In the example above, if we were to define a variable in the `~/project/labfiles/ci-workshops-fundamentals/ansible/inventory/group_vars/WORKSHOP_FABRIC.yml` file, then all Managed Nodes contained within that group in our inventory file would
-inherit that variable. The contents of our `WORKSHOP_FABRIC.yml` file can be seen below:
+In the example above, if we were to define a variable in the `~/project/labfiles/ci-workshops-fundamentals/ansible/inventory/group_vars/WORKSHOP_FABRIC.yml` file, then all Managed Nodes contained within that group in our inventory file would inherit that variable. The contents of our `WORKSHOP_FABRIC.yml` file can be seen below:
 
 ??? eos-config annotate "WORKSHOP_FABRIC.yml (~/project/labfiles/ci-workshops-fundamentals/ansible/inventory/group_vars/WORKSHOP_FABRIC.yml)"
     ```yaml
@@ -504,8 +503,7 @@ To do this, we'll review a playbook together. Specifically, the **`~/project/lab
 
 ![Ansible Playbook Anatomy](assets/images/ansible_playbook_anatomy.svg)
 
-At the start of our playbook, we have the ==Play==. This is the very root of the playbook. it is where we define the Managed Nodes we'd like to target with this play, as well as the list of tasks we'd like
-to run on these ==target hosts==.
+At the start of our playbook, we have the ==Play== which is the very root of the playbook. At the beginning of the play is where we define the Managed Nodes we'd like to target with this play, as well as the list of tasks we'd like to run on these ==target hosts==.
 
 Next, we have the ==task== itself, leveraging the **eos_facts** ==module== to gather information about the Managed Nodes (devices running Arista's EOS in our topology).
 In a minute, we'll unpack what a module is behind the scenes.
@@ -547,7 +545,7 @@ s1-spine1#
 s1-leaf1#
 ```
 
-As expected, each device used whichever `banner_text` variable was closest to it in the group hierarchy or, in the case of s1-leaf1, was applied via the `host_vars` file associated with the Node.
+As expected, each device used whichever `banner_text` variable was closest to it in the group hierarchy. Or in the case of s1-leaf1, `banner_text` was applied via its `host_vars` file.
 
 ### Modules
 
@@ -561,8 +559,7 @@ An example of this can be seen below, specifically for the [eos_banner module](h
 
 ![Ansible Module Anatomy](assets/images/ansible_module_anatomy.png)
 
-It's a lot easier to call `eos_banner` in a playbook than it is to write, in a reusable fashion, all of that Python code! This is why modules are such as big reason Ansible is easy to get started with - the abstraction of the
-detailed code behind the scenes necessary to get things done.
+It's a lot easier to call `eos_banner` in a playbook than it is to write, in a reusable fashion, all of that Python code! The abstraction of the detailed "behind the scenes" code is why modules are such as big reason Ansible is easy to get started with.
 
 Now, if we feel compelled to dive in and write our own modules, or our own roles/collections/plugins, we can certainly do this. Ansible is very extensible in this manner. When we're finished developing our content, if we want to share it with the world, then we can publish it as a Collection on [Ansible Galaxy!](https://galaxy.ansible.com "Ansible Galaxy").
 
