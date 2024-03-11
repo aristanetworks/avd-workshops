@@ -31,7 +31,7 @@ Finally, all that is required to get started is a Linux host with Python install
 
 There are multiple methods of installing Ansible on the Ansible Control Node. The most popular way is to leverage `pip`, and is covered in detail [here](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html "Ansible Installation Documentation").
 
-We will be using `ansible-core`, which is a lightweight minimalist installation of Ansible without any extra modules, plugins, etc. included. With this approach, we can use Ansible Galaxy (covered later in this section) to install collections containing the modules, plugins, and roles we need. For those familiar with Python, think of Ansible Galaxy as [pypi.org](https://pypi.org "Python Packge Index"), and Ansible Collections as Python modules.
+We will be using `ansible-core`, which is a lightweight minimalist installation of Ansible which does not include extra modules, plugins, etc. With this approach, we can use Ansible Galaxy (covered later in this section) to install collections containing the modules, plugins, and roles we need. For those familiar with Python, think of Ansible Galaxy as [pypi.org](https://pypi.org "Python Packge Index"), and Ansible Collections as Python modules.
 
 ???+ note
     Ansible is already installed in the Arista Test Drive lab topology, so we won't need to perform any installation-related tasks.
