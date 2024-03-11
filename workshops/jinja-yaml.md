@@ -954,7 +954,7 @@ First we will look at the `vrf` variables, and we will do this by changing the t
 vxlan source-interface loopback1
 vxlan udp-port 4789 #}
 {% for vrf,vrf_values in vrf.items() %}
-{# vxlan vrf {{ vrf }} vni {{ vrf_values['l3vni'] }}  #}
+{# vxlan vrf {{ vrf }} vni {{ vrf_values['l3vni'] }} #}
 {{ vrf }}
 
 {% for vlan,vlan_values in vrf_values['vlans'].items() %}
@@ -994,7 +994,7 @@ Now let's take a look at the `_params` variable. Changing the template to what f
 vxlan source-interface loopback1
 vxlan udp-port 4789 #}
 {% for vrf,vrf_values in vrf.items() %}
-{# vxlan vrf {{ vrf }} vni {{ vrf_values['l3vni'] }}  #}
+{# vxlan vrf {{ vrf }} vni {{ vrf_values['l3vni'] }} #}
 {# {{ vrf }} #}
 {{ vrf_values }}
 
