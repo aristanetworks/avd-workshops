@@ -559,8 +559,7 @@ An example of this can be seen below, specifically for the [eos_banner module](h
 
 ![Ansible Module Anatomy](assets/images/ansible_module_anatomy.png)
 
-It's a lot easier to call `eos_banner` in a playbook than it is to write, in a reusable fashion, all of that Python code! This is why modules are such as big reason Ansible is easy to get started with - the abstraction of the
-detailed code behind the scenes necessary to get things done.
+It's a lot easier to call `eos_banner` in a playbook than it is to write, in a reusable fashion, all of that Python code! The abstraction of the detailed "behind the scenes" code is why modules are such as big reason Ansible is easy to get started with.
 
 Now, if we feel compelled to dive in and write our own modules, or our own roles/collections/plugins, we can certainly do this. Ansible is very extensible in this manner. When we're finished developing our content, if we want to share it with the world, then we can publish it as a Collection on [Ansible Galaxy!](https://galaxy.ansible.com "Ansible Galaxy").
 
