@@ -688,7 +688,7 @@ Once this is complete, click `Create pull request`. Since all checks have passed
 
 ![Merge PR 2](assets/images/merge-pr-2.png)
 
-At this point, this will kick off our second workflow (`prod.yml`) against the `main` branch. This workflow will build and deploy our updates with CVP. If you go to the "Provisioning" tab of CVP, you should be able to see tasks and pending changes. This workflow will automatically run any pending tasks for us. We can optionally connect to one of the spines at either site to see the new VLANs.
+At this point, this will kick off our production workflow (`prod.yml`) against the `main` branch. The `prod.yml` workflow will build and deploy our updates with CVP. If you go to the "Provisioning" tab of CVP, you should be able to see tasks and pending changes. This workflow will automatically run any pending tasks for us. We can optionally connect to one of the spines at either site to see the new VLANs.
 
 ![Deploy production](assets/images/deploy-prod.png)
 
@@ -716,6 +716,94 @@ VLAN  Name                             Status    Ports
 4094  MLAG_PEER                        active    Cpu, Po1
 
 s2-spine1#
+```
+
+### The subtle difference between prod and dev
+
+You may recall that at the start of this lab, the `dev.yml` actions file ignored the branch `main`. This is intentional, as we do not want our development workflows to run against the production branch and possibly make changes to the live network. Since we merged our changes into the main branch, the run of the `prod.yml` actions file will be triggered. Below is a snippet of the production actions file, which is now set to run against any pushes to the main branch.
+
+```yaml
+name: Deploy updates
+
+on:
+  push:
+    branches:
+      - main
+```
+
+The rest of the workflow file is the exact same as `dev.yml`. The other subtle difference is that now, depending on the files changed, we will run the build playbooks as well as the playbooks responsible for deploying with CloudVision.
+
+```yaml hl_lines="43-49"
+jobs:
+  deploy-prod:
+    env:
+      LABPASSPHRASE: ${{ secrets.LABPASSPHRASE }}
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hi
+        run: echo "Hello World!"
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v3
+
+      - name: Install Python requirements
+        run: pip3 install -r requirements.txt
+
+      - name: Run pre-commit on files
+        uses: pre-commit/action@v3.0.0
+
+      - name: Check paths for sites/site_1
+        uses: dorny/paths-filter@v2
+        id: filter-site1
+        with:
+          filters: |
+            workflows:
+              - 'sites/site_1/**'
+
+      - name: Check paths for sites/site_2
+        uses: dorny/paths-filter@v2
+        id: filter-site2
+        with:
+          filters: |
+            workflows:
+              - 'sites/site_2/**'
+
+      - name: Install collections
+        run: ansible-galaxy collection install -r requirements.yml
+        if: steps.filter-site1.outputs.workflows == 'true' || steps.filter-site2.outputs.workflows == 'true'
+
+      - name: Build and deploy site1
+        run: make build-site-1 cvp-site-1
+        if: steps.filter-site1.outputs.workflows == 'true'
+
+      - name: Build and deploy site2
+        run: make build-site-2 cvp-site-2
+        if: steps.filter-site2.outputs.workflows == 'true'
+
+```
+
+Below is an example of an Ansible playbook that leverages the `arista.avd.eos_config_deploy_cvp` role to push new configlets to CVP, assign configlets to devices, create tasks, and optionally approve the change controls to push updates to our network. The playbook also targets the `cvp` host. If you recall, we updated the host value to its public URL earlier. Therefore, this GitHub actions workflow can communicate with our lab CloudVision instance and deploy our changes.
+
+```yaml
+---
+- name: Build Switch configuration
+  hosts: cvp
+  gather_facts: false
+
+  tasks:
+
+    - name: Generate Intended Config and Documentation
+      ansible.builtin.import_role:
+        name: arista.avd.eos_config_deploy_cvp
+      vars:
+        container_root: 'SITE1_FABRIC'
+        configlets_prefix: 'AVD'
+        state: present
+
 ```
 
 ## Summary
