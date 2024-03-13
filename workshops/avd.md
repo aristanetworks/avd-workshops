@@ -268,14 +268,14 @@ leaf:
         tags: [ "Web" ]
       nodes:
         - name: s1-leaf1
-          id: 3
+          id: 1
           mgmt_ip: 192.168.0.12/24
           # Define which interface is configured on the uplink switch
           # In this example s1-leaf1 connects to [ s1-spine1, s1-spine2 ]
           # on the following ports. This will be unique to each leaf
           uplink_switch_interfaces: [ Ethernet2, Ethernet2 ]
         - name: s1-leaf2
-          id: 4
+          id: 2
           mgmt_ip: 192.168.0.13/24
           uplink_switch_interfaces: [ Ethernet3, Ethernet3 ]
     - group: RACK2
@@ -283,11 +283,11 @@ leaf:
         tags: [ "App" ]
       nodes:
         - name: s1-leaf3
-          id: 5
+          id: 3
           mgmt_ip: 192.168.0.14/24
           uplink_switch_interfaces: [ Ethernet4, Ethernet4 ]
         - name: s1-leaf4
-          id: 6
+          id: 4
           mgmt_ip: 192.168.0.15/24
           uplink_switch_interfaces: [ Ethernet5, Ethernet5 ]
 ```
