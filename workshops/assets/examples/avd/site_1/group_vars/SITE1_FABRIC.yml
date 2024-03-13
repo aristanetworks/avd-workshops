@@ -5,6 +5,11 @@ fabric_name: SITE1_FABRIC
 design:
   type: l2ls
 
+# Repeat MLAG addressing between pairs
+fabric_ip_addressing:
+  mlag:
+    algorithm: same_subnet
+
 # Spine Switches
 l3spine:
   defaults:
@@ -12,8 +17,8 @@ l3spine:
     spanning_tree_mode: mstp
     spanning_tree_priority: 4096
     loopback_ipv4_pool: 10.1.252.0/24
-    mlag_peer_ipv4_pool: 10.1.253.0/24
-    mlag_peer_l3_ipv4_pool: 10.1.254.0/24
+    mlag_peer_ipv4_pool: 10.1.253.0/31
+    mlag_peer_l3_ipv4_pool: 10.1.253.2/31
     virtual_router_mac_address: 00:1c:73:00:dc:01
     mlag_interfaces: [ Ethernet1, Ethernet6 ]
   node_groups:
@@ -30,7 +35,7 @@ l3spine:
 leaf:
   defaults:
     platform: cEOS
-    mlag_peer_ipv4_pool: 10.1.253.0/24
+    mlag_peer_ipv4_pool: 10.1.253.0/31
     spanning_tree_mode: mstp
     spanning_tree_priority: 16384
     uplink_switches: [ s1-spine1, s1-spine2 ]

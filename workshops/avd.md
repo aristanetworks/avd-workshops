@@ -222,9 +222,9 @@ l3spine:
     # Loopback0 pool, used in conjunction with value of `id:` under each node
     loopback_ipv4_pool: 10.1.252.0/24
     # IP Pool for MLAG peer link
-    mlag_peer_ipv4_pool: 10.1.253.0/24
+    mlag_peer_ipv4_pool: 10.1.253.0/31
     # IP Pool for L3 peering over the MLAG peer link
-    mlag_peer_l3_ipv4_pool: 10.1.254.0/24
+    mlag_peer_l3_ipv4_pool: 10.1.253.2/31
     # Virtual MAC address used in vARP
     virtual_router_mac_address: 00:1c:73:00:dc:01
     # Default MLAG interfaces between spine nodes
@@ -250,7 +250,7 @@ l3spine:
 leaf:
   defaults:
     platform: cEOS
-    mlag_peer_ipv4_pool: 10.1.253.0/24
+    mlag_peer_ipv4_pool: 10.1.253.0/31
     spanning_tree_mode: mstp
     spanning_tree_priority: 16384
     # Default uplink switches from leaf perspective
