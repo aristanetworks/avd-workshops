@@ -58,13 +58,13 @@ cd ~/project/labfiles/ci-workshops-fundamentals/ansible
 Next, we'll confirm that Ansible is installed by running the `ansible --version` in the terminal. This should yield output similar to below:
 
 ```powershell
-ansible [core 2.12.10]
-  config file = /home/coder/project/labfiles/ci-workshops-fundamentals/ansible/ansible.cfg
+ansible [core 2.15.5]
+  config file = /home/coder/.ansible.cfg
   configured module search path = ['/home/coder/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
   ansible python module location = /home/coder/.local/lib/python3.9/site-packages/ansible
-  ansible collection location = /home/coder/.ansible/collections
+  ansible collection location = /home/coder/.ansible/collections:/usr/share/ansible/collections
   executable location = /home/coder/.local/bin/ansible
-  python version = 3.9.2 (default, Feb 28 2021, 17:03:44) [GCC 10.2.1 20210110]
+  python version = 3.9.2 (default, Feb 28 2021, 17:03:44) [GCC 10.2.1 20210110] (/usr/bin/python3)
   jinja version = 3.1.2
   libyaml = True
 ```
@@ -232,6 +232,9 @@ We can validate our inventory by using the `ansible-inventory` command, which is
 
 The below command will list the entire inventory, consisting of all hosts/groups and their respective variable values.
 
+!!! warning "Reminder"
+    Ensure all commands are run from the `/home/coder/project/labfiles/ci-workshops-fundamentals/ansible` directory in the terminal on the ATD VS Code IDE instance.
+
 ```bash
 ansible-inventory --list --yaml
 ```
@@ -277,9 +280,6 @@ Notice the variables associated with `s1-leaf1`. Where did these come from? We'l
 ### Variables
 
 We can define variables in many locations with Ansible. For example, we can explicitly define a variable when running a playbook by using the `extra-vars` flag.
-
-??? warning "Reminder"
-    Ensure all commands are run from the `/home/coder/project/labfiles/ci-workshops-fundamentals/ansible` directory in the terminal on the ATD VS Code IDE instance.
 
 ```bash
 ansible-playbook playbooks/hello_world.yml -e 'name=Mitch'
@@ -352,14 +352,14 @@ We can verify this by running `ansible-inventory --host s2-spine1 --yaml`.
 ansible-inventory --host s2-spine1 --yaml
 ```
 
-??? eos-config annotate "Output of 'ansible-inventory --host s1-spine1 --yaml'"
+??? eos-config annotate "Output of 'ansible-inventory --host s2-spine1 --yaml'"
     ```yaml
 
     ansible_connection: ansible.netcommon.httpapi
     ansible_httpapi_use_ssl: true
     ansible_httpapi_validate_certs: false
     ansible_network_os: arista.eos.eos
-    ansible_ssh_pass: arista1c7z
+    ansible_ssh_pass: YourLabPasswordHere
     ansible_user: arista
     banner_text: This banner came from group_vars/WORKSHOP_FABRIC.YML
 
@@ -380,7 +380,7 @@ ansible-inventory --host s1-leaf3 --yaml
     ansible_httpapi_use_ssl: true
     ansible_httpapi_validate_certs: false
     ansible_network_os: arista.eos.eos
-    ansible_ssh_pass: arista1c7z
+    ansible_ssh_pass: YourLabPasswordHere
     ansible_user: arista
     banner_text: This banner came from group_vars/S1.YML
     mlag_config:
@@ -438,7 +438,7 @@ ansible-inventory --host s1-leaf1 --yaml
     ansible_httpapi_use_ssl: true
     ansible_httpapi_validate_certs: false
     ansible_network_os: arista.eos.eos
-    ansible_ssh_pass: arista1c7z
+    ansible_ssh_pass: YourLabPasswordHere
     ansible_user: arista
     banner_text: This banner came from host_vars/s1-leaf1.YML
     mlag:
@@ -597,13 +597,13 @@ This will yield output similar to below:
     # /home/coder/.ansible/collections/ansible_collections
     Collection        Version
     ----------------- -------
-    ansible.netcommon 4.1.0
-    ansible.posix     1.4.0
-    ansible.utils     2.8.0
-    arista.avd        3.6.0
-    arista.cvp        3.4.0
-    arista.eos        6.0.0
-    community.general 6.2.0
+    ansible.netcommon 5.2.0
+    ansible.posix     1.5.4
+    ansible.utils     2.11.0
+    arista.avd        4.4.0
+    arista.cvp        3.8.0
+    arista.eos        6.1.2
+    community.general 7.5.0
 
     ```
 
