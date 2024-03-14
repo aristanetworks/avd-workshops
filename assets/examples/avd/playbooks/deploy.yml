@@ -1,0 +1,10 @@
+---
+- name: Deploy Switch configuration
+  hosts: "{{ target_hosts }}"
+  gather_facts: false
+
+  tasks:
+
+    - name: Deploy Configuration to Device
+      import_role:
+        name: arista.avd.eos_config_deploy_eapi
