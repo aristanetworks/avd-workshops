@@ -657,11 +657,11 @@ Starting at line 64, add the following code block into `sites/site_1/group_vars/
 - group: RACK3
   nodes:
     - name: s1-leaf5
-      id: 7
+      id: 5
       mgmt_ip: 192.168.0.28/24
       uplink_switch_interfaces: [ Ethernet9, Ethernet9 ]
     - name: s1-leaf6
-      id: 8
+      id: 6
       mgmt_ip: 192.168.0.29/24
       uplink_switch_interfaces: [ Ethernet10, Ethernet10 ]
 ```
@@ -717,11 +717,11 @@ The `sites/site_1/group_vars/SITE1_FABRIC.yml` file should now look like the exa
             tags: [ "Web" ]
           nodes:
             - name: s1-leaf1
-              id: 3
+              id: 1
               mgmt_ip: 192.168.0.12/24
               uplink_switch_interfaces: [ Ethernet2, Ethernet2 ]
             - name: s1-leaf2
-              id: 4
+              id: 2
               mgmt_ip: 192.168.0.13/24
               uplink_switch_interfaces: [ Ethernet3, Ethernet3 ]
         - group: RACK2
@@ -729,21 +729,21 @@ The `sites/site_1/group_vars/SITE1_FABRIC.yml` file should now look like the exa
             tags: [ "App" ]
           nodes:
             - name: s1-leaf3
-              id: 5
+              id: 3
               mgmt_ip: 192.168.0.14/24
               uplink_switch_interfaces: [ Ethernet4, Ethernet4 ]
             - name: s1-leaf4
-              id: 6
+              id: 4
               mgmt_ip: 192.168.0.15/24
               uplink_switch_interfaces: [ Ethernet5, Ethernet5 ]
         - group: RACK3
           nodes:
             - name: s1-leaf5
-              id: 7
+              id: 5
               mgmt_ip: 192.168.0.28/24
               uplink_switch_interfaces: [ Ethernet9, Ethernet9 ]
             - name: s1-leaf6
-              id: 8
+              id: 6
               mgmt_ip: 192.168.0.29/24
               uplink_switch_interfaces: [ Ethernet10, Ethernet10 ]
 
