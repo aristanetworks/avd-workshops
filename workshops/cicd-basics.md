@@ -292,6 +292,9 @@ jobs:
 ...
 ```
 
+!!! tip "Having trouble setting up your GitHub actions?"
+    Check out this great actions linter from GitHub user `rhysd`. [https://rhysd.github.io/actionlint/](https://rhysd.github.io/actionlint/)
+
 ### pre-commit
 
 To get started with pre-commit, run the following commands in your ATD IDE terminal.
