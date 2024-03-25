@@ -651,7 +651,7 @@ to the spines.
 On the spines, interface `Ethernet9` will be used to connect to s1-leaf5, while `Ethernet10`
 will be used to connect to s1-leaf6.
 
-Starting at line 64, add the following code block into `sites/site_1/group_vars/SITE1_FABRIC.yml`.
+Starting at line 69, add the following code block into `sites/site_1/group_vars/SITE1_FABRIC.yml`.
 
 ``` yaml
 - group: RACK3
@@ -667,7 +667,7 @@ Starting at line 64, add the following code block into `sites/site_1/group_vars/
 ```
 
 ???+ warning
-    Make sure the indentation of `RACK3` is the same as `RACK2`, which can be found on line 52
+    Make sure the indentation of `RACK3` is the same as `RACK2`, which can be found on line 57
 
 The `sites/site_1/group_vars/SITE1_FABRIC.yml` file should now look like the example below:
 
