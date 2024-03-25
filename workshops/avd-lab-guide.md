@@ -138,7 +138,7 @@ Now, deploy the configurations to Site 1 switches.
 make deploy-site-1
 ```
 
-Login to your switches to verify the current configs (`show run`) match the ones created in `intended/configs` folder.
+Log into your switches to verify the current configs (`show run`) match the ones created in `intended/configs` folder.
 
 You can also check the current state for MLAG, VLANs, interfaces, and port-channels.
 
