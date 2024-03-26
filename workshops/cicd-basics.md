@@ -132,7 +132,7 @@ Each lab comes with a unique password. We set an environment variable called `LA
     You can skip this step if you are continuing from the AVD workshop.
 
 ```shell
-export LABPASSPHRASE=`cat /home/coder/.config/code-server/config.yaml| grep "password:" | awk '{print $2}'`
+export LABPASSPHRASE=`awk '/password:/{print $2}' /home/coder/.config/code-server/config.yaml`
 ```
 
 ## **Step 5 - Configure the IP Network**
@@ -819,5 +819,5 @@ Congratulations, you have successfully deployed a CI/CD pipeline with GitHub Act
     You must also set the `LABPASSPHRASE` environment variable in the IDE terminal.
 
     ```shell
-    export LABPASSPHRASE=`cat /home/coder/.config/code-server/config.yaml| grep "password:" | awk '{print $2}'`
+    export LABPASSPHRASE=`awk '/password:/{print $2}' /home/coder/.config/code-server/config.yaml`
     ```

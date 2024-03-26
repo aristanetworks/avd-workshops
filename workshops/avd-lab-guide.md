@@ -73,7 +73,7 @@ pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
 Each lab comes with a unique password. We set an environment variable called `LABPASSPHRASE` with the following command. The variable is later used to generate local user passwords and connect to our switches to push configs.
 
 ``` bash
-export LABPASSPHRASE=`cat /home/coder/.config/code-server/config.yaml| grep "password:" | awk '{print $2}'`
+export LABPASSPHRASE=`awk '/password:/{print $2}' /home/coder/.config/code-server/config.yaml`
 ```
 
 You can view the password is set. This is the same password displayed when you click the link to access your lab.
