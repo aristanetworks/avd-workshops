@@ -54,7 +54,7 @@ git config --global user.email "name@example.com"
 
 ### Update AVD
 
-AVD has been pre-installed in your lab environment. However, it may be on an older version (in some cases a newer version). The following steps will update AVD and modules to the valid versions for the lab.
+AVD has been pre-installed in your lab environment. However, it may be on an older (or newer) version than intended for the lab. The following steps will update AVD and modules to the valid versions for the lab.
 
 ``` bash
 pip3 config set global.disable-pip-version-check true
