@@ -280,159 +280,9 @@ svis:
         ip_address: 10.10.10.3/23
 ```
 
-## YAML File Examples
+## YAML - Let's Lab It Out
 
-Now that we have gone through all the most common constructs within a YAML file used for variables for network device configs, let's see what some complete files would look like for a real world environment.
-
-### Network Config Example
-
-These example YAML files could be used to build a base config for a series of devices. The devices would be based on your inventory file, however, for this example, we will assume there is a layer2 leaf/spine topology, with two spines and two leafs. For this example we will use two files, a `global.yml` and a `interface.yml` file.
-
-The global.yml file that follows includes the data model used for the base configuration. These items apply to all four devices in the fabric. ***( This could be imported in the playbook, or put in the `group_vars` directory and named after the level of your hierarchy that contains the devices you want this to apply to. )***
-
-`global.yml`
-
-```yaml
----
-# local users
-local_users:
-  admin:
-    privilege: 15
-    role: network-admin
-    secret: aristaadmin
-  noc:
-    privilege: 1
-    role: network-operator
-    secret: aristaops
-
-# aaa authentication and authorization
-aaa_authentication:
-  login:
-    default: group radius local
-
-aaa_authorization:
-  exec:
-    default: group radius local
-
-# radius servers
-radius_servers:
-  - host: 192.168.1.10
-    vrf: MGMT
-    key: 055A0A5D311E1E5B4944
-
-# HTTP Client source interface and VRF
-ip_http_client_source_interfaces:
-    - name: Management1
-      vrf: MGMT
-
-# RADIUS source interface and VRF
-ip_radius_source_interfaces:
-  - name: Management1
-    vrf: MGMT
-
-#MAC and ARP aging timers
-mac_address_table:
-  aging_time: 1800
-
-arp:
-  aging:
-    timeout_default: 1500
-
-# DNS Servers
-name_servers:
-  - 10.100.100.20
-
-# DNS lookup source interface (Servers defined in 1L2P.yml)
-ip_domain_lookup:
-  source_interfaces:
-    Management1:
-      vrf: MGMT
-
-# NTP Servers (source interface defined in group specific YML files (CORE, ACCESS, MGMT, INET)
-ntp:
-  local_interface:
-    name: Management1
-    vrf: MGMT
-  servers:
-    - name: 0.north-america.pool.ntp.org
-      preferred: true
-      vrf: MGMT
-    - name: 1.north-america.pool.ntp.org
-      vrf: MGMT
-    - name: 2.north-america.pool.ntp.org
-      vrf: MGMT
-    - name: time.google.com
-      vrf: MGMT
-
-clock:
-  timezone: "America/Detroit"
-```
-
-`interface.yml`
-
-```yaml
----
-spine1:
-  mlag_side: A
-  interfaces:
-    Ethernet47:
-      desc: To_SPINE2_MLAG_PEERLINK
-      mlag_peerlink: true
-    Ethernet48:
-      desc: To_SPINE2_MLAG_PEERLINK
-      mlag_peerlink: true
-    Ethernet1:
-      desc: TO_LEAF1
-      mlag_peerlink: false
-    Ethernet2:
-      desc: TO_LEAF2
-      mlag_peerlink: false
-spine2:
-  mlag_side: B
-  interfaces:
-    Ethernet47:
-      desc: 'To_SPINE1_MLAG_PEERLINK'
-      mlag_peerlink: true
-    Ethernet48:
-      desc: 'To_SPINE1_MLAG_PEERLINK'
-      mlag_peerlink: true
-    Ethernet1:
-      desc: 'TO_LEAF1'
-      mlag_peerlink: false
-    Ethernet2:
-      desc: 'TO_LEAF2'
-      mlag_peerlink: false
-leaf1:
-  mlag_side: A
-  interfaces:
-    Ethernet47:
-      desc: 'To_LEAF2_MLAG_PEERLINK'
-      mlag_peerlink: true
-    Ethernet48:
-      desc: 'To_LEAF2_MLAG_PEERLINK'
-      mlag_peerlink: true
-    Ethernet1:
-      desc: 'TO_SPINE1'
-      mlag_peerlink: false
-    Ethernet2:
-      desc: 'TO_SPINE2'
-      mlag_peerlink: false
-leaf2:
-  mlag_side: B
-  interfaces:
-    Ethernet47:
-      desc: 'To_LEAF1_MLAG_PEERLINK'
-      mlag_peerlink: true
-    Ethernet48:
-      desc: 'To_LEAF1_MLAG_PEERLINK'
-      mlag_peerlink: true
-    Ethernet1:
-      desc: 'TO_SPINE1'
-      mlag_peerlink: false
-    Ethernet2:
-      desc: 'TO_SPINE2'
-      mlag_peerlink: false
-```
+Now that we have gone through all the most common constructs within a YAML file used for variables for network device configs, let's flip over to the lab guide and create our own YAML data model to use for rendering some configuration snippets.
 
 # Jinja
 
@@ -476,9 +326,9 @@ Statements are represented with a percent symbol:
 ???+ tip "Live Jinja Parser"
     Quick and easy method for testing data models and Jinja syntax: [https://j2live.ttl255.com/](https://j2live.ttl255.com/ "Live Jinja Parser!")
 
-### Inventory File and Ansible Playbook
+### Inventory File and Playbooks
 
-While we won't cover the inventory file or Ansible playbooks in depth in this section as it will be covered in Ansible, it is important to call out it's importance in relation to Jinja. You may wonder, when using Ansible to automate and render any configurations, how does it know what devices I want to create configurations for? This is accomplished with the Ansible inventory file. This will be covered more thoroughly, however, for the purpose of the following examples, we will assume we have an inventory file with four hosts, `spine1`, `spine2`, `leaf1`, and `leaf2`. Some examples may show output for all four devices, and some may show output for just one, depending on the complexity of the example. Also, every example we show will use the following Ansible Playbook so you understand the destination filename syntax. There are more parts to this playbook but they will be shown at the end and covered in the next presentation:
+While we won't cover the inventory file or Ansible playbooks in depth in this section as it will be covered in Ansible, it is important to call out it's importance in relation to Jinja. You may wonder, when using Ansible to automate and render any configurations, how does it know what devices I want to create configurations for? This is accomplished with the Ansible inventory file. This will be covered more thoroughly in the Ansible section, however, for the purpose of the following examples, we will use the same inventory file content, but focus just on the devices in `Site 1`.  Some examples may show output for all four devices, and some may show output for just one, depending on the complexity of the example. Also, every example we show will use the following Ansible Playbook so you understand the destination filename syntax. There are more parts to this playbook but they will be shown at the end and covered in the next presentation:
 
 ```yaml
 ---
@@ -495,16 +345,21 @@ fabric:
 ```yaml
 ---
 #Config Playbook
-- hosts: spine1,spine2,leaf1,leaf2
+- hosts: 
   gather_facts: false
-  - name: Register variables
-    include_vars:
-      file: "{{lookup('env','PWD')}}/vars/global.yml"
-      name: global
-  - name: Register variables
-    include_vars:
-      file: "{{lookup('env','PWD')}}/vars/interface.yml"
-      name: interface
+playbook here
+  - name: Create configs
+    template:
+      src: "{{lookup('env','PWD')}}/templates/full_config.j2"
+      dest: "{{lookup('env','PWD')}}/configs/full_config/{{inventory_hostname}}_config.cfg"
+```
+
+```yaml
+---
+#Deploy Playbook
+- hosts: 
+  gather_facts: false
+playbook here
   - name: Create configs
     template:
       src: "{{lookup('env','PWD')}}/templates/full_config.j2"
@@ -515,7 +370,7 @@ fabric:
 
 As shown previously, we know expressions or variable substitution is performed with the double curly brackets, `{{ my_var }}`, but what does this look like in a Jinja template?
 
-For example, we may want to generate the hostname in our template for all the devices in our inventory file. In order to do this we can use a standard Ansible variable called `inventory_hostname`, which substitutes the name of the current inventory host the Ansible play is running against.
+For example, we may want to generate the hostname in our template for all the devices in our inventory file. In order to do this we can use an Ansible built-in variable called `inventory_hostname`, which substitutes the name of the current inventory host the Ansible play is running against.
 
 ```jinja
 {# Create a file assigning the device hostname #}
@@ -551,7 +406,6 @@ hostname leaf2
 How about a more complex variable substitution using something from one of our data models above. This shows how to substitute for a single dictionary item:
 
 ```yaml
-# Global.yml
 aaa_authentication:
   login:
     default: group radius local
@@ -568,18 +422,16 @@ The Jinja template to call these variables is shown here:
 
 ```jinja
 # Render aaa authC config line
-aaa authentication login default {{ global['aaa_authentication']['login']['default'] }}
+aaa authentication login default {{ ['aaa_authentication']['login']['default'] }}
 
 # Render aaa authZ config line
-aaa authorization exec default {{ global['aaa_authorization']['exec']['default'] }}
+aaa authorization exec default {{ ['aaa_authorization']['exec']['default'] }}
 
 # Render clock timezone config line
-clock timezone {{ global['clock']['timezone'] }}
+clock timezone {{ ['clock']['timezone'] }}
 ```
 
 As you can see, the variable has many parameters in them. Let's walk through these parameters using the `aaa authentication` config line.
-
-`global`:  Global is the name of the vars file when we registered it in our Ansible playbook. You can register this as anything you want.
 
 `aaa_authentication`:  This is the name of the parent or top level label or key in our dictionary. This tells the Jinja template the next level to look for the variable we substitute.
 
@@ -610,7 +462,7 @@ Conditionals, such as `{% if %}`, `{% elif %}`, and `{% else %}`, as well as `{%
 
 Let's start our statements journey with conditionals, and where they can be helpful.
 
-In this first example we will look at the following portion of our `interfaces.yml` YAML vars file:
+In this first example we will look at the following YAML data model:
 
 ```yaml
 ---
@@ -651,7 +503,7 @@ The following dictionary key is what we are going to pay close attention to for 
 Here we will use a Jinja template to create a partial, correct MLAG configuration per spine device, based on which side it is.
 
 ```jinja
-{% if interface[inventory_hostname]['mlag_side'] == 'A' %}
+{% if inventory_hostname['mlag_side'] == 'A' %}
 int vlan 4094
 ip address 192.0.0.0/31
 
@@ -704,13 +556,13 @@ Here is the output of running the Ansible playbook and the configs that are gene
     peer-address 192.0.0.0
     ```
 
-Another aspect of conditionals to match on is a boolean, whether something is true or false, using the following example, also referencing our `interfaces.yml`:
+Another aspect of conditionals to match on is a boolean, whether something is true or false:
 
 ```jinja
-{% for item in interface[inventory_hostname]['interfaces'] %}
+{% for item in inventory_hostname['interfaces'] %}
 interface {{ item }}
 description {{ interface[inventory_hostname]['interfaces'][item]['desc'] }}
-{% if interface[inventory_hostname]['interfaces'][item]['mlag_peerlink'] == true %}
+{% if inventory_hostname['interfaces'][item]['mlag_peerlink'] == true %}
 channel-group 2000 mode active
 {% endif %}
 {% endfor %}
@@ -769,7 +621,7 @@ name_servers:
 The template with a for loop to iterate through this list would be as follows:
 
 ```jinja
-{% for dns in global['name_servers'] %}
+{% for dns in name_servers %}
 ip name-server {{ dns }}
 {% endfor %}
 ```
@@ -777,8 +629,6 @@ ip name-server {{ dns }}
 Let's analyze the sections of this template.
 
 `dns`:  DNS is a variable that we are using to represent each item in the list. This can be anything you wish.
-
-`global`:  If you recall, this is the name of the YAML file we are registering in our playbook. This tells the template which YAML file to look at for the variable.
 
 `name_servers`:  This is the parent label or key of the list. This says which items in the list we want to iterate through and assign to the variable we defined.
 
@@ -821,7 +671,7 @@ radius_servers:
 The template with a for loop to iterate through this list would be as follows:
 
 ```jinja
-{% for rsrv in global['radius_servers'] %}
+{% for rsrv in radius_servers %}
 radius-server host {{ rsrv['host'] }} vrf {{ rsrv['vrf'] }} key {{ rsrv['key'] }}
 {% endfor %}
 ```
@@ -829,8 +679,6 @@ radius-server host {{ rsrv['host'] }} vrf {{ rsrv['vrf'] }} key {{ rsrv['key'] }
 Let's analyze the sections of this template.
 
 `rsrv`:  This variable represents an item in the dictionary **`radius_servers`** as the dictionary is looped over.
-
-`global`: This tells the template which YAML file to look at for the variable.
 
 Looking at the configuration line we created, we see instead of walking through the dictionary via the dictionary key names, we key off our variable which represents the items in our dictionary. This can be seen with the `rsrv['hosts']` line. This means we are looking for the value of the **`host`** key for each server in our list that is currently assigned to the **`rsrv`** variable. The same holds true for the `rsrv['vrf']` and `rsrv['key']` lines.
 
@@ -840,7 +688,7 @@ The for loop would run as many times as there are items in the list, which is ju
 radius-server host 192.168.1.10 vrf MGMT key radiusserverkey
 ```
 
-While that was simple, what if we have something more complex, like a dictionary with a list of dictionaries? Let's take a look at how this would be represented in Jinja using the following YAML data model from our `global.yml` file.
+While that was simple, what if we have something more complex, like a dictionary with a list of dictionaries? Let's take a look at how this would be represented in Jinja using the following YAML data model:
 
 ```yaml
 ntp:
@@ -858,7 +706,7 @@ ntp:
 The template with a for loop to iterate through this list would be as follows:
 
 ```jinja
-{% for ntps in global['ntp']['servers'] %}
+{% for ntps in ['ntp']['servers'] %}
 ntp server vrf {{ ntps['vrf'] }} {{ ntps['name'] }}
 {% endfor %}
 ```
@@ -866,8 +714,6 @@ ntp server vrf {{ ntps['vrf'] }} {{ ntps['name'] }}
 Let's analyze the sections of this template.
 
 `ntps`:  This is another variable representing an item in the dictionary **servers** as the dictionary is looped over.
-
-`global`: This tells the template which YAML file to look at for the variable.
 
 Looking at the configuration line we created, we see instead of walking through the dictionary via the dictionary key names, we key off our variable which represents the items in our dictionary. This can be seen with the `ntps['vrf']` line. This means we are looking for the value of the **`vrf`** key for each server in our list that is currently assigned to the **`ntps`** variable. The same holds true for the `ntps['name']` line.
 
@@ -879,6 +725,8 @@ ntp server vrf MGMT 1.north-america.pool.ntp.org
 ntp server vrf MGMT 2.north-america.pool.ntp.org
 ntp server vrf MGMT time.google.com
 ```
+
+# Troubleshooting 
 
 In the previous examples we only covered single for loops iterating a single layer deep, however, what if we have a dictionary within a dictionary, which contains a list? In that instance we would need to have nested for loops in our templates. For this example we will introduce a new YAML data model to better illustrate nested for loops. This section shows some configuration you may need to apply related to EVPN VXLAN:
 
@@ -1051,11 +899,11 @@ vxlan vlan 201 vni 20001
 vxlan vlan 202 vni 20002
 ```
 
-### Filters
+# Filters
 
 The final section we will cover will be filters. While there are an enormous amount of filters available, we will just cover a very common one, the `ipaddr` filter. In a simple explanation, the `ipaddr` filter takes a full IP address and subnet mask, and strips off just the mask, with the end result being only the address. This can be helpful in an instance where you are using a full prefix and mask in your data model and don't want to create a new, duplicate, key-value pair mapping to be called.
 
-#### IPADDR() Filter
+## IPADDR() Filter
 
 In a simple explanation, the `ipaddr` filter has various operations allowing you to manipulate a prefix or network and obtain certain information about it. This can be helpful in an instance where you are using a full prefix and mask in your data model and don't want to create a new, duplicate, key-value pair mapping to be called.
 
@@ -1133,7 +981,7 @@ Ethernet2
     Broadcast Address:  2.255.255.255
 ```
 
-#### JOIN() Filter
+## JOIN() Filter
 
 When working with lists in YAML, it may be necessary to concatenate list items into a single line configuration command, instead of looping through the list and creating a configuration command for each item. Some examples of this could be configuring a list of NTP or DNS servers in a single line, versus individual entries. This can be accomplished with the following filter:
 
