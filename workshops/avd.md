@@ -26,6 +26,7 @@ Attendees will need the following:
 The ATD lab environment was provisioned with Ansible and Git. First, however, we must update AVD and the required modules to the latest version. The following commands will install AVD and the needed modules.
 
 ``` bash
+pip3 config set global.break-system-packages true
 pip3 config set global.disable-pip-version-check true
 pip3 install "ansible-core==2.15.5"
 ansible-galaxy collection install -r requirements.yml
