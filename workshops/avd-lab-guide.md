@@ -57,6 +57,7 @@ git config --global user.email "name@example.com"
 AVD has been pre-installed in your lab environment. However, it may be on an older version (in some cases a newer version). The following steps will update AVD and modules to the valid versions for the lab.
 
 ``` bash
+pip3 config set global.break-system-packages true
 pip3 config set global.disable-pip-version-check true
 pip3 install "ansible-core==2.15.5"
 ansible-galaxy collection install -r requirements.yml
