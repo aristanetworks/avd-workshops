@@ -352,7 +352,7 @@ We can verify this by running `ansible-inventory --host s2-spine1 --yaml`.
 ansible-inventory --host s2-spine1 --yaml
 ```
 
-??? eos-config annotate "Output of 'ansible-inventory --host s1-spine1 --yaml'"
+??? eos-config annotate "Output of 'ansible-inventory --host s2-spine1 --yaml'"
     ```yaml
 
     ansible_connection: ansible.netcommon.httpapi
