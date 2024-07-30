@@ -17,7 +17,7 @@ Throughout this section, we will use the following dual data center topology. Cl
 
 ## Getting started
 
-This repository leverages the dual data center (DC) ATD. If you are not leveraging the ATD, you may still leverage this repository for a similar deployment. Please note that some updates may have to be made for the reachability of nodes and CloudVision (CVP) instances. This example was created with [Ansible AVD](https://avd.arista.com/4.5/index.html) version `4.5`.
+This repository leverages the dual data center (DC) ATD. If you are not leveraging the ATD, you may still leverage this repository for a similar deployment. Please note that some updates may have to be made for the reachability of nodes and CloudVision (CVP) instances. This example was created with [Ansible AVD](https://avd.arista.com/4.10/index.html) version `4.10`.
 
 ### Installation external to the ATD environment (optional)
 
@@ -27,10 +27,8 @@ This repository leverages the dual data center (DC) ATD. If you are not leveragi
 ```shell
 python3 -m venv venv
 source venv/bin/activate
-pip3 install "ansible-core==2.15.5"
+pip3 install "pyavd[ansible]==4.10.0"
 ansible-galaxy collection install -r requirements.yml
-export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml | head -1 | cut -d: -f1)
-pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
 ```
 
 ## **Step 1 - Fork and clone the repository**
@@ -82,24 +80,23 @@ ansible-galaxy collection list
 # /home/coder/.ansible/collections/ansible_collections
 Collection        Version
 ----------------- -------
-ansible.netcommon 4.1.0
-ansible.posix     1.4.0
-ansible.utils     2.8.0
-arista.avd        4.5.0
+ansible.netcommon 7.0.0
+ansible.posix     1.5.4
+ansible.utils     5.0.0
+arista.avd        4.10.0
 arista.cvp        3.10.1
-arista.eos        6.0.0
-community.general 6.2.0
+arista.eos        10.0.0
+community.general 6.5.0
 ➜  ci-workshops-avd git:(main)
 ```
 
 Run the following commands to install the required packages within the ATD environment.
 
 ```shell
+pip3 config set global.break-system-packages true
 pip3 config set global.disable-pip-version-check true
-pip3 install "ansible-core==2.15.5"
+pip3 install "pyavd[ansible-collection]==4.10.0"
 ansible-galaxy collection install -r requirements.yml
-export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml | head -1 | cut -d: -f1)
-pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
 ```
 
 ## **Step 3 - Fast-forward the main brach**
@@ -496,7 +493,7 @@ At this point, make sure both workflow files (`dev.yml` and `prod.yml`) within t
             uses: actions/setup-python@v5
 
           - name: Install Python requirements
-            run: pip3 install -r requirements.txt
+            run: pip3 install "pyavd[ansible]==4.10.0"
 
           - name: Run pre-commit on files
             uses: pre-commit/action@v3.0.0
@@ -754,7 +751,7 @@ jobs:
         uses: actions/setup-python@v5
 
       - name: Install Python requirements
-        run: pip3 install -r requirements.txt
+        run: pip3 install "pyavd[ansible]==4.10.0"
 
       - name: Run pre-commit on files
         uses: pre-commit/action@v3.0.0

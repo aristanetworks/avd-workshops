@@ -59,10 +59,8 @@ AVD has been pre-installed in your lab environment. However, it may be on an old
 ``` bash
 pip3 config set global.break-system-packages true
 pip3 config set global.disable-pip-version-check true
-pip3 install "ansible-core==2.15.5"
+pip3 install "pyavd[ansible-collection]==4.10.0"
 ansible-galaxy collection install -r requirements.yml
-export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml | head -1 | cut -d: -f1)
-pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
 ```
 
 ???+ Warning "Important"
@@ -280,7 +278,7 @@ At this point, you should be able to ping between hosts within a site but not be
 
 ## **Step 5 - Connect Sites to WAN IP Network**
 
-The WAN IP Network is defined by the `core_interfaces` data model. Full data model documentation is located **[here](https://avd.arista.com/4.1/roles/eos_designs/docs/tables/core-interfaces.html?h=core+interfaces)**.
+The WAN IP Network is defined by the `core_interfaces` data model. Full data model documentation is located **[here](https://avd.arista.com/4.10/roles/eos_designs/docs/input-variables.html#core-interfaces-settings)**.
 
 The data model defines P2P links (`/31s`) on the spines with a stanza per link. See details in the graphic below. Each spine has two links to the WAN IP Network configured on ports `Ethernet7` and `Ethernet8`. OSPF is added to these links as well.
 
@@ -464,7 +462,7 @@ Now we're ready to start working on our changes :sunglasses:.
 ### **Login Banner**
 
 When we initially deployed our multi-site topology, we should have included a login banner on all our switches.
-Let's take a look at the **[AVD documentation site](https://avd.arista.com/4.1/roles/eos_cli_config_gen/docs/tables/banners.html?h=banners)** to see what the
+Let's take a look at the **[AVD documentation site](https://avd.arista.com/4.10/roles/eos_cli_config_gen/docs/input-variables.html#banners)** to see what the
 data model is for this configuration.
 
 The banner on all of our switches will be the same. After reviewing the AVD documentation, we know we can accomplish this by defining the `banners` input variable
@@ -504,7 +502,7 @@ So far, so good! Before we publish our branch and create a Pull Request though, 
 ### **Syslog Server**
 
 Our next Day 2 change is adding a syslog server configuration to all our switches. Once again, we'll take
-a look at the **[AVD documentation site](https://avd.arista.com/4.1/roles/eos_cli_config_gen/docs/tables/logging.html?h=logging)** to see the
+a look at the **[AVD documentation site](https://avd.arista.com/4.10/roles/eos_cli_config_gen/docs/input-variables.html#logging)** to see the
 data model associated with the `logging` input variable.
 
 Like our banner operation, the syslog server configuration will be consistent on all our switches. Because of this, we can also put this into
