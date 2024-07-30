@@ -54,7 +54,7 @@ git config --global user.email "name@example.com"
 
 ### Update AVD
 
-AVD has been pre-installed in your lab environment. However, it may be on an older version (in some cases a newer version). The following steps will update AVD and modules to the valid versions for the lab.
+AVD has been pre-installed in your lab environment. However, it may be on an older (or newer) version than intended for the lab. The following steps will update AVD and modules to the valid versions for the lab.
 
 ``` bash
 pip3 config set global.break-system-packages true
@@ -74,7 +74,7 @@ pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
 Each lab comes with a unique password. We set an environment variable called `LABPASSPHRASE` with the following command. The variable is later used to generate local user passwords and connect to our switches to push configs.
 
 ``` bash
-export LABPASSPHRASE=`cat /home/coder/.config/code-server/config.yaml| grep "password:" | awk '{print $2}'`
+export LABPASSPHRASE=`awk '/password:/{print $2}' /home/coder/.config/code-server/config.yaml`
 ```
 
 You can view the password is set. This is the same password displayed when you click the link to access your lab.
@@ -139,7 +139,7 @@ Now, deploy the configurations to Site 1 switches.
 make deploy-site-1
 ```
 
-Login to your switches to verify the current configs (`show run`) match the ones created in `intended/configs` folder.
+Log into your switches to verify the current configs (`show run`) match the ones created in `intended/configs` folder.
 
 You can also check the current state for MLAG, VLANs, interfaces, and port-channels.
 
@@ -652,7 +652,7 @@ to the spines.
 On the spines, interface `Ethernet9` will be used to connect to s1-leaf5, while `Ethernet10`
 will be used to connect to s1-leaf6.
 
-Starting at line 64, add the following code block into `sites/site_1/group_vars/SITE1_FABRIC.yml`.
+Starting at line 69, add the following code block into `sites/site_1/group_vars/SITE1_FABRIC.yml`.
 
 ``` yaml
 - group: RACK3
@@ -668,7 +668,7 @@ Starting at line 64, add the following code block into `sites/site_1/group_vars/
 ```
 
 ???+ warning
-    Make sure the indentation of `RACK3` is the same as `RACK2`, which can be found on line 52
+    Make sure the indentation of `RACK3` is the same as `RACK2`, which can be found on line 57
 
 The `sites/site_1/group_vars/SITE1_FABRIC.yml` file should now look like the example below:
 

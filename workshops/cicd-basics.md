@@ -132,7 +132,7 @@ Each lab comes with a unique password. We set an environment variable called `LA
     You can skip this step if you are continuing from the AVD workshop.
 
 ```shell
-export LABPASSPHRASE=`cat /home/coder/.config/code-server/config.yaml| grep "password:" | awk '{print $2}'`
+export LABPASSPHRASE=`awk '/password:/{print $2}' /home/coder/.config/code-server/config.yaml`
 ```
 
 ## **Step 5 - Configure the IP Network**
@@ -288,7 +288,7 @@ jobs:
         run: echo "Hello World!"
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 ...
 ```
 
@@ -336,10 +336,10 @@ Finally, the setup Python and install requirements action above the pre-commit s
         run: echo "Hello World!"
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Python
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v5
 
       - name: Install Python requirements
         run: pip3 install requirements.txt
@@ -431,7 +431,7 @@ Currently, our workflow will build and deploy configurations for both sites. Thi
         uses: pre-commit/action@v3.0.0
 
       - name: Check paths for sites/site_1
-        uses: dorny/paths-filter@v2
+        uses: dorny/paths-filter@v3
         id: filter-site1
         with:
           filters: |
@@ -439,7 +439,7 @@ Currently, our workflow will build and deploy configurations for both sites. Thi
               - 'sites/site_1/**'
 
       - name: Check paths for sites/site_2
-        uses: dorny/paths-filter@v2
+        uses: dorny/paths-filter@v3
         id: filter-site2
         with:
           filters: |
@@ -490,10 +490,10 @@ At this point, make sure both workflow files (`dev.yml` and `prod.yml`) within t
             run: echo "Hello World!"
 
           - name: Checkout
-            uses: actions/checkout@v3
+            uses: actions/checkout@v4
 
           - name: Setup Python
-            uses: actions/setup-python@v3
+            uses: actions/setup-python@v5
 
           - name: Install Python requirements
             run: pip3 install -r requirements.txt
@@ -502,7 +502,7 @@ At this point, make sure both workflow files (`dev.yml` and `prod.yml`) within t
             uses: pre-commit/action@v3.0.0
 
           - name: Check paths for sites/site_1
-            uses: dorny/paths-filter@v2
+            uses: dorny/paths-filter@v3
             id: filter-site1
             with:
               filters: |
@@ -510,7 +510,7 @@ At this point, make sure both workflow files (`dev.yml` and `prod.yml`) within t
                   - 'sites/site_1/**'
 
           - name: Check paths for sites/site_2
-            uses: dorny/paths-filter@v2
+            uses: dorny/paths-filter@v3
             id: filter-site2
             with:
               filters: |
@@ -748,10 +748,10 @@ jobs:
         run: echo "Hello World!"
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Python
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v5
 
       - name: Install Python requirements
         run: pip3 install -r requirements.txt
@@ -760,7 +760,7 @@ jobs:
         uses: pre-commit/action@v3.0.0
 
       - name: Check paths for sites/site_1
-        uses: dorny/paths-filter@v2
+        uses: dorny/paths-filter@v3
         id: filter-site1
         with:
           filters: |
@@ -768,7 +768,7 @@ jobs:
               - 'sites/site_1/**'
 
       - name: Check paths for sites/site_2
-        uses: dorny/paths-filter@v2
+        uses: dorny/paths-filter@v3
         id: filter-site2
         with:
           filters: |
@@ -819,5 +819,5 @@ Congratulations, you have successfully deployed a CI/CD pipeline with GitHub Act
     You must also set the `LABPASSPHRASE` environment variable in the IDE terminal.
 
     ```shell
-    export LABPASSPHRASE=`cat /home/coder/.config/code-server/config.yaml| grep "password:" | awk '{print $2}'`
+    export LABPASSPHRASE=`awk '/password:/{print $2}' /home/coder/.config/code-server/config.yaml`
     ```
