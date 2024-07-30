@@ -1228,16 +1228,11 @@ The Jinja template would look as follows:
 
     no spanning-tree vlan 4094
 
-    {% for item in interface[inventory_hostname]['interfaces'] %}
-    {% if interface[inventory_hostname]['interfaces'][item]['mlag_peerlink'] == true %}
-    interface {{ item }}
-    description {{ interface[inventory_hostname]['interfaces'][item]['desc'] }}
+    {% for name, intf in interface[inventory_hostname]['interfaces'].items() %}
+    interface {{ name }}
+    description {{ intf['desc'] }}
+    {% if intf['mlag_peerlink'] == true %}
     channel-group 2000 mode active
-    {% else %}
-
-    interface {{ item }}
-    description {{ interface[inventory_hostname]['interfaces'][item]['desc'] }}
-
     {% endif %}
 
     {% endfor %}
@@ -1256,9 +1251,7 @@ The Jinja template would look as follows:
     local-interface vlan4094
     peer-link po2000
     peer-address 192.0.0.1
-
     {% else %}
-
     int vlan 4094
     ip address 192.0.0.1/31
 
