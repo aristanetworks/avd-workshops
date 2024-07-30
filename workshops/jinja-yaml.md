@@ -713,6 +713,7 @@ description {{ intf['desc'] }}
 {% if intf['mlag_peerlink'] == true %}
 channel-group 2000 mode active
 {% endif %}
+
 {% endfor %}
 ```
 
