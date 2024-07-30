@@ -707,12 +707,13 @@ Here is the output of running the Ansible playbook and the configs that are gene
 Another aspect of conditionals to match on is a boolean, whether something is true or false, using the following example, also referencing our `interfaces.yml`:
 
 ```jinja
-{% for item in interface[inventory_hostname]['interfaces'] %}
-interface {{ item }}
-description {{ interface[inventory_hostname]['interfaces'][item]['desc'] }}
-{% if interface[inventory_hostname]['interfaces'][item]['mlag_peerlink'] == true %}
+{% for name, intf in interface[inventory_hostname]['interfaces'].items() %}
+interface {{ name }}
+description {{ intf['desc'] }}
+{% if intf['mlag_peerlink'] == true %}
 channel-group 2000 mode active
 {% endif %}
+
 {% endfor %}
 ```
 
