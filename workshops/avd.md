@@ -9,7 +9,6 @@ This section will cover the following:
 - Initial Deployment (Day 0 Provisioning)
 - Ongoing Operations (Day 2 and Beyond)
 - Validation and Troubleshooting
-- Enhancing our CI/CD Pipelines with GitHub Actions
 
 Each attendee will receive a dedicated virtual lab environment with Git, VS Code, and Ansible installed and ready to use.
 
@@ -23,24 +22,22 @@ Attendees will need the following:
 
 ### ATD Environment
 
-The ATD lab environment was provisioned with Ansible and Git. First, however, we must update AVD and the required modules to the latest version. The following commands will install AVD and the needed modules.
+The ATD lab environment was provisioned with Ansible and Git. First, however, we must update AVD and the required modules to the latest version. The following commands will install AVD and the required modules.
+
+???+ Note
+
+    IMPORTANT: The installation steps below assume the [ci-workshop-avd repository](https://github.com/aristanetworks/ci-workshops-avd) has already been forked and cloned to the IDE. The following steps must be run each time you start your lab. We will walk through these steps during the next section
 
 ``` bash
 pip3 config set global.break-system-packages true
 pip3 config set global.disable-pip-version-check true
-pip3 install "ansible-core==2.15.5"
+pip3 install "pyavd[ansible-collection]==4.10.0"
 ansible-galaxy collection install -r requirements.yml
-export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml | head -1 | cut -d: -f1)
-pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
 ```
-
-???+ Note
-
-    IMPORTANT: The installation steps assume the [repository](https://github.com/aristanetworks/ci-workshops-avd) has already been forked and cloned to the IDE. The above steps must be run each time you start your lab.
 
 ### Other Environments
 
-Install AVD and required modules - Installation guide found **[here](https://avd.arista.com/4.1/docs/installation/collection-installation.html)**.
+Install AVD and required modules - Installation guide found **[here](https://avd.arista.com/4.10/docs/installation/collection-installation.html)**.
 
 ## Lab Topology Overview
 
@@ -162,7 +159,7 @@ In a multi-site environment, some variables must be applied to all sites. They i
 
 For example, in our lab, we use a global variable file `global_vars/global_dc-vars.yml`.
 
-AVD provides a [`global_vars`](https://avd.arista.com/4.3/plugins/index.html?h=#aristaavdglobal_vars) plugin that enables the use of global variables.
+AVD provides a [`global_vars`](https://avd.arista.com/4.10/docs/plugins/Vars_plugins/global_vars.html) plugin that enables the use of global variables.
 
 The `global_vars` plugin must be enabled in the `ansible.cfg` file as shown below:
 
@@ -194,7 +191,7 @@ AVD provides a network-wide data model and is typically broken into multiple gro
 
 ### Fabric Topology
 
-The physical fabric topology is defined by providing interface links between the spine and leaf nodes. The `group_vars/SITE1_FABRIC.yml` file defines this portion of the data model. In our lab, the spines provide layer 3 routing of SVIs and P2P links using a node type called `l3spines`. The leaf nodes are purely layer 2 and use node type `leaf`. An AVD L2LS design type provides three node type keys: l3 spine, spine, and leaf. AVD Node Type documentation can be found **[here](https://avd.arista.com/4.1/roles/eos_designs/docs/input-variables.html#node-type-variables)**.
+The physical fabric topology is defined by providing interface links between the spine and leaf nodes. The `group_vars/SITE1_FABRIC.yml` file defines this portion of the data model. In our lab, the spines provide layer 3 routing of SVIs and P2P links using a node type called `l3spines`. The leaf nodes are purely layer 2 and use node type `leaf`. An AVD L2LS design type provides three node type keys: l3 spine, spine, and leaf. AVD Node Type documentation can be found **[here](https://avd.arista.com/4.10/roles/eos_designs/docs/input-variables.html#node-type-variables)**.
 
 #### Spine and Leaf Nodes
 
