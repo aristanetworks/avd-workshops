@@ -474,4 +474,4 @@ make deploy-site-2
 
 ## Next Steps
 
-[Continue to Lab Guide](avd-lab-guide.md){ .md-button .md-button--primary }
+[Continue to Lab Guide](l2ls-lab-guide.md){ .md-button .md-button--primary }
