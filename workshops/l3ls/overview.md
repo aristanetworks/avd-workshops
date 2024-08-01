@@ -218,7 +218,7 @@ Each group_vars file is listed in the following tabs.
     ```
 
 === "SITE1_NETWORK_SERVICES"
-    You add VLANs, VRFS, and EVPN specific parameters to the Fabric by updating the **group_vars/SITE1_NETWORK_SERVICES.yml**. Within the main tenant we will be configuring, we will supploy a **mac_vrf_vni_base** value, which will be used for the VLAN to VNI mapping under the VXLAN interface.  We will then define a VRF our VLANs will be part of and give that a VNI value for the VRF to VNI mapping.  Finally, each VLAN SVI will be configured, given a name, and a single virtual IP address which will end up being configured on all `l3leaf` nodes.
+    You add VLANs, VRFS, and EVPN specific parameters to the Fabric by updating the **group_vars/SITE1_NETWORK_SERVICES.yml**. Within the main tenant we will be configuring, we will supply a **mac_vrf_vni_base** value, which will be used for the VLAN to VNI mapping under the VXLAN interface.  We will then define a VRF our VLANs will be part of and give that a VNI value for the VRF to VNI mapping.  Finally, each VLAN SVI will be configured, given a name, and a single virtual IP address which will end up being configured on all `l3leaf` nodes.
 
     ``` yaml
     ---
@@ -556,7 +556,7 @@ The following diagram shows the P2P links between the four border leafs. The DCI
 
 ### Network Services
 
-Fabric Services, such as VLANs, SVIs, and VRFs, are defined in this section. The following Site 1 example defines VLANs and SVIs for VLANs `10` and `20` in the OVERLAY VRF. We also have specificed a mac VRF VNI base mapping of 10000.  This will add the base mapping to the VLAN ID to come up with the VNI for the VLAN to VNI mapping under the VXLAN interface.  Since we have the same VLANs stretched across to Site 2, the network services data model will be exactly the same:
+Fabric Services, such as VLANs, SVIs, and VRFs, are defined in this section. The following Site 1 example defines VLANs and SVIs for VLANs `10` and `20` in the OVERLAY VRF. We also have specified a mac VRF VNI base mapping of 10000.  This will add the base mapping to the VLAN ID to come up with the VNI for the VLAN to VNI mapping under the VXLAN interface.  Since we have the same VLANs stretched across to Site 2, the network services data model will be exactly the same:
 
 ``` yaml
 ---

@@ -1756,5 +1756,5 @@ git branch -D add-leafs
 Finally, we can go out to our forked copy of the repository and delete the **add-leafs** branch.
 
 ???+ success "Great Success!"
-    Congratulations.  You have now succeessfully completed initial fabric builds and day 2 operational changes without interacting with any switch CLI!
+    Congratulations.  You have now successfully completed initial fabric builds and day 2 operational changes without interacting with any switch CLI!
 
