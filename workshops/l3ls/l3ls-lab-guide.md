@@ -619,7 +619,7 @@ Now lets verify the underlay connectivity and routing across the DCI network.
       s2-brdr1                 172.16.255.1 4 65203             27        26    0    0 00:14:19 Estab   11     11
     ```
 
-2. From `s1-brdr1`, check its routing table in the default VRF and look for any prefixes learned from peer `172.16.255.1` via interface `Ethernet4`.  We will be looking for anything with a third octect of **.2** which signifies Site 2.
+2. From `s1-brdr1`, check its routing table in the default VRF and look for any prefixes learned from peer `172.16.255.1` via interface `Ethernet4`.  We will be looking for anything with a third octet of **.2** which signifies Site 2.
 
     ^^Command^^
 
