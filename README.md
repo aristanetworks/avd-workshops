@@ -17,7 +17,8 @@ The Arista CI Workshops are intended for engineers looking to learn the fundamen
 
 ## Arista CI
 
-- [AVD](workshops/avd.md)
+- [AVD - L2LS](workshops/l2ls/overview.md)
+- [AVD - L3LS with EVPN/VXLAN](workshops/l3ls/overview.md)
 - [CI/CD Basics](workshops/cicd-basics.md)
 
 ## Contributing
