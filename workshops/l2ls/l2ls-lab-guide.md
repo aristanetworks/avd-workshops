@@ -67,6 +67,14 @@ ansible-galaxy collection install -r requirements.yml
 
     You must run these commands when you start your lab or a new shell (terminal).
 
+### Change To Lab Working Directory
+
+Now that AVD is updated, lets move into the appropriate directory so we can access the files necessary for this L3LS Lab!
+
+```bash
+cd labs/L2LS
+```
+
 ### Setup Lab Password Environment Variable
 
 Each lab comes with a unique password. We set an environment variable called `LABPASSPHRASE` with the following command. The variable is later used to generate local user passwords and connect to our switches to push configs.
