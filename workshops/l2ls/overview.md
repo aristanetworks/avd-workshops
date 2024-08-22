@@ -41,7 +41,7 @@ Below is an example basic configuration file for s1-spine1:
 
 ``` shell
 --8<--
-workshops/../assets/examples/s1-spine1.cfg
+workshops/assets/examples/s1-spine1.cfg
 --8<--
 ```
 
@@ -92,7 +92,7 @@ Each group_vars file is listed in the following tabs.
 
     ``` yaml
     --8<--
-    workshops/../assets/examples/avd/site_1/group_vars/SITE1_FABRIC.yml
+    workshops/assets/examples/avd/site_1/group_vars/SITE1_FABRIC.yml
     --8<--
     ```
 
@@ -101,7 +101,7 @@ Each group_vars file is listed in the following tabs.
 
     ``` yaml
     --8<--
-    workshops/../assets/examples/avd/site_1/group_vars/SITE1_SPINES.yml
+    workshops/assets/examples/avd/site_1/group_vars/SITE1_SPINES.yml
     --8<--
     ```
 
@@ -110,7 +110,7 @@ Each group_vars file is listed in the following tabs.
 
     ``` yaml
     --8<--
-    workshops/../assets/examples/avd/site_1/group_vars/SITE1_LEAFS.yml
+    workshops/assets/examples/avd/site_1/group_vars/SITE1_LEAFS.yml
     --8<--
     ```
 
@@ -119,7 +119,7 @@ Each group_vars file is listed in the following tabs.
 
     ``` yaml
     --8<--
-    workshops/../assets/examples/avd/site_1/group_vars/SITE1_FABRIC_SERVICES.yml
+    workshops/assets/examples/avd/site_1/group_vars/SITE1_FABRIC_SERVICES.yml
     --8<--
     ```
 
@@ -128,7 +128,7 @@ Each group_vars file is listed in the following tabs.
 
     ``` yaml
     --8<--
-    workshops/../assets/examples/avd/site_1/group_vars/SITE1_FABRIC_PORTS.yml
+    workshops/assets/examples/avd/site_1/group_vars/SITE1_FABRIC_PORTS.yml
     --8<--
     ```
 
@@ -160,7 +160,7 @@ paths = ../../global_vars
 ??? eos-config annotate "global_vars/global_dc_vars.yml"
     ``` yaml
     --8<--
-    workshops/../assets/examples/avd/global_dc_vars.yml
+    workshops/assets/examples/avd/global_dc_vars.yml
     --8<--
     ```
 
@@ -410,14 +410,14 @@ Two playbooks, `build.yml` and `deploy.yml` are used in our lab. Expand the tabs
 ??? eos-config annotate "build.yml Playbook"
     ``` yaml
     --8<--
-    workshops/../assets/examples/avd/playbooks/build.yml
+    workshops/assets/examples/avd/playbooks/build.yml
     --8<--
     ```
 
 ??? eos-config annotate "deploy.yml Playbook"
     ``` yaml
     --8<--
-    workshops/../assets/examples/avd/playbooks/deploy.yml
+    workshops/assets/examples/avd/playbooks/deploy.yml
     --8<--
     ```
 
@@ -426,7 +426,7 @@ To make our lives easier, we use a `Makefile` to create aliases to run the playb
 ??? eos-config annotate "Makefile"
     ``` yaml
     --8<--
-    workshops/../assets/examples/avd/Makefile
+    workshops/assets/examples/avd/Makefile
     --8<--
     ```
 
