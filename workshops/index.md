@@ -9,8 +9,9 @@ The Arista CI Workshops are intended for engineers looking to learn the fundamen
     The workshops are meant to be leveraged within an Arista Test Drive (ATD) lab. You may follow along using a personal environment; additional setup may apply.
 
 - **Workshop #1** - Automation Fundamentals 101
-- **Workshop #2** - Arista CI - AVD
-- **Workshop #3** - Arista CI - AVD with CI/CD
+- **Workshop #2 (L2LS)** - Arista CI / AVD - L2LS
+- **Workshop #2 (L3LS)** - Arista CI / AVD - L3LS EVPN/VXLAN
+- **Workshop #3** - Arista CI / AVD with CI/CD
 
 ## Fundamentals
 

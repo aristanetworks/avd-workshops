@@ -144,9 +144,9 @@ Now, deploy the configurations to Site 1 switches.
 make deploy-site-1
 ```
 
-### **Verification**
+#### Verification
 
-Now, lets login to some switches to verify the current configs (`show run`) match the ones created in `intended/configs` folder.  We can also check the current state for MLAG, interfaces, BGP peerings for IPv4 underlay, and BGP EVPN overlay peerings.
+Now, lets login to some switches to verify the current configs (`show run`) match the ones created in `intended/configs` folder. We can also check the current state for MLAG, interfaces, BGP peerings for IPv4 underlay, and BGP EVPN overlay peerings.
 
 These outputs were taken from `s1-leaf1`:
 
@@ -277,7 +277,7 @@ make build-site-1
 make deploy-site-1
 ```
 
-### **Verification**
+#### Verification
 
 Now lets go back to node `s1-leaf1` and verify the new SVIs exist, their IP addresses, any changes to the EVPN overlay and corresponding VXLAN configurations, as well as the EVPN control-plane now that we have some layer 3 data interfaces.
 
@@ -311,7 +311,7 @@ Now lets go back to node `s1-leaf1` and verify the new SVIs exist, their IP addr
 
     ???+ abstract "Where did those VLANs come from?"
         You should notice some VLANs that we didn't define anywhere in the `_NETWORK_SERVICES.yml` data model which aren't related to **MLAG**.  Specifically, these will be VLAN SVIs ***Vlan1199*** and ***Vlan3009***.
-        
+
         ***Vlan1199*** is dynamically created and assigned for the **OVERLAY** vrf to VNI mapping under the VXLAN interface.  You can verify this by looking at the **show interface vxlan 1** output.  Remember, we defined **VNI 10** as the `vrf_vni` in our data model.
         ```text
         Dynamic VLAN to VNI mapping for 'evpn' is
@@ -584,7 +584,7 @@ make build-site-1 build-site-2 deploy-site-1 deploy-site-2
 ???+ tip
     Daisy chaining "Makesies" is a great way to run a series of tasks with a single CLI command :grinning:
 
-### **Verification**
+#### Verification
 
 Now that we have built and deployed our configurations for our DCI IPv4 underlay connectivity, lets see what was done.  Looking at the data model above, we see we only defined a pool of IP addresses with a **/24** mask which AVD will use to auto-alllocated a subnet per connection.  Additionally, we can see that `s1-brdr1` connects to its peer `s2-brdr1` via interface `Ethernet4`, and `s1-brdr2` connects to its peer `s2-brdr2` via interface `Ethernet5`.  Using that data model, here is what we expect to see configured.  You can verify this by logging into each border leaf and checking with **show ip interface brief**.
 
@@ -822,7 +822,7 @@ Below you will see the data model snippets from `sites/site_1/group_vars/SITE1_F
 make build-site-1 build-site-2 deploy-site-1 deploy-site-2
 ```
 
-### **Verification**
+#### Verification
 
 Now lets check and make sure the correct configurations were build and applied, and the EVPN gateways are functioning.
 
@@ -1012,7 +1012,7 @@ From nodes `s1-brdr1` and `s1-brdr2`, we can check the following show commands.
 
 ## **Final Fabric Test**
 
-At this point your full Layer 3 Leaf Spine with EVPN VXLAN and EVPN gateway functionality should be ready to go.  Lets perform some final tests to verify everything is working.
+At this point your full Layer 3 Leaf Spine with EVPN VXLAN and EVPN gateway functionality should be ready to go. Lets perform some final tests to verify everything is working.
 
 From `s1-host1` ping both `s2-host1` & `s2-host2`.
 
@@ -1215,9 +1215,9 @@ should also have our newly defined syslog servers.
 
 ## **Adding additional VLANs**
 
-One of the many benefits of AVD is the ability to deploy new services very quickly and efficiently by modifying a small amount of data model.  Lets add some new VLANs to our fabric.
+One of the many benefits of AVD is the ability to deploy new services very quickly and efficiently by modifying a small amount of data model. Lets add some new VLANs to our fabric.
 
-For this we will need to modify the two `_NETWORK_SERVICES.yml` data model vars files.  To keep things simple we will add two new VLANs, **30** and **40**.
+For this we will need to modify the two `_NETWORK_SERVICES.yml` data model vars files. To keep things simple we will add two new VLANs, **30** and **40**.
 
 Copy the following pieces of data model, and paste right below the last VLAN entry, in both `SITE1_NETWORK_SERVICES.yml` and `SITE2_NETWORK_SERVICES.yml`.  Ensure the `-id:` entries all line up.
 
@@ -1267,7 +1267,7 @@ Finally, let's build out and deploy our configurations.
 make build-site-1 build-site-2 deploy-site-1 deploy-site-2
 ```
 
-### **Verification**
+#### Verification
 
 Now lets jump into one of the nodes, `s1-leaf1`, and check that our new VLAN SVIs were configured, as well as what we see in the VXLAN interface and EVPN table for both local and remote VTEPs.
 
@@ -1360,7 +1360,7 @@ Now lets jump into one of the nodes, `s1-leaf1`, and check that our new VLAN SVI
       MLAG Shared Router MAC is 021c.73c0.c612
     ```
 
-3. Now, lets check the EVPN table.  We can filter the routes to only the new VLANs by specifying the new VNIs, **10030** and **10040**.
+3. Now, lets check the EVPN table. We can filter the routes to only the new VLANs by specifying the new VNIs, **10030** and **10040**.
 
     ^^Command^^
 
@@ -1755,4 +1755,4 @@ git branch -D add-leafs
 Finally, we can go out to our forked copy of the repository and delete the **add-leafs** branch.
 
 ???+ success "Great Success!"
-    Congratulations.  You have now successfully completed initial fabric builds and day 2 operational changes without interacting with any switch CLI!
+    Congratulations. You have now successfully completed initial fabric builds and day 2 operational changes without interacting with any switch CLI!
