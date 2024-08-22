@@ -584,7 +584,7 @@ make build-site-1 build-site-2 deploy-site-1 deploy-site-2
 ???+ tip
     Daisy chaining "Makesies" is a great way to run a series of tasks with a single CLI command :grinning:
 
-### **DCI Verification**
+### **Verification**
 
 Now that we have built and deployed our configurations for our DCI IPv4 underlay connectivity, lets see what was done.  Looking at the data model above, we see we only defined a pool of IP addresses with a **/24** mask which AVD will use to auto-alllocated a subnet per connection.  Additionally, we can see that `s1-brdr1` connects to its peer `s2-brdr1` via interface `Ethernet4`, and `s1-brdr2` connects to its peer `s2-brdr2` via interface `Ethernet5`.  Using that data model, here is what we expect to see configured.  You can verify this by logging into each border leaf and checking with **show ip interface brief**.
 
@@ -822,7 +822,7 @@ Below you will see the data model snippets from `sites/site_1/group_vars/SITE1_F
 make build-site-1 build-site-2 deploy-site-1 deploy-site-2
 ```
 
-### **EVPN Gateway Verification**
+### **Verification**
 
 Now lets check and make sure the correct configurations were build and applied, and the EVPN gateways are functioning.
 
@@ -838,71 +838,71 @@ From nodes `s1-brdr1` and `s1-brdr2`, we can check the following show commands.
 
     Look for the below new configurations relevant to the EVPN gateways.
 
-      === "s1-brdr1"
+    === "s1-brdr1"
 
-          ```text
-          router bgp 65103
-            ...
-            neighbor EVPN-OVERLAY-CORE peer group
-            neighbor EVPN-OVERLAY-CORE update-source Loopback0
-            neighbor EVPN-OVERLAY-CORE bfd
-            neighbor EVPN-OVERLAY-CORE ebgp-multihop 15
-            neighbor EVPN-OVERLAY-CORE send-community
-            neighbor EVPN-OVERLAY-CORE maximum-routes 0
-            ...
-            neighbor 10.255.2.7 peer group EVPN-OVERLAY-CORE
-            neighbor 10.255.2.7 remote-as 65203
-            neighbor 10.255.2.7 description s2-brdr1
-            ...
-            vlan 10
-                ...
-                route-target import export evpn domain remote 10010:10010
-                ...
-            !
-            vlan 20
-                ...
-                route-target import export evpn domain remote 10020:10020
-                ...
-            !
-            address-family evpn
-                neighbor EVPN-OVERLAY-CORE activate
-                neighbor EVPN-OVERLAY-CORE domain remote
-                ...
-                neighbor default next-hop-self received-evpn-routes route-type ip-prefix inter-domain
-          ```
+        ```text
+        router bgp 65103
+          ...
+          neighbor EVPN-OVERLAY-CORE peer group
+          neighbor EVPN-OVERLAY-CORE update-source Loopback0
+          neighbor EVPN-OVERLAY-CORE bfd
+          neighbor EVPN-OVERLAY-CORE ebgp-multihop 15
+          neighbor EVPN-OVERLAY-CORE send-community
+          neighbor EVPN-OVERLAY-CORE maximum-routes 0
+          ...
+          neighbor 10.255.2.7 peer group EVPN-OVERLAY-CORE
+          neighbor 10.255.2.7 remote-as 65203
+          neighbor 10.255.2.7 description s2-brdr1
+          ...
+          vlan 10
+              ...
+              route-target import export evpn domain remote 10010:10010
+              ...
+          !
+          vlan 20
+              ...
+              route-target import export evpn domain remote 10020:10020
+              ...
+          !
+          address-family evpn
+              neighbor EVPN-OVERLAY-CORE activate
+              neighbor EVPN-OVERLAY-CORE domain remote
+              ...
+              neighbor default next-hop-self received-evpn-routes route-type ip-prefix inter-domain
+        ```
 
-      === "s1-brdr2"
+    === "s1-brdr2"
 
-          ```text
-          router bgp 65103
-            ...
-            neighbor EVPN-OVERLAY-CORE peer group
-            neighbor EVPN-OVERLAY-CORE update-source Loopback0
-            neighbor EVPN-OVERLAY-CORE bfd
-            neighbor EVPN-OVERLAY-CORE ebgp-multihop 15
-            neighbor EVPN-OVERLAY-CORE send-community
-            neighbor EVPN-OVERLAY-CORE maximum-routes 0
-            ...
-            neighbor 10.255.2.8 peer group EVPN-OVERLAY-CORE
-            neighbor 10.255.2.8 remote-as 65203
-            neighbor 10.255.2.8 description s2-brdr2
-            ...
-            vlan 10
-                ...
-                route-target import export evpn domain remote 10010:10010
-                ...
-            !
-            vlan 20
-                ...
-                route-target import export evpn domain remote 10020:10020
-                ...
-            !
-            address-family evpn
-                neighbor EVPN-OVERLAY-CORE activate
-                neighbor EVPN-OVERLAY-CORE domain remote
-                ...
-                neighbor default next-hop-self received-evpn-routes route-type ip-prefix inter-domain
-          ```
+        ```text
+        router bgp 65103
+          ...
+          neighbor EVPN-OVERLAY-CORE peer group
+          neighbor EVPN-OVERLAY-CORE update-source Loopback0
+          neighbor EVPN-OVERLAY-CORE bfd
+          neighbor EVPN-OVERLAY-CORE ebgp-multihop 15
+          neighbor EVPN-OVERLAY-CORE send-community
+          neighbor EVPN-OVERLAY-CORE maximum-routes 0
+          ...
+          neighbor 10.255.2.8 peer group EVPN-OVERLAY-CORE
+          neighbor 10.255.2.8 remote-as 65203
+          neighbor 10.255.2.8 description s2-brdr2
+          ...
+          vlan 10
+              ...
+              route-target import export evpn domain remote 10010:10010
+              ...
+          !
+          vlan 20
+              ...
+              route-target import export evpn domain remote 10020:10020
+              ...
+          !
+          address-family evpn
+              neighbor EVPN-OVERLAY-CORE activate
+              neighbor EVPN-OVERLAY-CORE domain remote
+              ...
+              neighbor default next-hop-self received-evpn-routes route-type ip-prefix inter-domain
+        ```
 
 2. Verify the EVPN overlay peerings to Site 2.
 
