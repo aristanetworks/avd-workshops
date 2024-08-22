@@ -1267,7 +1267,7 @@ Finally, let's build out and deploy our configurations.
 make build-site-1 build-site-2 deploy-site-1 deploy-site-2
 ```
 
-#### Verification
+### Verification
 
 Now lets jump into one of the nodes, `s1-leaf1`, and check that our new VLAN SVIs were configured, as well as what we see in the VXLAN interface and EVPN table for both local and remote VTEPs.
 
