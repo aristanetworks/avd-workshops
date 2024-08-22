@@ -12,9 +12,12 @@ nav:
       - Jinja/YAML: jinja-yaml.md
       - Ansible: ansible.md
   - Arista CI:
-      - AVD:
-          - Overview: avd.md
-          - Lab Guide: avd-lab-guide.md
+      - AVD L2LS:
+          - Overview: l2ls/overview.md
+          - Lab Guide: l2ls/l2ls-lab-guide.md
+      - AVD L3LS EVPN/VXLAN:
+          - Overview: l3ls/overview.md
+          - Lab Guide: l3ls/l3ls-lab-guide.md
       - CI/CD Basics: cicd-basics.md
 
 copyright: Copyright &copy; 2023 Arista Networks
@@ -43,7 +46,7 @@ markdown_extensions:
   - def_list
   - footnotes
   - md_in_html
-  - mdx_truly_sane_lists
+  # - mdx_truly_sane_lists
   - pymdownx.arithmatex
   - pymdownx.caret
   - pymdownx.critic

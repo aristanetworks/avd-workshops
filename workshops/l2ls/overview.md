@@ -18,32 +18,11 @@ Attendees will need the following:
 - An account on [GitHub](https://github.com/)
 - Familiarity with the concepts and tools covered in the previous [Automation Fundamentals workshop](https://aristanetworks.github.io/avd-workshops/) (Git, VS Code, Jinja/YAML, Ansible)
 
-## Installation Requirements
-
-### ATD Environment
-
-The ATD lab environment was provisioned with Ansible and Git. First, however, we must update AVD and the required modules to the latest version. The following commands will install AVD and the required modules.
-
-???+ Note
-
-    IMPORTANT: The installation steps below assume the [ci-workshop-avd repository](https://github.com/aristanetworks/ci-workshops-avd) has already been forked and cloned to the IDE. The following steps must be run each time you start your lab. We will walk through these steps during the next section
-
-``` bash
-pip3 config set global.break-system-packages true
-pip3 config set global.disable-pip-version-check true
-pip3 install "pyavd[ansible-collection]==4.10.0"
-ansible-galaxy collection install -r requirements.yml
-```
-
-### Other Environments
-
-Install AVD and required modules - Installation guide found **[here](https://avd.arista.com/4.10/docs/installation/collection-installation.html)**.
-
 ## Lab Topology Overview
 
 Throughout this section, we will use the following dual data center topology. Click on the image to zoom in for details.
 
-![Dual DC Topology](assets/images/dual-dc-topo.svg)
+![Dual DC Topology](../assets/images/dual-dc-topo.svg)
 
 ## Basic EOS Switch Configuration
 
@@ -78,7 +57,7 @@ Our lab L2LS topology contains two sites, `Site 1` and `Site 2`. We need to crea
 
 The following is a graphical representation of the Ansible inventory groups and naming scheme used for `Site 1` in this example. This is replicated for `Site 2`.
 
-![Ansible Groups](assets/images/ansible_groups_site1.svg)
+![Ansible Groups](../assets/images/ansible_groups_site1.svg)
 
 ## AVD Fabric Variables
 
@@ -324,7 +303,7 @@ core_interfaces:
 
 The following diagram shows the P2P links to the IP Network from all four spine nodes. The WAN IP Network is pre-configured in our lab with /31's running OSPF in area 0.0.0.0. The core_interfaces for the spines in `Site 1` and `Site 2` are configured and deployed with AVD.
 
-![Core Interfaces](assets/images/avd-core-interfaces.svg)
+![Core Interfaces](../assets/images/avd-core-interfaces.svg)
 
 ### Fabric Services
 
@@ -495,4 +474,4 @@ make deploy-site-2
 
 ## Next Steps
 
-[Continue to Lab Guide](avd-lab-guide.md){ .md-button .md-button--primary }
+[Continue to Lab Guide](l2ls-lab-guide.md){ .md-button .md-button--primary }

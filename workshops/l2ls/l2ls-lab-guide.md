@@ -2,11 +2,11 @@
 
 ## AVD Lab Guide Overview
 
-The AVD Lab Guide is a follow-along set of instructions to deploy a dual data center L2LS fabric design. The data model overview and details can be found [here](avd.md). In the following steps, we will explore updating the data models to add services, ports, and WAN links to our fabrics and test traffic between sites.
+The AVD Lab Guide is a follow-along set of instructions to deploy a dual data center L2LS fabric design. The data model overview and details can be found [here](overview.md). In the following steps, we will explore updating the data models to add services, ports, and WAN links to our fabrics and test traffic between sites.
 
 In this example, the ATD lab is used to create the L2LS Dual Data Center topology below. The IP Network cloud (orange area) is pre-provisioned and is comprised of the border and core nodes in the ATD topology. Our focus will be creating the L2LS AVD data models to build and deploy configurations for Site 1 and Site 2 (blue areas) and connect them to the IP Network.
 
-![Dual DC Topology](assets/images/topologies.svg)
+![Dual DC Topology](../assets/images/topologies.svg)
 
 ### Host Addresses
 
@@ -66,6 +66,14 @@ ansible-galaxy collection install -r requirements.yml
 ???+ Warning "Important"
 
     You must run these commands when you start your lab or a new shell (terminal).
+
+### Change To Lab Working Directory
+
+Now that AVD is updated, lets move into the appropriate directory so we can access the files necessary for this L3LS Lab!
+
+```bash
+cd labs/L2LS
+```
 
 ### Setup Lab Password Environment Variable
 
@@ -129,7 +137,7 @@ make build-site-1
 
 AVD creates a separate markdown and EOS configuration file per switch. In addition, you can review the files in the `documentation` and `intended` folders per site.
 
-![Docs and Configs](assets/images/docs-configs.png){: style="width:300px"}
+![Docs and Configs](../assets/images/docs-configs.png){: style="width:300px"}
 
 Now, deploy the configurations to Site 1 switches.
 
@@ -282,7 +290,7 @@ The WAN IP Network is defined by the `core_interfaces` data model. Full data mod
 
 The data model defines P2P links (`/31s`) on the spines with a stanza per link. See details in the graphic below. Each spine has two links to the WAN IP Network configured on ports `Ethernet7` and `Ethernet8`. OSPF is added to these links as well.
 
-![Core Interfaces](assets/images/avd-core-interfaces.svg)
+![Core Interfaces](../assets/images/avd-core-interfaces.svg)
 
 ### **Add P2P Links to WAN IP Network for Site 1 and 2**
 
@@ -419,27 +427,27 @@ git push
 If this is our first time pushing to our forked repository, then VS Code will provide us with the following
 sign-in prompt:
 
-![VS Code GitHub Sign in Prompt](assets/images/git_login_request.png){: style="width:400px"}
+![VS Code GitHub Sign in Prompt](../assets/images/git_login_request.png){: style="width:400px"}
 
 Choose **Allow**, and another prompt will come up, showing your unique login code:
 
-![VS Code GitHub Login Code Prompt](assets/images/git_login_code.png){: style="width:400px"}
+![VS Code GitHub Login Code Prompt](../assets/images/git_login_code.png){: style="width:400px"}
 
 Choose **Copy & Continue to GitHub**, and *another* prompt will come up asking if it's ok to open an external website (GitHub).
 
-![VS Code External Site Prompt](assets/images/git_login_external_site.png){: style="width:400px"}
+![VS Code External Site Prompt](../assets/images/git_login_external_site.png){: style="width:400px"}
 
 Choose **Open** and then an external site (GitHub) will open, asking for your login code.
 
-![GitHub Login Code Entry](assets/images/git_login_code_entry.png){: style="width:400px"}
+![GitHub Login Code Entry](../assets/images/git_login_code_entry.png){: style="width:400px"}
 
 Paste in your login code and choose **Continue**. You will then be prompted to Authorize VS Code.
 
-![GitHub Authorize VS Code](assets/images/git_login_authorize_vscode.png){: style="width:400px"}
+![GitHub Authorize VS Code](../assets/images/git_login_authorize_vscode.png){: style="width:400px"}
 
 Choose **Authorize Visual-Studio-Code**, and you should be presented with the coveted Green Check Mark!
 
-![VS Code Git Login Complete](assets/images/git_login_complete.png){: style="width:400px"}
+![VS Code Git Login Complete](../assets/images/git_login_complete.png){: style="width:400px"}
 
 Whew! Alright. Now that we have that complete, let's keep moving...
 
@@ -548,7 +556,7 @@ On our forked repository, let's create the Pull Request.
 When creating the PR, ensure that the `base repository` is the **main** branch of **your fork**. This can
 be selected via the dropdown as shown below:
 
-![PR Base Repository Selection](assets/images/pr_open_request.png){: style="width:800px"}
+![PR Base Repository Selection](../assets/images/pr_open_request.png){: style="width:800px"}
 
 Take a minute to review the contents of the PR. Assuming all looks good, let's earn the **YOLO** GitHub badge
 by approving and merging your PR!

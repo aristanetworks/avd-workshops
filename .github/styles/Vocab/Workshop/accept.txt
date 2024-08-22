@@ -16,6 +16,7 @@ devcontainer
 Dockerfile
 eos
 github
+global_dc_vars
 group_vars
 host_vars
 hostname\w*\b
@@ -28,9 +29,11 @@ makefile
 mkdocs
 mlag
 mlagpeer
+Multicast
 netcommon
 node_group\w*
 node_type_key\w*
+peerings
 port_profile\w*
 (?i)reachability
 repo
@@ -41,8 +44,11 @@ syslog
 toolchain
 uncomment
 untracked
+Unicast
 vlan
 VRF\w*\b
+VNIs
+VTEPs
 yaml
 yml
 Yu
