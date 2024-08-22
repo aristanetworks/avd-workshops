@@ -20,7 +20,7 @@ MD004:
 # unordered list indentation (2-spaces)
 # keep it tight yo!
 MD007:
-  indent: 2
+  indent: 4
 
 # line length
 MD013:

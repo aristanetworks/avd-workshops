@@ -105,29 +105,29 @@ Also, in the bottom left corner of status bar we can see we are on the `main`* b
 Use VS Code to perform the following actions.
 
 - Stage files
-  - Source Control > Source Control (heading) > click plus icon in the section heading for staging all files
-  - (alternatively use the plus icon next to file name to only stage certain files)
+    - Source Control > Source Control (heading) > click plus icon in the section heading for staging all files
+    - (alternatively use the plus icon next to file name to only stage certain files)
 - Commit staged files
-  - Source Control > Source Control (heading) > Commit button
+    - Source Control > Source Control (heading) > Commit button
 - Check the log - git log
-  - File Explorer > Timeline > click on an event
-  - The above isn't quite the same as `git log` command from terminal
+    - File Explorer > Timeline > click on an event
+    - The above isn't quite the same as `git log` command from terminal
 - Verify current branches
-  - Source Control > Branches
+    - Source Control > Branches
 - Create and switch to new branch called `change-usernames`
-  - Source Control > Branches > click plus icon
+    - Source Control > Branches > click plus icon
 - Update username `arista` to `admin`
-  - Use VS Code Replace in files via Search (username arista > username admin)
-  - Show file diff via Source Control > click on a file to see its diff
+    - Use VS Code Replace in files via Search (username arista > username admin)
+    - Show file diff via Source Control > click on a file to see its diff
 - Stage and commit changes to new branch
 - Switch back to `main` branch
-  - Source Control > Branches > curved arrow to `Switch to Branch...`
+    - Source Control > Branches > curved arrow to `Switch to Branch...`
 - Merge `change-usernames` into `main`
-  - [Command-Palette](https://code.visualstudio.com/docs/getstarted/userinterface#_command-palette) Type in `>git merge`
-    - Or Source Control > Source Control (heading) > ... > Branch > Merge Branch
-    - Verify files have new names in the `main` branch
+    - [Command-Palette](https://code.visualstudio.com/docs/getstarted/userinterface#_command-palette) Type in `>git merge`
+        - Or Source Control > Source Control (heading) > ... > Branch > Merge Branch
+        - Verify files have new names in the `main` branch
 - Be a good citizen and clean up old branch
-  - Source Control > Branches > right click on branch name > Delete Branch...
+    - Source Control > Branches > right click on branch name > Delete Branch...
 - Publish repo to GitHub
 
 ## Dev Containers
