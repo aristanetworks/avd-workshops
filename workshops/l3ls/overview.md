@@ -94,14 +94,14 @@ Each group_vars file is listed in the following tabs.
 
     The leaf nodes will need the following variables set:
 
-    - spanning_tree_priority  
-    - spanning_tree_mode 
+    - spanning_tree_priority
+    - spanning_tree_mode
     - loopback_ipv4_pool
     - loopback_ipv4_offset
-    - vtep_loopback_ipv4_pool 
+    - vtep_loopback_ipv4_pool
     - uplink_switches
-    - uplink_interfaces 
-    - uplink_ipv4_pool 
+    - uplink_interfaces
+    - uplink_ipv4_pool
     - mlag_interfaces
     - mlag_peer_ipv4_pool
     - mlag_peer_l3_ipv4_pool
@@ -136,8 +136,8 @@ Each group_vars file is listed in the following tabs.
     # Leaf Switches
     l3leaf:
       defaults:
-        platform: cEOS 
-        spanning_tree_priority: 4096 
+        platform: cEOS
+        spanning_tree_priority: 4096
         spanning_tree_mode: mstp
         loopback_ipv4_pool: 10.250.1.0/24
         loopback_ipv4_offset: 2
@@ -186,7 +186,7 @@ Each group_vars file is listed in the following tabs.
               mgmt_ip: 192.168.0.100/24
               uplink_switch_interfaces: [ Ethernet7, Ethernet7 ]
               evpn_gateway:
-                 remote_peers: 
+                 remote_peers:
                    - hostname: s2-brdr1
                      bgp_as: 65203
                      ip_address: 10.255.2.7
@@ -195,7 +195,7 @@ Each group_vars file is listed in the following tabs.
               mgmt_ip: 192.168.0.101/24
               uplink_switch_interfaces: [ Ethernet8, Ethernet8 ]
               evpn_gateway:
-                 remote_peers: 
+                 remote_peers:
                    - hostname: s2-brdr2
                      bgp_as: 65203
                      ip_address: 10.255.2.8
@@ -388,7 +388,7 @@ paths = ../../global_vars
     overlay_routing_protocol: ebgp
 
     # Configure password authentication for BGP peerings
-    bgp_peer_groups: 
+    bgp_peer_groups:
       evpn_overlay_peers:
         password: Q4fqtbqcZ7oQuKfuWtNGRQ==
       ipv4_underlay_peers:
@@ -456,8 +456,8 @@ spine:
 # Leaf Switches
 l3leaf:
   defaults:
-    platform: cEOS 
-    spanning_tree_priority: 4096 
+    platform: cEOS
+    spanning_tree_priority: 4096
     spanning_tree_mode: mstp
     loopback_ipv4_pool: 10.250.1.0/24
     loopback_ipv4_offset: 2
@@ -506,7 +506,7 @@ l3leaf:
           mgmt_ip: 192.168.0.100/24
           uplink_switch_interfaces: [ Ethernet7, Ethernet7 ]
           evpn_gateway:
-            remote_peers: 
+            remote_peers:
               - hostname: s2-brdr1
                 bgp_as: 65203
                 ip_address: 10.255.2.7
@@ -515,7 +515,7 @@ l3leaf:
           mgmt_ip: 192.168.0.101/24
           uplink_switch_interfaces: [ Ethernet8, Ethernet8 ]
           evpn_gateway:
-            remote_peers: 
+            remote_peers:
               - hostname: s2-brdr2
                 bgp_as: 65203
                 ip_address: 10.255.2.8
