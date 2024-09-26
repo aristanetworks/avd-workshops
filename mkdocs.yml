@@ -19,6 +19,10 @@ nav:
           - Overview: l3ls/overview.md
           - Lab Guide: l3ls/l3ls-lab-guide.md
       - CI/CD Basics: cicd-basics.md
+      - Automated Network Validation:
+          - Overview: validation/overview.md
+          - ANTA: validation/anta_validate.md
+          - AVD Validate: validation/avd_validate.md
 
 copyright: Copyright &copy; 2023 Arista Networks
 

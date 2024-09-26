@@ -28,4 +28,8 @@ The Arista CI Workshops are intended for engineers looking to learn the fundamen
 - AVD L3LS EVPN/VXLAN
     - [Overview](l3ls/overview.md)
     - [Lab Guide](l3ls/l3ls-lab-guide.md)
+- Automated Network Validation
+    - [Overview](validation/overview.md)
+    - [ANTA Lab Guide](validation/anta_validate.md)
+    - [AVD Lab Guide](validation/avd_validate.md)
 - [CI/CD Basics](cicd-basics.md)
