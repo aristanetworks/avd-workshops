@@ -255,8 +255,8 @@ l3leaf: #(1)!
 ```
 
 1. Everything we're configuring below is in context to our leaf switch
-2. Any of these leaf switches defined should uplink to `s1-spine1` and `s1-spine2`
-3. The leaf should use `Ethernet2` and `Ethernet3` to uplink to these spines
+2. Any of these leaf switches defined should up link to `s1-spine1` and `s1-spine2`
+3. The leaf should use `Ethernet2` and `Ethernet3` to up link to these spines
 4. Defining our leaf `s1-leaf1`
 5. Defining the destination port that should be used, in this case `Ethernet2` on `s1-spine1` and `s1-spine2`
 

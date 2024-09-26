@@ -26,9 +26,9 @@ ANTA can be run against any Arista architecture (L2LS, L3LS, etc). For this lab 
 
     ---
 
-    If you **have not completed** the CI/AVD labs, no worries! This lab contains all the steps nexcessary to test a working fabric using ANTA and AVD. Continue on and prepare your environment! :rocket:
+    If you **have not completed** the CI/AVD labs, no worries! This lab contains all the steps necessary to test a working fabric using ANTA and AVD. Continue on and prepare your environment! :rocket:
 
-    [:octicons-arrow-right-24: Prepare Your Lab!](#step-1-prepare-lab-environment)
+    [:octicons-arrow-right-24: Prepare Your Lab!](#step-1---prepare-lab-environment)
 
 </div>
 
