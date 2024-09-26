@@ -100,7 +100,7 @@ Ok, we have run validation, what just happened?! So remember:
 
 YES, AVD just generated tests for you, lets take a look!
 
-1. Open `sites/site_1/reports/SITE1_FABRIC-stat.md` and take a look at what the first part of this report shows
+1. Open `sites/site_1/reports/SITE1_FABRIC-state.md` and take a look at what the first part of this report shows
 
     === "Validation Report"
 
@@ -196,7 +196,7 @@ Let's go ahead and enable ANTA and see it in action:
 9. Let's review the section called "Failed Test Results Summary," we get a list of all failed tests with a bit more verbosity
     ![AVD Validate State Report](assets/images/avd_report_failure_summary.png)
 
-10. There seems to be three tests within the **BGP** and **Connectivity** ANTA test categoires failing
+10. There seems to be three tests within the **BGP** and **Connectivity** ANTA test categories failing
       1. `VerifyBGPSpecificPeers`
       2. `VerifyReachability`
       3. `VerifyLLDPNeighbors`
@@ -212,7 +212,7 @@ Let's go ahead and enable ANTA and see it in action:
 
 14. In a real-world scenario, this would have caught a use case of the links being transposed or a typo in the AVD repository! This is a virtual lab, so mistakes in cabling are most likely not the cause. Let's go fix AVD :smile:
 
-15. Under `sites/site_1/group_vars/SITE1_FABRIC.yml` let's fix our border node `s1-brdr1` uplink interfaces, update the `uplink_switch_inerfaces` key.
+15. Under `sites/site_1/group_vars/SITE1_FABRIC.yml` let's fix our border node `s1-brdr1` up link interfaces, update the `uplink_switch_inerfaces` key.
 
     ```yaml hl_lines="5"
       nodes:
@@ -358,7 +358,7 @@ Well let's see what we can do to build some confidence we're not only monitoring
 
 ## Step 5 - AVD Adjustments
 
-Last thing we're going to do is explore some options available to us and documentated within the [AVD Validation Documentation](https://avd.sh/en/stable/roles/eos_validate_state/anta_integration.html#input-variables).
+Last thing we're going to do is explore some options available to us and documented within the [AVD Validation Documentation](https://avd.sh/en/stable/roles/eos_validate_state/anta_integration.html#input-variables).
 
 We are not going to go too deep into this topic, however it's important to note you can customize aspects of the validation framework, it can be molded to your operational workflows and needs.
 
