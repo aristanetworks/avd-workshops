@@ -1,0 +1,1634 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../../cicd-basics/">
+      
+      
+        <link rel="next" href="../anta_validate/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.38+insiders-4.53.13">
+    
+    
+      
+        <title>Overview - Arista CI Workshops</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.fd1ad6e4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CFira+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Fira Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.material.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#getting-started-with-network-testing" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Arista CI Workshops" class="md-header__button md-logo" aria-label="Arista CI Workshops" data-md-component="logo">
+      
+  <img src="../../assets/images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Arista CI Workshops
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Overview
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/aristanetworks/avd-workshops" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Workshops on GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Arista CI Workshops" class="md-nav__button md-logo" aria-label="Arista CI Workshops" data-md-component="logo">
+      
+  <img src="../../assets/images/logo.png" alt="logo">
+
+    </a>
+    Arista CI Workshops
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/aristanetworks/avd-workshops" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Workshops on GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    
+  
+    Fundamentals
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Fundamentals
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../git/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Git
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vscode/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    VS Code
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../jinja-yaml/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Jinja/YAML
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ansible/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    
+  
+    Arista CI
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Arista CI
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    
+  
+    AVD L2LS
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AVD L2LS
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../l2ls/overview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../l2ls/l2ls-lab-guide/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    
+  
+    AVD L3LS EVPN/VXLAN
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AVD L3LS EVPN/VXLAN
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../l3ls/overview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../l3ls/l3ls-lab-guide/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cicd-basics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    CI/CD Basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    
+  
+    Automated Network Validation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Automated Network Validation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab-topology" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lab Topology
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#software-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Software Testing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#arista-network-testing-automation-anta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arista Network Testing Automation (ANTA)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#avd-validate-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AVD Validate State
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#start-the-labs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Start the Labs
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../anta_validate/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    ANTA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../avd_validate/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    AVD Validate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab-topology" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lab Topology
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#software-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Software Testing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#arista-network-testing-automation-anta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arista Network Testing Automation (ANTA)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#avd-validate-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AVD Validate State
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#start-the-labs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Start the Labs
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/aristanetworks/avd-workshops/blob/main/workshops/validation/overview.md" title="Edit this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="getting-started-with-network-testing">Getting Started with Network Testing<a class="headerlink" href="#getting-started-with-network-testing" title="Permanent link">&para;</a></h1>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p>Designing, developing, and deploying a network fabric through automation can be extremely powerful, but how do you ensure that the product of your work actually does what you designed it to do? In the software world, we write tests. Well, what tests do we write, and where should these tests be run?</p>
+<p>This workshop will leverage Arista's open-source testing framework, Arista Network Test Automation (ANTA), to build a network testing strategy.</p>
+<p>This section will cover the following:</p>
+<ul>
+<li>Software Testing</li>
+<li>Arista Network Test Automation (ANTA)</li>
+<li>Arista Validated Designs (AVD) Validate State</li>
+</ul>
+<p>Each attendee will receive a dedicated virtual lab environment with Git, VS Code, Ansible/AVD, and ANTA installed and ready to use.</p>
+<p>Attendees will need the following:</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> A laptop</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> An account on GitHub</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Familiarity with some of the concepts and tools covered in both the<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <a href="../../git/">Automation Fundamentals workshop (Git, VS Code, Jinja/YAML, Ansible)</a></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <a href="../../l2ls/overview/">CI/AVD L2LS</a> or <a href="../../l3ls/overview/">CI/AVD L3LS EVPN/VXLAN</a> workshops</li>
+</ul>
+</li>
+</ul>
+<h2 id="lab-topology">Lab Topology<a class="headerlink" href="#lab-topology" title="Permanent link">&para;</a></h2>
+<p>We will be testing against the same topology provided in <a href="../../l3ls/overview/#lab-topology-overview">CI/AVD L3LS EVPN/VXLAN</a>. While this is specific to an L3LS, the ANTA testing framework concepts used throughout this lab applies to any fabric or Arista Validated Design.</p>
+<h2 id="software-testing">Software Testing<a class="headerlink" href="#software-testing" title="Permanent link">&para;</a></h2>
+<p>When building, deploying, or operating a network, we consistently go through a degree of testing. Whether that testing is effective or scales with our network is debatable, but we try our best to test our networks. If you've walked through the automation fundamentals labs, you may have learned networks can be represented as code. For this upcoming lab, this code for all intents and purposes, is software and will be tested as such.</p>
+<p>We are not going to dive too deep into software testing frameworks, methodologies and techniques in this lab. However, it is important to get familiar with some of the software testing vocabulary. Our focus will be on the fundamental building blocks used in software testing: Unit, Integration, and System Testing.</p>
+<div class="grid cards">
+<ul>
+<li>
+<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="m243.583 91.603 80.112 46.781c2.88 1.642 2.985 6.199 0 7.841l-95.192 55.629a8.75 8.75 0 0 1-8.954 0l-95.192-55.629c-2.932-1.589-2.984-6.252 0-7.841l80.06-46.781V0L0 119.417v238.835l78.384-45.775v-93.563c-.052-3.338 3.823-5.722 6.703-3.921l95.192 55.629a9.09 9.09 0 0 1 4.503 7.842v111.205c.052 3.338-3.823 5.722-6.703 3.92l-80.112-46.781-78.384 45.775L224 512l204.417-119.417-78.384-45.775-80.112 46.781c-2.828 1.749-6.807-.529-6.703-3.92V278.464c0-3.338 1.833-6.305 4.503-7.842l95.193-55.629c2.827-1.748 6.806.477 6.702 3.921v93.563L448 358.252V119.417L243.583 0z"/></svg></span> <strong>Unit Testing</strong></p>
+<hr />
+<p>When testing the most atomic components of a piece of software, think of it as units of code. Test software functions work as intended. For example, the <code>valid_ip_address()</code> function actually validates IP address formats and will throw clear messaging if it fails.</p>
+</li>
+<li>
+<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 13.25a3.25 3.25 0 1 1 6.5 0 3.25 3.25 0 0 1-6.5 0m-12.5 6a3.25 3.25 0 1 1 6.5 0 3.25 3.25 0 0 1-6.5 0m0-14.5a3.25 3.25 0 1 1 6.5 0 3.25 3.25 0 0 1-6.5 0M5.75 6.5a1.75 1.75 0 1 0-.001-3.501A1.75 1.75 0 0 0 5.75 6.5m0 14.5a1.75 1.75 0 1 0-.001-3.501A1.75 1.75 0 0 0 5.75 21m12.5-6a1.75 1.75 0 1 0-.001-3.501A1.75 1.75 0 0 0 18.25 15"/><path d="M6.5 7.25c0 2.9 2.35 5.25 5.25 5.25h4.5V14h-4.5A6.75 6.75 0 0 1 5 7.25Z"/><path d="M5.75 16.75A.75.75 0 0 1 5 16V8a.75.75 0 0 1 1.5 0v8a.75.75 0 0 1-.75.75"/></svg></span> <strong>Integration Testing</strong></p>
+<hr />
+<p>Testing the different units of code together as a combined entity, the integration between these units can be validated. For example, all the units of code properly integrate together to generate a valid network configuration.</p>
+</li>
+<li>
+<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 1c6.075 0 11 4.925 11 11s-4.925 11-11 11S1 18.075 1 12 5.925 1 12 1m3.241 10.5zc-.1-2.708-.992-4.904-1.89-6.452a14 14 0 0 0-1.304-1.88L12 3.11l-.047.059c-.354.425-.828 1.06-1.304 1.88-.898 1.547-1.79 3.743-1.89 6.451Zm-12.728 0h4.745c.1-3.037 1.1-5.49 2.093-7.204.39-.672.78-1.233 1.119-1.673C6.11 3.329 2.746 7 2.513 11.5m18.974 0C21.254 7 17.89 3.329 13.53 2.623c.339.44.729 1.001 1.119 1.673.993 1.714 1.993 4.167 2.093 7.204ZM8.787 13c.182 2.478 1.02 4.5 1.862 5.953q.574.993 1.304 1.88l.047.057.047-.059c.354-.425.828-1.06 1.304-1.88.842-1.451 1.679-3.471 1.862-5.951Zm-1.504 0H2.552a9.505 9.505 0 0 0 7.918 8.377 16 16 0 0 1-1.119-1.673C8.413 18.085 7.47 15.807 7.283 13m9.434 0c-.186 2.807-1.13 5.085-2.068 6.704-.39.672-.78 1.233-1.118 1.673A9.506 9.506 0 0 0 21.447 13Z"/></svg></span> <strong>System Testing</strong></p>
+<hr />
+<p>Testing the software as whole, assessing the system's functionality and performance meets expectations. For example, this could be thought of as my software (automation) generates and deploys configuration that builds a working EVPN/VXLAN fabric!</p>
+</li>
+</ul>
+</div>
+<p>Let's apply these concepts to our network and furthermore into our network automation. These workshops have focused on using software to define our network configuration using a combination of YAML files, Jinja templates, and Ansible. We can and should test these!</p>
+<p>Well good news, all these pieces of the puzzle have been wrapped into Arista Validated Designs (AVD) Ansible collection and it's all tested! The data models, templates, and logic to generate EOS configuration go through hundreds of unit and integration tests.</p>
+<p>So what does it mean that AVD has been tested?! At a high level, that means testing ensures:</p>
+<div class="grid">
+<ul>
+<li>AVD <code>arista.avd.eos_designs</code> generates valid data models for our configuration generation</li>
+<li>AVD <code>arista.avd.eos_cli_config_gen</code> renders <code>eos_designs</code> data models to produce valid EOS configuration</li>
+<li>AVD filter plugins (like <code>arista.avd.range_expand</code>) is tested that both user input and resulting EOS interface ranges are valid</li>
+</ul>
+<p><a class="glightbox" href="../assets/images/system_testing.svg" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="System Testing" src="../assets/images/system_testing.svg" width="600" /></a></p>
+</div>
+<p>This suite of unit and integration tests result in the AVD Ansible Collection producing valid EOS configuration you can trust to readily deploy to your network!</p>
+<div class="admonition tip">
+<p class="admonition-title">Testing is the MOST important thing</p>
+<p>If you have yet to hear it, you certainly will at some point. Testing Arista's Extensible Operating System (EOS) uses the same fundamental building blocks. Hundreds of thousands of tests run against EOS every day!</p>
+</div>
+<h3 id="testing-the-network">Testing the Network<a class="headerlink" href="#testing-the-network" title="Permanent link">&para;</a></h3>
+<p>Generating and applying configuration to the network is only half of the problem. We want to test that the physical (or virtual) network is actually behaving as expected. Automated testing frameworks are nothing new to the network industry. Tools like Batfish and Robot are two of the more popular open-source options used in the industry today.</p>
+<p>ANTA is similar, but catered to Arista EOS! All these testing frameworks approach the problem slightly differently, but all are trying to test whether a network is doing what it's intended to do. Let's explore some of the differences between these options.</p>
+<div class="grid cards">
+<ul>
+<li>
+<p><span class="twemoji lg middle"><?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+ "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+ width="512.000000pt" height="512.000000pt" viewBox="0 0 512.000000 512.000000"
+ preserveAspectRatio="xMidYMid meet">
+
+<g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+fill="#000000" stroke="none">
+<path d="M1992 5097 c-60 -64 -77 -247 -43 -472 28 -185 33 -201 90 -278 57
+-78 110 -180 173 -332 65 -156 71 -187 46 -244 -61 -142 -88 -306 -67 -403 22
+-106 128 -214 240 -245 l59 -16 -39 -34 c-50 -42 -128 -145 -153 -200 -21 -48
+-24 -50 -50 -26 -14 12 -34 17 -67 15 -41 -2 -54 3 -89 31 -78 62 -160 181
+-313 455 -127 227 -146 253 -202 290 -23 14 -67 48 -98 74 -31 26 -61 48 -67
+48 -6 0 -25 20 -43 45 -18 25 -39 43 -45 41 -15 -6 -48 44 -69 105 -24 66 -98
+129 -153 129 -40 0 -92 -25 -92 -44 0 -8 16 -17 38 -20 48 -9 92 -26 92 -37 0
+-16 76 -114 124 -160 27 -25 46 -51 43 -56 -4 -6 16 -26 43 -44 27 -19 50 -39
+50 -45 0 -10 73 -63 125 -90 11 -6 49 -69 85 -140 106 -208 267 -449 384 -572
+61 -65 165 -140 204 -148 28 -6 29 -8 24 -52 -2 -26 -8 -51 -12 -55 -4 -5 -38
+12 -75 37 -84 56 -180 97 -310 130 -112 29 -196 34 -215 11 -21 -25 -76 -147
+-108 -240 -17 -49 -58 -191 -92 -315 -118 -437 -137 -491 -198 -567 -30 -38
+-59 -78 -64 -89 -6 -12 -21 -27 -33 -34 -13 -7 -31 -30 -41 -51 -9 -22 -23
+-39 -30 -39 -43 0 -130 -131 -118 -177 8 -30 20 -29 38 5 16 30 64 62 84 55
+19 -7 49 24 62 62 6 18 22 37 36 43 13 7 34 28 45 47 12 20 30 40 41 46 28 15
+58 69 58 107 0 21 5 32 14 32 26 0 44 29 56 88 19 88 60 214 158 483 91 248
+132 378 132 417 0 30 11 33 76 21 39 -7 83 -26 129 -54 39 -24 116 -59 173
+-79 56 -19 119 -49 140 -65 20 -16 47 -32 58 -35 14 -4 24 -18 28 -38 9 -44
+-27 -78 -136 -133 -169 -84 -337 -227 -383 -327 -27 -59 -28 -26 6 -467 10
+-139 19 -346 19 -460 l0 -206 -35 -44 c-19 -24 -40 -62 -47 -85 -6 -23 -27
+-58 -45 -79 -18 -21 -33 -48 -33 -62 0 -17 -10 -32 -35 -47 -66 -42 -119 -186
+-80 -218 12 -10 17 -5 29 25 19 44 55 76 77 69 21 -6 55 36 65 79 3 18 22 49
+40 70 19 20 34 44 34 53 0 9 16 31 35 49 29 26 38 44 49 95 9 48 18 66 34 73
+25 11 26 17 10 72 -6 24 -13 212 -18 480 -5 366 -9 448 -23 489 l-16 50 39 37
+c21 20 99 69 174 109 92 49 157 93 206 136 39 35 74 64 78 64 4 0 24 -39 44
+-86 36 -85 36 -86 21 -131 -9 -27 -14 -64 -11 -93 5 -48 4 -48 -36 -71 -159
+-88 -270 -229 -317 -405 -26 -92 -30 -294 -10 -404 32 -174 156 -504 225 -598
+18 -26 48 -74 65 -107 67 -126 139 -227 234 -327 22 -23 72 -23 95 0 94 100
+166 201 233 327 17 33 47 81 65 107 69 93 192 422 225 598 21 108 16 311 -10
+404 -47 176 -158 317 -317 405 -40 23 -41 23 -36 71 3 29 -2 66 -11 93 -15 45
+-15 46 21 131 20 47 40 86 44 86 4 0 39 -29 78 -64 49 -43 114 -87 206 -136
+75 -40 153 -89 174 -109 l39 -37 -16 -50 c-14 -41 -18 -122 -23 -494 -5 -293
+-11 -457 -18 -480 -16 -48 -15 -56 10 -67 16 -7 25 -25 34 -73 11 -51 20 -69
+49 -95 19 -18 35 -40 35 -49 0 -9 15 -33 34 -54 19 -20 39 -55 45 -78 12 -45
+41 -77 62 -70 20 8 57 -27 74 -68 16 -39 29 -45 39 -20 20 52 -30 175 -83 207
+-20 11 -34 31 -40 54 -6 20 -23 50 -39 67 -16 17 -34 49 -40 72 -7 23 -28 61
+-47 85 l-35 44 0 200 c0 110 7 290 15 400 36 473 36 474 10 532 -45 100 -213
+244 -383 328 -109 55 -145 89 -136 133 4 20 14 34 28 38 11 3 38 19 58 35 21
+16 84 46 140 65 57 20 135 55 173 79 46 28 90 47 129 54 64 12 76 9 76 -18 0
+-40 46 -186 138 -438 86 -233 111 -310 163 -505 7 -28 16 -39 34 -44 20 -5 25
+-13 25 -38 0 -36 30 -90 58 -105 11 -6 29 -26 41 -46 11 -19 32 -40 45 -47 14
+-6 30 -25 36 -43 13 -38 43 -69 62 -62 20 7 68 -25 84 -55 17 -34 30 -36 37
+-6 12 44 -42 135 -103 173 -20 13 -42 37 -49 53 -7 16 -23 35 -36 42 -12 7
+-27 22 -33 34 -5 11 -34 51 -64 89 -61 76 -81 133 -198 567 -34 124 -75 266
+-92 315 -32 93 -87 215 -108 240 -19 23 -103 18 -215 -11 -130 -33 -226 -74
+-310 -130 -72 -49 -85 -47 -85 8 0 14 -2 33 -6 41 -3 10 4 16 26 20 41 9 144
+83 206 149 121 129 279 365 384 573 54 107 71 133 98 146 52 26 112 71 112 83
+0 6 23 26 50 45 27 18 47 38 43 44 -3 5 16 31 43 56 48 46 124 144 124 160 0
+11 44 28 93 37 21 3 37 12 37 20 0 19 -52 44 -92 44 -55 0 -129 -63 -153 -129
+-21 -61 -54 -111 -69 -105 -6 2 -27 -16 -45 -41 -18 -25 -37 -45 -43 -45 -6 0
+-36 -22 -67 -48 -31 -26 -75 -60 -98 -74 -57 -37 -75 -63 -203 -292 -149 -266
+-226 -378 -313 -453 -33 -29 -44 -33 -87 -31 -34 2 -54 -3 -68 -15 -26 -24
+-29 -22 -50 26 -24 53 -100 154 -151 200 l-38 34 57 16 c111 31 217 140 239
+245 21 97 -6 261 -67 403 -25 57 -19 88 46 244 63 152 116 254 173 332 57 77
+62 93 90 278 34 225 17 408 -43 472 -26 28 -52 29 -78 3 -27 -27 -26 -64 6
+-246 17 -96 26 -192 27 -270 l2 -121 -47 -70 c-60 -91 -89 -149 -158 -313 -49
+-118 -59 -135 -81 -137 -32 -3 -85 62 -94 116 -4 26 -15 45 -36 60 -30 23 -34
+21 -41 -24 -3 -18 -11 -20 -68 -20 -57 0 -65 2 -68 20 -7 45 -11 47 -41 24
+-21 -15 -32 -34 -36 -60 -9 -54 -62 -119 -94 -116 -22 2 -32 19 -81 137 -68
+162 -87 201 -154 305 l-51 80 2 120 c1 77 10 173 27 269 32 182 33 219 6 246
+-26 26 -52 25 -78 -3z"/>
+</g>
+</svg>
+</span> <strong>ANTA</strong></p>
+<hr />
+<p>Arista's open-source automation framework for acceptance testing, supported as a part of Arista Validated Designs (AVD). ANTA, similar to Robot, relies on a test library (or catalog) that instructs ANTA on <strong>what tests</strong> to run against <strong>what set of devices</strong>, <strong>what thresholds</strong> evaluate a pass/fail and deliver a report.</p>
+<div class="admonition example">
+<p class="admonition-title">Python/YAML</p>
+</div>
+<p><a href="https://anta.arista.com" target="_blank"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0"/></svg></span> Arista Network Test Automation</a></p>
+</li>
+<li>
+<p><span class="twemoji lg middle"><?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+ "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+ width="500.000000pt" height="343.000000pt" viewBox="0 0 500.000000 343.000000"
+ preserveAspectRatio="xMidYMid meet">
+
+<g transform="translate(0.000000,343.000000) scale(0.100000,-0.100000)"
+fill="#000000" stroke="none">
+<path d="M2258 3263 c-8 -10 -20 -37 -28 -60 -15 -50 -82 -137 -141 -186 -24
+-19 -96 -68 -159 -107 -169 -106 -215 -144 -268 -224 -86 -129 -141 -348 -129
+-518 3 -43 2 -78 -3 -78 -4 0 -31 20 -58 45 -67 60 -109 144 -118 234 l-6 69
+-43 -30 c-78 -55 -250 -57 -545 -7 -194 33 -508 107 -705 165 -11 4 16 -27 61
+-69 111 -104 146 -171 152 -287 7 -142 -36 -260 -144 -402 l-45 -58 74 0 c339
+0 694 -183 853 -440 20 -33 39 -60 41 -60 2 0 34 15 71 34 243 122 486 110
+636 -31 21 -20 90 -102 153 -181 152 -191 276 -325 410 -444 191 -170 297
+-243 483 -332 216 -104 376 -145 595 -153 150 -6 256 8 354 47 l47 18 64 -49
+c146 -109 295 -126 378 -43 32 32 34 38 30 87 -5 66 -38 132 -100 202 l-49 55
+61 92 c115 172 170 306 170 415 0 35 -6 78 -14 96 -16 40 -75 93 -113 101 -27
+6 -29 10 -46 104 -11 62 -14 119 -11 158 4 37 2 75 -5 97 -12 36 -71 97 -94
+97 -7 0 -23 19 -36 43 -33 58 -100 144 -155 197 -25 24 -46 49 -46 56 0 6 18
+32 41 57 87 100 275 161 531 175 l129 7 3 170 c3 185 14 240 71 376 17 41 53
+109 80 150 51 80 173 211 236 255 22 15 38 28 36 30 -2 2 -73 -14 -158 -36
+-570 -146 -958 -183 -1099 -104 -41 23 -46 24 -55 8 -5 -9 -60 -89 -122 -178
+-140 -201 -250 -342 -403 -518 l-120 -138 -91 0 -91 0 -85 80 c-124 117 -167
+121 -133 11 11 -34 20 -67 20 -73 0 -16 -211 6 -352 38 -76 17 -81 27 -43 73
+40 47 119 80 218 91 120 14 163 32 178 77 6 19 9 57 7 83 -10 98 -82 150 -220
+158 -56 3 -78 8 -78 18 0 7 19 64 41 126 23 62 51 148 62 190 l21 76 -20 48
+c-35 86 -137 142 -176 97z m-48 -1356 c157 -53 321 -106 365 -117 201 -52 398
+-63 571 -34 51 9 99 14 108 12 11 -2 -23 -62 -122 -215 -75 -116 -140 -214
+-143 -217 -3 -3 -30 -1 -60 5 -105 21 -198 -32 -231 -133 -12 -36 -22 -47 -67
+-70 -121 -61 -156 -108 -149 -195 l5 -54 -30 28 c-62 59 -83 142 -52 202 16
+31 88 89 147 116 29 15 38 26 47 59 12 50 46 102 84 130 25 18 42 21 120 20
+86 -1 90 -1 57 12 -19 7 -62 13 -96 13 -82 1 -140 -35 -178 -110 -14 -29 -26
+-59 -26 -66 0 -7 -19 -22 -42 -34 -134 -68 -193 -170 -154 -264 l17 -39 -27
+24 c-15 14 -40 45 -55 69 -35 54 -39 121 -10 164 19 29 100 92 131 102 10 3
+27 31 39 64 25 70 82 126 136 137 20 3 62 1 92 -5 63 -12 81 -8 37 10 -47 18
+-150 23 -184 9 -41 -17 -103 -89 -120 -139 -9 -29 -21 -43 -44 -53 -39 -16
+-113 -83 -132 -119 -18 -37 -18 -100 1 -147 23 -55 97 -125 215 -204 58 -39
+117 -80 131 -92 l25 -21 -69 -107 c-38 -60 -73 -108 -77 -108 -18 0 -206 174
+-333 309 -135 143 -308 368 -359 467 -95 184 -140 370 -119 500 12 79 52 166
+83 182 14 7 55 11 103 8 69 -3 119 -16 365 -99z m1866 -326 c97 -59 77 -244
+-27 -244 -24 0 -40 9 -65 36 -57 61 -58 155 -3 201 36 31 54 32 95 7z m-606
+-63 c64 -33 85 -67 85 -138 0 -63 -16 -95 -69 -134 -39 -29 -133 -29 -173 0
+-33 24 -73 97 -73 134 0 49 42 113 90 138 24 12 56 22 70 22 14 0 46 -10 70
+-22z m-500 -207 c0 -5 -72 -121 -161 -258 -88 -136 -165 -255 -169 -263 -7
+-12 -15 -9 -45 20 -49 47 -88 129 -79 165 10 40 70 94 140 126 54 25 62 32 68
+62 9 50 58 121 97 140 36 18 149 24 149 8z"/>
+<path d="M4010 1510 c-11 -11 -20 -28 -20 -38 0 -29 29 -62 56 -62 29 0 64 32
+64 60 0 11 -9 29 -20 40 -11 11 -29 20 -40 20 -11 0 -29 -9 -40 -20z"/>
+<path d="M3360 1420 c-11 -11 -20 -29 -20 -40 0 -27 35 -60 63 -60 29 0 57 29
+57 58 0 28 -34 62 -60 62 -11 0 -29 -9 -40 -20z"/>
+</g>
+</svg>
+</span> <strong>Batfish</strong></p>
+<hr />
+<p>An open-source configuration analysis tool entirely based on modeling network operating systems, it relies on predicting network state based on network configuration files before it is deployed to a network. It requires a Batfish server to run the modeling software and evaluate configuration files from that vendor.</p>
+<div class="admonition example">
+<p class="admonition-title">Python/Pandas Query</p>
+</div>
+<p><a href="https://batfish.org/" target="_blank"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0"/></svg></span> Batfish</a></p>
+</li>
+<li>
+<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4.957 10.225a3.405 3.405 0 0 1 3.4-3.403 3.406 3.406 0 0 1 3.402 3.403 1.235 1.235 0 1 1-2.469 0 .932.932 0 0 0-1.865 0 1.234 1.234 0 1 1-2.468 0m14.086 5.717c0 .684-.552 1.236-1.234 1.236H6.357a1.234 1.234 0 0 1-1.234-1.236c0-.684.553-1.237 1.234-1.237H17.81c.682 0 1.234.553 1.234 1.237m-5.35-5.025a1.235 1.235 0 0 1 .333-1.714l2.862-1.933a1.23 1.23 0 0 1 1.715.328 1.235 1.235 0 0 1-.334 1.715l-2.862 1.933c-.545.383-1.335.238-1.715-.329m7.839 7.602a.88.88 0 0 1-.258.623l-2.128 2.127a.88.88 0 0 1-.623.258H5.477a.88.88 0 0 1-.623-.258l-2.128-2.127a.88.88 0 0 1-.258-.623V5.482a.88.88 0 0 1 .258-.623l2.128-2.128a.88.88 0 0 1 .623-.258h13.046a.88.88 0 0 1 .623.258l2.128 2.128a.88.88 0 0 1 .258.623zm1.81-15.083L20.565.658A2.25 2.25 0 0 0 18.977 0H5.022a2.25 2.25 0 0 0-1.588.658L.657 3.436A2.25 2.25 0 0 0 0 5.023v13.955c0 .595.237 1.166.658 1.587l2.778 2.778c.42.42.991.657 1.587.657h13.954a2.25 2.25 0 0 0 1.588-.657l2.778-2.778A2.24 2.24 0 0 0 24 18.977V5.023a2.25 2.25 0 0 0-.657-1.587"/></svg></span> <strong>Robot Framework</strong></p>
+<hr />
+<p>Open-source automation testing framework for test automation and robotic process automation (RPA). Robot relies on a test library that includes a collection of files on <strong>what commands</strong> to run against <strong>what set of network devices</strong>, <strong>how to interpret</strong> those results for pass/fail, and deliver a report.</p>
+<div class="admonition example">
+<p class="admonition-title">Python/Robot Syntax</p>
+</div>
+<p><a href="https://robotframework.org/" target="_blank"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0"/></svg></span> Robot Framework</a></p>
+</li>
+</ul>
+</div>
+<p>These testing frameworks offer solutions to the problem of testing network state, either through modeling or direct device interrogation. However, integration with any network operating system still needs work.</p>
+<h2 id="arista-network-testing-automation-anta">Arista Network Testing Automation (ANTA)<a class="headerlink" href="#arista-network-testing-automation-anta" title="Permanent link">&para;</a></h2>
+<p><a href="https://anta.arista.com">Arista Network Test Automation (ANTA)</a> is a Python framework that automates the testing of your network and natively understands how to interact and leverage the output of any Arista EOS device. In this section, we will explore the key components of ANTA and how to get started.</p>
+<p>As we walk through executing ANTA for the first time, there will be references back to ANTA documentation. If you would like to explore any of the topics deeper, visit <strong><a href="https://anta.arista.com">anta.arista.com</a></strong>.</p>
+<h3 id="components">Components<a class="headerlink" href="#components" title="Permanent link">&para;</a></h3>
+<p>ANTA is easy to get started with because a lot of functionality is built into the framework upon installation. To begin, you only need to provide two YAML files: one describing the devices you want to test and another specifying the tests to run on those devices.</p>
+<div class="grid cards">
+<ul>
+<li>
+<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="m243.583 91.603 80.112 46.781c2.88 1.642 2.985 6.199 0 7.841l-95.192 55.629a8.75 8.75 0 0 1-8.954 0l-95.192-55.629c-2.932-1.589-2.984-6.252 0-7.841l80.06-46.781V0L0 119.417v238.835l78.384-45.775v-93.563c-.052-3.338 3.823-5.722 6.703-3.921l95.192 55.629a9.09 9.09 0 0 1 4.503 7.842v111.205c.052 3.338-3.823 5.722-6.703 3.92l-80.112-46.781-78.384 45.775L224 512l204.417-119.417-78.384-45.775-80.112 46.781c-2.828 1.749-6.807-.529-6.703-3.92V278.464c0-3.338 1.833-6.305 4.503-7.842l95.193-55.629c2.827-1.748 6.806.477 6.702 3.921v93.563L448 358.252V119.417L243.583 0z"/></svg></span> <strong>Inventory</strong></p>
+<hr />
+<p>The minimum requirements for the <a href="https://anta.arista.com/stable/usage-inventory-catalog/#device-inventory-file">ANTA inventory</a> include the <code>host</code> and <code>name</code> of the device.</p>
+<div class="highlight"><span class="filename">inventory.yml</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">anta_inventory</span><span class="p">:</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">hosts</span><span class="p">:</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">192.168.0.10</span><span class="w"> </span><span class="c1">#(1)!</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">s1-spine1</span><span class="w">  </span><span class="c1">#(2)!</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">192.168.0.11</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">s1-spine2</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">192.168.0.12</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">s1-leaf1</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">192.168.0.13</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">s1-leaf2</span>
+</code></pre></div>
+<ol>
+<li>IP address or hostname</li>
+<li>Recommended to use the device hostname, however this can be any string to represent the device</li>
+</ol>
+</li>
+<li>
+<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="m243.583 91.603 80.112 46.781c2.88 1.642 2.985 6.199 0 7.841l-95.192 55.629a8.75 8.75 0 0 1-8.954 0l-95.192-55.629c-2.932-1.589-2.984-6.252 0-7.841l80.06-46.781V0L0 119.417v238.835l78.384-45.775v-93.563c-.052-3.338 3.823-5.722 6.703-3.921l95.192 55.629a9.09 9.09 0 0 1 4.503 7.842v111.205c.052 3.338-3.823 5.722-6.703 3.92l-80.112-46.781-78.384 45.775L224 512l204.417-119.417-78.384-45.775-80.112 46.781c-2.828 1.749-6.807-.529-6.703-3.92V278.464c0-3.338 1.833-6.305 4.503-7.842l95.193-55.629c2.827-1.748 6.806.477 6.702 3.921v93.563L448 358.252V119.417L243.583 0z"/></svg></span> <strong>Test Catalog</strong></p>
+<hr />
+<p>Instruct ANTA to run a set of tests against a specific set of inventory using an <a href="https://anta.arista.com/stable/usage-inventory-catalog/#test-catalog">ANTA Test Catalog</a>.</p>
+<div class="highlight"><span class="filename">tests.yml</span><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">anta.tests.system</span><span class="p">:</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">VerifyUptime</span><span class="p">:</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="nt">minimum</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">86400</span><span class="w"> </span><span class="c1">#(1)!</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="nt">anta.tests.software</span><span class="p">:</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">VerifyEOSVersion</span><span class="p">:</span><span class="w"> </span><span class="c1">#(2)!</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="nt">versions</span><span class="p">:</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4.31.3M</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="nt">anta.tests.mlag</span><span class="p">:</span><span class="w"> </span><span class="c1">#(3)!</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">VerifyMlagStatus</span><span class="p">:</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">VerifyMlagInterfaces</span><span class="p">:</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">VerifyMlagConfigSanity</span><span class="p">:</span>
+</code></pre></div>
+<ol>
+<li>Has the device been up for over 24 hours?</li>
+<li>Verifies the device is running one of the allowed EOS versions.</li>
+<li>Validate MLAG state is healthy</li>
+</ol>
+</li>
+</ul>
+</div>
+<h3 id="testing-catalog">Testing Catalog<a class="headerlink" href="#testing-catalog" title="Permanent link">&para;</a></h3>
+<p>The ANTA test catalog has several built-in tests that understand Arista EOS. Pick the tests you want, add them to a file using familiar YAML syntax, and run them against your list of devices!</p>
+<p>While the framework gives you a lot upfront, these labs will explore the flexibility in altering the tests for your network, including how custom tests can be written. All these tests can be grouped into some high level classifications:</p>
+<ul>
+<li><strong>Hardware</strong>: physical hardware state is reporting healthy within user-defined thresholds</li>
+<li><strong>Software Compliance:</strong> software versions meet user criteria</li>
+<li><strong>Configuration</strong>: specific features or functions are enabled or disabled</li>
+<li><strong>Protocol</strong>: configuration results in features or functions are behaving as expected</li>
+</ul>
+<h3 id="network-ready-for-use-nrfu">Network Ready For Use (NRFU)<a class="headerlink" href="#network-ready-for-use-nrfu" title="Permanent link">&para;</a></h3>
+<p>Once both the ANTA inventory and test catalog have been defined, ANTA provides the command "Network Ready For Use" or <code>anta nrfu</code> to execute the defined tests against the inventory. That's it! This is all it takes to get started with running your first tests against the network.</p>
+<p><a class="glightbox" href="../assets/images/anta_components.svg" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="ANTA Components" src="../assets/images/anta_components.svg" /></a></p>
+<div class="highlight"><span class="filename">terminal</span><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>anta<span class="w"> </span>nrfu<span class="w"> </span>-u<span class="w"> </span>admin<span class="w"> </span>-p<span class="w"> </span>arista123<span class="w"> </span>-i<span class="w"> </span>inventory.yaml<span class="w"> </span>-c<span class="w"> </span>tests.yaml<span class="w"> </span>table
+</code></pre></div>
+<p><a class="glightbox" href="../assets/images/anta_nrfu_run_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="ANTA NRFU Run" src="../assets/images/anta_nrfu_run_2.png" /></a></p>
+<p>The output of any ANTA test run is straight forward, the test is either a pass, fail, or skipped all together. That's what we want from any testing so we can address those failures.</p>
+<div class="grid">
+<div class="admonition success">
+<p class="admonition-title">Success</p>
+<p>The test passed test criteria, this includes user defined thresholds if applicable.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Skipped</p>
+<p>The test was skipped, because the platform may not support the feature (for example, vEOS does not contain physical temperature sensors)</p>
+</div>
+<div class="admonition failure">
+<p class="admonition-title">Failure</p>
+<p>The test failed the test criteria, this includes user defined thresholds if applicable.</p>
+</div>
+</div>
+<p>ANTA is simple in it's most basic form, but like anything there is much more to the framework. You will dive into some of the powerful tools built within ANTA!</p>
+<h2 id="avd-validate-state">AVD Validate State<a class="headerlink" href="#avd-validate-state" title="Permanent link">&para;</a></h2>
+<p>If you've completed any of the CI/AVD workshops leading up to this, you'll understand AVD at it's core is a set of data modeling that describe your network. This data model doesn't give us a lot of value until its transformed into something useful, like configuration files or documentation. Even more important, those configuration files need to make it onto our switches! So what else can we use the data models for? Really anything, but what if we could use these to generate the two ANTA components we need: an inventory and a catalog of tests.</p>
+<p>If you can describe your network as code (via AVD data models), why shouldn't you be able to drive network testing as code. Simple example, in AVD we define the ports used between the spines and each leaf, we're describing a physical topology.</p>
+<div class="highlight"><span class="filename">SITE1_FABRIC.yml</span><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">l3leaf</span><span class="p">:</span><span class="w"> </span><span class="c1">#(1)!</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">defaults</span><span class="p">:</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cEOS</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="hll"><span class="w">    </span><span class="nt">uplink_switches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="nv">s1-spine1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">s1-spine2</span><span class="w"> </span><span class="p p-Indicator">]</span><span class="w"> </span><span class="c1">#(2)!</span>
+</span><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="hll"><span class="w">    </span><span class="nt">uplink_interfaces</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="nv">Ethernet2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">Ethernet3</span><span class="w"> </span><span class="p p-Indicator">]</span><span class="w"> </span><span class="c1">#(3)!</span>
+</span><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">  </span><span class="nt">node_groups</span><span class="p">:</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">group</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">S1_RACK1</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">      </span><span class="nt">bgp_as</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">65101</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">      </span><span class="nt">nodes</span><span class="p">:</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="hll"><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">s1-leaf1</span><span class="w"> </span><span class="c1">#(4)!</span>
+</span><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">          </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">          </span><span class="nt">mgmt_ip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">192.168.0.12/24</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="hll"><span class="w">          </span><span class="nt">uplink_switch_interfaces</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="nv">Ethernet2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">Ethernet2</span><span class="w"> </span><span class="p p-Indicator">]</span><span class="w"> </span><span class="c1">#(5)!</span>
+</span><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="hll"><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">s1-leaf2</span>
+</span><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">          </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="w">          </span><span class="nt">mgmt_ip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">192.168.0.13/24</span>
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="hll"><span class="w">          </span><span class="nt">uplink_switch_interfaces</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="nv">Ethernet3</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">Ethernet3</span><span class="w"> </span><span class="p p-Indicator">]</span>
+</span></code></pre></div>
+<ol>
+<li>Everything we're configuring below is in context to our leaf switch</li>
+<li>Any of these leaf switches defined should up link to <code>s1-spine1</code> and <code>s1-spine2</code></li>
+<li>The leaf should use <code>Ethernet2</code> and <code>Ethernet3</code> to up link to these spines</li>
+<li>Defining our leaf <code>s1-leaf1</code></li>
+<li>Defining the destination port that should be used, in this case <code>Ethernet2</code> on <code>s1-spine1</code> and <code>s1-spine2</code></li>
+</ol>
+<p>Similar to the way AVD converts these data models to Arista EOS configuration, AVD has the ability to transform this data into an ANTA test catalog via the <a href="https://avd.sh/en/stable/roles/eos_validate_state/anta_integration.html">AVD Validate State</a> role. We understand what we intend the network to looks like, we deploy our configurations to our network, now we want to test our actual network looks this way. Like you run the AVD EOS configuration build and generation, AVD provides the <code>eos_validate_state</code>!</p>
+<div class="highlight"><span class="filename">playbooks/validate.yml</span><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nn">---</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Validate Network State</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">target_hosts</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="w"> </span><span class="c1">#(1)!</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span><span class="nt">connection</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">httpapi</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span><span class="nt">gather_facts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">validate states on EOS devices</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">      </span><span class="nt">ansible.builtin.import_role</span><span class="p">:</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="hll"><span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">arista.avd.eos_validate_state</span><span class="w"> </span><span class="c1">#(2)!</span>
+</span><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">      </span><span class="nt">vars</span><span class="p">:</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="hll"><span class="w">        </span><span class="nt">use_anta</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span></code></pre></div>
+<ol>
+<li>Supply ANTA our inventory via our target hosts</li>
+<li>This role will convert the AVD data models into an ANTA test catalog</li>
+</ol>
+<p>We would prefer to not write tests, we'd rather focus our efforts to configure our network. Running the <code>eos_validate_state</code> role will write those tests for you, so you can focus on building your AVD configuration! Just as described in the AVD data model above, AVD has now converted our layer 1 connectivity into a</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">s1-leaf1</label><label for="__tabbed_1_2">s1-leaf2</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><span class="filename">s1-leaf1-catalog.yml</span><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nt">anta.tests.connectivity</span><span class="p">:</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">   </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">VerifyLLDPNeighbors</span><span class="p">:</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="hll"><span class="w">       </span><span class="nt">neighbors</span><span class="p">:</span>
+</span><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="hll"><span class="w">       </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">neighbor_device</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">s1-spine1.atd.lab</span>
+</span><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="hll"><span class="w">       </span><span class="nt">neighbor_port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Ethernet2</span>
+</span><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="hll"><span class="w">       </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Ethernet2</span>
+</span><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">       </span><span class="nt">result_overwrite</span><span class="p">:</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">          </span><span class="nt">custom_field</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Local:</span><span class="nv"> </span><span class="s">Ethernet2</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">Remote:</span><span class="nv"> </span><span class="s">s1-spine1</span><span class="nv"> </span><span class="s">Ethernet2&#39;</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">   </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">VerifyLLDPNeighbors</span><span class="p">:</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="hll"><span class="w">       </span><span class="nt">neighbors</span><span class="p">:</span>
+</span><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="hll"><span class="w">       </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">neighbor_device</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">s1-spine2.atd.lab</span>
+</span><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="hll"><span class="w">       </span><span class="nt">neighbor_port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Ethernet2</span>
+</span><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="hll"><span class="w">       </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Ethernet3</span>
+</span><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="w">       </span><span class="nt">result_overwrite</span><span class="p">:</span>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="w">          </span><span class="nt">custom_field</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Local:</span><span class="nv"> </span><span class="s">Ethernet3</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">Remote:</span><span class="nv"> </span><span class="s">s1-spine2</span><span class="nv"> </span><span class="s">Ethernet2&#39;</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><span class="filename">s1-leaf2-catalog.yml</span><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nt">anta.tests.connectivity</span><span class="p">:</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">   </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">VerifyLLDPNeighbors</span><span class="p">:</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="hll"><span class="w">       </span><span class="nt">neighbors</span><span class="p">:</span>
+</span><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="hll"><span class="w">       </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">neighbor_device</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">s1-spine1.atd.lab</span>
+</span><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="hll"><span class="w">       </span><span class="nt">neighbor_port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Ethernet3</span>
+</span><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="hll"><span class="w">       </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Ethernet2</span>
+</span><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">       </span><span class="nt">result_overwrite</span><span class="p">:</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">          </span><span class="nt">custom_field</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Local:</span><span class="nv"> </span><span class="s">Ethernet2</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">Remote:</span><span class="nv"> </span><span class="s">s1-spine1</span><span class="nv"> </span><span class="s">Ethernet3&#39;</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">   </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">VerifyLLDPNeighbors</span><span class="p">:</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="hll"><span class="w">       </span><span class="nt">neighbors</span><span class="p">:</span>
+</span><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="hll"><span class="w">       </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">neighbor_device</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">s1-spine2.atd.lab</span>
+</span><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="hll"><span class="w">       </span><span class="nt">neighbor_port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Ethernet3</span>
+</span><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="hll"><span class="w">       </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Ethernet3</span>
+</span><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="w">       </span><span class="nt">result_overwrite</span><span class="p">:</span>
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="w">          </span><span class="nt">custom_field</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Local:</span><span class="nv"> </span><span class="s">Ethernet3</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">Remote:</span><span class="nv"> </span><span class="s">s1-spine2</span><span class="nv"> </span><span class="s">Ethernet3&#39;</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h2 id="start-the-labs">Start the Labs<a class="headerlink" href="#start-the-labs" title="Permanent link">&para;</a></h2>
+<p>Hopefully you now know a bit more about how ANTA and AVD play a big role in the MOST important thing we commonly neglect, <strong>TESTING</strong>!! Don't stop here, get started with using ANTA in the lab and see it in action!</p>
+<p><a class="md-button" href="../anta_validate/">Getting Started with ANTA<span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M3.4 81.7c-7.9 15.8-1.5 35 14.3 42.9L280.5 256 17.7 387.4c-15.8 7.9-22.2 27.1-14.3 42.9s27.1 22.2 42.9 14.3l320-160c10.8-5.4 17.7-16.5 17.7-28.6s-6.8-23.2-17.7-28.6l-320-160c-15.8-7.9-35-1.5-42.9 14.3"/></svg></span></a></p>
+
+
+
+
+
+
+
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    2024-09-27
+  </span>
+
+    
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 Arista Networks
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs Insiders
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/aristanetworks/avd-workshops" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1M480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2m-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3m-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://twitter.com/AristaNetworks" target="_blank" rel="noopener" title="twitter.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.arista.com" target="_blank" rel="noopener" title="www.arista.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M352 256c0 22.2-1.2 43.6-3.3 64H163.4c-2.2-20.4-3.3-41.8-3.3-64s1.2-43.6 3.3-64h185.3c2.2 20.4 3.3 41.8 3.3 64m28.8-64h123.1c5.3 20.5 8.1 41.9 8.1 64s-2.8 43.5-8.1 64H380.8c2.1-20.6 3.2-42 3.2-64s-1.1-43.4-3.2-64m112.6-32H376.7c-10-63.9-29.8-117.4-55.3-151.6 78.3 20.7 142 77.5 171.9 151.6zm-149.1 0H167.7c6.1-36.4 15.5-68.6 27-94.7 10.5-23.6 22.2-40.7 33.5-51.5C239.4 3.2 248.7 0 256 0s16.6 3.2 27.8 13.8c11.3 10.8 23 27.9 33.5 51.5 11.6 26 20.9 58.2 27 94.7m-209 0H18.6c30-74.1 93.6-130.9 172-151.6-25.5 34.2-45.3 87.7-55.3 151.6M8.1 192h123.1c-2.1 20.6-3.2 42-3.2 64s1.1 43.4 3.2 64H8.1C2.8 299.5 0 278.1 0 256s2.8-43.5 8.1-64m186.6 254.6c-11.6-26-20.9-58.2-27-94.6h176.6c-6.1 36.4-15.5 68.6-27 94.6-10.5 23.6-22.2 40.7-33.5 51.5-11.2 10.7-20.5 13.9-27.8 13.9s-16.6-3.2-27.8-13.8c-11.3-10.8-23-27.9-33.5-51.5zM135.3 352c10 63.9 29.8 117.4 55.3 151.6-78.4-20.7-142-77.5-172-151.6zm358.1 0c-30 74.1-93.6 130.9-171.9 151.6 25.5-34.2 45.2-87.7 55.3-151.6h116.7z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.action.edit", "content.code.annotate", "content.code.copy", "content.tooltips", "header.autohide", "navigation.top", "navigation.tracking"], "search": "../../assets/javascripts/workers/search.c7c1ca2c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c4a99efa.min.js"></script>
+      
+        <script src="https://unpkg.com/tablesort@5.3.0/dist/tablesort.min.js"></script>
+      
+        <script src="../../stylesheets/tables.js"></script>
+      
+    
+  <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
+</html>

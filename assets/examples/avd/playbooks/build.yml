@@ -1,0 +1,14 @@
+---
+- name: Build Switch configuration
+  hosts: "{{ target_hosts }}"
+  gather_facts: false
+
+  tasks:
+
+    - name: Generate Structured Variables per Device
+      import_role:
+        name: arista.avd.eos_designs
+
+    - name: Generate Intended Config and Documentation
+      import_role:
+        name: arista.avd.eos_cli_config_gen
