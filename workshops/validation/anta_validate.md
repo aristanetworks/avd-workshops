@@ -28,7 +28,7 @@ ANTA can be run against any Arista architecture (L2LS, L3LS, etc). For this lab 
 
     If you **have not completed** the CI/AVD labs, no worries! This lab contains all the steps necessary to test a working fabric using ANTA and AVD. Continue on and prepare your environment! :rocket:
 
-    [:octicons-arrow-right-24: Prepare Your Lab!](#step-1---prepare-lab-environment)
+    [:octicons-arrow-right-24: Prepare Your Lab!](#access-the-atd-lab)
 
 </div>
 
@@ -217,8 +217,10 @@ We have a set of target devices, we now need to define the set of tests we inten
       1. `VerifyUptime`
       2. `VerifyEnvironmentCooling`
       3. `VerifyTerminAttrVersion`
-To run our first ANTA test, target our new `sites/site_1/anta_inventory.yml` with the `tests/all.yml` test catalog. We must pass our username and password as part of the run, so let's explore the options.
-3. Not many tests, but let's use this for our first ANTA NRFU run!
+
+3. To run our first ANTA test, target our new `sites/site_1/anta_inventory.yml` with the `tests/all.yml` test catalog. We must pass our username and password as part of the run, so let's explore the options.
+
+4. Not many tests, but let's use this for our first ANTA NRFU run!
 
 ### Running NRFU Tests
 

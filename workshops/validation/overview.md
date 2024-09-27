@@ -63,7 +63,7 @@ So what does it mean that AVD has been tested?! At a high level, that means test
 <div class="grid" markdown>
 
 - AVD `arista.avd.eos_designs` generates valid data models for our configuration generation
-- AVD `arista.avd.eos_cli_config_gen` renders `eos_design` data models to produce valid EOS configuration
+- AVD `arista.avd.eos_cli_config_gen` renders `eos_designs` data models to produce valid EOS configuration
 - AVD filter plugins (like `arista.avd.range_expand`) is tested that both user input and resulting EOS interface ranges are valid
 
 ![System Testing](assets/images/system_testing.svg){ width="600" }
