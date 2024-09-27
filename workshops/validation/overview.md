@@ -1,4 +1,4 @@
-# Getting Started with Network Testing
+ Getting Started with Network Testing
 
 ## Introduction
 
@@ -63,7 +63,7 @@ So what does it mean that AVD has been tested?! At a high level, that means test
 <div class="grid" markdown>
 
 - AVD `arista.avd.eos_designs` generates valid data models for our configuration generation
-- AVD `arista.avd.eos_cli_config_gen` renders `eos_design` data models to produce valid EOS configuration
+- AVD `arista.avd.eos_cli_config_gen` renders `eos_designs` data models to produce valid EOS configuration
 - AVD filter plugins (like `arista.avd.range_expand`) is tested that both user input and resulting EOS interface ranges are valid
 
 ![System Testing](assets/images/system_testing.svg){ width="600" }
@@ -84,7 +84,7 @@ ANTA is similar, but catered to Arista EOS! All these testing frameworks approac
 
 <div class="grid cards" markdown>
 
-- :anta:{ .lg .middle } **ANTA**
+-  ![ANTA](assets/images/arista_logo_dark.png#only-dark){ .lg .middle width="24"}![ANTA](assets/images/arista_logo_light.png#only-light){ .lg .middle width="24"} **ANTA**
 
     ---
 
@@ -94,7 +94,7 @@ ANTA is similar, but catered to Arista EOS! All these testing frameworks approac
 
     [:octicons-arrow-right-24: Arista Network Test Automation](https://anta.arista.com){ target="_blank" }
 
-- :batfish:{ .lg .middle } **Batfish**
+- ![Batfish](assets/images/batfish.png){ .lg .middle width="24"} **Batfish**
 
     ---
 
