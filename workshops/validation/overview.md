@@ -84,7 +84,7 @@ ANTA is similar, but catered to Arista EOS! All these testing frameworks approac
 
 <div class="grid cards" markdown>
 
--  ![ANTA](assets/images/arista_logo_dark.png#only-dark){ .lg .middle width="24"}![ANTA](assets/images/arista_logo_light.png#only-light){ .lg .middle width="24"} **ANTA**
+- ![ANTA](assets/images/arista_logo_dark.png#only-dark){ .lg .middle width="24"}![ANTA](assets/images/arista_logo_light.png#only-light){ .lg .middle width="24"} **ANTA**
 
     ---
 
