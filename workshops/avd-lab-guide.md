@@ -863,7 +863,7 @@ This data model is deployed in the **Fabric** vars file, either under the node t
 
 With just these two key value pairs, AVD will automatically create the inband management VLAN, its associated SVIs on the spines, the vARP virtual IP for the subnet gateway, the VLAN and its SVIs on the leafs, and the static route.
 
-Lets get to work creating our inband management network.
+Let's get to work on creating our inband management network.
 
 #### **Branch Time**
 
